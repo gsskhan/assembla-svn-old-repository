@@ -1,0 +1,341 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:p="http://www.springframework.org/schema/p" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:aop="http://www.springframework.org/schema/aop" xmlns:batch="http://www.springframework.org/schema/batch"
+	xmlns:util="http://www.springframework.org/schema/util" xmlns:context="http://www.springframework.org/schema/context"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans 
+		http://www.springframework.org/schema/beans/spring-beans-2.5.xsd
+		http://www.springframework.org/schema/util 
+		http://www.springframework.org/schema/util/spring-util-2.5.xsd
+		http://www.springframework.org/schema/context
+		http://www.springframework.org/schema/context/spring-context.xsd
+		http://www.springframework.org/schema/batch 
+		http://www.springframework.org/schema/batch/spring-batch-2.1.xsd
+		http://www.springframework.org/schema/aop
+ 		http://www.springframework.org/schema/aop/spring-aop-2.5.xsd">
+
+	<batch:job id="International-Cards" job-repository="jobRepository">
+		<batch:step id="springStart" next="dataProcessStepHolder">
+			<batch:tasklet ref="dummyTaskletBegin" />
+		</batch:step>
+		<batch:step id="dataProcessStepHolder" parent="consolidatedDataProcessStep:master"
+			next="aggregationTasklet" />
+		<batch:step id="aggregationTasklet" next="stagingTasklet">
+			<batch:tasklet ref="aggregationResultsTasklet" />
+		</batch:step>
+		<batch:step id="stagingTasklet" next="endSpringStep">
+			<batch:tasklet ref="stagingDataPushTasklet" />
+		</batch:step>
+		<batch:step id="endSpringStep">
+			<batch:tasklet ref="dummyTaskletEnd" />
+		</batch:step>
+		<batch:listeners>
+			<batch:listener ref="saveJobStatusListener" />
+		</batch:listeners> 
+	</batch:job>
+
+	<bean id="saveJobStatusListener"
+		class="com.citi.optima.retail.batch.listeners.JobUpdateStatusListener">
+		<property name="batchJobInstanceDao" ref="jobInstanceDao" />
+		<property name="messageChannel" ref="genesisOutputChannel" />
+		<property name="internalMessageChannel" ref="batchRequestOutputChannel" />
+	</bean>
+
+	<bean name="consolidatedDataProcessStep:master"
+		class="org.springframework.batch.core.partition.support.PartitionStep">
+		<property name="jobRepository" ref="jobRepository" />
+		<property name="stepExecutionSplitter">
+			<bean
+				class="org.springframework.batch.core.partition.support.SimpleStepExecutionSplitter">
+				<constructor-arg ref="jobRepository" />
+				<constructor-arg ref="consolidatedDataProcessStep" />
+				<constructor-arg ref="dataPartitioner" />
+			</bean>
+		</property>
+		<property name="partitionHandler">
+			<bean
+				class="org.springframework.batch.core.partition.support.TaskExecutorPartitionHandler"
+				scope="step">
+				<property name="taskExecutor">
+					<bean
+						class="org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor">
+						<property name="corePoolSize" value="1" />
+						<property name="maxPoolSize" value="2" />
+					</bean>
+				</property>
+				<property name="step" ref="consolidatedDataProcessStep" />
+				<property name="gridSize" value="2" />
+			</bean>
+		</property>
+	</bean>
+
+	<bean id="dataPartitioner"
+		class="com.citi.retail.optima.etl.batch.job.infra.ConsolidatedDataPartitioner"
+		scope="step">
+		<property name="queryMap">
+			<util:map key-type="java.lang.String" value-type="java.lang.String">
+				<entry key="historyQuery"
+					value="SELECT distinct ACCOUNT_NUMBER_ORA047 as ORA047,   DELQ_START_DT_ORA625 as ORA625,    DELQ_END_DT_ORA626 as ORA626,     DELQ_DURATION_ORA627 as ORA627,PMAC_PORTFOLIO_ID_ORA562 as ORA562 FROM     ORC_CARDS_HIST_TMP WHERE (NVL(DELQ_END_DT_ORA626, to_date(sysdate,'yyyy-mm-dd'))- DELQ_START_DT_ORA625) >= 30" />
+				<entry key="eventQuery"
+					value="SELECT ACCOUNT_NUMBER_ORA047 as ORA047,   DELQ_START_DT_ORA625 as ORA625,    DELQ_END_DT_ORA626 as ORA626, PMAC_PORTFOLIO_ID_ORA562 as ORA562,NVL(DELQ_END_DT_ORA626,to_date(sysdate,'yyyy-mm-dd'))- DELQ_START_DT_ORA625  as ORA627 FROM     ORC_CARDS_HIST_TMP WHERE trunc (DELQ_END_DT_ORA626) - trunc(DELQ_START_DT_ORA625) &lt;=  30" />
+				<entry key="monthEndQuery"
+					value="SELECT ACCOUNT_NUMBER_ORA047 AS ORA047, BASELPORTFOLIO_ID_ORA070   AS ORA070, REPORTING_BASIS_ORA568     AS ORA568, PRODUCT_CCAR_TYPE_ORA622   AS ORA622,ACCOUNT_OPEN_DATE_ORA048   AS ORA048,ACQUISITION_DATE_ORA361    AS ORA361,ACCOUNT_DPD_ORA624         AS ORA624,FICO_OR_EQUIVALENT__ORA447 AS ORA447,ENR_ORA640                 AS ORA640,NET_OUTSTANDING_PRI_ORA023 AS ORA023,NET_OUTSTANDING_INT_ORA022 AS ORA022,NET_OUTSTANDING_FEE_ORA021 AS ORA021,CURR_ADVISED_UNCOMM_ORA633 AS ORA633,CURR_UNADVISED_UNCO_ORA634 AS ORA634,CREDIT_LINE_ORA007         AS ORA007,ACCOUNT_STATUS__CHA_ORA055 AS ORA055,WRITE_DOWN_DATE_ORA441     AS ORA441,REPORTING_PERIOD_AS_ORA183 AS ORA183,PRINCIPAL_AMOUNT_CO_ORA025 AS ORA025,PRINCIPAL_CHARGE_OF_ORA166 AS ORA166,RECOVERY_AMOUNT_ORA179     AS ORA179,PRINCIPAL_CHARGE_OF_ORA026 AS ORA026,BORROWERS_RESIDENC_ORA074  AS ORA074,DELQ_START_DT_ORA625       AS ORA625,DELQ_END_DT_ORA626         AS ORA626,DELQ_DURATION_ORA627       AS ORA627,LOAN_AMOUNT_ORA017         AS ORA017,ORIGINAL_PRINCIPAL__ORA276 AS ORA276,ORIGINAL_COLLATERAL_ORA020 AS ORA020,ACCOUNT_UPB_LOP_POR_ORA638 AS ORA638,ACCOUNT_UPB_ALOP_PO_ORA639 AS ORA639,GROSS_OUTSTANDING_P_ORA574 AS ORA574,RISK_MITIGANT_SUBTY_ORA628 AS ORA628,LOAN_MODIFICATION_F_ORA646 AS ORA646,NATURAL_CURRENCY_ORA426    AS ORA426,ACCOUNT_SOLD_DATE_ORA052   AS ORA052,ACCOUNT_CLOSED_DATE_ORA431 AS ORA431 FROM ODG_PRD_CARDS_VW" />
+			</util:map>
+		</property>
+		<property name="whereColumn" value="ACCOUNT_NUMBER_ORA047" />
+		<property name="whereColumnForPmacId" value="PMAC_PORTFOLIO_ID_ORA562" />
+		<property name="batchInstanceId" value="#{jobParameters[batchInstanceId]}" />
+		<property name="feedpartitionDao" ref="partitionDao" />
+	</bean>
+
+	<batch:step id="consolidatedDataProcessStep">
+		<batch:flow parent="consolidatedCardDataFlow" />
+	</batch:step>
+
+	<batch:flow id="consolidatedCardDataFlow">
+		<!-- <batch:step id="historyDataProcessStep" next="eventDataProcessStep">
+			<batch:tasklet allow-start-if-complete="false">
+				<batch:chunk writer="optimaRetailCardsHistoryAccountWriter" processor="delinquencyEventProcessor"
+					reader="optimaRetailCardsHistoryAccountReader" commit-interval="10"
+					skip-limit="5">
+					<batch:skippable-exception-classes>
+						<batch:include
+							class="com.citi.retail.optima.etl.common.exception.OptimaRetailException" />
+					</batch:skippable-exception-classes>
+				</batch:chunk>
+				<batch:no-rollback-exception-classes>
+					<batch:include
+						class="com.citi.retail.optima.etl.common.exception.OptimaRetailException" />
+				</batch:no-rollback-exception-classes>
+			</batch:tasklet>
+		</batch:step>
+
+		<batch:step id="eventDataProcessStep" next="monthEndDataProcessStep">
+			<batch:tasklet allow-start-if-complete="false">
+				<batch:chunk writer="eventDelqAccountWriter"
+					reader="optimaRetailCardsEventAccountReader" processor="delinquencyEventProcessor" commit-interval="10"
+					skip-limit="5">
+					<batch:skippable-exception-classes>
+						<batch:include
+							class="com.citi.retail.optima.etl.common.exception.OptimaRetailException" />
+					</batch:skippable-exception-classes>
+				</batch:chunk>
+				<batch:no-rollback-exception-classes>
+					<batch:include
+						class="com.citi.retail.optima.etl.common.exception.OptimaRetailException" />
+				</batch:no-rollback-exception-classes>
+			</batch:tasklet>
+		</batch:step> --> 
+
+		<batch:step id="monthEndDataProcessStep">
+			<batch:tasklet allow-start-if-complete="false">
+				<batch:chunk writer="optimaRetailAccountItemWriter"
+					reader="optimaRetailAccountItemReader" processor="completeItemProcessor"
+					commit-interval="10" skip-limit="5">
+					<batch:skippable-exception-classes>
+						<batch:include
+							class="com.citi.retail.optima.etl.common.exception.OptimaRetailException" />
+					</batch:skippable-exception-classes>
+				</batch:chunk>
+				<batch:no-rollback-exception-classes>
+					<batch:include
+						class="com.citi.retail.optima.etl.common.exception.OptimaRetailException" />
+				</batch:no-rollback-exception-classes>
+			</batch:tasklet>
+
+			<batch:listeners>
+				<batch:listener ref="validationProcessor" />
+				<batch:listener ref="enrichmentProcessor" />
+				<batch:listener ref="aggregationProcessor" />
+				<!-- <batch:listener ref="dataProcessStepStatusListner" /> -->
+			</batch:listeners>
+		</batch:step>
+	</batch:flow>
+
+    <bean id="delinquencyEventProcessor" class ="com.citi.retail.optima.etl.batch.job.processor.DelinquencyEventProcessor" scope="step"/> 
+
+	<bean id="dataProcessStepStatusListner"
+		class="com.citi.optima.retail.batch.listeners.BatchSaveStateStepListener">
+		<property name="exceptionPublisher" ref="jmsExceptionLogging"></property>
+		<property name="batchFeedPartitionStatusDao" ref="partitionStatusDao" />
+		<property name="skipCountQuery" value="${feed.exception.count.sum}" />
+	</bean>
+
+	<bean id="optimaRetailCardsHistoryAccountReader"
+		class="org.springframework.batch.item.database.JdbcCursorItemReader"
+		scope="step">
+		<property name="dataSource" ref="optimaDbPool" />
+		<property name="saveState" value="false" />
+		<property name="driverSupportsAbsolute" value="true" />
+		<property name="fetchSize" value="10000" />
+		<property name="sql" value="#{stepExecutionContext[historyQuery]}" />
+		<property name="preparedStatementSetter">
+			<bean
+				class="com.citi.retail.optima.etl.batch.job.writer.helper.HistoryPreparedStmtSetter">
+				<property name="minimumKey" value="#{stepExecutionContext[minimumKey]}" />
+				<property name="maximumKey" value="#{stepExecutionContext[maximumKey]}" />
+			</bean>
+		</property>
+		<property name="rowMapper" ref="optimaRetailCardsDeliquenctAccountRowMapper" />
+	</bean>
+
+	<bean id="optimaRetailCardsEventAccountReader"
+		class="org.springframework.batch.item.database.JdbcCursorItemReader"
+		scope="step">
+		<property name="dataSource" ref="optimaDbPool" />
+		<property name="saveState" value="false" />
+		<property name="driverSupportsAbsolute" value="true" />
+		<property name="fetchSize" value="10000" />
+		<property name="sql" value="#{stepExecutionContext[eventQuery]}" />
+		<property name="preparedStatementSetter">
+			<bean
+				class="com.citi.retail.optima.etl.batch.job.writer.helper.HistoryPreparedStmtSetter">
+				<property name="minimumKey" value="#{stepExecutionContext[minimumKey]}" />
+				<property name="maximumKey" value="#{stepExecutionContext[maximumKey]}" />
+			</bean>
+		</property>
+		<property name="rowMapper" ref="optimaRetailCardsDeliquenctAccountRowMapper" />
+	</bean>
+
+	<bean id="optimaRetailCardsDeliquenctAccountRowMapper"
+		class="com.citi.retail.optima.etl.common.model.subaccount.DeliquencySubAccountRowMapper"
+		scope="step" />
+
+	<bean id="optimaRetailAccountItemReader"
+		class="org.springframework.batch.item.database.JdbcCursorItemReader"
+		scope="step">
+		<property name="dataSource" ref="optimaDbPool" />
+		<property name="saveState" value="false" />
+		<property name="driverSupportsAbsolute" value="true" />
+		<property name="fetchSize" value="10" />
+		<property name="sql" value="#{stepExecutionContext[monthEndQuery]}" />
+		<property name="preparedStatementSetter">
+			<bean id="cardsSetter"
+				class="com.citi.retail.optima.etl.batch.job.writer.helper.InternationalCardsReadPrdStmtSetter">
+				<property name="minimumKey" value="#{stepExecutionContext[minimumKey]}" />
+				<property name="maximumKey" value="#{stepExecutionContext[maximumKey]}" />
+				<property name="portfolioId" value="#{jobParameters[portfolioId]}" />
+			</bean>
+		</property>
+		<property name="rowMapper" ref="optimaRetailAccountRowMapper" />
+	</bean>
+
+	<bean id="optimaRetailAccountRowMapper"
+		class="com.citi.retail.optima.etl.batch.job.mapper.OptimaRetailAccountCardsRowMapper"
+		scope="step" />
+
+
+	<bean id="optimaRetailAccountItemWriter"
+		class="com.citi.retail.optima.etl.batch.job.writer.OptimaRetailItemWriter"
+		scope="step">
+		<property name="dataSource" ref="optimaDbPool" />
+		<property name="traceInfoWriter" ref="traceInfoItemWriter" />
+		<property name="sql"
+			value="insert into ORC_OUTPUT_ENRICHMENT (ACCOUNT_ID,BATCH_INSTANCE_ID,PRODUCT_TYPE,FICO_EQUIVALENT,REGION,AGE,DELINQUENCY_STATUS,COUNTRY,RISK_TYPE,N_ACCOUNTS,D_COMMITMENT,D_NEW_COMMITMENT,D_MODIFICATION,D_GROSS_CONTRACT_CO,D_BANKRUPTCY_CO,D_RECOVERIES,D_NET_CO,D_NET_CO_RECON,N_ACCOUNT_CO,D_RECEIVABLE,D_UNPAID_PRINCIPAL_BALANCE,D_COMMITMENT_HELOC,D_OS_ACCT_GE30_DPD_24M,N_ACCTS_GE30_DPD_24M,ACCOUNT_BALANCE_IND,INCLUDE_ACCOUNT_JSON) values (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)" />
+		<property name="itemPreparedStatementSetter" ref="optimaRetailAccountPreSetter" />
+	</bean>
+
+	<bean id="optimaRetailCardsHistoryAccountWriter"
+		class="com.citi.retail.optima.etl.batch.job.writer.HistoryDeliqunecyItemWriter"
+		scope="step">
+		<property name="dataSource" ref="optimaDbPool" />
+		<property name="sql"
+			value="insert into ORC_DELINQUENCY_HISTORY_OUTPUT(ACCOUNT_NUMBER_ORA047,DELQ_START_DT_ORA625,DELQ_END_DT_ORA626,DELQ_DURATION_ORA627 ) values( ?,?,?,?)" />
+		<property name="itemPreparedStatementSetter" ref="optimaRetailDelqPrepStmtSetter" />
+	</bean>
+	
+	<bean id="eventDelqAccountWriter"
+        class="com.citi.retail.optima.etl.batch.job.writer.EventDeliqunecyItemWriter"
+        scope="step">
+        <property name="dataSource" ref="optimaDbPool" />
+        <property name="sql"
+            value="insert into ORC_DELINQUENCY_EVENT_OUTPUT( ACCOUNT_NUMBER_ORA047,DELQ_START_DT_ORA625,DELQ_END_DT_ORA626,DELQ_DURATION_ORA627 ) values( ?,?,?,?)" />
+        <property name="itemPreparedStatementSetter" ref="optimaRetailDelqPrepStmtSetter" />
+    </bean>
+
+	<bean id="optimaRetailDelqPrepStmtSetter"
+		class="com.citi.retail.optima.etl.batch.job.writer.helper.OptimaRetailDelqPrepStmtSetter"
+		scope="step" />
+
+	<bean id="traceInfoItemWriter"
+		class="org.springframework.batch.item.database.JdbcBatchItemWriter">
+		<property name="dataSource" ref="optimaDbPool" />
+		<property name="sql"
+			value="Insert into ORC_OUTPUT_TRACEABILITY (ACCOUNT_ID,AGGREGATION_RULE_ID,BATCH_INSTANCE_ID,SCHEDULE_ID) values (?,?,?,?)" />
+		<property name="itemPreparedStatementSetter" ref="accTracePrepSetter" />
+	</bean>
+
+	<bean id="accTracePrepSetter"
+		class="com.citi.retail.optima.etl.batch.job.writer.helper.AccountTracePrepStmtSetter" />
+
+	<bean id="optimaRetailAccountPreSetter"
+		class="com.citi.retail.optima.etl.batch.job.writer.helper.CCARCardsEnrichStmtSetter"
+		scope="step">
+		<property name="batchInstanceId" value="#{jobParameters[batchInstanceId]}" />
+	</bean>
+
+	<bean id="dateFormat" class="java.text.SimpleDateFormat">
+		<constructor-arg value="yyyy-MM-dd" />
+	</bean>
+
+	<bean id="completeItemProcessor"
+		class="org.springframework.batch.item.support.CompositeItemProcessor"
+		scope="step">
+		<property name="delegates">
+			<util:list>
+				<!-- <ref bean="validationProcessor" /> -->
+				<ref bean="enrichmentProcessor" />
+				<ref bean="aggregationProcessor" />
+			</util:list>
+		</property>
+	</bean>
+
+	<bean id="batchItemProcessor"
+		class="com.citi.retail.optima.etl.batch.job.processor.SampleItemProcessor" />
+
+	<bean id="enrichmentProcessor"
+		class="com.citi.retail.optima.etl.batch.job.processor.EnrichmentProcessor"
+		scope="step" p:enrichmentServiceBean-ref="enrichmentService" />
+
+	<bean id="validationProcessor"
+		class="com.citi.retail.optima.etl.batch.job.processor.ValidationProcessor"
+		scope="step" p:validationServiceBean-ref="validationService" />
+
+	<bean id="dummyTaskletBegin" class="com.citi.retail.optima.etl.batch.GeneralTasklet">
+		<property name="message" value="The begin time is " />
+	</bean>
+
+	<bean id="dummyTaskletEnd" class="com.citi.retail.optima.etl.batch.GeneralTasklet">
+		<property name="message" value="The end time is " />
+	</bean>
+
+	<bean name="aggregationResultsTasklet"
+		class="com.citi.retail.optima.etl.batch.tasklet.AggregationResultTasklet"
+		scope="step">
+		<property name="aggregationServiceFactory" ref="aggregationServiceFactory" />
+		<property name="batchJobInstanceDao" ref="jobInstanceDao" />
+		<property name="batchInstanceId" value="#{jobParameters[batchInstanceId]}" />
+		<property name="monthEndDate" value="13/06/2013" />
+		<property name="processingUnitIdsString" value="#{jobParameters[processingUnitIdList]}" />
+	</bean>
+
+	<bean name="aggregationProcessor"
+		class="com.citi.retail.optima.etl.batch.job.processor.AggregationProcessor"
+		init-method="init" scope="step">
+		<property name="aggregationServiceFactory" ref="aggregationServiceFactory" />
+		<property name="batchInstanceId" value="#{jobParameters[batchInstanceId]}" />
+		<property name="monthEndDate" value="13/06/2013" />
+		<property name="processingUnitIdsString" value="#{jobParameters[processingUnitIdList]}" />
+	</bean>
+
+	<bean name="stagingDataPushTasklet"
+		class="com.citi.retail.optima.etl.batch.tasklet.StagingDataPushTasklet"
+		scope="step">
+		<property name="batchOutputDataPush" ref="batchOutputDataPush" />
+		<property name="batchInstanceId" value="#{jobParameters[batchInstanceId]}" />
+		<property name="processingUnitIdsString" value="#{jobParameters[processingUnitIdList]}" />
+		<property name="portfolioId" value="#{jobParameters[portfolioId]}" />
+		<property name="reportPeriod" value="#{jobParameters[reportDate]}" />
+	</bean>
+
+</beans>

@@ -1,0 +1,30 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<!-- Generated Jan 1, 2014 5:49:07 AM by Hibernate Tools 3.4.0.CR1 -->
+<hibernate-mapping>
+    <class name="com.citi.ets.dashboard.entity.AppAreaStatus" table="ETS_DSHBD_APP_AREA_STATUS">
+        <id name="app_area_status_id" type="java.lang.String">
+            <column name="APP_AREA_STATUS_ID" />
+            <generator class="assigned" />
+        </id>
+        <property name="app_area_id" type="java.lang.String">
+            <column name="APP_AREA_ID" />
+        </property>
+        <property name="app_area_name" type="java.lang.String">
+            <column name="APP_AREA_NAME" />
+        </property>
+        <property name="kpi_category_name" type="java.lang.String">
+            <column name="KPI_CATEGORY_NAME" />
+        </property>
+        <property name="app_compstatus" type="java.lang.String">
+            <column name="APP_COMPSTATUS" />
+        </property>
+        <property name="last_update" type="java.sql.Date">
+            <column name="LAST_UPDATE" />
+        </property>
+        <property name="last_updatedby" type="java.lang.String">
+            <column name="LAST_UPDATEDBY" />
+        </property>
+    </class>
+</hibernate-mapping>

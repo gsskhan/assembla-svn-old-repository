@@ -1,0 +1,36 @@
+body {
+	font-size: 11px;
+	font-family: tahoma;
+}
+table {
+	width: 90%;
+	background-color: white;
+	border-collapse: collapse;
+}
+h4 {
+	font-family: tahoma;
+}
+td{
+	border: 1px solid #cccccc;
+	color: #000;
+	padding: 4px 4px;
+	white-space: nowrap;
+}
+.history_th {
+	background: -webkit-linear-gradient(#fcffff, #d7f2f5);
+	color: black;
+	height: 15px;
+	font-weight:700;
+}
+#dynamicHistoryTable {
+	width: 90%;
+}
+#dynamicHistoryTableDiv{
+	display:block;
+}
+#appdetail {
+	border-bottom: none;
+}
+.main_container{
+padding-left: 2%;
+}

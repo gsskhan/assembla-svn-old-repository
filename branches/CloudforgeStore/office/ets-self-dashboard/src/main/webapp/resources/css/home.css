@@ -1,0 +1,90 @@
+/* @-webkit-keyframes blink {
+    0% { opacity: 1; }
+    50% { opacity: 0; }
+    100% { opacity: 1; }
+} */
+
+.appStatuslist{
+	float: left;
+	width: 300px;
+	padding: 0.1em;
+}
+
+.appStatuslist img{	
+	height: 25px;
+	width: 25px;
+	margin-top: 2px;
+	margin-right: 4px;
+	margin-left: 4px;
+	/* -webkit-animation: blink 2s;
+    -webkit-animation-iteration-count: infinite; */
+}
+
+.appBlock{
+	 width: 100%;
+	 height: 30px;
+	 margin: 5px;
+	 background-color: #d9edf7;
+	 box-sizing: border-box;
+	 border: solid 1px;
+	 border-color: #bce8f1;
+	 -webkit-box-shadow: inset 0 1px 1px rgba(0,0,0,.05);
+	 box-shadow: inset 0 1px 1px rgba(0,0,0,.05);
+}
+
+.appstatus{		
+	width: 15%;
+	height: 100%;
+	float: left;
+	border-right: 1px solid #bce8f1;	
+}
+
+.appname{
+	padding: 5px;
+	height: 100%;
+	width: 60%;
+	float: left;
+	white-space: nowrap;
+	text-align: center;
+	color: #333; 
+	font-weight: bold;
+	font-family: "lucida grande", tahoma, verdana, arial, sans-serif;
+	font-size: 12px;
+}
+
+.imagecontainer {
+	float: right;	
+}
+
+.activity-board{
+	float: right;
+	width: 890px;
+	margin-top: 6px;/* 
+	border: 1px solid #75b9e6; */	
+}
+
+.activity-board .panel-body {	
+	height: 350px;	
+}
+
+.activity-board .panel-heading{
+	height: 45px;
+	color: #333;	
+	font-size: 13px;
+	font-weight: bold;
+}
+
+.activity-board .panel-heading .close{
+	float: right;
+}
+
+.activity-board marquee {	
+	width: 250px;
+	float: left;
+}
+
+.right-activity-board {	
+	width: 600px;
+	float: right;
+	height: 100%
+}

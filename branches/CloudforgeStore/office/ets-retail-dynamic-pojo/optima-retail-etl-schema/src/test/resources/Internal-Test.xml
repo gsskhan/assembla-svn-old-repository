@@ -1,0 +1,12 @@
+<optimaRetailETLEvent
+    xmlns="http://citi.com/retail/optima/schemas/event/OptimaRetail">
+    <eventType>ORETL_NEW_JOB_REQUEST</eventType>
+    <requestID>ORETL-063650e67b8c400f90f1b07e242414f3</requestID>
+    <eventTimestamp>2013-03-14 17:37:52</eventTimestamp>
+    <batchInstanceId>148</batchInstanceId>
+    <reportPeriod>2012-12-31</reportPeriod>
+    <scheduleId>1,2</scheduleId>
+    <portfolioID>Cards</portfolioID>
+    <originalMsgId>287</originalMsgId>
+    <priority>2</priority>
+</optimaRetailETLEvent>

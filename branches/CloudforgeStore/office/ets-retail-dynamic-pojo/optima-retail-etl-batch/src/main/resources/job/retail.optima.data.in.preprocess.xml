@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<beans  xmlns="http://www.springframework.org/schema/beans"
+		xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xmlns:p="http://www.springframework.org/schema/p"        
+        xmlns:util="http://www.springframework.org/schema/util"
+        xmlns:context="http://www.springframework.org/schema/context"
+        xsi:schemaLocation="
+        		http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.2.xsd
+        		http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util-3.2.xsd
+        		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-3.2.xsd">
+       
+    <context:annotation-config/>
+        
+        <!-- *********************************************** IN JOB Data Service = START ***************************************************** -->
+
+	<bean id="inDataService" factory-bean="preProcessorDataServiceFactory"
+		factory-method="getPreProcessorDataService" scope="step">
+		<constructor-arg type="java.lang.Long"
+			value="#{jobParameters[batchInstanceId]}" />
+		<constructor-arg type="java.lang.String"
+			value="com.citi.optima.retail.batch.preprocess.InMortgagesDataServiceImpl" />
+	</bean>
+	
+	
+	<!-- *********************************************** IN JOB Data Service = END ***************************************************** -->
+	
+        
+        <!-- ********************************************** INDIA PREPROCESSOR CONFG STARTS   ****************************************************-->
+        	
+	<bean id="preprocessMtgGclDataProvider"
+		class="com.citi.optima.retail.batch.preprocess.PreProcessDataProviderImpl"
+		depends-on="preprocessDataServiceFact" scope="step">
+		<property name="preprocessMap"
+			value="#{(preprocessDataServiceFact.getLocalPreProcessorDataServiceMap('inMtgGclDataProcessStep'))}" />
+	</bean>
+	
+	<!-- ********************************************** INDIA PREPROCESSOR CONFG END      ****************************************************-->
+	
+</beans>

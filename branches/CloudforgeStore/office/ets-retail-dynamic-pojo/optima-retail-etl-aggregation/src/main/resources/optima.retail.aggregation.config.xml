@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<beans  xmlns="http://www.springframework.org/schema/beans"
+        xmlns:p="http://www.springframework.org/schema/p"       
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xmlns:util="http://www.springframework.org/schema/util"
+        xmlns:context="http://www.springframework.org/schema/context"
+        xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.2.xsd
+                            http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util-3.2.xsd
+                            http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-3.2.xsd">
+    <context:annotation-config/>
+   
+	<bean id="aggregationRulesDao"
+    		class="com.citi.retail.optima.etl.aggregation.dao.AggregationRulesDao"
+    		p:jdbcTemplate-ref="jdbcTemplate"
+     />
+	       	
+    <bean id="aggregationDao"
+		class="com.citi.retail.optima.etl.aggregation.dao.impl.AggregationDaoImpl">
+		<property name="jdbcTemplate" ref="jdbcTemplate" />
+	</bean>	
+
+    <bean id="aggregationRuleLookup"
+		class="com.citi.retail.optima.etl.aggregation.model.AggregationRuleLookup">
+		<property name="aggregationRulesDao">
+			<ref bean="aggregationRulesDao" />
+		</property>
+	</bean>
+
+	<bean id="aggrServiceImpl"
+		class="com.citi.retail.optima.etl.aggregation.impl.AggregationServiceImpl">
+		<property name="parser" ref="spelParser" />
+	</bean>
+	
+	<bean id="spelParser"
+		class="org.springframework.expression.spel.standard.SpelExpressionParser" />
+	
+	
+	<bean id="aggregationServiceFactory"
+		class="com.citi.retail.optima.etl.aggregation.impl.AggregationServiceFactoryImpl">
+		<property name="aggregationRuleLookup" ref="aggregationRuleLookup" />
+		<property name="parser" ref="spelParser" />
+		<property name="aggregationDao" ref="aggregationDao" />
+	</bean>
+
+</beans>    
+

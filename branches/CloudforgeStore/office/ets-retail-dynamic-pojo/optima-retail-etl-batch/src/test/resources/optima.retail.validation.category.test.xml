@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:p="http://www.springframework.org/schema/p" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:util="http://www.springframework.org/schema/util" xmlns:context="http://www.springframework.org/schema/context"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.2.xsd
+							http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util-3.2.xsd
+							http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-3.2.xsd">
+
+
+	<import resource="optima.retail.cache.validation.test.xml" />
+	<import resource="optima.retail.datasource.test.xml" />
+
+	<bean class="org.springframework.batch.core.scope.StepScope" />
+
+	<!-- Register Annotation-based Post Processing Beans -->
+	<context:annotation-config />
+
+	<bean id="cacheValidator"
+		class="com.citi.retail.optima.etl.validation.support.CacheValidationFactoryBean"
+		>
+		<property name="providerClass"
+			value="org.apache.bval.jsr303.ApacheValidationProvider" />
+		<property name="validationRulesLookup" ref="validationRulesLookup" />
+		<property name="keyList" ref="keyListDummy" />
+		<property name="validationPropertyMap">
+			<map>
+				<entry key="apache.bval.validation-xml-path" value="optima.retail.validation.bval.settings.xml" />
+			</map>
+		</property>
+	</bean>
+	<util:list id="keyListDummy">
+		<value>mortMonthEndStep:1</value>
+		<value>mortMonthEndStep:2</value>
+		<value>cardsMonthEndStep:3</value>
+		<value>loansMonthEndsStep:4</value>
+		<value>loansMonthEndsStep:5</value>
+		<value>loansMonthEndsStep:7</value>
+		<value>loansMonthEndsStep:8</value>
+		<value>fdicMonthEnd:9</value>
+		<value>fdicRMEvent:9</value>
+		<value>fdicHistoryStep:9</value>
+		<value>fdicFicoEventStep:9</value>
+	</util:list>
+
+	<bean id="validationService"
+		class="com.citi.retail.optima.etl.validation.impl.ValidationServiceImpl"
+		>
+		<property name="validator" ref="cacheValidator" />
+	</bean>
+
+
+</beans>

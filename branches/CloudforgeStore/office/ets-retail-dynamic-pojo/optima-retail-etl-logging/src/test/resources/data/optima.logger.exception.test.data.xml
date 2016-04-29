@@ -1,0 +1,108 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p"
+	xmlns:c="http://www.springframework.org/schema/c"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans 
+	http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
+	
+	
+	
+	<bean id="optimaRetailApplicationExceptionTestData"
+		class="com.citi.retail.optima.etl.common.exception.OptimaRetailApplicationException">
+		<property name="requestLogId" value="782"/>
+		<property name="jobInstanceId" value="329"/>
+		<property name="batchInstanceId" value="642"/>
+		<property name="serviceName" value="CONTROLLER"/>
+		<property name="exceptionType" value="FATAL"/>
+		<property name="exceptionMessage" value="TEST EXCEPITON MESSAGE"/>
+		<property name="exceptionTrace" value="TEST ROOT EXCEPITON MESSAGE"/>
+		<property name="dataException">
+			<ref bean="optimaRetailExceptionTestData"/>
+		</property> 
+	</bean>
+	
+
+	<bean id="optimaRetailExceptionTestData"
+		class="com.citi.retail.optima.etl.common.exception.OptimaRetailDataException">
+		<constructor-arg index="0" value="AGGREGATION"/>
+		<constructor-arg index="1" value="ERROR"/>
+		<property name="rowId" value="100" />
+		<property name="optimaRetailSkippableList">
+			<list>
+				<ref bean="optimaRetailExceptionDetailData" />
+				<ref bean="optimaRetailDataExceptionDetail2"/>
+			</list>
+		</property>
+	</bean>
+
+	<bean id="optimaRetailExceptionDetailData"
+		class="com.citi.retail.optima.etl.common.exception.OptimaRetailDataExceptionDetail">
+		<property name="attributeName" value="TEST_ATTRIBUTE_NAME" />
+		<property name="exceptionMessage" value="EXCEPITON MESSAGE" />
+		<property name="exceptionType" value="FATAL" />
+		<property name="userErrorMessage" value="USER DEFINED EXCEPTION MESSAGE" />
+		<property name="stackTrace" value="ACTUAL STACK TRACE MESSAGE" />
+	</bean>
+
+	<bean id="optimaRetailApplicationExceptionTestData1"
+		class="com.citi.retail.optima.etl.common.exception.OptimaRetailApplicationException">
+		<constructor-arg index="0" value="738"/>
+		<constructor-arg index="1" value="292"/>
+		<constructor-arg index="2" value="650"/>
+		<constructor-arg index="3" value="AGGREGATION"/>
+		<constructor-arg index="4" value="ERROR"/>
+		<constructor-arg index="5" value="ERROR"/>
+		<constructor-arg index="6" value="ERROR"/>
+		<constructor-arg index="7" value=""/>
+		<property name="exceptionMessage" value="Exception Message" />
+		<property name="exceptionTrace" value="Exception Code" />
+		<property name="rootException" value="Exception Trace" />
+		<property name="dataException">
+			<ref bean="optimaRetailDataException"/>
+		</property> 
+	</bean>
+	
+	<bean id="optimaRetailDataException"
+		class="com.citi.retail.optima.etl.common.exception.OptimaRetailDataException">
+		<constructor-arg index="0" value="AGGREGATION"/>
+		<constructor-arg index="1" value="ERROR"/>
+		<property name="rowId" value="100" />
+		<property name="optimaRetailSkippableList">
+			<list>
+				<ref bean="optimaRetailDataExceptionDetail1" />
+				<ref bean="optimaRetailDataExceptionDetail2" />
+				<ref bean="optimaRetailDataExceptionDetail3" />
+			</list>
+		</property>
+	</bean>
+
+
+	<bean id="optimaRetailDataExceptionDetail2"
+		class="com.citi.retail.optima.etl.common.exception.OptimaRetailDataExceptionDetail">
+		<property name="attributeName" value="TEST_ATTRIBUTE_NAME1" />
+		<property name="exceptionMessage" value="EXCEPITON MESSAGE1" />
+		<property name="exceptionType" value="FATAL" />
+		<property name="rule" value="RULE_TEST1" />
+		<property name="stackTrace" value="ACTUAL STACK TRACE MESSAGE1" />
+	</bean>
+	
+	<bean id="optimaRetailDataExceptionDetail3"
+		class="com.citi.retail.optima.etl.common.exception.OptimaRetailDataExceptionDetail">
+		<property name="attributeName" value="TEST_ATTRIBUTE_NAME2" />
+		<property name="exceptionMessage" value="EXCEPITON MESSAGE2" />
+		<property name="exceptionType" value="FATAL" />
+		<property name="rule" value="RULE_TEST2" />
+		<property name="stackTrace" value="ACTUAL STACK TRACE MESSAGE2" />
+	</bean>
+	
+	
+	<bean id="optimaRetailDataExceptionDetail1"
+		class="com.citi.retail.optima.etl.common.exception.OptimaRetailDataExceptionDetail">
+		<property name="attributeName" value="TEST_ATTRIBUTE_NAME" />
+		<property name="exceptionMessage" value="EXCEPITON MESSAGE" />
+		<property name="exceptionType" value="FATAL" />
+		<property name="rule" value="RULE_TEST" />
+		<property name="stackTrace" value="ACTUAL STACK TRACE MESSAGE" />
+	</bean>
+	
+</beans>

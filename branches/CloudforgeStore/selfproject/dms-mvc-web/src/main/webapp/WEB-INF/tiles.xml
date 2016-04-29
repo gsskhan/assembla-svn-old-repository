@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="ISO-8859-1" ?>
+<!DOCTYPE tiles-definitions PUBLIC "-//Apache Software Foundation//DTD Tiles Configuration 2.0//EN"
+								   "http://tiles.apache.org/dtds/tiles-config_2_0.dtd">
+<tiles-definitions>
+ <definition name="dms.home.def" template="/WEB-INF/template/layout_one.jsp">
+	<put-attribute name="title" value="DMS - Home" />
+	<put-attribute name="header" value="/WEB-INF/template/header_one.jsp" />
+	<put-attribute name="menu" value="/WEB-INF/template/menu_one.jsp" />
+	<put-attribute name="middle" value="/WEB-INF/pages/home.jsp" />		
+	<put-attribute name="footer" value="/WEB-INF/template/footer_one.jsp" />
+</definition>
+<definition name="login.def" extends="dms.home.def">
+	<put-attribute name="title" value="DMS - Login" />
+	<put-attribute name="middle" value="/WEB-INF/pages/login.jsp" />		
+</definition>
+<definition name="admin.home.def" extends="dms.home.def">
+	<put-attribute name="title" value="DMS - Administrator's home" />
+	<put-attribute name="middle" value="/WEB-INF/pages/admin/admin_home.jsp" />		
+</definition>
+<definition name="admin.home.paper.details.def" template="/WEB-INF/template/layout_two.jsp" >
+	<put-attribute name="title" value="DMS - Administrator's home - Paper details" />
+	<put-attribute name="header" value="/WEB-INF/template/header_one.jsp" />
+	<put-attribute name="middle" value="/WEB-INF/pages/admin/paper_details.jsp" />		
+	<put-attribute name="footer" value="/WEB-INF/template/footer_one.jsp" />
+</definition>
+</tiles-definitions>

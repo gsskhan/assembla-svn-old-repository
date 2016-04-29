@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p"
+	xmlns:c="http://www.springframework.org/schema/c"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans 
+	http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
+	
+	
+	<bean id="applicationProperties"
+        class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
+        <property name="locations">
+            <list>
+            	<value>classpath:retail.optima.etl.controller.sql.queries.properties</value>
+            </list>
+        </property>
+    </bean>
+
+	<bean id="optimaLabPool" class="oracle.ucp.jdbc.PoolDataSourceFactory"
+		factory-method="getPoolDataSource" lazy-init="true" p:user="ORDSETL"
+		p:password="ordsetl" p:minPoolSize="16" p:maxPoolSize="20"
+		p:connectionPoolName="oracleConnectionPool"
+		p:URL="jdbc:oracle:thin:@vm-f962-051e.nam.nsroot.net:1522:ORDSDVG"
+		p:connectionFactoryClassName="oracle.jdbc.pool.OracleDataSource"
+		p:SQLForValidateConnection="select 1 from DUAL" />
+
+	<bean id="jdbcTemplate" class="org.springframework.jdbc.core.JdbcTemplate"
+		p:dataSource-ref="optimaLabPool" />
+
+	<bean id="controllerJobInstanceDao" 
+		class="com.citi.retail.optima.etl.controller.dao.impl.JobInstanceDaoImpl" 
+ 		init-method="init" p:jdbcTemplate-ref="jdbcTemplate" />
+
+	<bean id="jobDependancyDao"
+		class="com.citi.retail.optima.etl.controller.dao.impl.JobDependancyDaoImpl"
+		p:jdbcTemplate-ref="jdbcTemplate" />
+
+	<bean id="jobInstanceLoaderDao"
+		class="com.citi.retail.optima.etl.controller.dao.impl.JobInstanceLoaderDaoImpl"
+		p:jdbcTemplate-ref="jdbcTemplate" />
+		
+	<bean id="jobMessageDao"
+		class="com.citi.retail.optima.etl.controller.dao.impl.JobMessageDaoImpl"
+		p:jdbcTemplate-ref="jdbcTemplate" />
+
+	<bean id="messageLog" class="com.citi.retail.optima.etl.controller.model.MessageLog">
+		<property name="messageId" value="1" />
+		<property name="priority" value="1" />
+	</bean>
+	
+</beans>

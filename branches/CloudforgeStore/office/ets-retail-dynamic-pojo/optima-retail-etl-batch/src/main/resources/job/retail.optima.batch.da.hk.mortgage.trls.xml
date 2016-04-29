@@ -1,0 +1,1717 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:p="http://www.springframework.org/schema/p" xmlns:c="http://www.springframework.org/schema/c"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:aop="http://www.springframework.org/schema/aop"
+	xmlns:batch="http://www.springframework.org/schema/batch" xmlns:util="http://www.springframework.org/schema/util"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans 
+		http://www.springframework.org/schema/beans/spring-beans-2.5.xsd
+		http://www.springframework.org/schema/util 
+		http://www.springframework.org/schema/util/spring-util-2.5.xsd
+		http://www.springframework.org/schema/context
+		http://www.springframework.org/schema/context/spring-context.xsd
+		http://www.springframework.org/schema/batch 
+		http://www.springframework.org/schema/batch/spring-batch-2.1.xsd
+		http://www.springframework.org/schema/aop
+ 		http://www.springframework.org/schema/aop/spring-aop-2.5.xsd">
+
+
+	<!-- *********************************************** TW MTG JOB Configuration=START ***************************************************** -->
+	<batch:job id="DA-HK-MTG-Batch" job-repository="jobRepository" restartable="true" incrementer="jobParamIncrementer">
+		<batch:step id="springStart" next="registerPreprocessLoaderStep">
+			<batch:tasklet ref="timerTaskletBegin" />
+		</batch:step>
+		<batch:step id="registerPreprocessLoaderStep" next="hkMtgFxrateProcessStep">
+			<batch:tasklet ref="registerPreprocessLoader" />
+		</batch:step>
+		<batch:step id="hkMtgFxrateProcessStep" parent="fxrateDataProcessStep"
+			next="hkMtgCbFinanceDataProcessStep" />
+		<batch:step id="hkMtgCbFinanceDataProcessStep" parent="cbFinanceDataProcessStep" next="hkMtgWoProcessStep" />
+		<batch:step id="hkMtgWoProcessStep" parent="hkMtgWoPrepropStep:master"
+			next="hkMtgRecvProcessStep" />
+		<!-- <batch:step id="eppProcessStep" parent="eppPrepropStep:master"
+			next="recvProcessStep" /> -->
+		<batch:step id="hkMtgRecvProcessStep" parent="hkMtgRecvPrepropStep:master"
+			next="hkMtgRwProcessStep" />
+		<batch:step id="hkMtgRwProcessStep" parent="hkMtgRwPrepropStep:master"
+			next="hkMtgFipProcessStep" />
+		<batch:step id="hkMtgFipProcessStep" parent="hkMtgFipPrepropStep:master"
+			next="hkMtgRainbowproccrDecider" />	
+ 
+		<batch:decision id="hkMtgRainbowproccrDecider" decider="hkMtgRainbowDeciderStep">
+	        <batch:next on="preRainbow" to="hkMtgpreRainbowproccrStep" />
+	        <batch:next on="postRainbow" to="hkMtgrainbowproccrStep" />
+    	</batch:decision>  
+    	
+    	<!-- updated -->  	
+    	
+		<batch:step id="hkMtgpreRainbowproccrStep" parent="hkMtgpreRainbowproccrStep:master009"
+			next="hkpreRainbowproccrStep011" /> 
+			
+		<batch:step id="hkpreRainbowproccrStep011" parent="hkMtgpreRainbowproccrStep:master011"
+			next="hkpreRainbowproccrStep012" /> 
+		
+		<batch:step id="hkpreRainbowproccrStep012" parent="hkMtgpreRainbowproccrStep:master012"
+			next="hkpreRainbowproccrStep013" /> 
+		
+		<batch:step id="hkpreRainbowproccrStep013" parent="hkMtgpreRainbowproccrStep:master013"
+			next="hkpreRainbowproccrStep016" /> 
+		
+		<batch:step id="hkpreRainbowproccrStep016" parent="hkMtgpreRainbowproccrStep:master016"
+			next="hkMtgPreRecvMainDataProcStep" /> 
+			
+		<!-- updated -->  	
+		
+			<batch:step id="hkMtgPreRecvMainDataProcStep" next="hkMtgPreWoMainDataProcStep">
+			<batch:tasklet allow-start-if-complete="false">
+				<batch:chunk reader="hkMtgMasterRecvCsvReader" processor="hkMtgPreRecvMainProcessor"
+					writer="hkMtgRecvWriter" commit-interval="1000" skip-limit="50000">
+					<batch:skippable-exception-classes>
+						<batch:include
+							class="com.citi.retail.optima.etl.common.exception.OptimaRetailDataException" />
+					</batch:skippable-exception-classes>
+				</batch:chunk>
+			</batch:tasklet>
+			<batch:listeners>
+				<batch:listener ref="hkMtgWoForRecvListener" />
+				<batch:listener ref="hkPreRainbowRecvEnrichmentProcessor" />
+				<batch:listener ref="hkpreRainbowAggregationProcessor" />
+				<batch:listener ref="hkMtgRecvWriter" />
+				<batch:listener ref="mtgWoRecvCommonBalanceWriter" />
+			</batch:listeners>
+		</batch:step>
+		
+		<batch:step id="hkMtgPreWoMainDataProcStep" next="hkpreRainbowproccrAggregationStep">
+			<batch:tasklet allow-start-if-complete="false">
+				<batch:chunk reader="hkMtgMasterWoCsvReader" processor="hkMtgPreWoMainProcessor"
+					writer="hkMtgWoWriter" commit-interval="1000" skip-limit="50000">
+					<batch:skippable-exception-classes>
+						<batch:include
+							class="com.citi.retail.optima.etl.common.exception.OptimaRetailDataException" />
+					</batch:skippable-exception-classes>
+				</batch:chunk>
+			</batch:tasklet>
+			<batch:listeners>
+				<batch:listener ref="hkpreRainbowWoEnrichmentProcessor" />
+				<batch:listener ref="hkpreRainbowAggregationProcessor" />
+				<batch:listener ref="hkMtgWoWriter" />
+				<batch:listener ref="mtgWoRecvCommonBalanceWriter" />
+			</batch:listeners>
+		</batch:step>
+		
+		
+		<!-- 	updated  -->
+		
+ 		<batch:step id="hkMtgrainbowproccrStep" parent="hkMtgrainbowproccrStep:master009"
+			next="hkrainbowproccrStep011" />
+			
+		<batch:step id="hkrainbowproccrStep011" parent="hkMtgrainbowproccrStep:master011"
+			next="hkrainbowproccrStep012" />
+	
+		<batch:step id="hkrainbowproccrStep012" parent="hkMtgrainbowproccrStep:master012"
+			next="hkrainbowproccrStep013" />
+			
+	    <batch:step id="hkrainbowproccrStep013" parent="hkMtgrainbowproccrStep:master013"
+			next="hkrainbowproccrStep016" />
+			
+	   <batch:step id="hkrainbowproccrStep016" parent="hkMtgrainbowproccrStep:master016"
+			next="hkMtgPostRecvMainDataProcStep" />
+			
+		<!-- 	updated  -->
+			
+			<batch:step id="hkMtgPostRecvMainDataProcStep" next="hkMtgPostWoMainDataProcStep">
+			<batch:tasklet allow-start-if-complete="false">
+				<batch:chunk reader="hkMtgMasterRecvCsvReader" processor="hkMtgPostRecvMainProcessor"
+					writer="hkMtgRecvWriter" commit-interval="1000" skip-limit="50000">
+					<batch:skippable-exception-classes>
+						<batch:include
+							class="com.citi.retail.optima.etl.common.exception.OptimaRetailDataException" />
+					</batch:skippable-exception-classes>
+				</batch:chunk>
+			</batch:tasklet>
+			<batch:listeners>
+				<batch:listener ref="hkMtgWoForRecvListener" />
+				<batch:listener ref="hkPostRainbowRecvEnrichmentProcessor" />
+				<batch:listener ref="hkrainbowAggregationProcessor" />
+				<batch:listener ref="hkMtgRecvWriter" />
+				<batch:listener ref="mtgWoRecvCommonBalanceWriter" />
+			</batch:listeners>
+		</batch:step>
+			
+		<batch:step id="hkMtgPostWoMainDataProcStep" next="hkrainbowproccrAggregationStep">
+			<batch:tasklet allow-start-if-complete="false">
+				<batch:chunk reader="hkMtgMasterWoCsvReader" processor="hkMtgPostWoMainProcessor"
+					writer="hkMtgWoWriter" commit-interval="1000" skip-limit="50000">
+					<batch:skippable-exception-classes>
+						<batch:include
+							class="com.citi.retail.optima.etl.common.exception.OptimaRetailDataException" />
+					</batch:skippable-exception-classes>
+				</batch:chunk>
+			</batch:tasklet>
+			<batch:listeners>
+				<batch:listener ref="hkPostRainbowWoEnrichmentProcessor" />
+				<batch:listener ref="hkrainbowAggregationProcessor" />
+				<batch:listener ref="hkMtgWoWriter" />
+				<batch:listener ref="mtgWoRecvCommonBalanceWriter" />
+			</batch:listeners>
+		</batch:step>
+		
+		
+					
+		<batch:step id="hkrainbowproccrAggregationStep" next="hkMtgfileMergeStep" >
+			<batch:tasklet ref="hkrainbowproccrAggregationResultsTasklet" />
+		</batch:step>		
+		<batch:step id="hkpreRainbowproccrAggregationStep" next="hkMtgfileMergeStep" >
+			<batch:tasklet ref="hkpreRainbowproccrAggregationResultsTasklet" />
+		</batch:step>
+		
+		<batch:step id="hkMtgfileMergeStep" next="hkMtgendSpringStep" >
+			<batch:tasklet ref="hkMtgfileMergeTasklet" />
+			<batch:listeners>
+				<batch:listener ref="hkMtgfileMergeTasklet"/>
+			</batch:listeners>
+		</batch:step>
+
+		<batch:step id="hkMtgendSpringStep">
+			<batch:tasklet ref="timerTaskletEnd" />
+		</batch:step>		
+		<batch:listeners>
+			<batch:listener ref="hkMtgAcqJobListener" />
+		</batch:listeners>
+	</batch:job>
+
+	<bean id="dateFormat" class="java.text.SimpleDateFormat">
+		<constructor-arg value="yyyy-MM-dd" />
+	</bean>
+			
+	<bean id="hkMtgRainbowDeciderStep" 
+		class="com.citi.retail.optima.etl.batch.decider.RainbowproccrDecider" >
+		<property name="startDate">
+			<bean factory-bean="dateFormat_yyyy-MM-dd" factory-method="parse">
+				<constructor-arg value="2006-12-31" />
+			</bean>
+		</property>
+		<property name="endDate">
+			<bean factory-bean="dateFormat_yyyy-MM-dd" factory-method="parse">
+				<constructor-arg value="2012-05-01" />
+			</bean>
+		</property>
+	</bean>
+	
+	<bean id="hkMtgAcqJobListener"
+		class="com.citi.optima.retail.batch.listeners.DataAcqJobListener">
+		<property name="batchJobInstanceDao" ref="jobInstanceDao" />
+		<property name="internalMessageChannel" ref="batchCompletionHandlerChannel" />
+		<property name="errorReportHandler">
+			<bean class="com.citi.retail.optima.etl.batch.report.ErrorReportHandler" />
+		</property>
+		<property name="preProcessorFactory" ref="preProcessorDataServiceFactory" />
+		<property name="dataServiceName" value="com.citi.optima.retail.batch.preprocess.HkMortgagesDataServiceImpl" />
+		<property name="jobConfigDao" ref="jobConfigDao" />
+<!-- 		<property name="footerItemList" ref="mtgFooterItemList" /> -->
+	</bean>
+	
+		<bean id="dataAcqWriter"
+		class="com.citi.retail.optima.etl.batch.job.writer.DummyItemWriter">
+
+	</bean>
+	
+	
+ 	<bean id="hkMtgProcessDataProvider"
+		class="com.citi.optima.retail.batch.preprocess.PreProcessDataProviderImpl"
+		depends-on="hkMtgDataService" scope="step">
+		<property name="preprocessFicoMap" value="#{(hkMtgDataService.getLocalPreProcessorDataServiceMap('ficoDataProcessStep'))}"/>
+	</bean>
+	
+	<!-- *********************************************** TW JOB Configuration =END ***************************************************** -->
+	
+	<!-- *********************************************** TW JOB Data Service = START ***************************************************** -->
+<!-- 	<util:map id="jobParamsMap" key-type="java.lang.String"
+		value-type="java.lang.Object"
+		map-class="java.util.concurrent.ConcurrentHashMap" scope="step">
+		<entry key="reportDate" value="#{jobParameters[reportDate]}"/>
+	</util:map>
+	 -->
+	<!-- *********************************************** TW JOB Data Service = END ***************************************************** -->
+	
+	
+	<!-- *********************************************** Common Beans = START ***************************************************** -->
+	
+	<bean id="dateEditor"
+		class="org.springframework.beans.propertyeditors.CustomDateEditor" scope="step">
+		<constructor-arg>
+			<bean class="java.text.SimpleDateFormat">
+				<constructor-arg value="ddMMMyyyy" />
+			</bean>
+		</constructor-arg>
+		<constructor-arg value="true" />
+	</bean>
+	
+	<bean id="dateEditor1"
+		class="org.springframework.beans.propertyeditors.CustomDateEditor" scope="step">
+		<constructor-arg>
+			<bean class="java.text.SimpleDateFormat">
+				<constructor-arg value="mm/dd/yy" />
+			</bean>
+		</constructor-arg>
+		<constructor-arg value="true" />
+	</bean>
+	
+	<bean id="dateEditor2"
+		class="org.springframework.beans.propertyeditors.CustomDateEditor" scope="step">
+		<constructor-arg>
+			<bean class="java.text.SimpleDateFormat">
+				<constructor-arg value="yyyy-mm-dd" />
+			</bean>
+		</constructor-arg>
+		<constructor-arg value="true" />
+	</bean>
+	
+	
+	<bean id="format_ddMMMyyyy" class="java.text.SimpleDateFormat" scope="prototype">
+		<constructor-arg value="ddMMMyyyy" />
+	</bean>
+	
+	<bean id="format_mm_dd_yy" class="java.text.SimpleDateFormat" scope="prototype">
+		<constructor-arg value="mm/dd/yy" />
+	</bean>
+	
+	<bean id="dateFormat_yyyy-MM-dd" class="java.text.SimpleDateFormat" scope="prototype">
+		<constructor-arg value="yyyy-MM-dd" />
+	</bean>
+	
+	<bean id="dateFormat_yyyymm" class="java.text.SimpleDateFormat" scope="prototype">
+		<constructor-arg value="yyyymm" />
+	</bean>
+	<!-- *********************************************** Common Beans = END ***************************************************** -->
+	
+	
+	<!-- *********************************************** Write-off Step Configuration=START ***************************************************** -->
+	
+	<bean name="hkMtgWoPrepropStep:master"
+		class="org.springframework.batch.core.partition.support.PartitionStep">
+		<property name="jobRepository" ref="jobRepository" />
+		<property name="stepExecutionSplitter">
+			<bean
+				class="org.springframework.batch.core.partition.support.SimpleStepExecutionSplitter">
+				<constructor-arg ref="jobRepository" />
+				<constructor-arg ref="hkMtgwoDataProcessStep" />
+				<constructor-arg ref="hkMtgwoPartitioner" />
+			</bean>
+		</property>
+		<property name="partitionHandler">
+			<bean
+				class="org.springframework.batch.core.partition.support.TaskExecutorPartitionHandler"
+				scope="step">
+				<property name="taskExecutor">
+					<bean
+						class="org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor">
+						<property name="corePoolSize" value="8" />
+						<property name="maxPoolSize" value="12" />
+					</bean>
+				</property>
+				<property name="step" ref="hkMtgwoDataProcessStep" />
+				<property name="gridSize" value="8" />
+			</bean>
+		</property>
+	</bean>
+	
+	<bean id="hkMtgwoPartitioner" class="com.citi.retail.optima.etl.batch.job.infra.FlatFileDataPartitioner" scope="step">
+		<property name="directoryName" value="#{#getInputFilePath(jobParameters[COUNTRYPRODUCT])}" />
+		<property name= "originalFile" value="#{#getInputFilePath(jobParameters[COUNTRYPRODUCT])}" />
+		<property name="splitFile" value="#{#getInputFilePath(jobParameters[COUNTRYPRODUCT])}" />
+		<property name="archvFile" value="#{#getArchiveFilePath(jobParameters[COUNTRYPRODUCT])}" />
+		<property name="evalContext" ref="customEvaluationContext" />
+		<property name="filePattern" value="#{jobParameters[WO]}"/> 
+		<property name="noOfRecordsPerSplit" value="100000"/> 
+				<property name="startTime" value="#{jobParameters[STRT_TIME]}"></property> 
+		<property name="jobName" value="#{jobParameters[JOB_NAME]}"></property>
+	</bean>
+	
+	
+	<batch:step id="hkMtgwoDataProcessStep">
+			<batch:tasklet allow-start-if-complete="false">
+				<batch:chunk reader="hkMtgWoCsvReader" processor="hkMtgWoAcqProcessor"
+					writer="dataAcqWriter" commit-interval="1000" skip-limit="50000">
+					<batch:skippable-exception-classes>
+						<batch:include
+							class="com.citi.retail.optima.etl.common.exception.OptimaRetailDataException" />
+
+							
+					</batch:skippable-exception-classes>
+				</batch:chunk>
+			</batch:tasklet>
+			<batch:listeners>
+			<batch:listener ref="hkMtgWoAcqProcessor" />
+		</batch:listeners>
+	</batch:step>
+	
+	<bean id="hkMtgWoCsvReader"
+		class="org.springframework.batch.item.file.FlatFileItemReader"
+		scope="step" lazy-init="true">
+		<property name="linesToSkip" value="1"/>
+		<property name="resource" value="#{stepExecutionContext[fileName]}"></property>
+		<property name="lineMapper">
+			<bean class="org.springframework.batch.item.file.mapping.DefaultLineMapper">
+				<property name="lineTokenizer">
+					<bean
+						class="org.springframework.batch.item.file.transform.DelimitedLineTokenizer">
+						
+						<property name="delimiter" value="|"/>
+						<!-- <property name="names"
+							value="woDate,acctnumb,gwo,woInd,woType" /> -->
+						<property name="names"
+							value="#{#getFileColumnNameList('HK_MTG_WO')}" />	
+							
+					</bean>
+				</property>
+				<property name="fieldSetMapper">
+					<bean
+						class="com.citi.retail.optima.etl.batch.job.mapper.HkMtgWoFieldSetMapper">
+						<property name="dateFormat" ref="format_ddMMMyyyy"/>
+					</bean>
+				</property>			
+			</bean>
+		</property>
+	</bean>
+	
+<!-- 	<bean id="hkMtgwoPrototype" class="com.citi.retail.optima.etl.common.model.HkMtgWrtOffRecord" scope="prototype"/> -->
+	
+	<bean id="hkMtgWoAcqProcessor"
+		class="com.citi.retail.optima.etl.batch.job.processor.da.HkMtgWoDataProcessor"
+		scope="step">
+		<property name="dataService" ref="hkMtgDataService"/>
+		<property name="preProcessMapName" value="hkMtgwoDataProcessStep"/>
+	</bean>
+	
+	<!-- *********************************************** Write-off Step Configuration=END ***************************************************** -->
+	
+	
+	
+	<!-- *********************************************** Recovery Step Configuration=START ***************************************************** -->
+	
+	<bean name="hkMtgRecvPrepropStep:master"
+		class="org.springframework.batch.core.partition.support.PartitionStep">
+		<property name="jobRepository" ref="jobRepository" />
+		<property name="stepExecutionSplitter">
+			<bean
+				class="org.springframework.batch.core.partition.support.SimpleStepExecutionSplitter">
+				<constructor-arg ref="jobRepository" />
+				<constructor-arg ref="hkMtgRecvDataProcessStep" />
+				<constructor-arg ref="hkMtgRecvPartitioner" />
+			</bean>
+		</property>
+		<property name="partitionHandler">
+			<bean
+				class="org.springframework.batch.core.partition.support.TaskExecutorPartitionHandler"
+				scope="step">
+				<property name="taskExecutor">
+					<bean
+						class="org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor">
+						<property name="corePoolSize" value="8" />
+						<property name="maxPoolSize" value="12" />
+					</bean>
+				</property>
+				<property name="step" ref="hkMtgRecvDataProcessStep" />
+				<property name="gridSize" value="8" />
+			</bean>
+		</property>
+	</bean>
+	
+	<bean id="hkMtgRecvPartitioner" class="com.citi.retail.optima.etl.batch.job.infra.FlatFileDataPartitioner" scope="step">
+		<property name="directoryName" value="#{#getInputFilePath(jobParameters[COUNTRYPRODUCT])}" />
+		<property name= "originalFile" value="#{#getInputFilePath(jobParameters[COUNTRYPRODUCT])}" />
+		<property name="splitFile" value="#{#getInputFilePath(jobParameters[COUNTRYPRODUCT])}" />
+		<property name="archvFile" value="#{#getArchiveFilePath(jobParameters[COUNTRYPRODUCT])}" />
+		<property name="evalContext" ref="customEvaluationContext" />
+		<property name="filePattern" value="#{jobParameters[REC]}"/> 
+		<property name="noOfRecordsPerSplit" value="100000"/> 
+				<property name="startTime" value="#{jobParameters[STRT_TIME]}"></property> 
+		<property name="jobName" value="#{jobParameters[JOB_NAME]}"></property>
+	</bean>
+	
+	<batch:step id="hkMtgRecvDataProcessStep">
+			<batch:tasklet allow-start-if-complete="false">
+				<batch:chunk reader="hkMtgRecvCsvReader" processor="hkMtgRecvAcqProcessor"
+					writer="dataAcqWriter" commit-interval="1000" skip-limit="50000">
+					<batch:skippable-exception-classes>
+						<batch:include
+							class="com.citi.retail.optima.etl.common.exception.OptimaRetailDataException" />
+
+							
+					</batch:skippable-exception-classes>
+				</batch:chunk>
+			</batch:tasklet>
+			<batch:listeners>
+			<batch:listener ref="hkMtgRecvAcqProcessor" />
+			<batch:listener ref="hkMtgRecvCsvReader" />
+		</batch:listeners>
+	</batch:step>
+	
+	<bean id="hkMtgRecvCsvReader"
+		class="com.citi.retail.optima.etl.batch.job.reader.CustomItemReader"
+		scope="step" lazy-init="true">
+<!-- 		<property name="linesToSkip" value="1"/> -->
+		<property name="resource" value="#{stepExecutionContext[fileName]}"></property>
+		<property name= "fileName" value="#{stepExecutionContext[fileName]}"></property>
+		<property name="lineMapper">
+			<bean class="org.springframework.batch.item.file.mapping.DefaultLineMapper">
+				<property name="lineTokenizer">
+					<bean
+						class="org.springframework.batch.item.file.transform.DelimitedLineTokenizer">
+						
+						<property name="delimiter" value="|"/>
+						<!-- <property name="names"
+							value="recDate,acctnumb,recoveryAmt,group,lnamt,apprval,dpdnow,mobbnd,year" /> -->
+						<property name="names"
+							value="#{#getFileColumnNameList('HK_MTG_REC')}" />	
+					</bean>
+				</property>
+				<property name="fieldSetMapper">
+					<bean
+						class="com.citi.retail.optima.etl.batch.job.mapper.HkMtgRecFieldSetMapper">
+						<property name="dateFormat" ref="format_ddMMMyyyy"/>
+					</bean>
+				</property>
+				<!-- <property name="fieldSetMapper">
+					<bean
+						class="com.citi.retail.optima.etl.batch.job.mapper.SelectiveFieldSetMapper">
+						<property name="prototypeBeanName" value="recvPrototype" />
+						<property name="propertiesIncuded" value="newrc_p,cardNumber"/>
+					</bean>
+				</property>  -->
+			</bean>
+		</property>
+	</bean>
+	
+	<!-- <bean id="hkMtgrecvPrototype" class="com.citi.retail.optima.etl.common.model.HkMtgRecoveryRecord" scope="prototype"/> -->
+	
+	<bean id="hkMtgRecvAcqProcessor"
+		class="com.citi.retail.optima.etl.batch.job.processor.da.HkMtgRecoveryDataProcessor"
+		scope="step">
+		<property name="dataService" ref="hkMtgDataService"/>
+		<property name="preProcessMapName" value="hkMtgRecvDataProcessStep"/>
+	</bean>
+	
+	
+	<!-- *********************************************** Recovery Step Configuration=END ***************************************************** -->
+	
+	<!-- *********************************************** ForClosure Step Configuration=START ***************************************************** -->
+	
+	<bean name="hkMtgFipPrepropStep:master"
+		class="org.springframework.batch.core.partition.support.PartitionStep">
+		<property name="jobRepository" ref="jobRepository" />
+		<property name="stepExecutionSplitter">
+			<bean
+				class="org.springframework.batch.core.partition.support.SimpleStepExecutionSplitter">
+				<constructor-arg ref="jobRepository" />
+				<constructor-arg ref="hkMtgFipDataProcessStep" />
+				<constructor-arg ref="hkMtgFipPartitioner" />
+			</bean>
+		</property>
+		<property name="partitionHandler">
+			<bean
+				class="org.springframework.batch.core.partition.support.TaskExecutorPartitionHandler"
+				scope="step">
+				<property name="taskExecutor">
+					<bean
+						class="org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor">
+						<property name="corePoolSize" value="8" />
+						<property name="maxPoolSize" value="12" />
+					</bean>
+				</property>
+				<property name="step" ref="hkMtgFipDataProcessStep" />
+				<property name="gridSize" value="8" />
+			</bean>
+		</property>
+	</bean>
+	
+	<bean id="hkMtgFipPartitioner" class="com.citi.retail.optima.etl.batch.job.infra.FlatFileDataPartitioner" scope="step">
+		<property name="directoryName" value="#{#getInputFilePath(jobParameters[COUNTRYPRODUCT])}" />
+		<property name= "originalFile" value="#{#getInputFilePath(jobParameters[COUNTRYPRODUCT])}" />
+		<property name="splitFile" value="#{#getInputFilePath(jobParameters[COUNTRYPRODUCT])}" />
+		<property name="archvFile" value="#{#getArchiveFilePath(jobParameters[COUNTRYPRODUCT])}" />
+		<property name="evalContext" ref="customEvaluationContext" />
+		<property name="filePattern" value="#{jobParameters[FIP]}"/> 
+		<property name="noOfRecordsPerSplit" value="100000"/> 
+				<property name="startTime" value="#{jobParameters[STRT_TIME]}"></property> 
+		<property name="jobName" value="#{jobParameters[JOB_NAME]}"></property>
+	</bean>
+	
+	<batch:step id="hkMtgFipDataProcessStep">
+			<batch:tasklet allow-start-if-complete="false">
+				<batch:chunk reader="hkMtgFipCsvReader" processor="hkMtgFipAcqProcessor"
+					writer="dataAcqWriter" commit-interval="1000" skip-limit="50000">
+					<batch:skippable-exception-classes>
+						<batch:include
+							class="com.citi.retail.optima.etl.common.exception.OptimaRetailDataException" />
+
+							
+					</batch:skippable-exception-classes>
+				</batch:chunk>
+			</batch:tasklet>
+			<batch:listeners>
+			<batch:listener ref="hkMtgFipAcqProcessor" />
+		</batch:listeners>
+	</batch:step>
+	
+	<bean id="hkMtgFipCsvReader"
+		class="org.springframework.batch.item.file.FlatFileItemReader"
+		scope="step" lazy-init="true">
+		<property name="linesToSkip" value="1"/>
+		<property name="resource" value="#{stepExecutionContext[fileName]}"></property>
+		<property name="lineMapper">
+			<bean class="org.springframework.batch.item.file.mapping.DefaultLineMapper">
+				<property name="lineTokenizer">
+					<bean
+						class="org.springframework.batch.item.file.transform.DelimitedLineTokenizer">
+						
+						<property name="delimiter" value="|"/>
+<!-- 						<property name="names"
+						value="lnNo,fipDte,groupa,reportingMth,newfg" /> 
+ -->
+ 						<property name="names"
+							value="#{#getFileColumnNameList('HK_MTG_FIP')}" />
+					</bean>
+				</property>
+				<property name="fieldSetMapper">
+					<bean
+						class="com.citi.retail.optima.etl.batch.job.mapper.HkMtgFipFieldSetMapper">
+						<property name="dateFormat" ref="format_ddMMMyyyy"/>
+					</bean>
+				</property>
+			</bean>
+		</property>
+	</bean>
+	
+	<!-- <bean id="hkMtgfipPrototype" class="com.citi.retail.optima.etl.common.model.HkMtgFrclsrRecord" scope="prototype"/> -->
+	
+	<bean id="hkMtgFipAcqProcessor"
+		class="com.citi.retail.optima.etl.batch.job.processor.da.HkMortgageLnNoDataProcessor"
+		scope="step">
+		<property name="dataService" ref="hkMtgDataService"/>
+		<property name="preProcessMapName" value="hkMtgFipDataProcessStep"/>
+	</bean>
+	
+	
+	<!-- *********************************************** ForClosure Step Configuration=END ***************************************************** -->
+	
+	<!-- *********************************************** Rewrite Account Step Configuration=START ***************************************************** -->
+	
+	<bean name="hkMtgRwPrepropStep:master"
+		class="org.springframework.batch.core.partition.support.PartitionStep">
+		<property name="jobRepository" ref="jobRepository" />
+		<property name="stepExecutionSplitter">
+			<bean
+				class="org.springframework.batch.core.partition.support.SimpleStepExecutionSplitter">
+				<constructor-arg ref="jobRepository" />
+				<constructor-arg ref="hkMtgRwDataProcessStep" />
+				<constructor-arg ref="hkMtgRwPartitioner" />
+			</bean>
+		</property>
+		<property name="partitionHandler">
+			<bean
+				class="org.springframework.batch.core.partition.support.TaskExecutorPartitionHandler"
+				scope="step">
+				<property name="taskExecutor">
+					<bean
+						class="org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor">
+						<property name="corePoolSize" value="8" />
+						<property name="maxPoolSize" value="12" />
+					</bean>
+				</property>
+				<property name="step" ref="hkMtgRwDataProcessStep" />
+				<property name="gridSize" value="8" />
+			</bean>
+		</property>
+	</bean>
+	
+	<bean id="hkMtgRwPartitioner" class="com.citi.retail.optima.etl.batch.job.infra.FlatFileDataPartitioner" scope="step">
+		<property name="directoryName" value="#{#getInputFilePath(jobParameters[COUNTRYPRODUCT])}" />
+		<property name= "originalFile" value="#{#getInputFilePath(jobParameters[COUNTRYPRODUCT])}" />
+		<property name="splitFile" value="#{#getInputFilePath(jobParameters[COUNTRYPRODUCT])}" />
+		<property name="archvFile" value="#{#getArchiveFilePath(jobParameters[COUNTRYPRODUCT])}" />
+		<property name="evalContext" ref="customEvaluationContext" />
+		<property name="filePattern" value="#{jobParameters[RW]}"/> 
+		<property name="noOfRecordsPerSplit" value="100000"/> 
+				<property name="startTime" value="#{jobParameters[STRT_TIME]}"></property> 
+		<property name="jobName" value="#{jobParameters[JOB_NAME]}"></property>
+	</bean>
+	
+	<batch:step id="hkMtgRwDataProcessStep">
+			<batch:tasklet allow-start-if-complete="false">
+				<batch:chunk reader="hkMtgRwCsvReader" processor="hkMtgRwAcqProcessor"
+					writer="dataAcqWriter" commit-interval="1000" skip-limit="50000">
+					<batch:skippable-exception-classes>
+						<batch:include
+							class="com.citi.retail.optima.etl.common.exception.OptimaRetailDataException" />
+
+							
+					</batch:skippable-exception-classes>
+				</batch:chunk>
+			</batch:tasklet>
+			<batch:listeners>
+			<batch:listener ref="hkMtgRwAcqProcessor" />
+		</batch:listeners>
+	</batch:step>
+	
+	<bean id="hkMtgRwCsvReader"
+		class="org.springframework.batch.item.file.FlatFileItemReader"
+		scope="step" lazy-init="true">
+		<property name="linesToSkip" value="1"/>
+		<property name="resource" value="#{stepExecutionContext[fileName]}"></property>
+		<property name="lineMapper">
+			<bean class="org.springframework.batch.item.file.mapping.DefaultLineMapper">
+				<property name="lineTokenizer">
+					<bean
+						class="org.springframework.batch.item.file.transform.DelimitedLineTokenizer">
+						
+						<property name="delimiter" value="|"/>
+						<!-- <property name="names"
+							value="lnNo,lnDte,lnAmt,apprVal" /> -->
+						<property name="names"
+							value="#{#getFileColumnNameList('HK_MTG_RW')}" />	
+					</bean>
+				</property>
+				<property name="fieldSetMapper">
+					<bean
+						class="com.citi.retail.optima.etl.batch.job.mapper.HkMtgRwFieldSetMapper">
+						<property name="dateFormat" ref="format_ddMMMyyyy"/>
+					</bean>
+				</property>
+			</bean>
+		</property>
+	</bean>
+	
+	<!-- <bean id="hkMtgRwPrototype" class="com.citi.retail.optima.etl.common.model.HkMtgRewrtAcctRecord" scope="prototype"/> -->
+	
+	<bean id="hkMtgRwAcqProcessor"
+		class="com.citi.retail.optima.etl.batch.job.processor.da.HkMortgageLnNoDataProcessor"
+		scope="step">
+		<property name="dataService" ref="hkMtgDataService"/>
+		<property name="preProcessMapName" value="hkMtgRwDataProcessStep"/>
+	</bean>
+	
+	
+	<!-- *********************************************** Rewrite Account Step Configuration=END ***************************************************** -->
+	
+	<!-- *********************************************** Rainbow Step Configuration=START ***************************************************** -->
+	<bean name="hkMtgrainbowproccrStep:master009"
+		class="org.springframework.batch.core.partition.support.PartitionStep">
+		<property name="jobRepository" ref="jobRepository" />
+		<property name="stepExecutionSplitter">
+			<bean
+				class="org.springframework.batch.core.partition.support.SimpleStepExecutionSplitter">
+				<constructor-arg ref="jobRepository" />
+				<constructor-arg ref="hkrainbowDataProcessStep" />
+				<constructor-arg ref="hkrainbowPartitioner009" />
+			</bean>
+		</property>
+		<property name="partitionHandler" ref="hkMtgRainbowPartitionHandler"/>
+<!-- 		<property name="partitionHandler"> -->
+<!-- 			<bean -->
+<!-- 				class="org.springframework.batch.core.partition.support.TaskExecutorPartitionHandler" -->
+<!-- 				scope="step"> -->
+<!-- 				<property name="taskExecutor"> -->
+<!-- 					<bean -->
+<!-- 						class="org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor"> -->
+<!-- 						<property name="corePoolSize" value="8" /> -->
+<!-- 						<property name="maxPoolSize" value="12" /> -->
+<!-- 					</bean> -->
+<!-- 				</property> -->
+<!-- 				<property name="step" ref="hkrainbowDataProcessStep" /> -->
+<!-- 				<property name="gridSize" value="8" /> -->
+<!-- 			</bean> -->
+<!-- 		</property> -->
+	</bean>
+	
+	<bean name="hkMtgrainbowproccrStep:master011"
+		class="org.springframework.batch.core.partition.support.PartitionStep">
+		<property name="jobRepository" ref="jobRepository" />
+		<property name="stepExecutionSplitter">
+			<bean
+				class="org.springframework.batch.core.partition.support.SimpleStepExecutionSplitter">
+				<constructor-arg ref="jobRepository" />
+				<constructor-arg ref="hkrainbowDataProcessStep" />
+				<constructor-arg ref="hkrainbowPartitioner011" />
+			</bean>
+		</property>
+		<property name="partitionHandler" ref="hkMtgRainbowPartitionHandler"/>
+	</bean>
+	
+	<bean name="hkMtgrainbowproccrStep:master012"
+		class="org.springframework.batch.core.partition.support.PartitionStep">
+		<property name="jobRepository" ref="jobRepository" />
+		<property name="stepExecutionSplitter">
+			<bean
+				class="org.springframework.batch.core.partition.support.SimpleStepExecutionSplitter">
+				<constructor-arg ref="jobRepository" />
+				<constructor-arg ref="hkrainbowDataProcessStep" />
+				<constructor-arg ref="hkrainbowPartitioner012" />
+			</bean>
+		</property>
+		<property name="partitionHandler" ref="hkMtgRainbowPartitionHandler"/>
+	</bean>
+	
+	<bean name="hkMtgrainbowproccrStep:master013"
+		class="org.springframework.batch.core.partition.support.PartitionStep">
+		<property name="jobRepository" ref="jobRepository" />
+		<property name="stepExecutionSplitter">
+			<bean
+				class="org.springframework.batch.core.partition.support.SimpleStepExecutionSplitter">
+				<constructor-arg ref="jobRepository" />
+				<constructor-arg ref="hkrainbowDataProcessStep" />
+				<constructor-arg ref="hkrainbowPartitioner013" />
+			</bean>
+		</property>
+		<property name="partitionHandler" ref="hkMtgRainbowPartitionHandler"/>
+	</bean>
+	
+	<bean name="hkMtgrainbowproccrStep:master016"
+		class="org.springframework.batch.core.partition.support.PartitionStep">
+		<property name="jobRepository" ref="jobRepository" />
+		<property name="stepExecutionSplitter">
+			<bean
+				class="org.springframework.batch.core.partition.support.SimpleStepExecutionSplitter">
+				<constructor-arg ref="jobRepository" />
+				<constructor-arg ref="hkrainbowDataProcessStep" />
+				<constructor-arg ref="hkrainbowPartitioner016" />
+			</bean>
+		</property>
+		<property name="partitionHandler" ref="hkMtgRainbowPartitionHandler"/>
+	</bean>
+	
+	<bean id="hkrainbowPartitioner009" class="com.citi.retail.optima.etl.batch.job.infra.FlatFileDataPartitioner" scope="step">
+		
+		<property name="directoryName" value="#{#getInputFilePath(jobParameters[COUNTRYPRODUCT])}" />
+		<property name= "originalFile" value="#{#getInputFilePath(jobParameters[COUNTRYPRODUCT])}" />
+		<property name="splitFile" value="#{#getInputFilePath(jobParameters[COUNTRYPRODUCT])}" />
+		<property name="archvFile" value="#{#getArchiveFilePath(jobParameters[COUNTRYPRODUCT])}" />
+		<property name="evalContext" ref="customEvaluationContext" />
+		<property name="filePattern" value="#{jobParameters[hksi009_raw]}"/> 
+		<property name="noOfRecordsPerSplit" value="100000"/> 
+				<property name="startTime" value="#{jobParameters[STRT_TIME]}"></property> 
+		<property name="jobName" value="#{jobParameters[JOB_NAME]}"></property>
+	</bean>
+	
+	<bean id="hkrainbowPartitioner011" class="com.citi.retail.optima.etl.batch.job.infra.FlatFileDataPartitioner" scope="step">
+		
+		<property name="directoryName" value="#{#getInputFilePath(jobParameters[COUNTRYPRODUCT])}" />
+		<property name= "originalFile" value="#{#getInputFilePath(jobParameters[COUNTRYPRODUCT])}" />
+		<property name="splitFile" value="#{#getInputFilePath(jobParameters[COUNTRYPRODUCT])}" />
+		<property name="archvFile" value="#{#getArchiveFilePath(jobParameters[COUNTRYPRODUCT])}" />
+		<property name="evalContext" ref="customEvaluationContext" />
+		<property name="filePattern" value="#{jobParameters[hksi011_raw]}"/> 
+		<property name="noOfRecordsPerSplit" value="100000"/> 
+				<property name="startTime" value="#{jobParameters[STRT_TIME]}"></property> 
+		<property name="jobName" value="#{jobParameters[JOB_NAME]}"></property>
+	</bean>
+	
+	<bean id="hkrainbowPartitioner012" class="com.citi.retail.optima.etl.batch.job.infra.FlatFileDataPartitioner" scope="step">
+		
+		<property name="directoryName" value="#{#getInputFilePath(jobParameters[COUNTRYPRODUCT])}" />
+		<property name= "originalFile" value="#{#getInputFilePath(jobParameters[COUNTRYPRODUCT])}" />
+		<property name="splitFile" value="#{#getInputFilePath(jobParameters[COUNTRYPRODUCT])}" />
+		<property name="archvFile" value="#{#getArchiveFilePath(jobParameters[COUNTRYPRODUCT])}" />
+		<property name="evalContext" ref="customEvaluationContext" /> 
+		<property name="filePattern" value="#{jobParameters[hksi012_raw]}"/> 
+		<property name="noOfRecordsPerSplit" value="100000"/> 
+				<property name="startTime" value="#{jobParameters[STRT_TIME]}"></property> 
+		<property name="jobName" value="#{jobParameters[JOB_NAME]}"></property>
+	</bean>
+	
+	<bean id="hkrainbowPartitioner013" class="com.citi.retail.optima.etl.batch.job.infra.FlatFileDataPartitioner" scope="step">
+		
+		<property name="directoryName" value="#{#getInputFilePath(jobParameters[COUNTRYPRODUCT])}" />
+		<property name= "originalFile" value="#{#getInputFilePath(jobParameters[COUNTRYPRODUCT])}" />
+		<property name="splitFile" value="#{#getInputFilePath(jobParameters[COUNTRYPRODUCT])}" />
+		<property name="archvFile" value="#{#getArchiveFilePath(jobParameters[COUNTRYPRODUCT])}" />
+		<property name="evalContext" ref="customEvaluationContext" />
+		<property name="filePattern" value="#{jobParameters[hksi013_raw]}"/> 
+		<property name="noOfRecordsPerSplit" value="100000"/> 
+				<property name="startTime" value="#{jobParameters[STRT_TIME]}"></property> 
+		<property name="jobName" value="#{jobParameters[JOB_NAME]}"></property>
+	</bean>
+	
+	<bean id="hkrainbowPartitioner016" class="com.citi.retail.optima.etl.batch.job.infra.FlatFileDataPartitioner" scope="step">
+		
+		<property name="directoryName" value="#{#getInputFilePath(jobParameters[COUNTRYPRODUCT])}" />
+		<property name= "originalFile" value="#{#getInputFilePath(jobParameters[COUNTRYPRODUCT])}" />
+		<property name="splitFile" value="#{#getInputFilePath(jobParameters[COUNTRYPRODUCT])}" />
+		<property name="archvFile" value="#{#getArchiveFilePath(jobParameters[COUNTRYPRODUCT])}" />
+		<property name="evalContext" ref="customEvaluationContext" />
+		<property name="filePattern" value="#{jobParameters[hksi016_raw]}"/> 
+		<property name="noOfRecordsPerSplit" value="100000"/> 
+				<property name="startTime" value="#{jobParameters[STRT_TIME]}"></property> 
+		<property name="jobName" value="#{jobParameters[JOB_NAME]}"></property>
+	</bean>
+	
+	<bean name="hkMtgRainbowPartitionHandler" class="org.springframework.batch.core.partition.support.TaskExecutorPartitionHandler" scope="step">
+		<property name="taskExecutor">
+			<bean
+				class="org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor">
+				<property name="corePoolSize" value="8" />
+				<property name="maxPoolSize" value="12" />
+			</bean>
+		</property>
+		<property name="step" ref="hkrainbowDataProcessStep" />
+		<property name="gridSize" value="8" />
+	</bean>
+	
+	<batch:step id="hkrainbowDataProcessStep">
+			<batch:tasklet allow-start-if-complete="false">
+				<batch:chunk reader="rainbowCsvReader" processor = "hkrainbowDataProcessor"
+					writer="cvsFileItemWriter" commit-interval="10000" skip-limit="50000">
+					<batch:skippable-exception-classes>
+						<batch:include
+							class="com.citi.retail.optima.etl.common.exception.OptimaRetailDataException" />
+					</batch:skippable-exception-classes>
+				</batch:chunk>
+			</batch:tasklet>
+			
+			<batch:listeners>
+				<batch:listener ref="hkMtgRecvListener" />
+				<batch:listener ref="hkMtgWoListener" />
+				<batch:listener ref="hkrainbowEnrichmentProcessor" />
+				<batch:listener ref="hkrainbowAggregationProcessor" />
+				<batch:listener ref="cvsFileItemWriter" />
+				<batch:listener ref="mtgcommonBalanceWriter" />
+				<batch:listener ref="rainbowCsvReader" />
+			</batch:listeners>
+	</batch:step>
+	
+	<bean id="rainbowCsvReader"
+		class="com.citi.retail.optima.etl.batch.job.reader.CustomItemReader"
+		scope="step" lazy-init="true">
+<!-- 		<property name="linesToSkip" value="1"/> -->
+		<property name="strict" value="true"></property>
+		<property name="resource" value="#{stepExecutionContext[fileName]}"></property>
+		<property name= "fileName" value="#{stepExecutionContext[fileName]}"></property>
+		<property name="lineMapper">
+			<bean class="org.springframework.batch.item.file.mapping.DefaultLineMapper">
+				<property name="lineTokenizer">
+					<bean
+						class="org.springframework.batch.item.file.transform.DelimitedLineTokenizer">
+						
+						<property name="delimiter" value="|"/>
+						<!-- <property name="names"
+						value="groupa,lnNo,collId,lnStNo,brCde,lnAmt,lnType,sectype,cltv,custNum,apprVal,mobbnd,lnDate,dpdnow,osBlUs,osBlUsWithNeg,unIntUs,unintV2Us,numaccts,numnewaccts,purch,totripfip,newripfip,totoreorepo,neworeorepo,govinsuind,governmentinsurance,latefeeus" />
+							value="groupa,lnNo,collId,lnStNo,lnAmt,lnType,sectype,cltv,custNum,apprVal,mobbnd,lnDate,dpdnow,osBlUs,osBlUsWithNeg,unIntUs,unintV2Us,numaccts,numnewaccts,purch,totripfip,newripfip,totoreorepo,neworeorepo,govinsuind,governmentinsurance,latefeeus" /> -->
+<!-- 							value="groupa,lnNo,lnStNo,lnAmt,dpdnow,lnType,lnDate,custNum,collId,sectype,apprVal,cltv,osBlUsWithNeg,osBlUs,unIntUs,unintV2Us,numaccts,numnewaccts,purch,neworeorepo,totoreorepo,governmentinsurance,govinsuind,mobbnd,newripfip,totripfip"  -->
+						<property name="names"
+							value="#{#getFileColumnNameList('HK_MTG_RNBW')}" />
+					</bean>
+				</property>
+				<property name="fieldSetMapper">
+					<bean
+						class="com.citi.retail.optima.etl.batch.job.mapper.HkMtgRnbwFieldSetMapper">
+						<property name="dateFormat" ref="format_ddMMMyyyy"/>
+					</bean>
+				</property>
+			</bean>
+		</property>
+	</bean>
+	
+	<bean id="hkrainbowDataProcessor"
+		class="org.springframework.batch.item.support.CompositeItemProcessor"
+		scope="step">
+		<property name="delegates">
+			<util:list>
+				<ref bean="hkrainbowEnrichmentProcessor" />
+				<ref bean="hkrainbowAggregationProcessor" />
+			</util:list>
+		</property>
+	</bean>
+	
+	<bean id="hkrainbowEnrichmentProcessor"
+		class="com.citi.retail.optima.etl.batch.job.processor.EnrichmentProcessor"
+		scope="step" p:enrichmentServiceBean-ref="hkrainbowEnrichmentService"
+		p:timeTracker-ref="timeTracker">
+			<property name="eTLQueryExecutor" ref="queryExecutor" />	
+		<property name="batchInstanceId" value="#{jobParameters[batchInstanceId]}" />
+		<property name="jobName" value="#{jobParameters[JOB_NAME]}"/>
+		<property name="fileName" value="#{stepExecutionContext[fileName]}"/>
+		<property name="auditFileId" value="#{jobParameters[AUDITFILEID]}"/>
+		<property name="auditFiles" value="#{jobParameters[AUDITFILES]}"/>
+		<property name="jobMessageDao" ref="jobMessageDao"/>		
+		<property name="ctlFileDt" value="#{jobParameters[CTLFILECREATIONDT]}"/>
+		<property name="jobConfigDao" ref="jobConfigDao" />
+	
+	</bean>
+	
+	<bean	id="hkrainbowEnrichmentService"
+			class="com.citi.retail.optima.etl.enrichment.impl.EnrichmentServiceImpl"
+			p:evalContext-ref="customEvaluationContext"
+			p:enrichmentRules-ref="enrichmentRulesHolder"
+			p:keyList="#{#getConcatenatedKeys(jobParameters[sys_proc_id], 'hkRainbowDataProcStep', null)}"
+			scope="step"
+	/>
+	
+	<bean name="hkrainbowAggregationProcessor"
+		class="com.citi.retail.optima.etl.batch.job.processor.AggregationProcessor"
+		init-method="init" scope="step">
+		<property name="aggregationServiceFactory" ref="aggregationServiceFactory" />
+		<property name="batchInstanceId" value="#{jobParameters[batchInstanceId]}" />
+		<property name="monthEndDate" value="#{jobParameters[reportDate]}" />
+		<property name="keyList"
+			value="#{#getConcatenatedKeys(jobParameters[sys_proc_id], 'hkRainbowDataProcStep',null)}" />
+		<property name="stepName" value="hkRainbowDataProcStep" />
+		<property name="accountTraceabilityRequired" value="false" />
+		<property name="timeTracker" ref="timeTracker" />
+		<property name="sysProcId" value="#{jobParameters[sys_proc_id]}" />
+	</bean>
+	
+	<bean id="cvsFileItemWriter" class="com.citi.retail.optima.etl.batch.job.writer.MtgConditionalCompositeItemWriter" scope="step">
+		<!-- <property name="excludeItemDelegate" ref="excludeRecFileWriter"/> -->
+		<property name="delegates">
+			<util:list>
+				<ref bean="mtgarrangementIpWriter"/> 
+				<ref bean="mtgarrangementRatingWriter"/>
+				<ref bean="mtgcommonBalanceWriter"/>
+				<ref bean="mtgindicativeFileWriter"/>
+			</util:list>
+		</property>
+	</bean>
+	
+	<!-- *********************************************** Rainbow Step Configuration=END ***************************************************** -->
+	
+	<!-- *********************************************** Rainbow Aggregation Step Configuration=START ***************************************************** -->
+	
+	<bean name="hkrainbowproccrAggregationResultsTasklet" class="com.citi.retail.optima.etl.batch.tasklet.FooterSummaryAggregationResultTasklet"
+		scope="step">
+		<property name="aggregationServiceFactory" ref="aggregationServiceFactory" />
+		<property name="batchInstanceId" value="#{jobParameters[batchInstanceId]}" />
+		<property name="stepName" value="hkRainbowDataProcStep" />
+		<property name="sysProcId" value="#{jobParameters[sys_proc_id]}" />
+		<property name="footerAggrRuleId" value="106" />
+		<property name="footerItemList" ref="mtgFooterItemList" />
+		<property name="aggrFooterWriter" ref="hkmtgaggrFooterWriter"/>
+		<property name="jobConfigDao" ref="jobConfigDao" />
+	</bean>
+	
+	
+
+	<!-- *********************************************** Rainbow Aggregation Step Configuration=END ***************************************************** -->
+	<!-- *********************************************** Pre Rainbow Step Configuration=START ***************************************************** -->
+	<bean name="hkMtgpreRainbowproccrStep:master009"
+		class="org.springframework.batch.core.partition.support.PartitionStep">
+		<property name="jobRepository" ref="jobRepository" />
+		<property name="stepExecutionSplitter">
+			<bean
+				class="org.springframework.batch.core.partition.support.SimpleStepExecutionSplitter">
+				<constructor-arg ref="jobRepository" />
+				<constructor-arg ref="hkpreRainbowDataProcessStep" />
+				<constructor-arg ref="hkprehkrainbowPartitioner009" />
+			</bean>
+		</property>
+		<property name="partitionHandler" ref="hkMtgPreRainbowPartitionHandler" />
+<!-- 			<bean -->
+<!-- 				class="org.springframework.batch.core.partition.support.TaskExecutorPartitionHandler" -->
+<!-- 				scope="step"> -->
+<!-- 				<property name="taskExecutor"> -->
+<!-- 					<bean -->
+<!-- 						class="org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor"> -->
+<!-- 						<property name="corePoolSize" value="8" /> -->
+<!-- 						<property name="maxPoolSize" value="12" /> -->
+<!-- 					</bean> -->
+<!-- 				</property> -->
+<!-- 				<property name="step" ref="hkpreRainbowDataProcessStep" /> -->
+<!-- 				<property name="gridSize" value="8" /> -->
+<!-- 			</bean> -->
+<!-- 		</property> -->
+	</bean>
+	
+	<bean name="hkMtgpreRainbowproccrStep:master011"
+		class="org.springframework.batch.core.partition.support.PartitionStep">
+		<property name="jobRepository" ref="jobRepository" />
+		<property name="stepExecutionSplitter">
+			<bean
+				class="org.springframework.batch.core.partition.support.SimpleStepExecutionSplitter">
+				<constructor-arg ref="jobRepository" />
+				<constructor-arg ref="hkpreRainbowDataProcessStep" />
+				<constructor-arg ref="hkprehkrainbowPartitioner011" />
+			</bean>
+		</property>
+		<property name="partitionHandler" ref="hkMtgPreRainbowPartitionHandler" />
+	</bean>
+	
+	<bean name="hkMtgpreRainbowproccrStep:master012"
+		class="org.springframework.batch.core.partition.support.PartitionStep">
+		<property name="jobRepository" ref="jobRepository" />
+		<property name="stepExecutionSplitter">
+			<bean
+				class="org.springframework.batch.core.partition.support.SimpleStepExecutionSplitter">
+				<constructor-arg ref="jobRepository" />
+				<constructor-arg ref="hkpreRainbowDataProcessStep" />
+				<constructor-arg ref="hkprehkrainbowPartitioner012" />
+			</bean>
+		</property>
+		<property name="partitionHandler" ref="hkMtgPreRainbowPartitionHandler" />
+	</bean>
+	
+	<bean name="hkMtgpreRainbowproccrStep:master013"
+		class="org.springframework.batch.core.partition.support.PartitionStep">
+		<property name="jobRepository" ref="jobRepository" />
+		<property name="stepExecutionSplitter">
+			<bean
+				class="org.springframework.batch.core.partition.support.SimpleStepExecutionSplitter">
+				<constructor-arg ref="jobRepository" />
+				<constructor-arg ref="hkpreRainbowDataProcessStep" />
+				<constructor-arg ref="hkprehkrainbowPartitioner013" />
+			</bean>
+		</property>
+		<property name="partitionHandler" ref="hkMtgPreRainbowPartitionHandler" />
+	</bean>
+	
+	<bean name="hkMtgpreRainbowproccrStep:master016"
+		class="org.springframework.batch.core.partition.support.PartitionStep">
+		<property name="jobRepository" ref="jobRepository" />
+		<property name="stepExecutionSplitter">
+			<bean
+				class="org.springframework.batch.core.partition.support.SimpleStepExecutionSplitter">
+				<constructor-arg ref="jobRepository" />
+				<constructor-arg ref="hkpreRainbowDataProcessStep" />
+				<constructor-arg ref="hkprehkrainbowPartitioner016" />
+			</bean>
+		</property>
+		<property name="partitionHandler" ref="hkMtgPreRainbowPartitionHandler" />
+	</bean>
+	
+	<bean id="hkMtgPreRainbowPartitionHandler" class="org.springframework.batch.core.partition.support.TaskExecutorPartitionHandler"
+				scope="step">
+		<property name="taskExecutor">
+			<bean
+				class="org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor">
+				<property name="corePoolSize" value="8" />
+				<property name="maxPoolSize" value="12" />
+			</bean>
+		</property>
+		<property name="step" ref="hkpreRainbowDataProcessStep" />
+		<property name="gridSize" value="8" />		
+	</bean>
+	
+	<bean id="hkprehkrainbowPartitioner009" class="com.citi.retail.optima.etl.batch.job.infra.FlatFileDataPartitioner" scope="step">
+		
+		<property name="directoryName" value="#{#getInputFilePath(jobParameters[COUNTRYPRODUCT])}" />
+		<property name= "originalFile" value="#{#getInputFilePath(jobParameters[COUNTRYPRODUCT])}" />
+		<property name="splitFile" value="#{#getInputFilePath(jobParameters[COUNTRYPRODUCT])}" />
+		<property name="archvFile" value="#{#getArchiveFilePath(jobParameters[COUNTRYPRODUCT])}" />
+		<property name="evalContext" ref="customEvaluationContext" />
+		<property name="filePattern" value="#{jobParameters[hksi009_raw]}"/> 
+		<property name="noOfRecordsPerSplit" value="100000"/> 
+				<property name="startTime" value="#{jobParameters[STRT_TIME]}"></property> 
+		<property name="jobName" value="#{jobParameters[JOB_NAME]}"></property>
+	</bean>
+	
+	<bean id="hkprehkrainbowPartitioner011" class="com.citi.retail.optima.etl.batch.job.infra.FlatFileDataPartitioner" scope="step">
+		
+		<property name="directoryName" value="#{#getInputFilePath(jobParameters[COUNTRYPRODUCT])}" />
+		<property name= "originalFile" value="#{#getInputFilePath(jobParameters[COUNTRYPRODUCT])}" />
+		<property name="splitFile" value="#{#getInputFilePath(jobParameters[COUNTRYPRODUCT])}" />
+		<property name="archvFile" value="#{#getArchiveFilePath(jobParameters[COUNTRYPRODUCT])}" />
+		<property name="evalContext" ref="customEvaluationContext" />
+		<property name="filePattern" value="#{jobParameters[hksi011_raw]}"/> 
+		<property name="noOfRecordsPerSplit" value="100000"/> 
+				<property name="startTime" value="#{jobParameters[STRT_TIME]}"></property> 
+		<property name="jobName" value="#{jobParameters[JOB_NAME]}"></property>
+	</bean>
+	<bean id="hkprehkrainbowPartitioner012" class="com.citi.retail.optima.etl.batch.job.infra.FlatFileDataPartitioner" scope="step">
+		
+		<property name="directoryName" value="#{#getInputFilePath(jobParameters[COUNTRYPRODUCT])}" />
+		<property name= "originalFile" value="#{#getInputFilePath(jobParameters[COUNTRYPRODUCT])}" />
+		<property name="splitFile" value="#{#getInputFilePath(jobParameters[COUNTRYPRODUCT])}" />
+		<property name="archvFile" value="#{#getArchiveFilePath(jobParameters[COUNTRYPRODUCT])}" />
+		<property name="evalContext" ref="customEvaluationContext" />
+		<property name="filePattern" value="#{jobParameters[hksi012_raw]}"/> 
+		<property name="noOfRecordsPerSplit" value="100000"/> 
+				<property name="startTime" value="#{jobParameters[STRT_TIME]}"></property> 
+		<property name="jobName" value="#{jobParameters[JOB_NAME]}"></property>
+	</bean>
+	<bean id="hkprehkrainbowPartitioner013" class="com.citi.retail.optima.etl.batch.job.infra.FlatFileDataPartitioner" scope="step">
+		
+		<property name="directoryName" value="#{#getInputFilePath(jobParameters[COUNTRYPRODUCT])}" />
+		<property name= "originalFile" value="#{#getInputFilePath(jobParameters[COUNTRYPRODUCT])}" />
+		<property name="splitFile" value="#{#getInputFilePath(jobParameters[COUNTRYPRODUCT])}" />
+		<property name="archvFile" value="#{#getArchiveFilePath(jobParameters[COUNTRYPRODUCT])}" />
+		<property name="evalContext" ref="customEvaluationContext" />
+		<property name="filePattern" value="#{jobParameters[hksi013_raw]}"/> 
+		<property name="noOfRecordsPerSplit" value="100000"/> 
+				<property name="startTime" value="#{jobParameters[STRT_TIME]}"></property> 
+		<property name="jobName" value="#{jobParameters[JOB_NAME]}"></property>
+	</bean>
+	<bean id="hkprehkrainbowPartitioner016" class="com.citi.retail.optima.etl.batch.job.infra.FlatFileDataPartitioner" scope="step">
+		
+		<property name="directoryName" value="#{#getInputFilePath(jobParameters[COUNTRYPRODUCT])}" />
+		<property name= "originalFile" value="#{#getInputFilePath(jobParameters[COUNTRYPRODUCT])}" />
+		<property name="splitFile" value="#{#getInputFilePath(jobParameters[COUNTRYPRODUCT])}" />
+		<property name="archvFile" value="#{#getArchiveFilePath(jobParameters[COUNTRYPRODUCT])}" />
+		<property name="evalContext" ref="customEvaluationContext" />
+		<property name="filePattern" value="#{jobParameters[hksi016_raw]}"/> 
+		<property name="noOfRecordsPerSplit" value="100000"/> 
+				<property name="startTime" value="#{jobParameters[STRT_TIME]}"></property> 
+		<property name="jobName" value="#{jobParameters[JOB_NAME]}"></property>
+	</bean>
+	
+	
+	<batch:step id="hkpreRainbowDataProcessStep">
+			<batch:tasklet allow-start-if-complete="false">
+				<batch:chunk reader="hkpreRainbowCsvReader" processor = "hkprehkrainbowDataProcessor"
+					writer="cvsFileItemWriter" commit-interval="10000" skip-limit="50000">
+					<batch:skippable-exception-classes>
+						<batch:include
+							class="com.citi.retail.optima.etl.common.exception.OptimaRetailDataException" />
+
+							
+					</batch:skippable-exception-classes>
+				</batch:chunk>
+			</batch:tasklet>
+			
+			<batch:listeners>
+				<batch:listener ref="hkMtgRecvListener" />
+				<batch:listener ref="hkMtgWoListener" />
+				<batch:listener ref="hkpreRainbowEnrichmentProcessor" />
+				<batch:listener ref="hkpreRainbowAggregationProcessor" />
+				<batch:listener ref="hkpreRainbowCvsFileItemWriter" />
+				<batch:listener ref="mtgcommonBalanceWriter" />
+				<batch:listener ref="hkpreRainbowCsvReader" />
+			</batch:listeners>
+	</batch:step>
+	
+	<bean id="hkpreRainbowCsvReader"
+		class="com.citi.retail.optima.etl.batch.job.reader.CustomItemReader"
+		scope="step" lazy-init="true">
+<!-- 		<property name="linesToSkip" value="1"/> -->
+		<property name="strict" value="true"></property>
+		<property name="resource" value="#{stepExecutionContext[fileName]}"></property>
+		<property name= "fileName" value="#{stepExecutionContext[fileName]}"></property>
+		<property name="lineMapper">
+			<bean class="org.springframework.batch.item.file.mapping.DefaultLineMapper">
+				<property name="lineTokenizer">
+					<bean
+						class="org.springframework.batch.item.file.transform.DelimitedLineTokenizer">
+						
+						<property name="delimiter" value="|"/>
+						<!-- <property name="names"
+							value="groupa,lnNo,lnStNo,lnAmt,lnType,sectype,cltv,custNum,apprVal,mobbnd,lnDate,dpdnow,osBlUs,osBlUsWithNeg,unIntUs,unintV2Us,numaccts,numnewaccts,purch,totripfip,newripfip,totoreorepo,neworeorepo,govinsuind,governmentinsurance,latefeeus"
+							/> -->
+						<property name="names"
+							value="#{#getFileColumnNameList('HK_MTG_PRERNBW')}" />	
+							<!-- value="cardType,DATEBRTH,dateOpen,dateCncl,DATECLT1,CLT1,DATLCLT1,LCLT1,dateExp1,cycle,GENDER,MARRIAGE,EDUCTION,HOMEZIP,OCCUPATN,INCOME,HSOWNER,AGENCODE,CLSCOD1,STATUS1,POT,POTEXP,CURRBLNC,ANR1,PAYAMT1,datePay,delqProf,intrst,COFFAMT,DATEBLK1,SUPPCARD,CSHBLNC1,RTLBLNC1,BLOCK1,ALTBLK1,PHOTO,SOURCE,custId,HOMETIME,WORKZIP,PROFESSN,clt2,dateClt2,lclt2,datLclt2,anr2,RTLBLNC2,CSHBLNC2,lcshCnt2,LCSHCNT1,lrtlCnt2,LRTLCNT1,lcshAmt2,LCSHAMT1,lrtlAmt2,LRTLAMT1,ocshCnt2,OCSHCNT1,ortlCnt2,ORTLCNT1,OCSHAMT2,ocsha,ortlAmt2,ORTLAMT1,payAmt2,anfee,lateFee,cshFee,OTHERFEE,behScore,bScoreid,SCORE,SCOREID,riskLevl,woPrn,woIntr,WO_OTHER,REC_PRN,REC_INTR,REC_OTH,block2,dateBlk2,ALTBLK2,CLSCOD2,LCLSCOD2,LCLSCOD1,status2,dateSt2,DATEST1,usercde1,usercde2,usercde3,DEVNCODE,TEMPCLT,TEMPIND,achind,FEECODE,DATEEXP2,DATEFEE,dateRtl,datecsh,dateTmpf,dateTmpt,availclt,IDNO,REVIND,ACCTIND,LCYCBLNC,LMONBLNC,LBEHSCOR,LBSCORID,BS6M,BSID6M,BS12M,BSID12M,monbLnc,dcnt1,DCNT2,DCNT3,DCNT4,DCNT5,DCNT6,DCNT7,DCNT8,creatdte,xfer_eff,pinregen,inc_ind,eb_oinc,oinc_ind,cre_scor,rev_scor,score_id,tte,mue,avaline,member_since_date,address_chg_dte,ciRate,riRate,cashAccrIntr,rtlAccrIntr,cshIntr,rtlIntr,BAR,dueDateGrp,rageReq1,reageDate1,REAGEREQ2,REAGEDATE2,ALOP_AMNT,EPP_AMNT,alopCrLimit,ALOP_OLD_CRLIMIT,ALOP_TOTLIMIT,ALOP_SP_LMT_PER,EMV_TAG,EMV_CARD_USE_IND,CURR_LSCODE,CURR_LSCODE_EFF_DTE,PEND_LSCODE,PREV_LSCODE,JCIC_ICNO,JCIC_SI,Fin_chrg,mdue,totAmtDue,z_type,CNR,CBR,cardNmbr"  -->
+					</bean>
+				</property>
+				<property name="fieldSetMapper">
+						<bean class="com.citi.retail.optima.etl.batch.job.mapper.HkMtgPrernbwFieldSetMapper">
+							<property name="dateFormat" ref="dateFormat_yyyy-MM-dd"/>
+						</bean>
+				</property>
+			</bean>
+		</property>
+	</bean>
+	
+	<bean id="hkprehkrainbowDataProcessor"
+		class="org.springframework.batch.item.support.CompositeItemProcessor"
+		scope="step">
+		<property name="delegates">
+			<util:list>
+				<ref bean="hkpreRainbowEnrichmentProcessor" />
+				<ref bean="hkpreRainbowAggregationProcessor" />
+			</util:list>
+		</property>
+	</bean>
+	
+	<bean id="hkpreRainbowEnrichmentProcessor"
+		class="com.citi.retail.optima.etl.batch.job.processor.EnrichmentProcessor"
+		scope="step" p:enrichmentServiceBean-ref="hkpreRainbowEnrichmentService"
+		p:timeTracker-ref="timeTracker">
+		<property name="batchInstanceId" value="#{jobParameters[batchInstanceId]}" />
+			<property name="eTLQueryExecutor" ref="queryExecutor" />	
+		<property name="jobName" value="#{jobParameters[JOB_NAME]}"/>
+		<property name="fileName" value="#{stepExecutionContext[fileName]}"/>
+		<property name="auditFileId" value="#{jobParameters[AUDITFILEID]}"/>
+		<property name="auditFiles" value="#{jobParameters[AUDITFILES]}"/>
+		<property name="jobMessageDao" ref="jobMessageDao"/>		
+		<property name="ctlFileDt" value="#{jobParameters[CTLFILECREATIONDT]}"/>
+		<property name="jobConfigDao" ref="jobConfigDao" />
+	
+	</bean>
+	
+	<bean id="hkpreRainbowEnrichmentService"
+		class="com.citi.retail.optima.etl.enrichment.impl.EnrichmentServiceImpl"
+		p:evalContext-ref="customEvaluationContext"
+		p:enrichmentRules-ref="enrichmentRulesHolder"
+		p:keyList="#{#getConcatenatedKeys(jobParameters[sys_proc_id], 'hkpreRainbowDataProcStep', null)}"
+		scope="step"
+	/>
+	
+	<bean name="hkpreRainbowAggregationProcessor"
+		class="com.citi.retail.optima.etl.batch.job.processor.AggregationProcessor"
+		init-method="init" scope="step">
+		<property name="aggregationServiceFactory" ref="aggregationServiceFactory" />
+		<property name="batchInstanceId" value="#{jobParameters[batchInstanceId]}" />
+		<property name="monthEndDate" value="#{jobParameters[reportDate]}" />
+		<property name="keyList"
+			value="#{#getConcatenatedKeys(jobParameters[sys_proc_id], 'hkpreRainbowDataProcStep',null)}" />
+		<property name="stepName" value="hkpreRainbowDataProcStep" />
+		<property name="accountTraceabilityRequired" value="false" />
+		<property name="timeTracker" ref="timeTracker" />
+		<property name="sysProcId" value="#{jobParameters[sys_proc_id]}" />
+	</bean>
+	
+	<bean id="hkpreRainbowCvsFileItemWriter" class="com.citi.retail.optima.etl.batch.job.writer.MtgConditionalCompositeItemWriter" scope="step">
+		<!-- <property name="excludeItemDelegate" ref="excludeRecFileWriter"/> -->
+		<property name="delegates">
+			<util:list>
+				<ref bean="mtgarrangementIpWriter"/> 
+				<ref bean="mtgarrangementRatingWriter"/>
+				<ref bean="mtgcommonBalanceWriter"/>
+				<ref bean="mtgindicativeFileWriter"/>
+			</util:list>
+		</property>
+	</bean>
+	
+<!-- 	<bean id="preRainbowRecord" class="com.citi.retail.optima.etl.common.model.PreRainbowRecord" scope="prototype"/> -->
+	
+	
+	<!-- *********************************************** Pre Rainbow Step Configuration=END ***************************************************** -->
+	<!-- *********************************************** Rainbow Aggregation Step Configuration=START ***************************************************** -->
+	
+	<bean name="hkpreRainbowproccrAggregationResultsTasklet" class="com.citi.retail.optima.etl.batch.tasklet.FooterSummaryAggregationResultTasklet"
+		scope="step">
+		<property name="aggregationServiceFactory" ref="aggregationServiceFactory" />
+		<property name="batchInstanceId" value="#{jobParameters[batchInstanceId]}" />
+		<property name="stepName" value="hkpreRainbowDataProcStep" />
+		<property name="sysProcId" value="#{jobParameters[sys_proc_id]}" />
+		<property name="footerAggrRuleId" value="106" />
+		<property name="footerItemList" ref="mtgFooterItemList" />
+		<property name="aggrFooterWriter" ref="hkmtgaggrFooterWriter"/>
+		<property name="jobConfigDao" ref="jobConfigDao" />
+	</bean>
+	
+	<bean id="hkmtgaggrFooterWriter" class="org.springframework.batch.item.file.FlatFileItemWriter">
+	
+ 		<property name="lineAggregator">
+	  	<bean class="org.springframework.batch.item.file.transform.FormatterLineAggregator" >
+	  		<property name="fieldExtractor">
+	  		<bean class="org.springframework.batch.item.file.transform.BeanWrapperFieldExtractor">
+	  			<property name="names" value="writeCount,hashFileType,aggregatedHashValue"/>
+	  		</bean>
+	  		</property>
+	  	<property name="format" value="TRL%09d%-10s%018d"></property>
+	  </bean>
+		</property>
+  </bean>  
+	
+	<util:list id="hkMtgFooterItemList" scope="step" list-class="java.util.ArrayList">
+			<bean class="com.citi.retail.optima.etl.common.model.RainbowFileFooter" p:hashFileType="FINSERVTYP" p:hashField="eFinServiceTypId" 
+			p:outputFileResourceName="GN_SR67841_#{jobParameters[productCode]}_#{jobParameters[region]}_#{jobParameters[countryCode]}_RSK_#{jobParameters[dateOfInfo]}_HIST_#{jobParameters[currentDate]}_IND_#{jobParameters[versionId]}."/>
+			<bean class="com.citi.retail.optima.etl.common.model.RainbowFileFooter" p:hashFileType="PCT" p:hashField="ePctAmt" 
+			p:outputFileResourceName="GN_SR67841_#{jobParameters[productCode]}_#{jobParameters[region]}_#{jobParameters[countryCode]}_RSK_#{jobParameters[dateOfInfo]}_HIST_#{jobParameters[currentDate]}_AIP_#{jobParameters[versionId]}."/>
+			<bean class="com.citi.retail.optima.etl.common.model.RainbowFileFooter" p:hashFileType="RNK" p:hashField="eRank" 
+			p:outputFileResourceName="GN_SR67841_#{jobParameters[productCode]}_#{jobParameters[region]}_#{jobParameters[countryCode]}_RSK_#{jobParameters[dateOfInfo]}_HIST_#{jobParameters[currentDate]}_ARG_#{jobParameters[versionId]}."/>
+			<bean class="com.citi.retail.optima.etl.common.model.RainbowFileFooter" p:hashFileType="BAL_TYP" p:hashField="eBalType" 
+			p:outputFileResourceName="GN_SR67841_#{jobParameters[productCode]}_#{jobParameters[region]}_#{jobParameters[countryCode]}_RSK_#{jobParameters[dateOfInfo]}_HIST_#{jobParameters[currentDate]}_CB_#{jobParameters[versionId]}."/>
+	</util:list>
+
+	<!-- *********************************************** Rainbow Aggregation Step Configuration=END ***************************************************** -->
+	
+	<!-- *********************************************** Preprocessor tasklet Start *****************************************************-->
+      <bean name="registerPreprocessLoader"
+		class="com.citi.retail.optima.etl.batch.tasklet.PreprocessRegister"
+		scope="step" init-method="init">
+		<property name="preprocessDataService" ref="preprocessDataServiceFact" />
+		<property name="providerList">
+			<util:list>
+				<ref bean="preprocessHkMtgWODataProvider" />
+				<ref bean="preprocessHkMtgFIPDataProvider" />
+				<ref bean="preprocessHkMtgRWDataProvider" />
+				<ref bean="preprocessHkMtgRECVDataProvider" />
+			</util:list>
+		</property>
+		<property name="keyList">
+			<util:list>
+				<value>hkMtgwoDataProcessStep</value>
+				<value>hkMtgFipDataProcessStep</value>
+				<value>hkMtgRwDataProcessStep</value>
+				<value>hkMtgRecvDataProcessStep</value>
+			</util:list>
+		</property>
+	</bean>
+	<!-- *********************************************** Preprocessor tasklet End *****************************************************-->
+	
+	<bean name="hkMtgfileMergeTasklet" class="com.citi.retail.optima.etl.batch.tasklet.FileMergeTasklet"
+		scope="step">
+		<property name="footerItemList" ref="mtgFooterItemList" />
+		<property name="header" value="HDR#{jobParameters[currentDate]}#{jobParameters[dateOfInfo]}" />
+		<property name="format" value="%3s%09d%-10s%018d" />
+		<property name="outputDirectory" value="#{#getOutputFilePath(jobParameters[COUNTRYPRODUCT])}" />
+				<property name="auditFileId" value="#{jobParameters[AUDITFILEID]}"/>
+<!-- 		<property name="auditFiles" value="#{jobParameters[AUDITFILES]}"/> -->
+		<property name="rainbowFileName" value="#{jobParameters[hksi009_raw]}"/>
+		<property name="queryExec" ref="queryExecutor"/>
+		<property name="inputFileCount" value="#{jobParameters[DA_INPUT_COUNT]}"/>
+		<property name="jobMessageDao" ref="jobMessageDao"/>
+			<property name="inputDirectory" value="#{#getInputFilePath(jobParameters[COUNTRYPRODUCT])}" />
+			<property name="archiveDirectory" value="#{#getArchiveFilePath(jobParameters[COUNTRYPRODUCT])}" />
+			<property name="batchInstanceId" value="#{jobParameters[batchInstanceId]}" />
+			<property name="jobConfigDao" ref="jobConfigDao" />
+	</bean>
+	
+	<bean id="hkMtgMasterWoCsvReader"
+		class="com.citi.retail.optima.etl.batch.job.reader.MapItemReader"
+		scope="step">
+		<property name="dataService" ref="hkMtgDataService" />
+		<property name="preProcessMapName" value="hkMtgwoDataProcessStep" />
+	</bean>
+	
+	<bean id="hkMtgMasterRecvCsvReader"
+		class="com.citi.retail.optima.etl.batch.job.reader.MapItemReader"
+		scope="step">
+		<property name="dataService" ref="hkMtgDataService" />
+		<property name="preProcessMapName" value="hkMtgRecvDataProcessStep" />
+	</bean>
+	
+	<bean id="hkMtgPreWoMainProcessor"
+		class="org.springframework.batch.item.support.CompositeItemProcessor"
+		scope="step">
+		<property name="delegates">
+			<util:list>
+				<ref bean="hkpreRainbowWoEnrichmentProcessor" />
+				<ref bean="hkpreRainbowAggregationProcessor" />
+			</util:list>
+		</property>
+	</bean>
+	
+	<bean id="hkpreRainbowWoEnrichmentProcessor"
+		class="com.citi.retail.optima.etl.batch.job.processor.EnrichmentProcessor"
+		scope="step" p:enrichmentServiceBean-ref="hkpreRainbowWoEnrichmentService"
+		p:timeTracker-ref="timeTracker">
+		<property name="eTLQueryExecutor" ref="queryExecutor" />
+		<property name="batchInstanceId" value="#{jobParameters[batchInstanceId]}" />
+		<property name="jobName" value="#{jobParameters[JOB_NAME]}"/>
+		<property name="fileName" value="#{jobParameters[WO]}"/>
+		<property name="auditFileId" value="#{jobParameters[AUDITFILEID]}"/>
+		<property name="auditFiles" value="#{jobParameters[AUDITFILES]}"/>
+		<property name="jobMessageDao" ref="jobMessageDao"/>		
+		<property name="ctlFileDt" value="#{jobParameters[CTLFILECREATIONDT]}"/>
+		<property name="jobConfigDao" ref="jobConfigDao" />
+
+	</bean>
+	
+	<bean id="hkpreRainbowWoEnrichmentService"
+		class="com.citi.retail.optima.etl.enrichment.impl.EnrichmentServiceImpl"
+		p:evalContext-ref="customEvaluationContext"
+		p:enrichmentRules-ref="enrichmentRulesHolder"
+		p:keyList="#{#getConcatenatedKeys(jobParameters[sys_proc_id], 'hkMtgPreWoMainDataProcStep', null)}"
+		scope="step"
+	/>
+	
+	<bean id="hkMtgPostWoMainProcessor"
+		class="org.springframework.batch.item.support.CompositeItemProcessor"
+		scope="step">
+		<property name="delegates">
+			<util:list>
+				<ref bean="hkPostRainbowWoEnrichmentProcessor" />
+				<ref bean="hkrainbowAggregationProcessor" />
+			</util:list>
+		</property>
+	</bean>
+	
+	<bean id="hkPostRainbowWoEnrichmentProcessor"
+		class="com.citi.retail.optima.etl.batch.job.processor.EnrichmentProcessor"
+		scope="step" p:enrichmentServiceBean-ref="hkPostRainbowWoEnrichmentService"
+		p:timeTracker-ref="timeTracker">
+		<property name="eTLQueryExecutor" ref="queryExecutor" />
+		<property name="batchInstanceId" value="#{jobParameters[batchInstanceId]}" />
+		<property name="jobName" value="#{jobParameters[JOB_NAME]}"/>
+		<property name="fileName" value="#{jobParameters[WO]}"/>
+		<property name="auditFileId" value="#{jobParameters[AUDITFILEID]}"/>
+		<property name="auditFiles" value="#{jobParameters[AUDITFILES]}"/>
+		<property name="jobMessageDao" ref="jobMessageDao"/>		
+		<property name="ctlFileDt" value="#{jobParameters[CTLFILECREATIONDT]}"/>
+		<property name="jobConfigDao" ref="jobConfigDao" />
+
+	</bean>
+	
+	<bean id="hkPostRainbowWoEnrichmentService"
+		class="com.citi.retail.optima.etl.enrichment.impl.EnrichmentServiceImpl"
+		p:evalContext-ref="customEvaluationContext"
+		p:enrichmentRules-ref="enrichmentRulesHolder"
+		p:keyList="#{#getConcatenatedKeys(jobParameters[sys_proc_id], 'hkMtgPostWoMainDataProcStep', null)}"
+		scope="step"
+	/>
+	<bean id="hkMtgPreRecvMainProcessor"
+		class="org.springframework.batch.item.support.CompositeItemProcessor"
+		scope="step">
+		<property name="delegates">
+			<util:list>
+				<ref bean="hkPreRainbowRecvEnrichmentProcessor" />
+				<ref bean="hkpreRainbowAggregationProcessor" />
+			</util:list>
+		</property>
+	</bean>
+	
+	<bean id="hkPreRainbowRecvEnrichmentProcessor"
+		class="com.citi.retail.optima.etl.batch.job.processor.EnrichmentProcessor"
+		scope="step" p:enrichmentServiceBean-ref="hkPreRainbowRecvEnrichmentService"
+		p:timeTracker-ref="timeTracker">
+		<property name="eTLQueryExecutor" ref="queryExecutor" />
+		<property name="batchInstanceId" value="#{jobParameters[batchInstanceId]}" />
+		<property name="jobName" value="#{jobParameters[JOB_NAME]}"/>
+		<property name="fileName" value="#{jobParameters[REC]}"/>
+		<property name="auditFileId" value="#{jobParameters[AUDITFILEID]}"/>
+		<property name="auditFiles" value="#{jobParameters[AUDITFILES]}"/>
+		<property name="jobMessageDao" ref="jobMessageDao"/>		
+		<property name="ctlFileDt" value="#{jobParameters[CTLFILECREATIONDT]}"/>
+		<property name="jobConfigDao" ref="jobConfigDao" />
+	
+	</bean>
+	
+	<bean id="hkPreRainbowRecvEnrichmentService"
+		class="com.citi.retail.optima.etl.enrichment.impl.EnrichmentServiceImpl"
+		p:evalContext-ref="customEvaluationContext"
+		p:enrichmentRules-ref="enrichmentRulesHolder"
+		p:keyList="#{#getConcatenatedKeys(jobParameters[sys_proc_id], 'hkMtgPreRecvMainDataProcStep', null)}"
+		scope="step"
+	/> 
+	
+	<bean id="hkMtgPostRecvMainProcessor"
+		class="org.springframework.batch.item.support.CompositeItemProcessor"
+		scope="step">
+		<property name="delegates">
+			<util:list>
+				<ref bean="hkPostRainbowRecvEnrichmentProcessor" />
+				<ref bean="hkrainbowAggregationProcessor" />
+			</util:list>
+		</property>
+	</bean>
+	
+	<bean id="hkPostRainbowRecvEnrichmentProcessor"
+		class="com.citi.retail.optima.etl.batch.job.processor.EnrichmentProcessor"
+		scope="step" p:enrichmentServiceBean-ref="hkPostRainbowRecvEnrichmentService"
+		p:timeTracker-ref="timeTracker">
+		<property name="eTLQueryExecutor" ref="queryExecutor" />
+		<property name="batchInstanceId" value="#{jobParameters[batchInstanceId]}" />
+		<property name="jobName" value="#{jobParameters[JOB_NAME]}"/>
+		<property name="fileName" value="#{jobParameters[REC]}"/>
+		<property name="auditFileId" value="#{jobParameters[AUDITFILEID]}"/>
+		<property name="auditFiles" value="#{jobParameters[AUDITFILES]}"/>
+		<property name="jobMessageDao" ref="jobMessageDao"/>		
+		<property name="ctlFileDt" value="#{jobParameters[CTLFILECREATIONDT]}"/>
+		<property name="jobConfigDao" ref="jobConfigDao" />
+
+	</bean>
+	
+	<bean id="hkPostRainbowRecvEnrichmentService"
+		class="com.citi.retail.optima.etl.enrichment.impl.EnrichmentServiceImpl"
+		p:evalContext-ref="customEvaluationContext"
+		p:enrichmentRules-ref="enrichmentRulesHolder"
+		p:keyList="#{#getConcatenatedKeys(jobParameters[sys_proc_id], 'hkMtgPostRecvMainDataProcStep', null)}"
+		scope="step"
+	/> 
+	
+	<!-- DataAcqWoListener -->
+	
+	<bean id="hkMtgWoListener"
+		class="com.citi.optima.retail.batch.listeners.DataAcqHkMtgListener" scope="step">		
+		<property name="dataService" ref="hkMtgDataService" />
+		<property name="preProcessMapName" value="hkMtgwoDataProcessStep" />		
+	</bean>
+	
+	<bean id="hkMtgRecvListener"
+		class="com.citi.optima.retail.batch.listeners.DataAcqHkMtgListener" scope="step">		
+		<property name="dataService" ref="hkMtgDataService" />
+		<property name="preProcessMapName" value="hkMtgRecvDataProcessStep" />		
+	</bean>
+	
+	<bean id="hkMtgWoForRecvListener"
+		class="com.citi.optima.retail.batch.listeners.DataAcqHkWoListener" scope="step">		
+		<property name="dataService" ref="hkMtgDataService" />
+		<property name="preProcessMapName" value="hkMtgwoDataProcessStep" />		
+	</bean>
+	
+	<!-- ************************** Writers for HK MTG WO & RECV **************************** -->
+	
+	<bean id="mtgWoRecvIndicativeFileWriter" class="org.springframework.batch.item.file.FlatFileItemWriter"
+		scope="step">
+		<property name="resource"
+			value="file:#{#getOutputFilePath(jobParameters[COUNTRYPRODUCT])}GN_SR67841_#{jobParameters[productCodeUpper]}_#{jobParameters[region]}_#{jobParameters[countryCodeUpper]}_RSK_#{jobParameters[dateOfInfo]}_HIST_#{jobParameters[currentDate]}_IND_#{jobParameters[versionId]}.dat_" />
+
+<!-- 		<property name="headerCallback" ref="mtgindicativeHeaderWriter" /> -->
+		<property name="appendAllowed" value="true"/> 
+		<property name="lineAggregator">
+			<bean
+				class="org.springframework.batch.item.file.transform.DelimitedLineAggregator">
+				<property name="delimiter" value="|" />
+				<property name="fieldExtractor">
+					<bean
+						class="com.citi.retail.optima.etl.batch.job.writer.fieldextractor.RRASCustomFieldExtractor">
+						<property name="names"
+							value="eUniqueId,eSrcSysId,eProdSysId,eRecType,eAsOfDt,eGlbProdId,eLocalProductId,localSubProductId,entStandProductId,arrngName,eDescription,eBookingDate,eOriginalEffDate,eEffDate,eEstmEndDate,eEndDate,eDenoCurrId,eOrigChannelId,eArrngPurpTypeId,eArrngBusIntType,eArrngBussIntDate,ePledgInd,ePledgEligInd,eArrngMatuTypeId,eArrngFinStatTypId,eArrngFinStatDate,eArrngPastDueDayCount,eGracePerDayCnt,eArrngPastDueAgeClass,eArrngPastDueAgeClassDate,arrngFinStatusRsnTypId,eArrngLifeCycleStatusId,eArrngLifeCycleStatusReasonTypeId,eArrngLifeCycleStatusDate,arrngNxtRenewalDate,arrngPriPayTypId,eArrngAcqTypId,eArrngAcqDt,arrngDisTypId,arrngDisTypDate,eChrgOffTypeId,oriInvInsCatId,oriInvInsActFlag,oriInvInsPer,eArrngDayCntConvTypId,eIntPayFrePerId,eRateResetPerIntId,inIntRateResetDate,eNxtIntrRateResetDate,prevLstIntRateResetDate,taxExemInd,onBnkRelnInd,eFinServiceTypId,eFinServiceLimitTypId,eOrgAmount,eArrngSecTypId,citiRecInd,payFrePerId,eIntrstAccrualStatTypId,eIntrstAccrualStatTypDt,intOnlyTermPeriod,finSerResCurStId,finSerResCurStDate,finSerPrevResStId,finSerPrevResStDate,trbDebtResFlag,mktRateYieldReneFlag,skipPayInd,eSecInd,trppTenor,acctTrppInsAmt,locAutExtFlag,locTermLoanCovFlag,inDocTypId,finserModProgStDate,finserModProgEndDate,finSerResModRsnTypId,finSerModProgId,finSerModProgCurrSts,finSerModProgCurrStsDate,finSerModProgPrevStsTypId,modRetenLossMitTypId,eCreditFacTypId,eFacLegStatTypId,FacilLegalStsDate,eCreFacArrngAppTypId,creFacArrngAppTypDate,creFacRegSegTypId,creFacAvastaTypId,lstCreLmtChngDate,creLimitChnTypId,eArrngNextPymtDueToBankAmt,eArrngNextPymtDueToBankDate,eArrngLastPymtToBankDate,acctLastPaymtToBnkAcct,eMissedPymtNumb,acctLstRecDate,acctLstInsDate,totPay,acctLstIntRevDate,PenRate,PenAmt,legNotDays,eBaselPortfolioId,othAltIdent,eLocalProdCategoryCode,eDelq30DayPast2YrsFlag,linePosTypId,eActualBillingCycleDate,feePayFreqPerId,notPerDays,eCurrAmtType,feeWavFlag,borDate,socEcoCatId,acctFirstAdvAmt,acctFirstAdvDate,acctFirstPayDate,acctLastAdvAmt,acctLastAdvDate,acqCost,eObligorRecourseInd,docTypId,mtgModSigDate,mtgOriProgTypCode,mtgCreRiskCatIntId,eBalloonInd,helocTerm,lmPlanCdId,escAcctMaintInd,mtgOriProgGroupId,comboLoanInd,sopAcctInd,negAmortFlag,intCalPerId,preComLoanFlag,amortAccInd,eNumSchePaymt,eNumRemPaymt,linePosTypEffDate,delqMethCode,accFirstPayAmt,eRestructureFlag,eRegOEmpFlag,probOfDefault,eCrdtLimitEffctDate,eCrdtLimitEndtDate,creditLmtEventInvTypId,creditLmtEventAmt,eCcarProdCode,banktrupcyDate,promoIntRtaeEliFlag,eOrgAdvisedCommitedLimit,orgAdvisedUnCommitedLimit,orgUnAdvisedCommitedLimit,pmacPortId,eOrgAcctNumbr,lstWriteDwnDate,currNegAmmFlag,prinDeffOptFlag,prinDeffOptEndDtae,intDeffOptFlag,intDeffOptEndDtae,intOnlyOptEndDtae,eOrgCombLtvRatio,eOrgLtvRatio,totOriJunLienAmt,eEverWrittenOffFlag,reoStsTypId,eNonTradeResidMtgFlag,mobLocal,riskMngInd,DaysPastDueCyclEnd,eDelinquencyBucket,cycleEndDelqBucket,reservedForFutureGenesisUse1,reservedForFutureGenesisUse2,reservedForFutureGenesisUse3,reservedForFutureGenesisUse4,reservedForFutureGenesisUse5,reservedForFutureGenesisUse6,reservedForFutureGenesisUse7,reservedForFutureGenesisUse8,reservedForFutureGenesisUse9,reservedForFutureGenesisUse10" />
+						<property name="formatMap">
+							<map key-type="java.lang.String" value-type="java.lang.String">
+								<entry key="eAsOfDt" value="yyyyMMdd" />
+								<entry key="eBookingDate" value="yyyyMMdd" />
+								<entry key="eOriginalEffDate" value="yyyyMMdd" />
+								<entry key="eEffDate" value="yyyyMMdd" />
+								<entry key="eEstmEndDate" value="yyyyMMdd" />
+								<entry key="eEndDate" value="yyyyMMdd" />								
+								<entry key="eArrngFinStatDate" value="yyyyMMdd" />
+								<entry key="eArrngPastDueAgeClassDate" value="yyyyMMdd" />									
+								<entry key="eArrngBussIntDate" value="yyyyMMdd" />
+								<entry key="eArrngLifeCycleStatusDate" value="yyyyMMdd" />
+								<entry key="eArrngAcqDt" value="yyyyMMdd" />
+								<entry key="eEndDate" value="yyyyMMdd" />
+								<entry key="eArrngLastPymtToBankDate" value="yyyyMMdd" />
+								<entry key="eArrngNextPymtDueToBankDate" value="yyyyMMdd" />
+								<entry key="eBookingDate" value="yyyyMMdd" />
+								<entry key="eArrngAcqDt" value="yyyyMMdd" />
+								<entry key="eIntrstAccrualStatTypDt" value="yyyyMMdd" />
+								<entry key="eCrdtLimitEffctDate" value="yyyyMMdd" />
+								<entry key="eCrdtLimitEndtDate" value="yyyyMMdd" />
+								<entry key="eActualBillingCycleDate" value="yyyyMMdd" />
+								<entry key="arrngNxtRenewalDate" value="yyyyMMdd" />
+								<entry key="arrngDisTypDate" value="yyyyMMdd" />
+								<entry key="inIntRateResetDate" value="yyyyMMdd" />
+								<entry key="eNxtIntrRateResetDate" value="yyyyMMdd" />
+								<entry key="prevLstIntRateResetDate" value="yyyyMMdd" />
+								<entry key="finSerResCurStDate" value="yyyyMMdd" />
+								<entry key="finSerPrevResStDate" value="yyyyMMdd" />
+								<entry key="finserModProgStDate" value="yyyyMMdd" />
+								<entry key="finserModProgEndDate" value="yyyyMMdd" />
+								<entry key="acctLstRecDate" value="yyyyMMdd" />
+								<entry key="lstCreLmtChngDate" value="yyyyMMdd" />
+								<entry key="FacilLegalStsDate" value="yyyyMMdd" />
+								<entry key="finSerModProgCurrStsDate" value="yyyyMMdd" />
+								<entry key="creFacArrngAppTypDate" value="yyyyMMdd" />
+								
+								<entry key="acctLstInsDate" value="yyyyMMdd" />
+								<entry key="borDate" value="yyyyMMdd" />
+								<entry key="acctFirstAdvDate" value="yyyyMMdd" />
+								<entry key="acctFirstPayDate" value="yyyyMMdd" />
+								<entry key="acctLastAdvDate" value="yyyyMMdd" />
+								<entry key="mtgModSigDate" value="yyyyMMdd" />
+								<entry key="banktrupcyDate" value="yyyyMMdd" />
+								<entry key="lstWriteDwnDate" value="yyyyMMdd" />
+								<entry key="prinDeffOptEndDtae" value="yyyyMMdd" />
+								<entry key="intDeffOptEndDtae" value="yyyyMMdd" />
+								<entry key="acctLstIntRevDate" value="yyyyMMdd" />
+								
+								<entry key="linePosTypEffDate" value="yyyyMMdd" />
+								
+							</map>
+						</property>
+					</bean>
+				</property>
+			</bean>
+		</property>
+	</bean>
+	
+	<bean id="mtgWoRecvCommonBalanceWriter" class="com.citi.retail.optima.etl.batch.job.writer.MultiLineFlatFileItemWriter" scope="step">
+    <property name="attrName" value="eCommonBalMtgTRLRecords"/>
+	
+		<property name="resource"
+			value="file:#{#getOutputFilePath(jobParameters[COUNTRYPRODUCT])}GN_SR67841_#{jobParameters[productCodeUpper]}_#{jobParameters[region]}_#{jobParameters[countryCodeUpper]}_RSK_#{jobParameters[dateOfInfo]}_HIST_#{jobParameters[currentDate]}_CB_#{jobParameters[versionId]}.dat_" />
+<!-- 		<property name="headerCallback" ref="mtgcommonBalanceHeaderFileWriter" /> -->
+		<property name="appendAllowed" value="true"/> 
+		<property name="lineAggregator">
+			<bean
+				class="org.springframework.batch.item.file.transform.DelimitedLineAggregator">
+				<property name="delimiter" value="|" />
+				<property name="fieldExtractor">
+					<bean
+						class="com.citi.retail.optima.etl.batch.job.writer.fieldextractor.RRASCustomFieldExtractor">
+						<property name="names"
+							value="eUniqueId,eSrcSysId,eRecType,eLegNumber,eProdSysId,eAsOfDt,eGlSysId,eDealId,eBookingLedgrCntryCode,eBalType,eGLAccount1,eGlAccount2,eFdlAccount,eTranCurr,eFuncCurr,eBaseCurrCode,eTxnAmt,eFuncAmt,eBaseAmt,eGoc,eBookingLedgrBrCode,eFrsBuCode,eNotForUse,eLclDeptId,eLclLglVehicleCde,eNotForUse,eFairValAcctMthFlg,eFairValLvl,eExpCode,eLocalProdCode,eFrsAffCode,eNotForUse,eSubStatCode,eNotForUse,eNotForUse,eNotForUse,eGAAPInd,eMicroCntrlCode,eFirmAccountImsNmbr,eBaseNmbr,eIdProd,eKeyCode1,eKeyCode2,eLclLdgrAcctNmbr,eAdjInd,eUserId,eAdjResnCode,eCmnReasonDesc,eLocalGlKey3,eLocalGlKey4,eAdjStndardArrngId,eAdjFinMarketPositionId,reservedForFutureGenesisUse1,reservedForFutureGenesisUse2,reservedForFutureGenesisUse3,reservedForFutureGenesisUse4,reservedForFutureGenesisUse5" />				
+						<property name="formatMap">
+							<map key-type="java.lang.String" value-type="java.lang.String">
+								<entry key="eEffDate" value="yyyyMMdd" />
+								<entry key="eEndDate" value="yyyyMMdd" />
+								<entry key="eAsOfDt" value="yyyyMMdd" />
+							</map>
+						</property>				
+				</bean>		
+			</property>	
+	</bean>
+	</property>
+	</bean>
+	
+	<bean id="mtgWoRecvArrangementRatingWriter" class="org.springframework.batch.item.file.FlatFileItemWriter"
+		scope="step">
+		<property name="resource"
+			value="file:#{#getOutputFilePath(jobParameters[COUNTRYPRODUCT])}GN_SR67841_#{jobParameters[productCodeUpper]}_#{jobParameters[region]}_#{jobParameters[countryCodeUpper]}_RSK_#{jobParameters[dateOfInfo]}_HIST_#{jobParameters[currentDate]}_ARG_#{jobParameters[versionId]}.dat_" />
+<!-- 		<property name="headerCallback" ref="mtgargRatingHeaderFileWriter" /> -->
+		<property name="appendAllowed" value="true"/>
+		<property name="lineAggregator">
+			<bean
+				class="org.springframework.batch.item.file.transform.DelimitedLineAggregator">
+				<property name="delimiter" value="|" />
+				<property name="fieldExtractor">
+					<bean
+						class="com.citi.retail.optima.etl.batch.job.writer.fieldextractor.RRASCustomFieldExtractor">
+						<property name="names"
+							value="eUniqueId,eSrcSysId,eProdSysId,eRecType,eAsOfDt,eRatingIssId,eModelCd,eRatingEvnRsnTypId,eARGRank,eARGEffDate,eARGEndDate,eRatingTypCd,eRatingCd,eFicoEquvRatingCode,ratingDesc,eScoreReqReturnFlag,reservedForFutureGenesisUse1,reservedForFutureGenesisUse2,reservedForFutureGenesisUse3,reservedForFutureGenesisUse4,reservedForFutureGenesisUse5,reservedForFutureGenesisUse6,reservedForFutureGenesisUse7,reservedForFutureGenesisUse8,reservedForFutureGenesisUse9" />
+						<property name="formatMap">
+							<map key-type="java.lang.String" value-type="java.lang.String">
+								<entry key="eAsOfDt" value="yyyyMMdd" />
+								<entry key="eARGEffDate" value="yyyyMMdd" />
+								<entry key="eARGEndDate" value="yyyyMMdd" />
+							
+							</map>
+						</property>
+					</bean>
+				</property>
+			</bean>
+		</property>
+	</bean>
+	
+	<bean id="mtgWoRecvArrangementIpWriter" class="org.springframework.batch.item.file.FlatFileItemWriter"
+		scope="step">
+		<property name="resource"
+			value="file:#{#getOutputFilePath(jobParameters[COUNTRYPRODUCT])}GN_SR67841_#{jobParameters[productCodeUpper]}_#{jobParameters[region]}_#{jobParameters[countryCodeUpper]}_RSK_#{jobParameters[dateOfInfo]}_HIST_#{jobParameters[currentDate]}_AIP_#{jobParameters[versionId]}.dat_" />
+<!-- 		<property name="headerCallback" ref="mtgarrangementIpHeaderWriter" /> -->
+		<property name="appendAllowed" value="true"/>
+		<property name="lineAggregator">
+			<bean
+				class="org.springframework.batch.item.file.transform.DelimitedLineAggregator">
+				<property name="delimiter" value="|" />
+				<property name="fieldExtractor">
+					<bean
+						class="com.citi.retail.optima.etl.batch.job.writer.fieldextractor.RRASCustomFieldExtractor">
+						<property name="names"
+							value="eUniqueId,eSrcSysId,eProdSysId,eRecType,eAsOfDt,eUniqueIdSrcSysInvlParty,eArrngPtyRolType,ePctAmt,eAIPEffDate,eAIPEndDate,eInvPtySubtypeId,checkDigit,invPtyLocRltnpTypId,ePropCity,ePropState,ePropZipCode,ePropCountry,ePropCity,ePropState,ePropZipCode,ePropCountry,reservedForFutureGenesisUse1,reservedForFutureGenesisUse2,reservedForFutureGenesisUse3,reservedForFutureGenesisUse4,reservedForFutureGenesisUse5,reservedForFutureGenesisUse6,reservedForFutureGenesisUse7,reservedForFutureGenesisUse8,reservedForFutureGenesisUse9" />
+						<property name="formatMap">
+							<map key-type="java.lang.String" value-type="java.lang.String">
+							<entry key="eAsOfDt" value="yyyyMMdd" />
+								<entry key="eAIPEffDate" value="yyyyMMdd" />
+								<entry key="eAIPEndDate" value="yyyyMMdd" />
+							</map>
+						</property>
+					</bean>
+				</property>
+			</bean>
+		</property>
+	</bean>
+	
+	<bean id="hkMtgRecvWriter" class="com.citi.retail.optima.etl.batch.job.writer.HkMtgWoRecvConditionalItemWriter" scope="step">
+				<property name="delegates">
+			<util:list>
+				<ref bean="mtgWoRecvIndicativeFileWriter"/> 
+				<ref bean="mtgWoRecvCommonBalanceWriter"/>
+				<ref bean="mtgWoRecvArrangementRatingWriter"/>
+				<ref bean="mtgWoRecvArrangementIpWriter"/>
+			</util:list>
+		</property>
+	</bean>
+	
+	<bean id="hkMtgWoWriter" class="com.citi.retail.optima.etl.batch.job.writer.HkMtgWriteOffConditionalItemWriter" scope="step">
+				<property name="delegates">
+			<util:list>
+				<ref bean="mtgWoRecvIndicativeFileWriter"/> 
+				<ref bean="mtgWoRecvCommonBalanceWriter"/>
+				<ref bean="mtgWoRecvArrangementRatingWriter"/>
+				<ref bean="mtgWoRecvArrangementIpWriter"/>
+			</util:list>
+		</property>
+	</bean>
+	
+</beans>

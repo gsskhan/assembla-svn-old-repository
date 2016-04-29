@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<beans	xmlns="http://www.springframework.org/schema/beans"
+		xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+		xmlns:p="http://www.springframework.org/schema/p"
+		xsi:schemaLocation="
+				http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.2.xsd">
+	
+	<bean	id="abstractDao"
+			abstract="true"
+			p:jdbcTemplate-ref="jdbcTemplate"
+	/>
+				
+	<bean	id="jobMessageDao"
+			parent="abstractDao"
+			class="com.citi.retail.optima.etl.controller.dao.impl.JobMessageDaoImpl">
+	<property name="mailNotifier" ref="mailNotifier"/>
+	<property name="jobConfigDao" ref="jobConfigDao" />
+	</bean>
+	
+	<bean	id="controllerJobInstanceDao"
+			parent="abstractDao"
+			class="com.citi.retail.optima.etl.controller.dao.impl.JobInstanceDaoImpl"
+			init-method="init" p:jobConfigDao-ref="jobConfigDao"
+	/>
+
+	<bean	id="jobInstanceLoaderDao"
+			parent="abstractDao"
+			class="com.citi.retail.optima.etl.controller.dao.impl.JobInstanceLoaderDaoImpl" p:jobConfigDao-ref="jobConfigDao"
+	/>
+	
+	<bean	id="jobDependancyDao"
+			parent="abstractDao"
+			class="com.citi.retail.optima.etl.controller.dao.impl.JobDependancyDaoImpl" p:jobConfigDao-ref="jobConfigDao"
+	/>
+	
+	<bean id="jobConfigDao" class="com.citi.retail.optima.etl.common.db.dao.JobConfigDao" p:jdbcTemplate-ref="jdbcTemplate" />
+	<bean id="optimaRetailException" class="com.citi.retail.optima.etl.common.exception.OptimaRetailApplicationException" p:jobConfigDao-ref="jobConfigDao" />
+	<bean id="filePathConfigDao" class="com.citi.retail.optima.etl.common.db.dao.FilePathConfigDaoImpl" p:jdbcTemplate-ref="jdbcTemplate" />
+	
+	<bean id="filePathsCache" class="com.citi.retail.optima.etl.common.model.FilePathDetailsCache" p:fileConfigDao-ref="filePathConfigDao" />
+	
+	<bean id="trlArchiveDao" class="com.citi.retail.optima.etl.common.db.dao.TRLArchiveDaoImpl" p:jdbcTemplate-ref="jdbcTemplate" />
+	
+	<bean id="trlArchiveDetailsCache" class="com.citi.retail.optima.etl.common.model.TRLArchiveDetailsCache" p:fileConfigDao-ref="trlArchiveDao" />
+	<bean id="checkSumDetailsCache" class="com.citi.retail.optima.etl.controller.model.CheckSumDetailsCache" p:etlQueryExecutor-ref ="queryExecutor" />
+</beans>

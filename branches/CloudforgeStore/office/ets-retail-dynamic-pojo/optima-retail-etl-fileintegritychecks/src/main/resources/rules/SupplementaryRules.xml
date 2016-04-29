@@ -1,0 +1,212 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<fileValidationRules functionName="SUPPLEMANTARY" columnCount="15" delimiter="," allowedExtentions="*.csv,*.txt,*.xls,*.xlsx">
+	<inputColumn columnId="1" columnName="reporting_period" duplicate="true" order="0" dataType="Integer" notNull="true" regex="20[0-4]\d(0[1-9]|1[0-2])">
+		<errorMessages>
+		<entry>
+			<key>NOT_NULL_INVALID</key>
+			<value>Reporting_period cannot be blank or null</value>
+		</entry>
+		<entry>
+			<key>DATATYPE_INVALID</key>
+			<value>Reporting period date format is wrong it should be in 'YYYYMM' format</value>
+		</entry>
+		</errorMessages>
+	</inputColumn>
+	
+	<inputColumn columnId="2" columnName="region" duplicate="true" order="1" dataType="Integer" notNull="true" regex="([1-9]{1})" maxlength="1">
+		<errorMessages>
+		<entry>
+			<key>NOT_NULL_INVALID</key>
+			<value>Region should not be blank OR null</value>
+		</entry>
+		<entry>
+			<key>DATATYPE_INVALID</key>
+			<value>REGION Value not found in lookup table</value>
+		</entry>		
+		</errorMessages>
+	</inputColumn>
+	
+	<inputColumn columnId="3" columnName="country" duplicate="true" order="2" dataType="String" notNull="true">
+		<errorMessages>
+		<entry>
+			<key>NOT_NULL_INVALID</key>
+			<value>COUNTRY should not be blank OR null</value>
+		</entry>		
+		</errorMessages>
+	</inputColumn>
+	
+	<inputColumn columnId="4" columnName="business_unit" duplicate="true" order="3" dataType="String" notNull="true" regex="([0-9a-zA-Z_\- ]+)">
+		<errorMessages>
+		<entry>
+			<key>NOT_NULL_INVALID</key>
+			<value>Business Unit should not be blank OR null</value>
+		</entry>		
+		</errorMessages>
+	</inputColumn>
+	
+	<inputColumn columnId="5" columnName="product_type" duplicate="true" order="4" dataType="String" notNull="true">
+		<errorMessages>
+		<entry>
+			<key>NOT_NULL_INVALID</key>
+			<value>PRODUCT TYPE should not be blank OR null</value>
+		</entry>		
+		</errorMessages>
+	</inputColumn>
+	
+	<inputColumn columnId="6" columnName="b_cumulative_gross_chargeoffs" duplicate="false" order="5" dataType="NegativeDecimal" notNull="true" regex="([[-/+][\d]*[.][\d]*]{1,24})" maxlength="24">
+		<errorMessages>
+		<entry>
+			<key>NOT_NULL_INVALID</key>
+			<value>b_cumulative_gross_chargeoffs should not be blank OR null </value>
+		</entry>
+		<entry>
+			<key>DATATYPE_INVALID</key>
+			<value>b_cumulative_gross_chargeoffs should be numeric value </value>
+		</entry>	
+		<entry>
+			<key>LENGTH_INVALID</key>
+			<value>b_cumulative_gross_chargeoffs exceeds Defined Field Length </value>
+		</entry>			
+		</errorMessages>
+	</inputColumn>
+	
+	<inputColumn columnId="7" columnName="c_cumulative_impairments_fair_value_adjustments" duplicate="false" order="6" dataType="NegativeDecimal" notNull="true" regex="([[-/+][\d]*[.][\d]*]{1,24})" maxlength="24">
+		<errorMessages>
+		<entry>
+			<key>NOT_NULL_INVALID</key>
+			<value>c_cumulative_impairments_fair_value_adjustments should not be blank OR null </value>
+		</entry>
+		<entry>
+			<key>DATATYPE_INVALID</key>
+			<value>c_cumulative_impairments_fair_value_adjustments should be numeric value</value>
+		</entry>
+		<entry>
+			<key>LENGTH_INVALID</key>
+			<value>c_cumulative_impairments_fair_value_adjustments exceeds Defined Field Length </value>
+		</entry>	
+		</errorMessages>
+	</inputColumn>
+	
+	<inputColumn columnId="8" columnName="f_auto_leases_rpt_y_14q" duplicate="false" order="7" dataType="NegativeDecimal" notNull="false" regex="([[-/+][\d]*[.][\d]*]{0,24})" maxlength="24">
+		<errorMessages>		
+		<entry>
+			<key>DATATYPE_INVALID</key>
+			<value>f_auto_leases_rpt_y_14q should be numeric value</value>
+		</entry>
+		<entry>
+			<key>LENGTH_INVALID</key>
+			<value>f_auto_leases_rpt_y_14q exceeds Defined Field Length </value>
+		</entry>		
+		</errorMessages>
+	</inputColumn>	
+	
+	<inputColumn columnId="9" columnName="g_non_auto_leases_rpt_y_14q" duplicate="false" order="8" dataType="NegativeDecimal" notNull="false" regex="([[-/+][\d]*[.][\d]*]{0,24})" maxlength="24">
+		<errorMessages>		
+		<entry>
+			<key>DATATYPE_INVALID</key>
+			<value>g_non_auto_leases_rpt_y_14q should be numeric value</value>
+		</entry>	
+		<entry>
+			<key>LENGTH_INVALID</key>
+			<value>g_non_auto_leases_rpt_y_14q exceeds Defined Field Length </value>
+		</entry>	
+		</errorMessages>
+	</inputColumn>
+	
+	<inputColumn columnId="10" columnName="h_non_purpose_sec_loans_rpt_bhckb539_bhckk207" duplicate="false" order="9" dataType="NegativeDecimal" notNull="false" regex="([[-/+][\d]*[.][\d]*]{0,24})" maxlength="24">
+		<errorMessages>		
+		<entry>
+			<key>DATATYPE_INVALID</key>
+			<value>h_non_purpose_sec_loans_rpt_bhckb539_bhckk207 should be numeric value</value>
+		</entry>	
+		<entry>
+			<key>LENGTH_INVALID</key>
+			<value>h_non_purpose_sec_loans_rpt_bhckb539_bhckk207 exceeds Defined Field Length </value>
+		</entry>	
+		</errorMessages>
+	</inputColumn>	
+	
+	<inputColumn columnId="11" columnName="i_sme_corp_card_loans_commercial_industrial_loans_us" duplicate="false" order="10" dataType="NegativeDecimal" notNull="false" regex="([[-/+][\d]*[.][\d]*]{0,24})" maxlength="24">
+		<errorMessages>		
+		<entry>
+			<key>DATATYPE_INVALID</key>
+			<value>i_sme_corp_card_loans_commercial_industrial_loans_us should be numeric value</value>
+		</entry>	
+		<entry>
+			<key>LENGTH_INVALID</key>
+			<value>i_sme_corp_card_loans_commercial_industrial_loans_us exceeds Defined Field Length </value>
+		</entry>	
+		</errorMessages>
+	</inputColumn>
+	
+	<inputColumn columnId="12" columnName="j_sme_corp_card_loans_commercial_industrial_loans_outside_us" duplicate="false" order="11" dataType="NegativeDecimal" notNull="false" regex="([[-/+][\d]*[.][\d]*]{0,24})" maxlength="24">
+		<errorMessages>		
+		<entry>
+			<key>DATATYPE_INVALID</key>
+			<value>j_sme_corp_card_loans_commercial_industrial_loans_outside_us should be numeric value</value>
+		</entry>	
+		<entry>
+			<key>LENGTH_INVALID</key>
+			<value>j_sme_corp_card_loans_commercial_industrial_loans_outside_us exceeds Defined Field Length </value>
+		</entry>		
+		</errorMessages>
+	</inputColumn>
+	
+	<inputColumn columnId="13" columnName="k_sme_corp_card_loans_ind_household_family_other_credit_cards" duplicate="false" order="12" dataType="NegativeDecimal" notNull="false" regex="([[-/+][\d]*[.][\d]*]{0,24})" maxlength="24">
+		<errorMessages>		
+		<entry>
+			<key>DATATYPE_INVALID</key>
+			<value>k_sme_corp_card_loans_ind_household_family_other_credit_cards should be numeric value</value>
+		</entry>	
+		<entry>
+			<key>LENGTH_INVALID</key>
+			<value>k_sme_corp_card_loans_ind_household_family_other_credit_cards exceeds Defined Field Length </value>
+		</entry>	
+		</errorMessages>
+	</inputColumn>
+	
+	<inputColumn columnId="14" columnName="l_sme_corp_card_loans_household_family_other_revolving" duplicate="false" order="13" dataType="NegativeDecimal" notNull="false" regex="([[-/+][\d]*[.][\d]*]{0,24})" maxlength="24">
+		<errorMessages>		
+		<entry>
+			<key>DATATYPE_INVALID</key>
+			<value>l_sme_corp_card_loans_household_family_other_revolving should be numeric value</value>
+		</entry>		
+		<entry>
+			<key>LENGTH_INVALID</key>
+			<value>l_sme_corp_card_loans_household_family_other_revolving exceeds Defined Field Length </value>
+		</entry>	
+		</errorMessages>
+	</inputColumn>
+	
+	<inputColumn columnId="15" columnName="submitter_id" duplicate="false" order="14" dataType="String" notNull="true" maxlength="7">
+	<errorMessages>
+		<entry>
+			<key>NOT_NULL_INVALID</key>
+			<value>submitter_id should not be blank OR null </value>
+		</entry>	
+		<entry>
+			<key>LENGTH_INVALID</key>
+			<value>submitter_id exceeds Defined Field Length </value>
+		</entry>	
+		</errorMessages>
+	</inputColumn>
+		
+	<errorMessages>
+		<entry>
+			<key>CLMN_COUNT_MISMATCH</key>
+			<value>Column Count is not 15 for row {}</value>
+		</entry>
+		<entry>
+			<key>HEADER_INVALID</key>
+			<value>Header Value is invalid</value>
+		</entry>
+		<entry>
+			<key>DUPLICATE_ROW</key>
+			<value>Duplicate row</value>
+		</entry>
+		<entry>
+			<key>DATATYPE_INVALID</key>
+			<value>Data type is not valid for row {}</value>
+		</entry>
+	</errorMessages>
+</fileValidationRules>

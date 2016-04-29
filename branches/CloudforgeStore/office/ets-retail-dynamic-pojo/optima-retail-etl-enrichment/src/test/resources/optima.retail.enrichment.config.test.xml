@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:p="http://www.springframework.org/schema/p" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:util="http://www.springframework.org/schema/util" xmlns:context="http://www.springframework.org/schema/context"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.2.xsd
+							http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util-3.2.xsd
+							http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-3.2.xsd">
+
+<context:annotation-config />
+
+	<bean id="enrichmentProperties"
+        class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
+        <property name="ignoreUnresolvablePlaceholders" value="true"/>        
+        <property name="locations">
+            <list>
+                <value>classpath:optima.retail.etl.enrichment.datasource.props</value>
+                <value>classpath:optima.retail.etl.enrichment.sql.properties</value>
+            </list>
+        </property>
+    </bean>
+		
+	<!-- Enrichment Service -->
+	<bean	id="enrichmentService"
+			class="com.citi.retail.optima.etl.enrichment.impl.EnrichmentServiceImpl"
+			p:evalContext-ref="evalContext"
+			p:enrichmentRules-ref="enrichmentRulesHolder"
+			p:keyList-ref="keyList" />		
+		
+	<bean id="enrichmentRulesHolder"
+		class="com.citi.retail.optima.etl.enrichment.EnrichmentRulesLoader"
+		p:enrichmentRulesDao-ref="enrichmentRulesDao"  />
+
+	<bean id="enrichmentRulesDao"
+		class="com.citi.retail.optima.etl.enrichment.dao.impl.EnrichmentRulesDaoImpl"
+		p:sql="${query.cache.rules.enrichment.with.key}"
+		p:resultSetExtractor-ref="resultSetExtractor"
+		p:jdbcTemplate-ref="jdbcTemplate" />
+		
+	<bean id="resultSetExtractor"
+		class="com.citi.retail.optima.etl.enrichment.dao.impl.EnrichmentRulesResultSetExtractor"/>
+
+	<!-- Custom Evaluation Context -->
+	<bean id="evalContext"
+		class="com.citi.retail.optima.etl.enrichment.support.EnrichmentCustomEvaluationContext"
+		init-method="init"
+		p:customEvaluationProvider-ref="customEvaluationProvider" 
+		/>	
+		
+	<bean id="customEvaluationProvider"
+		class="com.citi.retail.optima.etl.enrichment.test.spel.support.CustomEvaluationProviderImpl"/>
+		
+	<bean	id="jdbcTemplate"
+    	class="org.springframework.jdbc.core.JdbcTemplate"
+    	p:dataSource-ref="optimaDbPool"
+    />	
+		
+	<bean	id="optimaDbPool"
+		class="oracle.ucp.jdbc.PoolDataSourceFactory"
+		factory-method="getPoolDataSource"
+		lazy-init="true"
+		p:connectionFactoryClassName="${optima.db.driverClassName}"
+		p:SQLForValidateConnection="select 1 from DUAL"			
+		p:URL="${optima.db.url}"
+		p:user="${optima.db.user}"
+		p:password="${optima.db.pass}"
+		p:connectionPoolName="${optima.db.pool.name}"
+		p:minPoolSize="${optima.db.pool.min}"
+		p:maxPoolSize="${optima.db.pool.max}"
+	/>
+	
+	<util:list id="keyList">
+		<value>suppDataProcessStep:19</value>		
+	</util:list>
+</beans>	

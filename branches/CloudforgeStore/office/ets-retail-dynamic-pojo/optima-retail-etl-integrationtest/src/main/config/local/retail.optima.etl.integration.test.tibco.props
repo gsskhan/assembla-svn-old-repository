@@ -1,0 +1,9 @@
+optima.tibco.server.url=tcp://localhost:7222
+optima.tibco.username=optimaretailETL
+optima.tibco.password=optimaretailETL
+
+optima.queue.genesisMessage=optima.retial.controllerInbound
+optima.queue.controllerInbound=optima.retial.controllerInbound
+
+
+	

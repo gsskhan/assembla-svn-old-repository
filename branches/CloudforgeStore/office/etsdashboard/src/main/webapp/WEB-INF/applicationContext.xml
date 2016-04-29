@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:jee="http://www.springframework.org/schema/jee" xmlns:context="http://www.springframework.org/schema/context" xmlns:tx="http://www.springframework.org/schema/tx" xsi:schemaLocation="             http://www.springframework.org/schema/beans              http://www.springframework.org/schema/beans/spring-beans-3.0.xsd             http://www.springframework.org/schema/jee              http://www.springframework.org/schema/jee/spring-jee-3.0.xsd             http://www.springframework.org/schema/context              http://www.springframework.org/schema/context/spring-context.xsd             http://www.springframework.org/schema/tx               http://www.springframework.org/schema/tx/spring-tx.xsd">
+
+
+	<bean id="dataSource" class="org.apache.commons.dbcp.BasicDataSource">
+		<property name="driverClassName" value="oracle.jdbc.driver.OracleDriver"/>
+		<property name="url" value="jdbc:oracle:thin:@vm-1ef6-7c0b.nam.nsroot.net:1522:cloudapp"/>
+		<property name="username" value="cloudapp"/>
+		<property name="password" value="Welcome1"/>
+	</bean>
+	
+	<bean id="dashboardSessionFactory" class="org.springframework.orm.hibernate3.LocalSessionFactoryBean">
+		<property name="dataSource">
+			<ref bean="dataSource"/>
+		</property>
+		
+		<property name="mappingLocations">
+		<list>
+			<value>/WEB-INF/resource/hbm/ETS_DSHBD_ORGANISATION.hbm.xml</value>
+			<value>/WEB-INF/resource/hbm/ETS_DSHBD_APPS.hbm.xml</value>
+			<value>/WEB-INF/resource/hbm/ETS_DSHBD_APP_STATUS.hbm.xml</value>
+			<value>/WEB-INF/resource/hbm/ETS_DSHBD_APP_OVERALL_STATUS.hbm.xml</value>
+			<value>/WEB-INF/resource/hbm/ETS_DSHBD_APP_EVENTS.hbm.xml</value>
+			<value>/WEB-INF/resource/hbm/ETS_DSHBD_APP_AREA.hbm.xml</value>
+			<value>/WEB-INF/resource/hbm/ETS_DSHBD_APP_AREA_STATUS.hbm.xml</value>
+			<value>/WEB-INF/resource/hbm/ETS_DSHBD_APP_AREA_OVERALL_STS.hbm.xml</value>
+			<value>/WEB-INF/resource/hbm/ETS_DSHBD_CONTACTS.hbm.xml</value>
+			<value>/WEB-INF/resource/hbm/ETS_DSHBD_ACRONYM_LKUP.hbm.xml</value>
+		</list>
+		</property>
+		
+		 
+		<property name="hibernateProperties">
+			<props>
+				<prop key="hibernate.dialect">org.hibernate.dialect.Oracle9Dialect</prop>
+				<!--<prop key="hibernate.hbm2ddl.auto">update</prop>-->
+				<prop key="hibernate.show_sql">false</prop>
+				<prop key="hibernate.current_session_context_class">thread</prop>
+			</props>
+		</property>
+	</bean>
+	
+	<bean id="etsDashboardDao" class="com.citi.ets.dashboard.dao.impl.ETSDashboardDaoImpl">
+	<property name="sessionFactory" ref="dashboardSessionFactory"/>
+	</bean>
+	
+	<bean id="etsDashboardService" class="com.citi.ets.dashboard.service.impl.ETSDashboardServiceImpl">
+	<property name="dashboardDao" ref="etsDashboardDao"/>
+	</bean>
+	
+	<bean id="etsDashBoardHandler" class="com.citi.ets.dashboard.processor.ETSDashboardProcessor">
+	<property name="dashboardService" ref="etsDashboardService"/>
+	</bean>
+	
+	<bean id="etsDashBoardUtil" class="com.citi.ets.dashboard.utility.ETSDashboardUtil">
+	<property name="dashboardService" ref="etsDashboardService"/>
+	</bean>
+	<!--
+	<bean id="log4jInitializer" class="org.springframework.beans.factory.config.MethodInvokingFactoryBean">
+		<property name="staticMethod">
+			<value>org.springframework.util.Log4jConfigurer.initLogging</value>
+		</property>
+		<property name="arguments">
+			<list>
+				<value>classpath:log4j.properties</value>
+			</list>
+		</property>
+	</bean>
+	
+	
+	<context:annotation-config/>
+	<tx:annotation-driven transaction-manager="transactionManager"/>
+		<bean id="transactionManager" class="org.springframework.orm.hibernate3.HibernateTransactionManager">
+		<property name="sessionFactory" ref="dashboardSessionFactory"/>
+		</bean>
+	<bean class="org.springframework.dao.annotation.PersistenceExceptionTranslationPostProcessor" />
+	-->
+	</beans>

@@ -1,0 +1,43 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<!-- Generated Jan 1, 2014 5:49:07 AM by Hibernate Tools 3.4.0.CR1 -->
+<hibernate-mapping>
+    <class name="com.citi.ets.dashboard.entity.Apps" table="ETS_DSHBD_APPS">
+        <id name="apps_id" type="java.lang.String">
+            <column name="APPS_ID" />
+            <generator class="assigned" />
+        </id>
+        <property name="app_csid" type="java.lang.String">
+            <column name="APP_CSID" />
+        </property>
+        <property name="app_name" type="java.lang.String">
+            <column name="APP_NAME" />
+        </property>
+        <property name="app_area_id" type="java.lang.String">
+            <column name="APP_AREA_ID" />
+        </property>
+        <property name="last_update" type="java.sql.Date">
+            <column name="LAST_UPDATE" />
+        </property>
+        <property name="last_updatedby" type="java.lang.String">
+            <column name="LAST_UPDATEDBY" />
+        </property>
+        <set name="contact" cascade="all" lazy="false">
+         <key column="apps_id"/>
+         <one-to-many class="com.citi.ets.dashboard.entity.Contacts"/>
+      	</set>
+        <!--<set name="events" cascade="all" lazy="false">
+         <key column="apps_id"/>
+         <one-to-many class="com.citi.ets.dashboard.entity.Events"/>
+      	</set>
+      	<set name="appStatus" cascade="all" lazy="false">
+         <key column="apps_id"/>
+         <one-to-many class="com.citi.ets.dashboard.entity.AppStatus"/>
+      	</set>
+      	<set name="appOverallStatus" cascade="all" lazy="false">
+         <key column="apps_id"/>
+         <one-to-many class="com.citi.ets.dashboard.entity.AppOverallStatus"/>
+      	</set>-->
+    </class>
+</hibernate-mapping>

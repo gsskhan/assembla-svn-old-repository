@@ -1,0 +1,25 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<!-- Generated Nov 3, 2013 5:21:56 PM by Hibernate Tools 3.4.0.CR1 -->
+
+<hibernate-mapping>
+    <class name="org.dms.web.entity.Constants" table="CONSTANTS">
+        <id name="constantId" type="int">
+            <column name="CONSTANT_ID" />
+            <generator class="increment" />
+        </id>
+        <property name="variable" type="java.lang.String">
+            <column name="VARIABLE" />
+        </property>
+        <property name="variableId" type="int">
+            <column name="VARIABLE_ID" />
+        </property>
+        <property name="value" type="java.lang.String">
+            <column name="VALUE" />
+        </property>
+        <property name="parentVariableId" type="int">
+            <column name="PARENT_VARIABLE_ID" default="0"/>
+        </property>
+    </class>
+</hibernate-mapping>

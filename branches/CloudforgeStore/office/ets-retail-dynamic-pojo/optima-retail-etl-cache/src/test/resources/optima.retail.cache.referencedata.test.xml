@@ -1,0 +1,358 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<beans	xmlns="http://www.springframework.org/schema/beans"
+		xmlns:c="http://www.springframework.org/schema/c"
+		xmlns:p="http://www.springframework.org/schema/p"		
+		xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+		xmlns:util="http://www.springframework.org/schema/util"
+		xmlns:context="http://www.springframework.org/schema/context"
+		xsi:schemaLocation="
+				http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.2.xsd
+				http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util-3.2.xsd
+				http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-3.2.xsd">
+		    
+    <bean id="cacheProperties"
+        class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
+        <property name="locations">
+            <list>
+                <value>classpath:optima.retail.cache.sql.queries.properties</value>
+                <value>classpath:optima.retail.cache.filescanner.rulenames.properties</value>
+            </list>
+        </property>
+    </bean>
+    
+	<!-- ************************* START - LlrTForm Cache ************* -->
+
+	<bean	id="referenceDataEhCacheManager"
+    		class="org.springframework.cache.ehcache.EhCacheCacheManager"
+        	p:cacheManager-ref="referenceDataCacheManager"
+	/>
+
+    <bean	id="referenceDataCacheManager"
+    		class="org.springframework.cache.ehcache.EhCacheManagerFactoryBean"
+    		p:cacheManagerName="referenceDataCacheTest"
+    		p:configLocation="classpath:ehcache/ehcache.referencedata.xml"
+    />
+
+
+ 	<bean	id="llrCacheService"
+			factory-bean="referenceDataEhCacheManager"
+			factory-method="getCache"
+			c:_0="llrTFormCache"
+	/>
+
+	<bean	id="llrTFormRefCacheLoader"
+			class="com.citi.retail.optima.etl.cache.ehcache.loaders.LlrTFormCacheLoaderImpl"
+			p:cache-ref="llrCacheService"
+			p:dao-ref="llrTFormDao"
+			p:preloadCache="true"
+	/>
+
+	<bean	id="llrTFormDao"
+			class="com.citi.retail.optima.etl.cache.dao.impl.LlrTFormDaoImpl"
+			p:jdbcTemplate-ref="jdbcTemplate"
+			p:sql="${query.cache.referenceData.tform.lkup}"
+	/>
+	
+	<bean    id="llrTFormLookup"
+            class="com.citi.retail.optima.etl.cache.lookup.LlrTFormLookup"
+            c:_0-ref="referenceDataEhCacheManager"
+            depends-on="llrTFormRefCacheLoader"
+    />
+	
+	<!-- ************************* END - LlrTForm Cache ************* -->
+
+<!-- ************************* START - LlrConComm Cache ************* -->
+
+ 	  <bean	id="llrConCommService"
+			factory-bean="referenceDataEhCacheManager"
+			factory-method="getCache"
+			c:_0="llrConCommCache"
+	/>
+	
+	<bean    id="llrConCommLookup"
+            class="com.citi.retail.optima.etl.cache.lookup.LlrConCommLookup"
+            c:_0-ref="referenceDataEhCacheManager"
+            depends-on="llrConCommRefCacheLoader"
+    />
+
+	<bean	id="llrConCommRefCacheLoader"
+			class="com.citi.retail.optima.etl.cache.ehcache.loaders.LlrConCommCacheLoaderImpl"
+			p:cache-ref="llrConCommService"
+			p:dao-ref="llrConCommDao"
+			p:preloadCache="true"
+	/>
+
+	<bean	id="llrConCommDao"
+			class="com.citi.retail.optima.etl.cache.dao.impl.LlrConCommDaoImpl"
+			p:jdbcTemplate-ref="jdbcTemplate"
+			p:sql="${query.cache.referenceData.cons.comm}"
+	/>
+	
+	<!-- ************************* END - LlrConComm Cache ************* -->
+
+<!-- ************************* START - LlrCorpHLD Cache ************* -->
+
+  <bean	id="llrCorpHldService"
+			factory-bean="referenceDataEhCacheManager"
+			factory-method="getCache"
+			c:_0="llrCorpHldCache"
+	/>
+	
+  	<bean    id="llrCorpHldLookup"
+            class="com.citi.retail.optima.etl.cache.lookup.LlrCorpHldLookup"
+            c:_0-ref="referenceDataEhCacheManager"
+            depends-on="llrCorpHldRefCacheLoader"
+    />
+
+	<bean	id="llrCorpHldRefCacheLoader"
+			class="com.citi.retail.optima.etl.cache.ehcache.loaders.LlrCorpHldCacheLoaderImpl"
+			p:cache-ref="llrCorpHldService"
+			p:dao-ref="llrCorpHldDao"
+			p:preloadCache="true"
+	/>
+
+	<bean	id="llrCorpHldDao"
+			class="com.citi.retail.optima.etl.cache.dao.impl.LlrCorpHldDaoImpl"
+			p:jdbcTemplate-ref="jdbcTemplate"
+			p:sql="${query.cache.referenceData.corp.hld}"
+	/>
+	
+	<!-- ************************* END - LlrCorpHld Cache ************* -->
+
+<!-- ************************* START - LlrLV Cache ************* -->
+
+    <bean	id="llrLVService"
+			factory-bean="referenceDataEhCacheManager"
+			factory-method="getCache"
+			c:_0="llrLVCache"
+	/>
+	
+   	<bean    id="llrLVLookup"
+            class="com.citi.retail.optima.etl.cache.lookup.LlrLVLookup"
+            c:_0-ref="referenceDataEhCacheManager"
+            depends-on="llrLVRefCacheLoader"
+    />
+
+	<bean	id="llrLVRefCacheLoader"
+			class="com.citi.retail.optima.etl.cache.ehcache.loaders.LlrLVCacheLoaderImpl"
+			p:cache-ref="llrLVService"
+			p:dao-ref="llrLVDao"
+			p:preloadCache="true"
+	/>
+
+	<bean	id="llrLVDao"
+			class="com.citi.retail.optima.etl.cache.dao.impl.LlrLVDaoImpl"
+			p:jdbcTemplate-ref="jdbcTemplate"
+			p:sql="${query.cache.referenceData.lv}"
+	/>
+	
+	<!-- ************************* END - LlrLV Cache ************* -->
+
+<!-- ************************* START - Report Cycle Cache ************* -->
+
+     <bean	id="rptCycleService"
+			factory-bean="referenceDataEhCacheManager"
+			factory-method="getCache"
+			c:_0="rptCycleCache"
+	/>
+	
+   	<bean    id="rptCycleLookup"
+            class="com.citi.retail.optima.etl.cache.lookup.ReportCycleLookup"
+            c:_0-ref="referenceDataEhCacheManager"
+            depends-on="rptCycleRefCacheLoader"
+    />
+
+	<bean	id="rptCycleRefCacheLoader"
+			class="com.citi.retail.optima.etl.cache.ehcache.loaders.ReportingCycleCacheLoaderImpl"
+			p:cache-ref="rptCycleService"
+			p:dao-ref="rptCycleDao"
+			p:preloadCache="true"
+	/>
+ 
+	<bean	id="rptCycleDao"
+			class="com.citi.retail.optima.etl.cache.dao.impl.ReportCycleDaoImpl"
+			p:jdbcTemplate-ref="jdbcTemplate"
+			p:sql="${query.cache.referenceData.rpt_cyc}"
+	/>
+	
+	<!-- ************************* END - Report Cycle Cache ************* -->
+
+<!-- ************************* START - Source Region Cache ************* -->
+
+    <bean	id="srcRegionService"
+			factory-bean="referenceDataEhCacheManager"
+			factory-method="getCache"
+			c:_0="srcRegionCache"
+	/>
+	
+  	<bean    id="srcReqionLookup"
+            class="com.citi.retail.optima.etl.cache.lookup.SourceRegionLookup"
+            c:_0-ref="referenceDataEhCacheManager"
+            depends-on="srcRegionRefCacheLoader"
+    />
+
+	<bean	id="srcRegionRefCacheLoader"
+			class="com.citi.retail.optima.etl.cache.ehcache.loaders.SourceRegionCacheLoaderImpl"
+			p:cache-ref="srcRegionService"
+			p:dao-ref="srcRegionDao"
+			p:preloadCache="true"
+	/>
+ 
+	<bean	id="srcRegionDao"
+			class="com.citi.retail.optima.etl.cache.dao.impl.SourceRegionDaoImpl"
+			p:jdbcTemplate-ref="jdbcTemplate"
+			p:sql="${query.cache.referenceData.source.domain}"
+	/>
+	
+	<!-- ************************* END - Source Region Cache ************* -->
+	
+	<!-- ************************* START - Source Country Cache ************* -->
+
+     <bean	id="srcCountryService"
+			factory-bean="referenceDataEhCacheManager"
+			factory-method="getCache"
+			c:_0="srcCountryCache"
+	/>
+	
+  	 <bean    id="srcCountryLookup"
+            class="com.citi.retail.optima.etl.cache.lookup.SourceCountryLookup"
+            c:_0-ref="referenceDataEhCacheManager"
+            depends-on="srcCountryRefCacheLoader"
+    />
+
+	<bean	id="srcCountryRefCacheLoader"
+			class="com.citi.retail.optima.etl.cache.ehcache.loaders.SourceCountryCacheLoaderImpl"
+			p:cache-ref="srcCountryService"
+			p:dao-ref="srcCountryDao"
+			p:preloadCache="true"
+	/> 
+ 
+	<bean	id="srcCountryDao"
+			class="com.citi.retail.optima.etl.cache.dao.impl.SourceCountryDaoImpl"
+			p:jdbcTemplate-ref="jdbcTemplate"
+			p:sql="${query.cache.referenceData.source.cntry}"
+	/>
+	
+	<!-- ************************* END - Source Country Cache ************* -->
+
+<!-- ************************* START - Source BU Cache ************* -->
+
+     <bean	id="srcbuService"
+			factory-bean="referenceDataEhCacheManager"
+			factory-method="getCache"
+			c:_0="srcbuCache"
+	/>
+	
+  	 <bean    id="srcbuLookup"
+            class="com.citi.retail.optima.etl.cache.lookup.SourceBULookup"
+            c:_0-ref="referenceDataEhCacheManager"
+            depends-on="srcbuRefCacheLoader"
+    />
+
+	<bean	id="srcbuRefCacheLoader"
+			class="com.citi.retail.optima.etl.cache.ehcache.loaders.SourceBUCacheLoaderImpl"
+			p:cache-ref="srcbuService"
+			p:dao-ref="srcbuDao"
+			p:preloadCache="true"
+	/> 
+ 
+	<bean	id="srcbuDao"
+			class="com.citi.retail.optima.etl.cache.dao.impl.SourceBUDaoImpl"
+			p:jdbcTemplate-ref="jdbcTemplate"
+			p:sql="${query.cache.referenceData.source.bu}"
+	/>
+	
+	<!-- ************************* END - Source BU Cache ************* -->
+
+<!-- ************************* START - Source Sys Cache ************* -->
+
+     <bean	id="srcSysService"
+			factory-bean="referenceDataEhCacheManager"
+			factory-method="getCache"
+			c:_0="srcSysCache"
+	/>
+	
+  	 <bean    id="srcSysLookup"
+            class="com.citi.retail.optima.etl.cache.lookup.SourceSysLookup"
+            c:_0-ref="referenceDataEhCacheManager"
+            depends-on="srcSysRefCacheLoader"
+    />
+
+	<bean	id="srcSysRefCacheLoader"
+			class="com.citi.retail.optima.etl.cache.ehcache.loaders.SourceSysCacheLoaderImpl"
+			p:cache-ref="srcSysService"
+			p:dao-ref="srcSysDao"
+			p:preloadCache="true"
+	/> 
+ 
+	<bean	id="srcSysDao"
+			class="com.citi.retail.optima.etl.cache.dao.impl.SourceSystemDaoImpl"
+			p:jdbcTemplate-ref="jdbcTemplate"
+			p:sql="${query.cache.referenceData.source.sys}"
+	/>
+	
+	<!-- ************************* END - Source Sys Cache ************* -->
+	
+	<!-- ************************* START - Source Product Cache ************* -->
+
+     <bean	id="srcProdService"
+			factory-bean="referenceDataEhCacheManager"
+			factory-method="getCache"
+			c:_0="srcProdCache"
+	/>
+	
+  	 <bean    id="srcProdLookup"
+            class="com.citi.retail.optima.etl.cache.lookup.SourceProductLookup"
+            c:_0-ref="referenceDataEhCacheManager"
+            depends-on="srcProdCacheLoader"
+    />
+
+	<bean	id="srcProdCacheLoader"
+			class="com.citi.retail.optima.etl.cache.ehcache.loaders.SourceProductCacheLoaderImpl"
+			p:cache-ref="srcProdService"
+			p:dao-ref="srcProdDao"
+			p:preloadCache="true"
+	/> 
+ 
+	<bean	id="srcProdDao"
+			class="com.citi.retail.optima.etl.cache.dao.impl.SourceProductDaoImpl"
+			p:jdbcTemplate-ref="jdbcTemplate"
+			p:sql="${query.cache.referenceData.source.prod}"
+	/>
+	
+	<!-- ************************* END - Source Product Cache ************* -->
+
+<!-- ************************************** Starting Country Region Caches**************************************-->
+
+ 	<bean	id="referenceValueLookup"
+			class="com.citi.retail.optima.etl.cache.lookup.ReferenceValueLookup"
+			c:_0-ref="referenceDataEhCacheManager"
+			depends-on="countryRegionCacheLoader"
+	/>
+    
+    <bean	id="countryRegionCacheService"
+    		factory-bean="referenceDataEhCacheManager"
+    		factory-method="getCache"
+    		c:_0="countryRegionCache"
+    />
+    
+    <bean	id="countryRegionCacheLoader"
+    		class="com.citi.retail.optima.etl.cache.ehcache.SingleValueCacheDataLoaderImpl"
+    		p:cache-ref="countryRegionCacheService"
+    		p:cacheEntryHelper-ref="countryRegionCacheEntryHelper"
+    		p:dao-ref="countryRegionDaoImpl"
+    		p:preloadCache="true"
+    />
+
+	<bean id="countryRegionDaoImpl" class="com.citi.retail.optima.etl.cache.dao.impl.SingleValueCacheLoaderDaoImpl"
+        p:jdbcTemplate-ref="jdbcTemplate"
+        p:sql="${query.cache.referencedata.countryRegion}" 
+    />
+    
+	<bean	id="countryRegionCacheEntryHelper"
+			class="com.citi.retail.optima.etl.cache.helper.SingleValueCacheEntryHelper"
+	/>
+ <!-- ************************************** End of Country Region Caches**************************************-->
+
+
+</beans>							

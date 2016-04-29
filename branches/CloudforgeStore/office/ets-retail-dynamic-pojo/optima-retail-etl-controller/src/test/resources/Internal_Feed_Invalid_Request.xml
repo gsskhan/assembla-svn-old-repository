@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<optimaRetailETLEvent
+    xmlns="http://citi.com/retail/optima/schemas/event/OptimaRetail">
+    <eventType>CCAR_USER_SUBMISSION</eventType>
+    <requestID>ORETL-063650e67b8c400f90f1b07e242414f3</requestID>
+    <eventTimestamp>2013-03-14 17:37:52</eventTimestamp>
+    <reportPeriod>2012-12-31</reportPeriod>
+    <fileId>15644</fileId>
+    <filee>CSV</filee>
+</optimaRetailETLEvent>

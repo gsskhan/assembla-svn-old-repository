@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xsd:schema targetNamespace="http://citi.com/retail/optima/schemas/event/OptimaRetail" xmlns:schemas="http://citi.com/retail/optima/schemas/event/OptimaRetail" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  <xsd:element name="optimaRetailETLEvent">
+    <xsd:complexType>
+      <xsd:sequence>
+        <xsd:element ref="schemas:eventType" minOccurs="1"/>
+        <xsd:element ref="schemas:eventTimestamp" minOccurs="1"/>
+        <xsd:element ref="schemas:requestID" minOccurs="1"/>
+        <xsd:element ref="schemas:reportPeriod" minOccurs="1"/>
+        <xsd:element ref="schemas:scheduleID" maxOccurs="1" minOccurs="0"/>
+        <xsd:element ref="schemas:portfolioID" maxOccurs="1" minOccurs="0"/>
+        <xsd:element ref="schemas:countryCode" maxOccurs="1" minOccurs="0"/>
+        <xsd:element ref="schemas:approverID" maxOccurs="1" minOccurs="0"/>
+        <xsd:element ref="schemas:versionID" maxOccurs="1" minOccurs="0"/>
+        <xsd:element ref="schemas:originalMsgId" maxOccurs="1" minOccurs="0"/>
+        <xsd:element ref="schemas:batchInstanceId"/>
+        <xsd:element ref="schemas:fileType" minOccurs="0" maxOccurs="1"/>
+        <xsd:element ref="schemas:fileId" minOccurs="0" maxOccurs="1"/>
+        <xsd:element ref="schemas:priority"/>
+        <xsd:element ref="schemas:reportYear" minOccurs="0" maxOccurs="1"/>
+        <xsd:element ref="schemas:reportQuater" minOccurs="0" maxOccurs="1"/>
+        <xsd:element ref="schemas:refreshDate" minOccurs="0" maxOccurs="1"/>        
+      </xsd:sequence>
+    </xsd:complexType>
+  </xsd:element>
+  <xsd:element name="fileType" type="schemas:fileTypes"/>
+  <xsd:element name="fileId" type="xsd:integer"/>
+  	<xsd:simpleType name="fileTypes">
+    <xsd:restriction base="xsd:string">
+      <xsd:enumeration value="CSV"/>
+      <xsd:enumeration value="XLS"/>
+      <xsd:enumeration value="XLSX"/>
+    </xsd:restriction>  
+  </xsd:simpleType>
+  
+  <!-- <xsd:element name="fileType" type="schemas:fileTypes"/> -->
+  <xsd:element name="eventType" type="schemas:eventTypes"/>
+  <xsd:element name="eventTimestamp" type="schemas:formattedTimestamp"/>
+  <xsd:element name="requestID" type="xsd:string"/>
+  <xsd:element name="reportPeriod" type="schemas:reportPeriod"/>
+  <xsd:element name="scheduleID" type="xsd:string"/>
+  <xsd:element name="portfolioID" type="xsd:string"/>
+  <xsd:element name="versionID" type="xsd:string"/>
+  <xsd:element name="approverID" type="xsd:string"/>
+  <xsd:element name="originalMsgId" type="xsd:integer"/>
+  <xsd:element name="batchInstanceId" type="xsd:integer"/>
+  <xsd:element name="priority" type="xsd:integer"/>
+  <xsd:element name="countryCode" type="xsd:string" />
+  <xsd:element name="reportYear" type="xsd:integer" />
+  <xsd:element name="reportQuater" type="xsd:integer" />
+  <xsd:element name="refreshDate" type="schemas:formattedTimestamp"/>
+  <xsd:simpleType name="eventTypes">
+    <xsd:restriction base="xsd:string">
+      <xsd:enumeration value="ORETL_ATTEST_FEED_REQUEST"/>
+      <xsd:enumeration value="ORETL_MANUAL_RESTART"/>
+      <xsd:enumeration value="ORETL_MANUAL_SUB"/>
+      <xsd:enumeration value="ORETL_JOB_COMPLETE"/>
+      <xsd:enumeration value="ORETL_NEW_JOB_REQUEST"/>
+      <xsd:enumeration value="CCAR_USER_SUBMISSION"/>
+      <xsd:enumeration value="FDIC_USER_SUBMISSION"/>
+      <xsd:enumeration value="SUPPLEMENTARY_DATA"/>
+      <xsd:enumeration value="GCBC_PORTFOLIO_DEFINITION" />
+      <xsd:enumeration value="GCBC_LLR_DATA"/>
+      <xsd:enumeration value="PEARL_LLR_DATA"/>
+      <xsd:enumeration value="USER_LLR_DATA"/>
+      <xsd:enumeration value="WEB_MA_LLR_DATA"/> 
+      <xsd:enumeration value="GC_20_LLR_DATA"/>  
+      <xsd:enumeration value="FVO_HFS_DATA"/>     
+      <xsd:enumeration value="DATA_ACQUISITION"/> 
+    </xsd:restriction>  
+  </xsd:simpleType>
+  <xsd:simpleType name="reportPeriod">
+    <xsd:restriction base="xsd:string">
+      <xsd:pattern value="\d{4}[\-](0[1-9]|1[012])[\-](0[1-9]|[12][0-9]|3[01])"/>
+    </xsd:restriction>  
+  </xsd:simpleType>
+  <xsd:simpleType name="formattedTimestamp">
+    <xsd:restriction base="xsd:string">
+      <xsd:pattern value="\d{4}[\-](0[1-9]|1[012])[\-](0[1-9]|[12][0-9]|3[01])[ ]([2][0-3]|[0][0-9]|[1][0-9])[:]([0-5][0-9]|[6][0])[:]([0-5][0-9]|[6][0])"/>
+    </xsd:restriction>
+  </xsd:simpleType>
+</xsd:schema>

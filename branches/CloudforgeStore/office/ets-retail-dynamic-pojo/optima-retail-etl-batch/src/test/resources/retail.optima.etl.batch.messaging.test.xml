@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:int="http://www.springframework.org/schema/integration"
+	xmlns:int-file="http://www.springframework.org/schema/integration/file"
+	xmlns:beans="http://www.springframework.org/schema/beans" xmlns:c="http://www.springframework.org/schema/c"
+	xmlns:p="http://www.springframework.org/schema/p" xmlns:int-jms="http://www.springframework.org/schema/integration/jms"
+	xmlns:oxm="http://www.springframework.org/schema/oxm" xmlns:file="http://www.springframework.org/schema/integration/file"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans 
+	 http://www.springframework.org/schema/beans/spring-beans.xsd 
+	 http://www.springframework.org/schema/integration 
+	 http://www.springframework.org/schema/integration/spring-integration.xsd
+	 http://www.springframework.org/schema/integration/jms			
+	 http://www.springframework.org/schema/integration/jms/spring-integration-jms.xsd 
+	 http://www.springframework.org/schema/integration/file 
+	 http://www.springframework.org/schema/integration/file/spring-integration-file.xsd
+	 http://www.springframework.org/schema/oxm 
+	 http://www.springframework.org/schema/oxm/spring-oxm-3.0.xsd">
+
+	<import resource="classpath:retail.optima.etl.batch.jms.config.test.xml" />
+	<import resource="classpath:retail.optima.etl.batch.datasource.xml" />
+	<import resource="classpath:batch.job.tx.xml" />
+	<import resource="classpath:batch.repository.config.xml" />
+	<import resource="classpath:batch.sample.partition.job.xml" />
+
+
+	<!-- Step 1 for Controller Message JMS Adapter -->
+	<int-jms:message-driven-channel-adapter
+		id="batchJmsAdapter" destination="destination" channel="batchRequestJmsOutputChannel"
+		auto-startup="false" />
+
+
+	<!-- Step 2 -->
+	<int:channel id="batchRequestJmsOutputChannel" />
+
+	<!-- Step 3 - Request XML Unmarshaller -->
+	<int:transformer id="requestTransformer" ref="unmarshallingTransformer"
+		input-channel="batchRequestJmsOutputChannel" method="transform"
+		output-channel="unmarshalOutputChannel" />
+
+	<!-- Unmarshalling bean -->
+	<bean id="unmarshallingTransformer"
+		class="org.springframework.integration.xml.transformer.UnmarshallingTransformer">
+		<constructor-arg ref="marshaller" />
+	</bean>
+
+	<!-- Unmarshal output channel -->
+	<int:channel id="unmarshalOutputChannel" />
+
+	<!-- Step 4 - Job Launching Service -->
+	<int:service-activator id="jobLaunchingService"
+		input-channel="unmarshalOutputChannel" output-channel="batchRequestOutputChannel"
+		ref="jobLauncherService" method="handleMessage" />
+
+	<!-- Job launching bean -->
+	<bean id="jobLauncherService" class="com.citi.retail.optima.etl.batch.job.JobLauncherService"
+		p:jobLauncher-ref="jobLauncher" />
+
+	<!-- Step 5 Batch request dispatcher -->
+	<int:channel id="batchRequestOutputChannel" />
+
+	<!-- Dispatch transforming -->
+	<bean id="marshallingTransformer"
+		class="org.springframework.integration.xml.transformer.MarshallingTransformer">
+		<constructor-arg ref="marshaller" />
+		<constructor-arg ref="resultTransformer" />
+	</bean>
+
+	<bean id="resultTransformer"
+		class="org.springframework.integration.xml.transformer.ResultToStringTransformer" />
+
+	<int:transformer id="batchTransformer" ref="marshallingTransformer"
+		input-channel="batchRequestOutputChannel" method="transform"
+		output-channel="transformedOutputChannel" />
+
+	<int:channel id="transformedOutputChannel" />
+
+	<!-- Dispatching outbound channel adapter -->
+	<int-jms:outbound-channel-adapter id="batchComplete"
+		channel="transformedOutputChannel" destination="outBoundQueue" />
+
+	<!-- Error handling logic -->
+
+	<int:channel id="errorChannel"></int:channel>
+	<int:service-activator input-channel="errorChannel"
+		ref="errorHandler" method="handleError">
+	</int:service-activator>
+
+	<bean id="errorHandler"
+		class="com.citi.retail.optima.etl.batch.messaging.BatchErrorHandler" />
+
+	<bean id="jmsExceptionLogging"
+		class="com.citi.retail.optima.etl.common.exception.JmsLoggingExceptionPublisher"
+		p:jmsTemplate-ref="jmsTemplate" />
+
+
+</beans>

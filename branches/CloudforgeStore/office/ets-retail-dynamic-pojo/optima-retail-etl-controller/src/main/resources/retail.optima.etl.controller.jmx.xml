@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<beans	xmlns="http://www.springframework.org/schema/beans"
+		xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+		xmlns:p="http://www.springframework.org/schema/p"
+		xmlns:util="http://www.springframework.org/schema/util"
+		xmlns:context="http://www.springframework.org/schema/context"
+		xsi:schemaLocation="
+			http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.2.xsd
+			http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util-3.2.xsd
+			http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-3.2.xsd">
+    
+    <context:property-placeholder
+            location="classpath:retail.optima.etl.controller.jmx.props"
+            ignore-resource-not-found="true"
+            ignore-unresolvable="true"
+            system-properties-mode="OVERRIDE"
+    />
+    
+    <!-- server-side connector -->
+    <bean   id="controllerJmxServerConnector"
+            class="org.springframework.jmx.support.ConnectorServerFactoryBean"
+            p:objectName="connector:name=${module}-rmi"
+            p:serviceUrl="service:jmx:rmi:///jndi/rmi://${jmx.host}:${jmx.port}/${module}"
+    />
+    
+    <!-- mbean exporter -->        
+    <bean   id="controllerMBeanExporter"
+            class="org.springframework.jmx.export.MBeanExporter"
+            p:beans-ref="controllerExportingBeanMap"
+            p:server-ref="mbeanServer"
+            p:assembler-ref="controllerMBeanInfoAssembler"
+            p:registrationBehaviorName="REGISTRATION_FAIL_ON_EXISTING"
+    />
+    
+    <bean   id="controllerMBeanInfoAssembler"
+            class="org.springframework.jmx.export.assembler.InterfaceBasedMBeanInfoAssembler"
+            p:managedInterfaces-ref="controllerManagedInterfaces"
+    />
+    
+    <!-- exporting beans -->
+    <util:map id="controllerExportingBeanMap">
+        <entry key="optima.retail.etl:module=${module}" value-ref="controllerMBean"/>
+    </util:map>
+        
+    <!-- managed interface -->
+    <util:list id="controllerManagedInterfaces">
+        <value>com.citi.retail.optima.etl.controller.container.jmx.ControllerMBean</value>
+    </util:list>
+    
+    <bean   id="controllerMBean"
+    		class="com.citi.retail.optima.etl.controller.container.jmx.impl.ControllerMBeanImpl"
+    		p:genesisJmsAdapter-ref="internalJmsAdapter"
+    />
+</beans>

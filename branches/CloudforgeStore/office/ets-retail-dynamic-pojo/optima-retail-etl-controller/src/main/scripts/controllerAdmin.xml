@@ -1,0 +1,52 @@
+<project name="controller" basedir=".">
+
+	<!--
+	<property name="app.dir" value="${basedir}/.."/>
+	-->
+	<property name="lib.dir" value="${app.dir}/lib"/>
+	
+	<property name="config.dir" value="${app.dir}/config"/>
+	
+	<property name="adminClassName" value="com.citi.retail.optima.etl.container.ContainerAdmin"/>
+		
+	<property name="controller.module.name" value="controller"/>
+	<property name="controller.module.config" value="classpath:/retail.optima.etl.controller.xml"/>
+	<property name="controller.module.autoStart" value="true"/>
+	
+	<!--
+	<property name="maxMemory" value="1024m"/>
+	<property name="jmx.port" value="1099"/>
+	<property name="http.port" value="7070"/>
+	-->	
+		
+	<path id="controller.classpath">
+		<pathelement path="${app.dir}/config"/>
+		<fileset dir="${lib.dir}">
+			<include name="**/*.jar"/>
+		</fileset>	
+	
+	</path>
+
+	<target name="start">	
+		<java  taskname="controllerAdminStart" fork="true" maxmemory="${maxMemory}" classname="${adminClassName}" classpathref="controller.classpath">
+			<arg value="--command=start"/>
+			<arg value="--type=container"/>
+			<arg value="--module-name=${controller.module.name}"/>
+			<arg value="--module-config=${controller.module.config}"/>
+			<arg value="--auto-start=${controller.module.autoStart}"/>
+
+			<sysproperty key="jmx.port" value="${jmx.port}"/>
+			<sysproperty key="http.port" value="${http.port}"/>
+		</java>
+	</target>
+	
+	<target name="stop">	
+		<java taskname="controllerAdminStop" fork="true"  classname="${adminClassName}" classpathref="controller.classpath" failonerror="true">
+			<arg value="--command=stop"/>
+			<arg value="--type=container"/>
+
+			<sysproperty key="jmx.port" value="${jmx.port}"/>
+			<sysproperty key="http.port" value="${http.port}"/>
+		</java>
+	</target>	
+</project>

@@ -1,0 +1,24 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<!-- Generated Jan 1, 2014 5:49:07 AM by Hibernate Tools 3.4.0.CR1 -->
+<hibernate-mapping>
+    <class name="com.citi.ets.dashboard.entity.Acronym" table="ETS_DSHBD_ACRONYM_LOOKUP">
+        <id name="acronym_id" type="java.lang.String">
+            <column name="ACRONYM_ID" />
+            <generator class="assigned" />
+        </id>
+        <property name="apps_id" type="java.lang.String">
+            <column name="APPS_ID" />
+        </property>
+        <property name="app_name" type="java.lang.String">
+            <column name="LOOKUP_APP_NAME" />
+        </property>
+        <property name="app_csid" type="java.lang.String">
+            <column name="LOOKUP_APP_CSID" />
+        </property>
+        <property name="acronym" type="java.lang.String">
+            <column name="ACRONYM" />
+        </property>
+    </class>
+</hibernate-mapping>

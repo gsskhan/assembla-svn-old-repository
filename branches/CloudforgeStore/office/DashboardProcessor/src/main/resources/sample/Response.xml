@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<p:ETSFeed xmlns:p="http://www.citi.com/ETSDashBoardResponse" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.citi.com/ETSDashBoardResponse ETSDashBoardResponse.xsd ">
+  <p:appdata>
+    <p:csi>161602</p:csi>
+    <p:appName>OPTIMA</p:appName>
+  </p:appdata>
+  <p:kpiDetail>
+	<p:kpiName>ORACLEDB</p:kpiName>
+	<p:kpiStatus statusCode="INFRASTRUCTURE">0.5</p:kpiStatus>
+	<p:statusDesc>swosmdb1p::Gmond</p:statusDesc>
+	<p:kpiparameter>SPAT</p:kpiparameter>
+	<p:eventtimestamp>2014-01-07_09:30:00</p:eventtimestamp>
+  </p:kpiDetail>
+  <p:kpiDetail>
+    <p:kpiName>WEBSPHERE</p:kpiName>
+    <p:kpiStatus statusCode="Infrastructure">68%</p:kpiStatus>
+    <p:statusDesc>above normal server utilization</p:statusDesc>
+    <p:kpiparameter>DISKUSAGE</p:kpiparameter>
+    <p:eventtimestamp>2014-01-17_09:30:00</p:eventtimestamp>
+  </p:kpiDetail>
+  <p:kpiDetail>
+    <p:kpiName>FEEDS-Late</p:kpiName>
+    <p:kpiStatus statusCode="Feeds In">5</p:kpiStatus>
+    <p:statusDesc>Two files arrived late</p:statusDesc>
+    <p:kpiparameter>PPMTWWC20131210.txt|Expected_Time-2014-01-07_09:30:00 |Arrived_Time-2014-01-07_12:33:00,20131204_RTIS_TD_TW.FEED|Expected_Time-2014-01-07_09:30:00 |Arrived_Time-2014-01-07_12:33:00</p:kpiparameter>
+    <p:eventtimestamp>2014-01-17_09:30:00</p:eventtimestamp>	
+    </p:kpiDetail>
+  <p:kpiDetail>
+    <p:kpiName>FEEDS-Missed</p:kpiName>
+    <p:kpiStatus statusCode="Feeds Out">1 feed missed</p:kpiStatus>
+    <p:statusDesc>Missed the cutt-off date</p:statusDesc>
+    <p:kpiparameter>PPMTWWC20131206.txt|Cutoff Time-2014-01-07_09:30:00</p:kpiparameter>
+    <p:eventtimestamp>2014-01-17_09:30:00</p:eventtimestamp>	
+  </p:kpiDetail>
+</p:ETSFeed>

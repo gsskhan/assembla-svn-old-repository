@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:int="http://www.springframework.org/schema/integration"
+	xmlns:int-file="http://www.springframework.org/schema/integration/file"
+	xmlns:beans="http://www.springframework.org/schema/beans" xmlns:c="http://www.springframework.org/schema/c"
+	xmlns:p="http://www.springframework.org/schema/p" xmlns:int-jms="http://www.springframework.org/schema/integration/jms"
+	xmlns:oxm="http://www.springframework.org/schema/oxm" xmlns:file="http://www.springframework.org/schema/integration/file"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans 
+     http://www.springframework.org/schema/beans/spring-beans.xsd 
+     http://www.springframework.org/schema/integration 
+     http://www.springframework.org/schema/integration/spring-integration.xsd
+     http://www.springframework.org/schema/integration/jms          
+     http://www.springframework.org/schema/integration/jms/spring-integration-jms.xsd 
+     http://www.springframework.org/schema/integration/file 
+     http://www.springframework.org/schema/integration/file/spring-integration-file.xsd
+     http://www.springframework.org/schema/oxm 
+     http://www.springframework.org/schema/oxm/spring-oxm-3.0.xsd">
+
+
+    <bean id="applicationProperties"
+        class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
+        <property name="locations">
+            <list>
+                <value>classpath:retail.optima.etl.batch.activemq.props</value>
+            </list>
+        </property>
+    </bean>
+
+	<!-- *******************************************************TIBCO ***************************************************************** -->
+
+	<!-- <bean id="jmsTemplate" class="org.springframework.jms.core.JmsTemplate">
+		<property name="connectionFactory" ref="tibConnectionFactory" />
+		<property name="defaultDestination" ref="destination" />
+		<property name="receiveTimeout" value="5000" />
+		<property name="messageConverter" ref="genOutMessageConverter" />
+	</bean>
+
+
+	<bean id="tibConnectionFactory" class="com.tibco.tibjms.TibjmsQueueConnectionFactory">
+		<property name="serverUrl" value="tcp://vm-8da0-538f.nam.nsroot.net:8322" />
+		<property name="userName" value="optimaretailETL" />
+		<property name="userPassword" value="optimaretailETL" />
+	</bean>
+
+	<bean id="connectionFactory"
+		class="org.springframework.jms.connection.CachingConnectionFactory">
+		<property name="targetConnectionFactory" ref="tibConnectionFactory" />
+		<property name="sessionCacheSize" value="10" />
+		<property name="cacheProducers" value="true" />
+		<property name="cacheConsumers" value="true" />
+	</bean>
+
+	<bean id="destination" class="com.tibco.tibjms.TibjmsQueue">
+		<constructor-arg value="optima.retail.genesis.incoming" />
+	</bean>
+
+	<bean id="batchCompletionDestination" class="com.tibco.tibjms.TibjmsQueue">
+		<constructor-arg value="${jms.controller.batchCompletion.queueName}" />
+	</bean>
+
+	<bean id="batchDestination" class="com.tibco.tibjms.TibjmsQueue">
+		<constructor-arg value="optima.retail.etl.exception.out" />
+	</bean> -->
+
+
+	<!-- ************************************************************************************************************************ -->
+
+	<!-- *************************************************************ActiveMQ*************************************************** -->
+
+    <bean id="jmsTemplate" class="org.springframework.jms.core.JmsTemplate">
+        <property name="connectionFactory" ref="connectionFactory" />
+        <property name="defaultDestination" ref="destination" />
+        <property name="receiveTimeout" value="5000" />
+    </bean>
+
+    <oxm:jaxb2-marshaller id="marshaller">
+        <oxm:class-to-be-bound
+            name="com.citi.retail.optima.xsd.internal.OptimaRetailETLEvent" />
+    </oxm:jaxb2-marshaller>
+
+	<bean id="connectionFactory" class="org.apache.activemq.ActiveMQConnectionFactory">
+		<property name="brokerURL" value="${activemq.broker.url}" />
+	</bean>
+
+	<bean id="destination" class="org.apache.activemq.command.ActiveMQQueue">
+		<constructor-arg value="${queue.batch.inbound}" />
+	</bean>
+	
+	<bean id="outBoundQueue" class="org.apache.activemq.command.ActiveMQQueue">
+        <constructor-arg value="${queue.batch.outbound}" />
+    </bean>
+
+	<!-- ************************************************************************************************************************ -->
+	
+</beans>

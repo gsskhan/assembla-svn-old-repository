@@ -1,0 +1,150 @@
+body {
+	font-size: 11px;
+	font-family: tahoma;
+}
+
+.containerMain {
+	width: 98.8%;
+	margin-left: .5%;
+	margin-top: .5%;
+}
+
+.popoverOption {
+	font-family: Tahoma;
+	font-size: .900em;
+}
+
+.ets_text {
+	color: white;
+	font-weight: 700;
+	background-color: #0497D1;
+	padding: .2em;
+}
+
+#Header {
+	border: 1px solid #cccccc;
+	background-color: #DCEDF2;
+}
+
+.tooltip_link {
+	float: right;
+	margin-top: 10px;
+	color: #0497D1;
+}
+
+.appname {
+	font-style: italic;
+/* 	margin-left: 30px; */
+}
+
+.subappname{
+	font-style: italic;
+	margin-left: 40px;
+}
+
+.sector_font {
+	font-weight: 700;
+}
+
+.colorbox_border {
+	border: 1px solid #0497D1;
+	height: 70px;
+	border-bottom: none;
+	width: 100%;
+}
+
+.blocks {
+	float: left;
+	width: 13%;
+	height: 70px;
+}
+
+.colorbox {
+	height: 14px;
+	width: 70px;
+}
+
+.color_center {
+	padding-top: 11%;
+	padding-left: 5%;
+	color: black;
+	font-weight: 700;
+	position: relative;
+	white-space: nowrap;
+}
+
+.status_bar {
+	height: 20px;
+	background: -webkit-linear-gradient(#f0f9fa, #d7f2f5);
+	background: -moz-linear-gradient(#f0f9fa, #d7f2f5);
+	background: linear-gradient(#f0f9fa, #d7f2f5);
+	color: #000000;
+	font-weight: bold;
+	padding-top: 5px;
+	padding-left: 1%;
+	border: 1px solid #cccccc;
+	width: 99%;
+}
+
+.open {
+	background: url('../images/open.gif') no-repeat;
+	float: left;
+	width: 15px;
+	height: 17px;
+	cursor: pointer;
+}
+
+.close {
+	background: url('../images/close.gif') no-repeat;
+	float: left;
+	width: 15px;
+	height: 17px;
+	cursor: pointer;
+}
+
+.child {
+	height: 15px;
+	width: 8px;
+	float: left;
+}
+
+.colored-div {
+	height: 17px;
+}
+
+section {
+	position: relative;
+	padding-top: 24px;
+	color: black;
+	border : 1px solid #cccccc;
+	height: 1px;
+	background: -webkit-linear-gradient(#fcffff, #d7f2f5);
+	border-bottom: none;
+	border: 1px solid #cccccc;
+}
+
+.loadingDiv {
+	margin-left: 39%;
+}
+
+#dynamicHistoryTable {
+	width: 100%;
+	border-collapse: collapse;
+}
+
+.history_td,.history_th {
+	border-width: 1px;
+	border-style: solid;
+	border-color: #cccccc;
+	padding: 4px;
+}
+
+.history_th {
+	background: -webkit-linear-gradient(#fcffff, #d7f2f5);
+	color: black;
+	height: 15px;
+}
+.historyHeader
+{
+	font-weight:700;
+} 

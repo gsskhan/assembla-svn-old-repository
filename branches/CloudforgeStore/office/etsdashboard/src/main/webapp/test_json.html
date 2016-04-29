@@ -1,0 +1,58 @@
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
+<head>
+		<meta charset="ISO-8859-1"> 
+		<title>ETS JSON TEST</title>
+		<meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate" />
+		<meta http-equiv="Pragma" content="no-cache" />
+		<meta http-equiv="Expires" content="0" />
+		<script type="text/javascript" src="script/jquery-1.9.1.js"></script>
+	</head>
+</head>
+<body>
+	<h1>
+		<font color="blue">ETS DASHBOARD TEST JSON....</font>
+	</h1>
+	<b>Test page to get raw json from db</b>
+	<br />
+	<br />
+	<input type="button" value="TEST SUBMIT" onclick="getJson();" style="color: white;background-color: maroon;"> &nbsp; &nbsp; &nbsp;
+	<span id="selectAllBtnDiv" style="display:none;" >
+	<input type="button" value="Select All & Copy!" onclick="copyJson();" style="color:white;background-color: green">
+	</span>
+	<br />
+	<script type="text/javascript">
+		function getJson() {
+			var jsonTest = $.ajax({
+				type : 'GET',
+				async : false,
+				data : {
+					eventType : "dashboardEvent"
+				},
+				dataType : 'json',
+				url : 'dashboardServlet'
+			}).responseText;
+			$textArea = $('#showJson');
+			$textArea.html(jsonTest);
+			document.getElementById('showJsonDiv').style.display="block";
+			document.getElementById('selectAllBtnDiv').style.display="block";
+		}
+		function copyJson(){
+		alert('hiii');
+			document.getElementById('showJson').focus();
+			document.getElementById('showJson').select();
+          	var txtCopied = document.getElementById('showJson').createTextRange();
+          	alert(txtCopied);
+   		    txtCopied.execCommand("copy");
+	  		alert("text has been copied");		
+		}
+		
+	</script>
+	<div id="showJsonDiv" style="display:none;" >
+	<b>copy and format in notepad++ . Cheers !</b>
+	<textarea rows="50" cols="150" readonly="readonly" style="color: blue;" id="showJson"></textarea>
+	</div> 
+
+</body>
+</html>

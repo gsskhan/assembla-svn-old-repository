@@ -1,0 +1,149 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:p="http://www.springframework.org/schema/p" xmlns:c="http://www.springframework.org/schema/c"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:aop="http://www.springframework.org/schema/aop"
+	xmlns:batch="http://www.springframework.org/schema/batch" xmlns:util="http://www.springframework.org/schema/util"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans 
+		http://www.springframework.org/schema/beans/spring-beans-2.5.xsd
+		http://www.springframework.org/schema/util 
+		http://www.springframework.org/schema/util/spring-util-2.5.xsd
+		http://www.springframework.org/schema/context
+		http://www.springframework.org/schema/context/spring-context.xsd
+		http://www.springframework.org/schema/batch 
+		http://www.springframework.org/schema/batch/spring-batch-2.1.xsd
+		http://www.springframework.org/schema/aop
+ 		http://www.springframework.org/schema/aop/spring-aop-2.5.xsd">
+
+	<!-- *********************************************** DB Reader JOB Configuration 
+		START ***************************************************** -->
+	
+	<bean   id="dataSource"
+                        class="oracle.ucp.jdbc.PoolDataSourceFactory"
+                        factory-method="getPoolDataSource"
+                        lazy-init="true"
+                        p:connectionFactoryClassName="${optima.db.driverClassName}"
+                        p:SQLForValidateConnection="select 1 from DUAL"                 
+                        p:URL="${optima.db.url}"
+                        p:user="${optima.db.user}"
+                        p:password="${optima.db.pass}"
+                        p:connectionPoolName="${optima.db.pool.name}"
+                        p:minPoolSize="${optima.db.pool.min}"
+                        p:maxPoolSize="${optima.db.pool.max}"
+        />
+
+	<bean id="jobRepository"
+		class="org.springframework.batch.core.repository.support.MapJobRepositoryFactoryBean">
+		<property name="transactionManager" ref="transactionManager" />
+	</bean>
+
+	<bean id="transactionManager"
+		class="org.springframework.batch.support.transaction.ResourcelessTransactionManager" />
+
+	<bean id="jobLauncher"
+		class="org.springframework.batch.core.launch.support.SimpleJobLauncher">
+		<property name="jobRepository" ref="jobRepository" />
+	</bean>
+
+	<bean id="applicationProperties"
+		class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
+		<property name="locations">
+			<list>
+				<value>file:config/retail.optima.etl.sql.queries.properties
+				</value>
+				<value>file:config/retail.optima.etl.batch.datasource.props
+				</value>
+			</list>
+		</property>
+	</bean>
+
+	<bean id="rangePartitioner" class="com.citi.optima.batch.job.partitioner.RangePartitioner">
+		<property name="dataSource" ref="dataSource" />
+		<property name="queryRetreiverQuery" value="${query.config.db}" />
+	</bean>
+	
+
+	<!-- bean id="taskExecutor" class="org.springframework.core.task.SimpleAsyncTaskExecutor" /-->
+<bean id="taskExecutor" class="org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor">
+
+            <property name="corePoolSize" value="10" />
+
+            <property name="maxPoolSize" value="20" />
+
+    </bean>
+
+
+
+
+
+	<!-- ************** START's ************** -->
+	<batch:job id="DATA-EXTRACTOR-Batch" job-repository="jobRepository">
+		<batch:step id="masterStep" next="fileMergeStep">
+			<partition step="slave" partitioner="rangePartitioner">
+				<handler grid-size="10" task-executor="taskExecutor" />
+			</partition>
+		</batch:step>
+		<batch:step id="fileMergeStep">
+			<batch:tasklet ref="fileMergeTasklet" />
+		</batch:step>
+		<batch:listeners>
+			<batch:listener ref="rangePartitioner" />
+		</batch:listeners>
+	</batch:job>
+
+	<step id="slave" xmlns="http://www.springframework.org/schema/batch">
+		<tasklet>
+			<chunk reader="pagingItemReader" processor="itemProcessor"
+				writer="flatFileItemWriter" commit-interval="2000" />
+		</tasklet>
+	</step>
+
+<bean id="pagingItemReader"
+		class="org.springframework.batch.item.database.JdbcCursorItemReader" scope="step">
+		<property name="dataSource" ref="dataSource" />
+		<property name="sql" value="#{stepExecutionContext[query]}"/>			
+		<property name="rowMapper" >
+			<bean
+				class="com.citi.retail.optima.etl.batch.job.mapper.DBRowMapper" />
+		</property>
+		<property name="preparedStatementSetter" ref="statementSetter">
+		</property>
+	</bean>
+	
+	<bean id="statementSetter"
+		class="org.springframework.batch.core.resource.ListPreparedStatementSetter" scope="step">
+		<property name="parameters">
+			<list>
+				<value>#{stepExecutionContext[fromId]}</value>
+                <value>#{stepExecutionContext[toId]}</value>
+			</list>
+		</property>
+	</bean>
+
+	<bean id="itemProcessor"
+		class="com.citi.retail.optima.etl.batch.job.processor.da.DBProcessor"
+		scope="step">
+		<property name="threadName" value="#{stepExecutionContext[name]}" />
+	</bean>
+
+	<bean id="flatFileItemWriter" class="org.springframework.batch.item.file.FlatFileItemWriter"
+		scope="step">
+		<property name="lineAggregator" ref="lineAggregator" />
+		<property name="appendAllowed" value="true"></property>
+		<property name="resource"
+			value="file:#{stepExecutionContext[outputLocation]}/processed.dat_#{stepExecutionContext[fromId]}-#{stepExecutionContext[toId]}" />
+	</bean>
+	<!-- ************** END's ************** -->
+
+	<bean id="lineAggregator"
+		class="org.springframework.batch.item.file.transform.DelimitedLineAggregator">
+		<property name="delimiter" value="|" />
+	</bean>
+	
+	<bean name="fileMergeTasklet"
+		class="com.citi.retail.optima.etl.batch.tasklet.FileMergeTasklet"
+		scope="step" >
+		<property name="outputLocation" value="#{jobExecutionContext[outputLocation]}" />
+	</bean>	
+
+</beans>

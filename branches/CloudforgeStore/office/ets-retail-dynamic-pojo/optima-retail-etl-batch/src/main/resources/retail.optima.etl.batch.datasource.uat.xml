@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<beans	xmlns="http://www.springframework.org/schema/beans"
+		xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+		xmlns:p="http://www.springframework.org/schema/p"
+		xmlns:context="http://www.springframework.org/schema/context"
+		xsi:schemaLocation="
+				http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.2.xsd
+				http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-3.2.xsd">
+
+ 	<bean	id="optimaDbPool"
+			class="oracle.ucp.jdbc.PoolDataSourceFactory"
+			factory-method="getPoolDataSource"
+			lazy-init="true"
+			p:connectionFactoryClassName="${optima.db.uat.driverClassName}"
+			p:SQLForValidateConnection="select 1 from DUAL"			
+			p:URL="${optima.db.uat.url}"
+			p:user="${optima.db.uat.user}"
+			p:password="${optima.db.uat.pass}"
+			p:connectionPoolName="${optima.db.uat.pool.name}"
+			p:minPoolSize="${optima.db.uat.pool.min}"
+			p:maxPoolSize="${optima.db.uat.pool.max}"
+	/>
+	
+	<bean	id="genesisEmulatorDbPool"
+			class="oracle.ucp.jdbc.PoolDataSourceFactory"
+			factory-method="getPoolDataSource"
+			lazy-init="true"
+			p:connectionFactoryClassName="${optima.db.uat.driverClassName}"
+			p:SQLForValidateConnection="select 1 from DUAL"			
+			p:URL="${genesisEmulator.db.uat.url}"
+			p:user="${genesisEmulator.db.uat.user}"
+			p:password="${genesisEmulator.db.uat.pass}"
+			p:connectionPoolName="${genesisEmulator.db.uat.pool.name}"
+			p:minPoolSize="${genesisEmulator.db.uat.pool.min}"
+			p:maxPoolSize="${genesisEmulator.db.uat.pool.max}"
+	/>	
+ 
+    <bean	id="jdbcTemplate"
+    		class="org.springframework.jdbc.core.JdbcTemplate"
+    		p:dataSource-ref="optimaDbPool"
+    />	
+    <bean	id="batchAuditLogger" 
+			class="com.citi.retail.optima.etl.controller.audit.dao.BatchAuditLoggerImpl">
+			<property name="dataSource" ref="optimaDbPool" />
+			</bean>
+			
+	 <bean	id="connectionManager" class="com.citi.optima.batch.job.jdbc.ConnectionManager" >
+	 	<property name="dbDriverName" value="${optima.db.uat.driverClassName}"></property>
+	 	<property name="dbUri" value="${optima.db.uat.url}" ></property>
+	 	<property name="dbUser" value="${optima.db.uat.user}" ></property>
+	 	<property name="dbPwd" value="${optima.db.uat.pass}" ></property>
+	 </bean>	
+    <bean	id="queryExecutor" 
+			class="com.citi.optima.batch.job.jdbc.ETLQueryExecutor">
+			<property name="connectionManager" ref="connectionManager" />
+			<property name="jdbcTemplate" ref="jdbcTemplate" />
+			</bean>
+</beans>

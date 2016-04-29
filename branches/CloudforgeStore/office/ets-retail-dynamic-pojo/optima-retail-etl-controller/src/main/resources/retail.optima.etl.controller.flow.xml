@@ -1,0 +1,197 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p"
+	xmlns:c="http://www.springframework.org/schema/c" xmlns:int="http://www.springframework.org/schema/integration"
+	xmlns:file="http://www.springframework.org/schema/integration/file"
+	xmlns:int-jms="http://www.springframework.org/schema/integration/jms"
+	xsi:schemaLocation="
+				http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.2.xsd
+				http://www.springframework.org/schema/integration http://www.springframework.org/schema/integration/spring-integration-2.2.xsd
+				http://www.springframework.org/schema/integration/file http://www.springframework.org/schema/integration/file/spring-integration-file.xsd
+				http://www.springframework.org/schema/integration/jms http://www.springframework.org/schema/integration/jms/spring-integration-jms-2.2.xsd">
+
+	<file:inbound-channel-adapter id="fileWatcherAdpater"
+        channel="fileInputChannel" directory="${filewatcher.main.input.directory}" prevent-duplicates="false"
+       scanner="recursiveScanner" filter="filter">
+        <int:poller fixed-rate="120000" />
+    </file:inbound-channel-adapter>
+    
+    <bean id="filter" class="org.springframework.integration.file.filters.RegexPatternFileListFilter">
+		<constructor-arg value="${filewatcher.regex.pattern}" />
+	</bean>
+
+
+	<bean id="recursiveScanner" class="org.springframework.integration.file.RecursiveLeafOnlyDirectoryScanner" />
+
+    
+    
+<!--     <file:outbound-gateway id="moveToProcessFolder" request-channel="fileInputChannel"
+     reply-channel="fileProcessChannel" directory="${filewatcher.process.directory}" delete-source-files="true"/> -->
+    
+    
+    
+    <int:service-activator
+        id="filewatcher"
+        input-channel="fileInputChannel"
+        output-channel="userSubmissionMessageHandlerChannel"
+        ref="fileProcessor"
+        method="receiveFilePayload"/>
+    
+    <bean id="fileProcessor"
+        class="com.citi.retail.optima.etl.controller.file.handler.DataAcquisitionHandler" p:jobMessageDao-ref="jobMessageDao" 
+        p:queryExec-ref="queryExecutor"
+        p:fileMovementUtlity-ref="fileMovementUtlity" p:jobConfigDao-ref="jobConfigDao" />
+    
+    <int:channel id="userSubmissionJmsOutputChannel" />
+
+   <!--  <int:service-activator id="userSubmissionMessageHandler"
+        input-channel="userSubmissionJmsOutputChannel" 
+        output-channel="userSubmissionMessageHandlerChannel"
+        ref="userSubmissionMessageHandlerService" 
+        method="handleMessageInternal" /> -->
+
+    <int:channel id="userSubmissionMessageHandlerChannel" />
+
+<!--     <bean id="userSubmissionMessageHandlerService"
+        class="com.citi.retail.optima.etl.controller.message.handler.UserSubmissionMessageHandler"
+        p:jobMessageDao-ref="jobMessageDao" /> -->
+
+    <int:service-activator id="userRequestHandlerServiceId"
+        input-channel="userSubmissionMessageHandlerChannel" 
+        output-channel="resourceManagerChannel"
+        ref="userSubmissionJobCreationHandlerService" 
+        method="handleRequest" />
+
+    <bean id="userSubmissionJobCreationHandlerService"
+        class="com.citi.retail.optima.etl.controller.request.handler.UserSubmissionJobCreationRequestHandler"
+        p:jobInstanceDao-ref="controllerJobInstanceDao" p:jobConfigDao-ref="jobConfigDao"/>
+        
+        <!-- demark -->
+	<!-- Step 5 -->
+
+<!-- 	<int:channel id="fileMovementServiceChannel" />
+	
+	<int:service-activator id="fileMoverService"
+		input-channel="fileMovementServiceChannel" output-channel="resourceManagerChannel"
+		ref="fileMovementService" method="handleRequest" />
+ -->	
+	<int:channel id="batchCompletionHandlerChannel" >
+		<int:queue />
+	</int:channel>
+	
+	<bean id="batchCompletionEventConsumer"
+		class="org.springframework.integration.endpoint.PollingConsumer"
+		c:inputChannel-ref="batchCompletionHandlerChannel" c:handler-ref="jobCompletionRequestHandler"
+		p:receiveTimeout="-1" />
+	
+
+	<!-- <int:service-activator id="batchCompletionHandlerService"
+		input-channel="batchCompletionHandlerChannel" output-channel="resourceManagerChannel"
+		ref="jobCompletionRequestHandler" method="handleRequest" /> -->
+
+	<bean id="jobCompletionRequestHandler"
+		class="com.citi.retail.optima.etl.controller.request.handler.JobCompletionRequestHandler"
+		p:jobInstanceDao-ref="controllerJobInstanceDao" 
+		p:fileMovementUtlity-ref="fileMovementUtlity"
+		p:messageChannel-ref="resourceManagerChannel" p:jobConfigDao-ref="jobConfigDao"
+		/>
+
+	<int:channel id="resourceManagerChannel">
+		<int:queue />
+	</int:channel>
+
+	<bean id="resourceManagementEventConsumer"
+		class="org.springframework.integration.endpoint.PollingConsumer"
+		c:inputChannel-ref="resourceManagerChannel" c:handler-ref="resourceManager"
+		p:receiveTimeout="-1" />
+
+	<bean id="resourceManager"
+		class="com.citi.retail.optima.etl.controller.resource.manager.ResourceManager"
+		p:outputChannel-ref="outboundBatchProcessingRequestChannel"
+		p:resourceAllocatorService-ref="resourceAllocatorService"
+		p:resourceCheckerService-ref="resourceCheckerService"
+		p:jobDependancyCheckerService-ref="jobDependancyCheckerService"
+		p:jobRunningCheckerService-ref="jobRunningCheckerService"
+		p:jobInstanceHolder-ref="jobInstanceHolder" p:jobInstanceLoader-ref="jobInstanceLoader" p:jobConfigDao-ref="jobConfigDao"/>
+
+	<bean id="resourceAllocatorService"
+		class="com.citi.retail.optima.etl.controller.resource.manager.ResourceAllocator"
+		p:jobInstanceHolder-ref="jobInstanceHolder" p:jobInstanceDao-ref="controllerJobInstanceDao" />
+
+	<bean id="resourceCheckerService"
+		class="com.citi.retail.optima.etl.controller.resource.manager.ResourceChecker"
+		p:jobInstanceHolder-ref="jobInstanceHolder" p:availableResourceCount="1000" p:jobConfigDao-ref="jobConfigDao"/>
+
+	<bean id="jobDependancyCheckerService"
+		class="com.citi.retail.optima.etl.controller.resource.manager.JobDependancyChecker"
+		p:jobDependancyDao-ref="jobDependancyDao" />
+
+	<bean id="jobRunningCheckerService"
+		class="com.citi.retail.optima.etl.controller.resource.manager.JobRunningChecker"
+		p:jobInstanceHolder-ref="jobInstanceHolder" />
+
+	<int:channel id="outboundBatchProcessingRequestChannel" />
+
+	<bean id="jobInstanceLoader"
+		class="com.citi.retail.optima.etl.controller.resource.manager.JobInstanceLoader"
+		p:jobInstanceHolder-ref="jobInstanceHolder"
+		p:jobInstanceLoaderDao-ref="jobInstanceLoaderDao" />
+
+	<bean id="jobInstanceHolder"
+		class="com.citi.retail.optima.etl.controller.resource.manager.JobInstanceHolder" />
+
+	<!-- Request Dispatcher -->
+	<int:service-activator id="jobRequestServiceId"
+		input-channel="outboundBatchProcessingRequestChannel" output-channel="outboundBatchRequestListChannel"
+		ref="jobRequestDispatcher" method="dispatchRequest" />
+
+	<bean id="jobRequestDispatcher"
+		class="com.citi.retail.optima.etl.controller.request.dispatcher.JobRequestDispatcher"
+		p:jobInstanceDao-ref="controllerJobInstanceDao" p:jobConfigDao-ref="jobConfigDao"/>
+
+	<!-- Outbound JMS adapter to Batch -->
+	<int:channel id="outboundBatchRequestListChannel" />
+	<!-- <int:channel id="outboundBatchRequestChannel" /> -->
+
+	<int:splitter input-channel="outboundBatchRequestListChannel"
+		output-channel="outboundBatchRequestChannel" />
+		
+	<int:channel id="outboundBatchRequestChannel">
+		<int:queue/>
+	</int:channel>
+		
+	<int:channel id="errorChannel" />
+	
+	<int:service-activator input-channel="errorChannel"
+		ref="fileExceptionHandler" method="handleException" />
+
+	<bean id="exceptionHandler"
+		class="com.citi.retail.optima.etl.common.exception.ExceptionHandler" />
+		
+	<bean id="fileExceptionHandler" class="com.citi.retail.optima.etl.controller.error.handler.FileExceptionHandler"
+	p:exceptionHandler-ref="exceptionHandler"
+	p:fileMovementUtlity-ref="fileMovementUtlity"
+	/>	
+	
+	<bean id="fileMovementService"
+		class="com.citi.retail.optima.etl.controller.file.mover.FileMoveHandler"
+		p:fileMoveUtil-ref="fileMovementUtlity" />
+		
+	<bean id="fileMovementUtlity"
+		class="com.citi.retail.optima.etl.controller.file.mover.FileMoverUtility"
+		p:filemover-ref="fileMover"
+		p:jobMessageDao-ref="jobMessageDao" p:jobConfigDao-ref="jobConfigDao"/>
+<!-- 		p:inputLocation ="${filewatcher.input.directory}" -->
+<!-- 		p:outputLocation="${filewatcher.process.directory}"/> -->
+		
+	
+			
+	<bean id="fileMover"
+		class="com.citi.retail.optima.etl.controller.file.mover.FileMoverBasicImpl" />
+		
+
+
+<!-- 	<bean id="jmsExceptionPublisher"
+		class="com.citi.retail.optima.etl.common.exception.JmsLoggingExceptionPublisher"
+		p:jmsTemplate-ref="jmsTemplate" /> -->
+</beans>

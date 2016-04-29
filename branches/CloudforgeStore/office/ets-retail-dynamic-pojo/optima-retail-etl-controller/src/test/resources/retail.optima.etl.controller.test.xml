@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans 
+	http://www.springframework.org/schema/beans/spring-beans-3.2.xsd">
+	
+	
+	<bean id="applicationProperties"
+        class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
+        <property name="locations">
+            <list>
+           	 	<value>classpath:retail.optima.etl.controller.datasource.props</value>
+            	<value>classpath:retail.optima.etl.controller.tibco.props</value>
+            	<value>classpath:retail.optima.etl.controller.sql.queries.properties</value>
+            	<value>classpath:retail.optima.etl.controller.filewatcher.props</value>
+            </list>
+        </property>
+    </bean>
+
+	<!-- <import resource="classpath:retail.optima.etl.controller.jmx.xml"/> -->
+	<import resource="classpath:retail.optima.etl.controller.datasource.xml" />
+	<import resource="classpath:retail.optima.etl.controller.dao.xml" />
+<!-- 	<import resource="classpath:retail.optima.etl.controller.jms.xml" />
+	<import resource="classpath:retail.optima.etl.controller.jms.tibco.xml" /> -->
+	<import resource="classpath:retail.optima.etl.controller.oxm.xml" />
+	<import resource="classpath:retail.optima.etl.controller.flow.xml" />
+	
+	<!-- <import resource="classpath:retail.optima.etl.controller.logging.service.dao.xml" />
+	<import resource="classpath:retail.optima.etl.controller.logging.service.flow.xml" /> -->
+<!-- 	<import resource="classpath:retail.optima.etl.logging.jms.xml" />
+	<import resource="classpath:retail.optima.etl.logging.exception.xml" /> -->
+</beans>

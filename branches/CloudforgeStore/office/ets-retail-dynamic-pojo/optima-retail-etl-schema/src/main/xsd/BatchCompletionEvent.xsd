@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xsd:schema targetNamespace="http://citi.com/gfts/genesis/schemas/event/rrpoc" xmlns:schemas="http://citi.com/gfts/genesis/schemas/event/rrpoc" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  <xsd:element name="batchCompletionEvent">
+    <xsd:complexType>
+      <xsd:sequence>
+        <xsd:element ref="schemas:eventType"/>
+        <xsd:element ref="schemas:eventTimestamp"/>
+        <xsd:element ref="schemas:requestID"/>
+        <xsd:element ref="schemas:jobId"/>
+        <xsd:element ref="schemas:status"/>
+        <xsd:element ref="schemas:comments"/>
+        <xsd:element ref="schemas:exceptionCount"/>
+        <xsd:element ref="schemas:processCount"/>
+      </xsd:sequence>
+    </xsd:complexType>
+  </xsd:element>
+  <xsd:element name="eventType" type="schemas:eventTypes"/>
+  <xsd:element name="eventTimestamp" type="schemas:formattedTimestamp"/>
+  <xsd:element name="requestID" type="xsd:string"/>
+  <xsd:element name="jobId" type="xsd:string"/>
+  <xsd:element name="status" type="schemas:status"/>
+  <xsd:element name="comments" type="xsd:string"/>
+  <xsd:element name="exceptionCount" type="xsd:string"/>
+  <xsd:element name="processCount" type="xsd:string"/>
+ 
+
+  <xsd:simpleType name="eventTypes">
+    <xsd:restriction base="xsd:string">
+      <xsd:enumeration value="PP-Data-Available"/>
+      <xsd:enumeration value="OR-Enrichment-Available"/>
+      <xsd:enumeration value="OR-Batch-Complete"/>
+      <xsd:enumeration value="PP-Data-Available-With-Derivations"/>
+  	</xsd:restriction>  
+  </xsd:simpleType>
+  <xsd:simpleType name="status">
+    <xsd:restriction base="xsd:string">
+      <xsd:enumeration value="COMPLETED"/>
+      <xsd:enumeration value="FAILED"/>
+  	</xsd:restriction>  
+  </xsd:simpleType>
+  <xsd:simpleType name="formattedTimestamp">
+    <xsd:restriction base="xsd:string">
+      <xsd:pattern value="\d{4}[\-](0[1-9]|1[012])[\-](0[1-9]|[12][0-9]|3[01])[ ]([2][0-3]|[0][0-9]|[1][0-9])[:]([0-5][0-9]|[6][0])[:]([0-5][0-9]|[6][0])"/>
+    </xsd:restriction>
+  </xsd:simpleType>
+</xsd:schema>

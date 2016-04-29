@@ -1,0 +1,290 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<fileValidationRules functionName="LLR-GCBC"
+	columnCount="28" delimiter="," allowedExtentions="*.xls,*.xlsx">
+	<inputColumn columnId="1" columnName="template_date" duplicate="true" order="0" dataType="String" notNull="true" regex="20\d\d(0[1-9]|1[0-2])(0[1-9]|[12][0-9]|3[01])">
+        <errorMessages>
+                <entry>
+                        <key>NOT_NULL_INVALID</key>
+                        <value>Template Date should not be blank OR null</value>
+                </entry>
+                <entry>
+                        <key>DATATYPE_INVALID</key>
+                        <value>Template_date is not in valid format</value>
+                </entry>                
+        </errorMessages>
+	</inputColumn>
+	<inputColumn columnId="2" columnName="template_quarter" duplicate="true" order="1" dataType="String" notNull="true">
+		<errorMessages>
+		<entry>
+			<key>NOT_NULL_INVALID</key>
+			<value>template_quarter cannot be blank or null</value>
+		</entry>
+		</errorMessages>
+	</inputColumn>
+	<inputColumn columnId="3" columnName="cycle" duplicate="true" order="2" dataType="String" notNull="true" >
+		<errorMessages>
+			<entry>
+				<key>NOT_NULL_INVALID</key>
+				<value>Reporting_period cannot be blank or null</value>
+			</entry>
+		</errorMessages>
+	</inputColumn>
+	<inputColumn columnId="4" columnName="con_comm" duplicate="true" order="3" dataType="String" notNull="true" regex="([a-zA-Z]{1,5})">
+		<errorMessages>
+		<entry>
+			<key>NOT_NULL_INVALID</key>
+			<value>con_comm cannot be blank or null</value>
+		</entry>
+		<entry>
+			<key>LENGTH_INVALID</key>
+			<value>con_comm exceeds Defined Field Length </value>
+		</entry>	
+		</errorMessages>
+	</inputColumn>
+	<inputColumn columnId="5" columnName="region" duplicate="true" order="4" dataType="String" notNull="true" regex="([a-zA-Z]{1,5})">
+		<errorMessages>
+		<entry>
+			<key>NOT_NULL_INVALID</key>
+			<value>region cannot be blank or null</value>
+		</entry>
+		<entry>
+			<key>DATATYPE_INVALID</key>
+			<value>region Value not found in lookup table</value>
+		</entry>		
+		<entry>
+			<key>LENGTH_INVALID</key>
+			<value>region exceeds Defined Field Length </value>
+		</entry>
+		</errorMessages>
+	</inputColumn>
+	<inputColumn columnId="6" columnName="country" duplicate="true" order="5" dataType="String" notNull="true" regex="([a-zA-Z]{2})">
+		<errorMessages>
+		<entry>
+			<key>NOT_NULL_INVALID</key>
+			<value>country cannot be blank or null</value>
+		</entry>
+		<entry>
+			<key>DATATYPE_INVALID</key>
+			<value>country Value not found in lookup table</value>
+		</entry>		
+		<entry>
+			<key>LENGTH_INVALID</key>
+			<value>country exceeds Defined Field Length </value>
+		</entry>
+		</errorMessages>
+	</inputColumn>
+	<inputColumn columnId="7" columnName="business" duplicate="true" order="6" dataType="String" notNull="true" regex="([0-9a-zA-Z_\- ]{1,20})">
+		<errorMessages>
+		<entry>
+			<key>NOT_NULL_INVALID</key>
+			<value>business cannot be blank or null</value>
+		</entry>
+		<entry>
+			<key>DATATYPE_INVALID</key>
+			<value>business Value not found in lookup table</value>
+		</entry>		
+		<entry>
+			<key>LENGTH_INVALID</key>
+			<value>business exceeds Defined Field Length </value>
+		</entry>
+		</errorMessages>
+	</inputColumn>
+	<inputColumn columnId="8" columnName="corp_holdings" duplicate="true" order="7" dataType="String" notNull="true" regex="([a-zA-Z]{1})">
+		<errorMessages>
+		<entry>
+			<key>NOT_NULL_INVALID</key>
+			<value>Corp_Holdings cannot be blank or null</value>
+		</entry>
+		<entry>
+			<key>DATATYPE_INVALID</key>
+			<value>Corp_Holdings Value not found in lookup table</value>
+		</entry>		
+		<entry>
+			<key>LENGTH_INVALID</key>
+			<value>Corp_Holdings exceeds Defined Field Length </value>
+		</entry>
+		</errorMessages>
+	</inputColumn>
+	<inputColumn columnId="9" columnName="product1" duplicate="true" order="8" dataType="String" notNull="true" >
+		<errorMessages>
+		<entry>
+			<key>NOT_NULL_INVALID</key>
+			<value>Product1 cannot be blank or null</value>
+		</entry>
+		<entry>
+			<key>LENGTH_INVALID</key>
+			<value>region exceeds Defined Field Length </value>
+		</entry>
+		</errorMessages>
+	</inputColumn>
+	<inputColumn columnId="10" columnName="product2" duplicate="true" order="9" dataType="String" notNull="true" regex="([0-9a-zA-Z]{1,20})">
+		<errorMessages>
+		<entry>
+			<key>NOT_NULL_INVALID</key>
+			<value>Product2 cannot be blank or null</value>
+		</entry>
+		<entry>
+			<key>LENGTH_INVALID</key>
+			<value>Product2 exceeds Defined Field Length </value>
+		</entry>
+		</errorMessages>
+	</inputColumn>
+	<inputColumn columnId="11" columnName="product3" duplicate="false" order="10" dataType="String" notNull="false" regex="([0-9a-zA-Z]{0,20})">
+	</inputColumn>
+	<inputColumn columnId="12" columnName="legal_vehicle" duplicate="true" order="11" dataType="String" notNull="true" >
+		<errorMessages>
+		<entry>
+			<key>NOT_NULL_INVALID</key>
+			<value>Legal_Vehicle cannot be blank or null</value>
+		</entry>
+		</errorMessages>
+	</inputColumn>
+	<inputColumn columnId="13" columnName="gcbc_enr_credit_nonfas114" duplicate="false" order="12" dataType="NegativeDecimal" notNull="false" >
+		<errorMessages>
+		<entry>
+			<key>DATATYPE_INVALID</key>
+			<value>gcbc_enr_credit_nonfas114 should be numeric value</value>
+		</entry>
+		</errorMessages>
+	</inputColumn>
+	<inputColumn columnId="14" columnName="gcbc_enr_credit_fas114" 	duplicate="false" order="13" dataType="NegativeDecimal" notNull="false" >
+			<errorMessages>
+			<entry>
+			<key>DATATYPE_INVALID</key>
+			<value>gcbc_enr_credit_fas114 should be numeric value</value>
+		</entry>
+		</errorMessages>
+	</inputColumn>
+		<inputColumn columnId="15" columnName="gcbc_enr_finance_nonfas114" duplicate="false" order="14" dataType="NegativeDecimal" notNull="false" >
+		<errorMessages>
+		<entry>
+			<key>DATATYPE_INVALID</key>
+			<value>gcbc_enr_finance_nonfas114 should be numeric value</value>
+		</entry>
+		</errorMessages>
+	</inputColumn>
+	<inputColumn columnId="16" columnName="gcbc_enr_finance_fas114" duplicate="false" order="15" dataType="NegativeDecimal" notNull="false" >
+		<errorMessages>
+		<entry>
+			<key>DATATYPE_INVALID</key>
+			<value>gcbc_enr_finance_fas114 should be numeric value</value>
+		</entry>
+		</errorMessages>
+	</inputColumn>	
+	<inputColumn columnId="17" columnName="gcbc_basel_el_total" duplicate="false" order="16" dataType="NegativeDecimal" notNull="false" >
+		<errorMessages>
+		<entry>
+			<key>DATATYPE_INVALID</key>
+			<value>gcbc_basel_el_total should be numeric value</value>
+		</entry>
+		</errorMessages>
+	</inputColumn>	
+	<inputColumn columnId="18" columnName="gcbc_basel_sel_total" duplicate="false" order="17" dataType="NegativeDecimal" notNull="false" >
+		<errorMessages>
+		<entry>
+			<key>DATATYPE_INVALID</key>
+			<value>gcbc_basel_sel_total should be numeric value</value>
+		</entry>
+		</errorMessages>
+	</inputColumn>	
+	<inputColumn columnId="19" columnName="gcbc_basel_el_nonfas114" duplicate="false" order="18" dataType="NegativeDecimal" notNull="false" >
+		<errorMessages>
+		<entry>
+			<key>DATATYPE_INVALID</key>
+			<value>gcbc_basel_el_nonfas114 should be numeric value</value>
+		</entry>
+		</errorMessages>
+	</inputColumn>	
+	<inputColumn columnId="20" columnName="gcbc_basel_sel_nonfas114" duplicate="false" order="19" dataType="NegativeDecimal" notNull="false" >
+		<errorMessages>
+		<entry>
+			<key>DATATYPE_INVALID</key>
+			<value>gcbc_basel_sel_nonfas114 should be numeric value</value>
+		</entry>
+		</errorMessages>
+	</inputColumn>	
+	<inputColumn columnId="21" columnName="gcbc_basel_el_fas114" duplicate="false" order="20" dataType="NegativeDecimal" notNull="false" >
+		<errorMessages>
+		<entry>
+			<key>DATATYPE_INVALID</key>
+			<value>gcbc_basel_el_fas114 should be numeric value</value>
+		</entry>
+		</errorMessages>
+	</inputColumn>	
+	<inputColumn columnId="22" columnName="gcbc_basel_sel_fas114" duplicate="false" order="21" dataType="NegativeDecimal" notNull="false" >
+		<errorMessages>
+		<entry>
+			<key>DATATYPE_INVALID</key>
+			<value>gcbc_basel_sel_fas114 should be numeric value</value>
+		</entry>
+		</errorMessages>
+	</inputColumn>	
+	<inputColumn columnId="23" columnName="gcbc_ncl_nonfas114" duplicate="false" order="22" dataType="NegativeDecimal" notNull="false" >
+		<errorMessages>
+		<entry>
+			<key>DATATYPE_INVALID</key>
+			<value>gcbc_ncl_nonfas114 should be numeric value</value>
+		</entry>
+		</errorMessages>
+	</inputColumn>	
+	<inputColumn columnId="24" columnName="gcbc_ncl_fas114" duplicate="false" order="23" dataType="NegativeDecimal" notNull="false" >
+		<errorMessages>
+		<entry>
+			<key>DATATYPE_INVALID</key>
+			<value>gcbc_ncl_fas114 should be numeric value</value>
+		</entry>
+		</errorMessages>
+	</inputColumn>	
+	<inputColumn columnId="25" columnName="gcbc_gcl_nonfas114" duplicate="false" order="24" dataType="NegativeDecimal" notNull="false" >
+		<errorMessages>
+		<entry>
+			<key>DATATYPE_INVALID</key>
+			<value>gcbc_gcl_nonfas114 should be numeric value</value>
+		</entry>
+		</errorMessages>
+	</inputColumn>	
+	<inputColumn columnId="26" columnName="gcbc_gcl_fas114" duplicate="false" order="25" dataType="NegativeDecimal" notNull="false" >
+		<errorMessages>
+		<entry>
+			<key>DATATYPE_INVALID</key>
+			<value>gcbc_gcl_fas114 should be numeric value</value>
+		</entry>
+		</errorMessages>
+	</inputColumn>	
+	<inputColumn columnId="27" columnName="gcbc_recoveries_nonfas114" duplicate="false" order="26" dataType="NegativeDecimal" notNull="false" >
+		<errorMessages>
+		<entry>
+			<key>DATATYPE_INVALID</key>
+			<value>gcbc_recoveries_nonfas114 should be numeric value</value>
+		</entry>
+		</errorMessages>
+	</inputColumn>	
+	<inputColumn columnId="28" columnName="gcbc_recoveries_fas114" duplicate="false" order="27" dataType="NegativeDecimal" notNull="false" >
+		<errorMessages>
+		<entry>
+			<key>DATATYPE_INVALID</key>
+			<value>gcbc_recoveries_fas114 should be numeric value</value>
+		</entry>
+		</errorMessages>
+	</inputColumn>	
+ 	<errorMessages>
+		<entry>
+			<key>CLMN_COUNT_MISMATCH</key>
+			<value>Column Count is not 27 for row {}</value>
+		</entry>
+		<entry>
+			<key>HEADER_INVALID</key>
+			<value>Header Value is invalid</value>
+		</entry>
+		<entry>
+			<key>DUPLICATE_ROW</key>
+			<value>Duplicate row for row {}</value>
+		</entry>
+		<entry>
+			<key>DATATYPE_INVALID</key>
+			<value>Data type is not valid for row {}</value>
+		</entry>
+	</errorMessages>
+</fileValidationRules>
+
+

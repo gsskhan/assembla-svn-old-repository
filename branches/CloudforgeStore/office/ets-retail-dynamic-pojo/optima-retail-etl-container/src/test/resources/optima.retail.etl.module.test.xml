@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<beans	xmlns="http://www.springframework.org/schema/beans"
+		xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+		xmlns:p="http://www.springframework.org/schema/p"
+		xmlns:util="http://www.springframework.org/schema/util"
+		xmlns:context="http://www.springframework.org/schema/context"
+		xsi:schemaLocation="
+			http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.2.xsd
+			http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util-3.2.xsd
+			http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-3.2.xsd">
+    
+    <context:property-placeholder
+            location="classpath:props/optima.retail.etl.module.test.props"
+            ignore-resource-not-found="true"
+            ignore-unresolvable="true"
+            system-properties-mode="OVERRIDE"
+    />
+    
+    <!-- server-side connector -->
+    <bean   id="moduleJmxServerConnector"
+            class="org.springframework.jmx.support.ConnectorServerFactoryBean"
+            p:objectName="connector:name=${module}-rmi"
+            p:serviceUrl="service:jmx:rmi:///jndi/rmi://${jmx.host}:${jmx.port}/${module}"
+    />
+    
+    <!-- mbean exporter --> 
+    <bean   id="moduleMBeanExporter"
+            class="org.springframework.jmx.export.MBeanExporter"
+            p:beans-ref="moduleExportingBeanMap"
+            p:server-ref="mbeanServer"
+            p:assembler-ref="moduleMBeanInfoAssembler"
+            p:registrationBehaviorName="REGISTRATION_FAIL_ON_EXISTING"
+    />
+    
+    <bean   id="moduleMBeanInfoAssembler"
+            class="org.springframework.jmx.export.assembler.InterfaceBasedMBeanInfoAssembler"
+            p:managedInterfaces-ref="moduleManagedInterfaces"
+    />
+    
+    <!-- exporting beans -->
+    <util:map id="moduleExportingBeanMap">
+        <entry key="optima.retail.etl:module=${module}" value-ref="moduleMBean"/>
+    </util:map>
+        
+    <!-- managed interface -->
+    <util:list id="moduleManagedInterfaces">
+        <value>com.citi.retail.optima.etl.container.jmx.OperationalMBean</value>
+    </util:list>
+    
+    <bean   id="moduleMBean" class="com.citi.retail.optima.etl.container.jmx.DummyModuleMBean"/>
+</beans>

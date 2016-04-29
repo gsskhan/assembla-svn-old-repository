@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<beans	xmlns="http://www.springframework.org/schema/beans"
+		xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+		xmlns:p="http://www.springframework.org/schema/p"
+		xmlns:util="http://www.springframework.org/schema/util"
+		xmlns:context="http://www.springframework.org/schema/context"
+		xsi:schemaLocation="
+			http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.2.xsd
+			http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util-3.2.xsd
+			http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-3.2.xsd">
+    
+	<context:property-placeholder
+			location="classpath:props/optima.retail.etl.container.props"
+			ignore-resource-not-found="true"
+			ignore-unresolvable="true"
+			system-properties-mode="OVERRIDE"
+	/>
+	
+	<!--      
+	<import resource="classpath:retail.optima.etl.mail.xml"/>
+	-->
+	
+	<!-- server-side connector -->
+	<bean   id="optimaControllerJmxServerConnector"
+			class="org.springframework.jmx.support.ConnectorServerFactoryBean"
+			depends-on="registry"
+			p:objectName="connector:name=Container-rmi"
+			p:serviceUrl="service:jmx:rmi:///jndi/rmi://${jmx.host}:${jmx.port}/jmxrmi"
+			p:threaded="true"
+	/>
+	
+	<bean   id="registry"
+			class="org.springframework.remoting.rmi.RmiRegistryFactoryBean"
+			p:port="${jmx.port}"
+	/>    
+	
+	<!-- mbean server -->    
+	<bean   id="mbeanServer" class="org.springframework.jmx.support.MBeanServerFactoryBean" p:locateExistingServerIfPossible="true">
+		<property name="defaultDomain">
+			<util:constant static-field="com.citi.retail.optima.etl.container.jmx.ContainerUtil.OPTIMA_RETAIL_ETL_JMX_DOMAIN"/>				
+		</property>
+	</bean>
+	   
+	   <!-- mbean exporter -->        
+	<bean   id="containerMBeanExporter"
+			class="org.springframework.jmx.export.MBeanExporter"
+			p:beans-ref="containerExportingBeanMap"
+			p:server-ref="mbeanServer"
+			p:assembler-ref="containerMBeanInfoAssembler"
+			p:registrationBehaviorName="REGISTRATION_FAIL_ON_EXISTING"
+	/>
+	
+	<bean   id="containerMBeanInfoAssembler"
+			class="org.springframework.jmx.export.assembler.InterfaceBasedMBeanInfoAssembler"
+			p:managedInterfaces-ref="containerManagedInterfaces"
+	/>
+	
+	<!-- exporting beans -->
+	<util:map id="containerExportingBeanMap">
+		<entry>
+			<key>
+				<util:constant static-field="com.citi.retail.optima.etl.container.jmx.ContainerMBean.OBJECT_NAME"/>
+			</key>
+			<ref bean="container"/>
+		</entry>
+		<entry key="MX4J:name=HttpAdaptor" value-ref="httpAdaptor" />
+		<entry key="MX4J:name=XSLTProcessor" value-ref="xsltProcessor" />
+	</util:map>
+	
+	<bean	id="httpAdaptor" destroy-method="stop"
+			class="mx4j.tools.adaptor.http.HttpAdaptor"
+			p:processor-ref="xsltProcessor"
+			p:port="${http.port}"
+	/>
+	
+	<bean id="xsltProcessor" class="mx4j.tools.adaptor.http.XSLTProcessor"/>    
+	
+	<!-- managed interface -->
+	<util:list id="containerManagedInterfaces">
+		<value>com.citi.retail.optima.etl.container.jmx.ContainerMBean</value>
+	</util:list>
+	
+	<bean id="container" class="com.citi.retail.optima.etl.container.Container" factory-method="getInstance">
+		<property name="memoryUsageListenerList">
+			<util:list>
+				<bean class="com.citi.retail.optima.etl.container.monitor.handler.LogMemoryUsageNotificationHandler">
+					<constructor-arg value="default"/>
+				</bean>
+			</util:list>
+		</property>	
+	</bean>
+</beans>

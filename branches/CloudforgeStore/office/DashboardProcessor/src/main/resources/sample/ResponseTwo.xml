@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<p:ETSFeed xmlns:p="http://www.citi.com/ETSDashBoardResponse" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.citi.com/ETSDashBoardResponse ETSDashBoardResponse.xsd">
+   <p:appdata>
+      <p:csi>8831</p:csi>
+      <p:appName>CE</p:appName>
+   </p:appdata>
+   <p:kpiDetail>
+      <p:kpiName>FEEDS-LATE</p:kpiName>
+      <p:kpiStatus statusCode="Feeds In">25</p:kpiStatus>
+      <p:statusDesc>25 feeds have arrived late</p:statusDesc>
+      <p:kpiparameter>CLTD20140116_G1.GCT|Expected_Time-2014-01-16_00:00:00|Actual Arrival Time-2014-01-17_00:00:00,CLTD20140116_G2.GCT|Expected_Time-2014-01-16_00:00:00|Actual Arrival Time-2014-01-17_00:00:00,CLTD20140116_G3.GCT|Expected_Time-2014-01-16_00:00:00|Actual Arrival Time-2014-01-17_00:00:00,CLTD20140117_G1.GCT|Expected_Time-2014-01-17_00:00:00|Actual Arrival Time-2014-01-17_00:00:00,CLTD20140101_G1.GCT|Expected_Time-2014-01-01_00:00:00|Actual Arrival Time-2014-01-16_00:00:00,CLTD20140101_G2.GCT|Expected_Time-2014-01-01_00:00:00|Actual Arrival Time-2014-01-16_00:00:00,CLTD20140102_G2.GCT|Expected_Time-2014-01-02_00:00:00|Actual Arrival Time-2014-01-16_00:00:00,CLTD20140103_G2.GCT|Expected_Time-2014-01-03_00:00:00|Actual Arrival Time-2014-01-16_00:00:00,CLTD20140104_G2.GCT|Expected_Time-2014-01-04_00:00:00|Actual Arrival Time-2014-01-16_00:00:00,CLTD20140105_G2.GCT|Expected_Time-2014-01-05_00:00:00|Actual Arrival Time-2014-01-16_00:00:00,CLTD20140106_G2.GCT|Expected_Time-2014-01-06_00:00:00|Actual Arrival Time-2014-01-16_00:00:00,CLTD20140107_G2.GCT|Expected_Time-2014-01-07_00:00:00|Actual Arrival Time-2014-01-16_00:00:00,CLTD20140101_G3.GCT|Expected_Time-2014-01-01_00:00:00|Actual Arrival Time-2014-01-16_00:00:00,CLTD20140102_G3.GCT|Expected_Time-2014-01-02_00:00:00|Actual Arrival Time-2014-01-16_00:00:00,CLTD20140103_G3.GCT|Expected_Time-2014-01-03_00:00:00|Actual Arrival Time-2014-01-16_00:00:00,CLTD20140104_G3.GCT|Expected_Time-2014-01-04_00:00:00|Actual Arrival Time-2014-01-16_00:00:00,CLTD20140105_G3.GCT|Expected_Time-2014-01-05_00:00:00|Actual Arrival Time-2014-01-16_00:00:00,CLTD20140106_G3.GCT|Expected_Time-2014-01-06_00:00:00|Actual Arrival Time-2014-01-16_00:00:00,CLTD20140107_G3.GCT|Expected_Time-2014-01-07_00:00:00|Actual Arrival Time-2014-01-16_00:00:00,CLTD20140102_G1.GCT|Expected_Time-2014-01-02_00:00:00|Actual Arrival Time-2014-01-16_00:00:00,CLTD20140103_G1.GCT|Expected_Time-2014-01-03_00:00:00|Actual Arrival Time-2014-01-16_00:00:00,CLTD20140104_G1.GCT|Expected_Time-2014-01-04_00:00:00|Actual Arrival Time-2014-01-16_00:00:00,CLTD20140105_G1.GCT|Expected_Time-2014-01-05_00:00:00|Actual Arrival Time-2014-01-16_00:00:00,CLTD20140106_G1.GCT|Expected_Time-2014-01-06_00:00:00|Actual Arrival Time-2014-01-16_00:00:00,CLTD20140107_G1.GCT|Expected_Time-2014-01-07_00:00:00|Actual Arrival Time-2014-01-16_00:00:00</p:kpiparameter>
+      <p:eventtimestamp>2014-01-30_08:03:32</p:eventtimestamp>
+   </p:kpiDetail>
+   <p:kpiDetail>
+      <p:kpiName>FEEDS-MISSED</p:kpiName>
+      <p:kpiStatus statusCode="Feeds In">0</p:kpiStatus>
+      <p:statusDesc>All files successful</p:statusDesc>
+      <p:kpiparameter>NA</p:kpiparameter>
+      <p:eventtimestamp>2014-01-30_08:03:32</p:eventtimestamp>
+   </p:kpiDetail>
+   <p:kpiDetail>
+      <p:kpiName>FEEDS-LATE</p:kpiName>
+      <p:kpiStatus statusCode="Feeds Out">0</p:kpiStatus>
+      <p:statusDesc>All files successful</p:statusDesc>
+      <p:kpiparameter>NA</p:kpiparameter>
+      <p:eventtimestamp>2014-01-30_08:03:32</p:eventtimestamp>
+   </p:kpiDetail>
+   <p:kpiDetail>
+      <p:kpiName>FEEDS-MISSED</p:kpiName>
+      <p:kpiStatus statusCode="Feeds Out">0</p:kpiStatus>
+      <p:statusDesc>All files successful</p:statusDesc>
+      <p:kpiparameter>NA</p:kpiparameter>
+      <p:eventtimestamp>2014-01-30_08:03:32</p:eventtimestamp>
+   </p:kpiDetail>
+</p:ETSFeed>

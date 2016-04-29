@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<beans	xmlns="http://www.springframework.org/schema/beans"
+		xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+		xmlns:p="http://www.springframework.org/schema/p"
+		xmlns:c="http://www.springframework.org/schema/c"	
+		xmlns:int="http://www.springframework.org/schema/integration"
+		xmlns:int-jms="http://www.springframework.org/schema/integration/jms"
+		xsi:schemaLocation="
+				http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.2.xsd
+				http://www.springframework.org/schema/integration http://www.springframework.org/schema/integration/spring-integration-2.2.xsd
+				http://www.springframework.org/schema/integration/jms http://www.springframework.org/schema/integration/jms/spring-integration-jms-2.2.xsd">
+				
+	<int:channel id="exceptionJmsInChannel" />
+	
+	<int-jms:message-driven-channel-adapter
+			id="excptionJmsIn"
+			connection-factory="jmsConnectionFactory"
+			destination="loggingQueueDestination"
+			channel="exceptionJmsInChannel"
+			concurrent-consumers="3"
+			max-concurrent-consumers="5"
+			idle-consumer-limit="1"
+	/>
+
+	<int:channel id="excptionJmsReceiveChannel">
+		<int:queue capacity="25"/>
+	</int:channel>
+	
+	<int:service-activator
+			id="jmsMessageListener"
+			input-channel="exceptionJmsInChannel"
+			output-channel="excptionJmsReceiveChannel"
+			ref="exceptionMessageListener"
+			method="exceptionHandler"
+	/>
+				
+	<bean	id="exceptionMessageListener"
+			class="com.citi.retail.optima.etl.logging.handler.ExceptionMessageListener"
+			p:exceptionMessageDao-ref="exceptionMessageDao"
+	/>	
+</beans>

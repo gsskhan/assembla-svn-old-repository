@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:p="http://www.springframework.org/schema/p" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:util="http://www.springframework.org/schema/util" xmlns:context="http://www.springframework.org/schema/context"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.2.xsd
+							http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util-3.2.xsd
+							http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-3.2.xsd">
+
+
+	<bean id="optimaSpringLookUpManager" class="org.springframework.cache.ehcache.EhCacheCacheManager">
+		<property name="cacheManager">
+			<bean class="org.springframework.cache.ehcache.EhCacheManagerFactoryBean"
+				p:cacheManagerName="LookUpManager" p:configLocation="ehcache.validation.test.xml" />
+		</property>
+	</bean>
+
+	<!-- validation Rules begin -->
+
+	<bean id="validationRulesCacheService" factory-bean="optimaSpringLookUpManager"
+		factory-method="getCache">
+		<constructor-arg value="validationRules" />
+	</bean>
+
+	<bean id="validationRulesRefCacheLoader"
+		class="com.citi.retail.optima.etl.cache.ehcache.ValidationRulesLoaderImpl">
+		<property name="cache" ref="validationRulesCacheService" />
+		<property name="cacheEntryHelper" ref="validationRulesRefCacheEntryHelper" />
+		<property name="dao" ref="validationRulesDao" />
+		<property name="preloadCache" value="true" />
+	</bean>
+
+	<bean id="validationRulesRefCacheEntryHelper"
+		class="com.citi.retail.optima.etl.cache.helper.ValidationCacheEntryHelper" />
+
+	<bean id="validationRulesDao"
+		class="com.citi.retail.optima.etl.cache.dao.impl.ValidationRulesDaoImpl">
+		<property name="sql">
+			<value>
+			<![CDATA[
+					  SELECT ruleset.*,
+					  params.params_name,
+					  params.params_value
+					FROM (select result1.*,cat.cat_desc from (							                
+							                          SELECT case when mapped_rules.cat_cd is null then to_char(mapped_rules.PROC_UNIT_ID) else mapped_rules.cat_cd||':'||to_char(mapped_rules.PROC_UNIT_ID) END AS KEY, 
+							                         mapped_rules.PROC_UNIT_ID,
+							                         mapped_rules.attr_id,
+							                         mapped_rules.VLD_RULE_ID,
+							                         attributes.clas_nm,
+							                         attributes.attr_nm,
+							                         mapped_rules.vld_typ,
+							                         mapped_rules.CAT_CD,
+							                         rules.VLD_RULE_NM,
+							                         rules.vld_clas,
+							                         mapped_rules.VLD_RULE_EXEC_ORD
+							                        FROM orc_etl_attribute attributes,
+							                        orc_vld_rule rules,
+							                        orc_vld_map mapped_rules
+							                        WHERE mapped_rules.attr_id = attributes.attr_id
+							                        AND mapped_rules.VLD_RULE_ID=rules.VLD_RULE_ID
+                                      AND mapped_rules.eff_sts = rules.eff_sts
+                                      AND mapped_rules.eff_sts ='A'                                    
+							          )result1, orc_cat cat where result1.CAT_CD = cat.CAT_CD order by PROC_UNIT_ID ) ruleset
+                        LEFT OUTER JOIN orc_vld_rule_params params ON ruleset.attr_id = params.attr_id 
+                        AND ruleset.VLD_RULE_ID = params.VLD_RULE_ID AND ruleset.PROC_UNIT_ID = params.PROC_UNIT_ID 
+                        order by VLD_RULE_EXEC_ORD
+					]]>								
+			</value>
+		</property>
+		<property name="jdbcTemplate" ref="jdbcTemplate" />
+	</bean>
+
+	<bean id="validationRulesLookup"
+		class="com.citi.retail.optima.etl.cache.lookup.ValidationRulesLookup">
+		<constructor-arg ref="validationRulesCacheService" />
+	</bean>
+
+	<!-- validation Rules end -->
+
+
+
+
+
+</beans>

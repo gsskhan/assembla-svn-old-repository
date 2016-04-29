@@ -1,0 +1,168 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<beans  xmlns="http://www.springframework.org/schema/beans"
+		xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xmlns:p="http://www.springframework.org/schema/p"        
+        xmlns:util="http://www.springframework.org/schema/util"
+        xmlns:context="http://www.springframework.org/schema/context"
+        xsi:schemaLocation="
+        		http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.2.xsd
+        		http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util-3.2.xsd
+        		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-3.2.xsd">
+       
+    <context:annotation-config/>
+    
+            <!-- *********************************************** HK JOB Data Service = START ***************************************************** -->
+
+	<bean id="hkplDataService" factory-bean="preProcessorDataServiceFactory"
+		factory-method="getPreProcessorDataService" scope="step">
+		<constructor-arg type="java.lang.Long"
+			value="#{jobParameters[batchInstanceId]}" />
+		<constructor-arg type="java.lang.String"
+			value="com.citi.optima.retail.batch.preprocess.HkDataServiceImpl" />
+	</bean>
+	
+	
+	<!-- *********************************************** hk JOB Data Service = END ***************************************************** -->
+	
+	
+	    <!-- **********************************************  PREPROCESSOR CONFG STARTS   ****************************************************-->
+	    
+	    
+	    
+	 <bean id="hkplpreprocessFicoDataProvider"
+		class="com.citi.optima.retail.batch.preprocess.PreProcessDataProviderImpl"
+		depends-on="preprocessDataServiceFact" scope="step">
+		<property name="preprocessMap"
+			value="#{(preprocessDataServiceFact.getLocalPreProcessorDataServiceMap('hkplficoDataProcessStep'))}" />
+	</bean>
+	    
+	    
+	<bean id="hkplpreprocessWoDataProvider"
+		class="com.citi.optima.retail.batch.preprocess.PreProcessDataProviderImpl"
+		depends-on="preprocessDataServiceFact" scope="step">
+		<property name="preprocessMap"
+			value="#{(preprocessDataServiceFact.getLocalPreProcessorDataServiceMap('hkplwoDataProcessStep'))}" />
+	</bean>
+
+	<bean id="hkplpreprocessRecvDataProvider"
+		class="com.citi.optima.retail.batch.preprocess.PreProcessDataProviderImpl"
+		depends-on="preprocessDataServiceFact" scope="step">
+		<property name="preprocessMap"
+			value="#{(preprocessDataServiceFact.getLocalPreProcessorDataServiceMap('hkplrecvDataProcessStep'))}" />
+	</bean>
+
+	<bean id="hkplpreprocessDataServiceFact" factory-bean="preProcessorDataServiceFactory"
+		factory-method="getPreProcessorDataService" scope="step">
+		<constructor-arg type="java.lang.Long"
+			value="#{jobParameters[batchInstanceId]}" />
+		<constructor-arg type="java.lang.String"
+			value="com.citi.optima.retail.batch.preprocess.PreProcessorDataServiceImpl" />
+	</bean>
+	
+	<!-- ######################################## For HK MTG : Start ########################################  -->
+	
+	<bean id="hkMtgDataService" factory-bean="preProcessorDataServiceFactory"
+		factory-method="getPreProcessorDataService" scope="step">
+		<constructor-arg type="java.lang.Long"
+			value="#{jobParameters[batchInstanceId]}" />
+		<constructor-arg type="java.lang.String"
+			value="com.citi.optima.retail.batch.preprocess.HkMortgagesDataServiceImpl" />
+	</bean>
+	
+	<bean id="preprocessHkMtgWODataProvider"
+		class="com.citi.optima.retail.batch.preprocess.PreProcessDataProviderImpl"
+		depends-on="preprocessDataServiceFact" scope="step">
+		<property name="preprocessMap"
+			value="#{(preprocessDataServiceFact.getLocalPreProcessorDataServiceMap('hkMtgwoDataProcessStep'))}" />
+	</bean>
+	
+	<bean id="preprocessHkMtgFIPDataProvider"
+		class="com.citi.optima.retail.batch.preprocess.PreProcessDataProviderImpl"
+		depends-on="preprocessDataServiceFact" scope="step">
+		<property name="preprocessMap"
+			value="#{(preprocessDataServiceFact.getLocalPreProcessorDataServiceMap('hkMtgFipDataProcessStep'))}" />
+	</bean>
+	
+	<bean id="preprocessHkMtgRWDataProvider"
+		class="com.citi.optima.retail.batch.preprocess.PreProcessDataProviderImpl"
+		depends-on="preprocessDataServiceFact" scope="step">
+		<property name="preprocessMap"
+			value="#{(preprocessDataServiceFact.getLocalPreProcessorDataServiceMap('hkMtgRwDataProcessStep'))}" />
+	</bean>
+	
+	<bean id="preprocessHkMtgRECVDataProvider"
+		class="com.citi.optima.retail.batch.preprocess.PreProcessDataProviderImpl"
+		depends-on="preprocessDataServiceFact" scope="step">
+		<property name="preprocessMap"
+			value="#{(preprocessDataServiceFact.getLocalPreProcessorDataServiceMap('hkMtgRecvDataProcessStep'))}" />
+	</bean>	
+	
+	<!-- ######################################## For HK MTG : End ########################################  -->
+	
+	<bean id="hkRcDataService" factory-bean="preProcessorDataServiceFactory"
+		factory-method="getPreProcessorDataService" scope="step">
+		<constructor-arg type="java.lang.Long"
+			value="#{jobParameters[batchInstanceId]}" />
+		<constructor-arg type="java.lang.String"
+			value="com.citi.optima.retail.batch.preprocess.HkDataServiceImpl" />
+	</bean>
+	
+	 <bean id="preprocessHkRcFicoDataProvider"
+		class="com.citi.optima.retail.batch.preprocess.PreProcessDataProviderImpl"
+		depends-on="preprocessDataServiceFact" scope="step">
+		<property name="preprocessMap"
+			value="#{(preprocessDataServiceFact.getLocalPreProcessorDataServiceMap('ficoDataProcessStep'))}" />
+	</bean>
+	    
+	    
+	<bean id="preprocessHkRcWoDataProvider"
+		class="com.citi.optima.retail.batch.preprocess.PreProcessDataProviderImpl"
+		depends-on="preprocessDataServiceFact" scope="step">
+		<property name="preprocessMap"
+			value="#{(preprocessDataServiceFact.getLocalPreProcessorDataServiceMap('woDataProcessStep'))}" />
+	</bean>
+
+	<bean id="preprocessHkRcRecvDataProvider"
+		class="com.citi.optima.retail.batch.preprocess.PreProcessDataProviderImpl"
+		depends-on="preprocessDataServiceFact" scope="step">
+		<property name="preprocessMap"
+			value="#{(preprocessDataServiceFact.getLocalPreProcessorDataServiceMap('recvDataProcessStep'))}" />
+	</bean>
+	
+	<bean id="preprocessHkRcNewCommitDataProvider"
+		class="com.citi.optima.retail.batch.preprocess.PreProcessDataProviderImpl"
+		depends-on="preprocessDataServiceFact" scope="step">
+		<property name="preprocessMap"
+			value="#{(preprocessDataServiceFact.getLocalPreProcessorDataServiceMap('newCommitDataProcessStep'))}" />
+	</bean>
+	
+	<bean id="preprocessHkRcDelqDataProvider"
+		class="com.citi.optima.retail.batch.preprocess.PreProcessDataProviderImpl"
+		depends-on="preprocessDataServiceFact" scope="step">
+		<property name="preprocessMap"
+			value="#{(preprocessDataServiceFact.getLocalPreProcessorDataServiceMap('delqDataProcessStep'))}" />
+	</bean>
+	
+	<bean id="preprocessHkRcCrdTransferDataProvider"
+		class="com.citi.optima.retail.batch.preprocess.PreProcessDataProviderImpl"
+		depends-on="preprocessDataServiceFact" scope="step">
+		<property name="preprocessMap"
+			value="#{(preprocessDataServiceFact.getLocalPreProcessorDataServiceMap('crdTransferDataProcessStep'))}" />
+	</bean>
+
+	<bean id="preprocessDataServiceFact" factory-bean="preProcessorDataServiceFactory"
+		factory-method="getPreProcessorDataService" scope="step">
+		<constructor-arg type="java.lang.Long"
+			value="#{jobParameters[batchInstanceId]}" />
+		<constructor-arg type="java.lang.String"
+			value="com.citi.optima.retail.batch.preprocess.PreProcessorDataServiceImpl" />
+	</bean>
+	
+	
+	
+	
+	    
+	        <!-- **********************************************  PREPROCESSOR CONFG ENDS   ****************************************************-->
+	        
+	        	
+</beans>

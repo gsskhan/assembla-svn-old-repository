@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p"
+	xmlns:c="http://www.springframework.org/schema/c" xmlns:int="http://www.springframework.org/schema/integration"
+	xmlns:int-jms="http://www.springframework.org/schema/integration/jms"
+	xmlns:file="http://www.springframework.org/schema/integration/file"
+	xsi:schemaLocation="
+				http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.2.xsd
+				http://www.springframework.org/schema/integration http://www.springframework.org/schema/integration/spring-integration-2.2.xsd
+				http://www.springframework.org/schema/integration/file http://www.springframework.org/schema/integration/file/spring-integration-file.xsd
+				http://www.springframework.org/schema/integration/jms http://www.springframework.org/schema/integration/jms/spring-integration-jms-2.2.xsd">
+
+	<bean id="applicationProperties"
+		class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
+		<property name="locations">
+			<list>
+				<value>classpath:retail.optima.etl.integration.test.datasource.props
+				</value>
+			<!-- 	<value>classpath:retail.optima.etl.integration.test.activemq.props
+				</value> -->
+				<value>classpath:retail.optima.etl.integration.test.tibco.props</value>
+			</list>
+		</property>
+	</bean>
+
+	<import resource="classpath:retail.optima.etl.integration.test.datasource.xml" />
+	<import resource="classpath:retail.optima.etl.integration.test.jms.tibco.xml" />
+	<!-- <import resource="classpath:retail.optima.etl.integration.test.jms.activemq.xml" /> -->
+
+	<bean id="abstractDao" abstract="true" p:jdbcTemplate-ref="jdbcTemplate" />
+
+	<bean id="integrationTestDao" parent="abstractDao"
+		class="com.citi.retail.optima.etl.integration.test.dao.impl.IntegrationTestDaoImpl"
+		init-method="init" />
+
+	<int-jms:message-driven-channel-adapter
+		id="intigrationTestJmsAdapter" connection-factory="jmsTopicConnectionFactory"
+		destination="inboundBoundTopic" channel="intigrationTestMessageOutputChannel"
+		auto-startup="false" />
+
+	<int:channel id="intigrationTestMessageOutputChannel" />
+	
+	<int:channel id="batchCompletionHandlerChannel" />
+	
+	<int:channel id="newJobHandlerChannel" />
+	
+
+	<int:service-activator id="intigrationTestMessageHandler"
+		input-channel="intigrationTestMessageOutputChannel" 
+		output-channel="headerRoutingChannel"
+		ref="intigrationTestMessageHandlerService"
+		method="handleMessage" />
+
+	<bean id="intigrationTestMessageHandlerService"
+		class="com.citi.retail.optima.etl.integration.test.message.handler.IntigrationTestMessageHandler"
+		p:integrationTestDao-ref="integrationTestDao" />
+		
+	<int:header-value-router input-channel="headerRoutingChannel" header-name="MESSAGE_TYPE">
+		<int:mapping value="BATCH_COMPLETION" channel="batchCompletionHandlerChannel" />
+		<int:mapping value="ORETL_NEW_JOB_REQUEST" channel="newJobHandlerChannel" />
+	</int:header-value-router>
+	
+	<int:service-activator id="batchCompletionMessageHandler"
+		input-channel="batchCompletionHandlerChannel" 
+		ref="intigrationTestMessageHandlerService"
+		method="handleRequestMessage" />
+		
+	<int:service-activator id="newJobMessageHandler"
+		input-channel="newJobHandlerChannel" 
+		ref="intigrationTestMessageHandlerService"
+		method="newJobRequestMessage" />
+	
+
+	<file:inbound-channel-adapter id="filesIn" prevent-duplicates="false"
+		directory="file:${xmldir}" >
+		<int:poller id="poller" fixed-delay="5000" />
+	</file:inbound-channel-adapter>
+
+	<file:file-to-string-transformer
+		input-channel="filesIn" output-channel="genesisMessageOutputChannel"
+		delete-files="true" />
+
+
+	<int:channel id="genesisMessageOutputChannel" />
+
+	<int-jms:outbound-channel-adapter id="genesisQueue"
+		channel="genesisMessageOutputChannel" connection-factory="jmsTopicConnectionFactory"
+		destination="genesisDestination" />
+
+</beans>

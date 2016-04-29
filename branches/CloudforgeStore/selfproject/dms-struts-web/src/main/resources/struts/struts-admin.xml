@@ -1,0 +1,176 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE struts PUBLIC
+    "-//Apache Software Foundation//DTD Struts Configuration 2.3//EN"
+    "http://struts.apache.org/dtds/struts-2.3.dtd">
+ 
+<struts>
+
+	<package name="adminPackage" namespace="/admin" extends="struts-default,json-default,tiles-default">
+		 <result-types>
+	    	 <result-type name="json" class="org.apache.struts2.json.JSONResult"/>
+	    	 <result-type name="tiles" class="org.apache.struts2.views.tiles.TilesResult"/>
+ 		 </result-types>
+  		  		 		 
+		 <action name="adminlogin" class="org.dms.web.action.AdminLoginAction">
+		 	<result name="input">admin_login.jsp</result>
+			<result name="success">admin_home.jsp</result>
+			<result name="error">admin_login.jsp</result>
+		 </action>
+		 <action name="logout" class="org.dms.web.action.LogoutAction">
+		 	<result name="success">admin_login.jsp</result>
+			<result name="error" >admin_home.jsp</result>
+		 </action>
+		 <action name="jsonsample" class="registerAction">
+		 	<interceptor-ref name="basicStack"></interceptor-ref>
+		 	<result type="json" >
+		 		<param name="excludeProperties">usersRepository</param>
+		 	</result>
+		 </action>
+		 <action name="addUser" class="org.dms.web.action.RegisterAction" method="addUser">
+		 	<result name="input">admin_register.jsp</result>
+			<result name="success">admin_register.jsp</result>
+			<result name="error">admin_register.jsp</result>
+		 </action>
+		 <action name="delUser" class="org.dms.web.action.RegisterAction" method="deleteUser">
+		 	<interceptor-ref name="basicStack"></interceptor-ref>
+		 	<result name="input">admin_usersearch.jsp</result>
+		 	<result name="success">admin_usersearch.jsp</result>
+			<result name="error">admin_usersearch.jsp</result>
+		 </action>
+		 <action name="putUserRecord" class="org.dms.web.action.RegisterAction" method="userSetToHTTPRequest">
+		 	<interceptor-ref name="basicStack"></interceptor-ref>
+		 	<result name="input">admin_usersearch.jsp</result>
+		 	<result name="success">admin_usersearch.jsp</result>
+			<result name="error">admin_useredit.jsp</result>
+		 </action>
+		 <action name="modifyUser" class="org.dms.web.action.RegisterAction" method="editUser">
+		 	<result name="input">admin_usersearch.jsp</result>
+		 	<result name="success">admin_usersearch.jsp</result>
+			<result name="error">admin_useredit.jsp</result>
+		 </action>
+		 <action name="searchUserAction" class="org.dms.web.action.SearchUsers" method="searchUserWithKeyword">
+		 	<result name="input">admin_usersearch.jsp</result>
+			<result name="success">admin_usersearch.jsp</result>
+			<result name="error">admin_usersearch.jsp</result>
+		 </action>
+		 <action name="downloadReportAllUsers" class="org.dms.web.action.SearchUsers" method="getPdfReportForAllUsers" >
+		 	<result name="success" type="stream">
+		 		<param name="contentType">application/octet-stream</param>
+		 		<param name="inputName">fileInputStream</param>
+		 		<param name="contentDisposition">attachment;filename="dms_users.pdf"</param>
+		 		<param name="bufferSize">10240</param>
+		 	</result>
+		 </action>
+		 <action name="gridConstantDataProvider" class="org.dms.web.jsonaction.ConstantsDataGridAction">
+		 	<interceptor-ref name="basicStack"></interceptor-ref>
+		 	<result type="json">
+		 		<param name="excludeProperties">constantsRepository</param>
+		 	</result>
+		 </action>
+		 <action name="addNewConstant" class="org.dms.web.action.ConstantsManageAction" method="addConstant">
+		 	<result name="input">admin_manageconstants.jsp</result>
+		 	<result name="success">admin_manageconstants.jsp</result>
+			<result name="error">admin_manageconstants.jsp</result>
+		 </action>
+		 <action name="jsonVarNameAction" class="jsonSearchVarName">
+		 	<interceptor-ref name="basicStack"></interceptor-ref>
+		 	<result type="json">
+		 		<param name="excludeProperties">constantsRepository</param>
+		 	</result>
+		 </action>
+		 <action name="searchConstants" class="org.dms.web.action.ConstantsManageAction" method="searchConstants">
+		 	<interceptor-ref name="basicStack"></interceptor-ref>
+		 	<result name="input">admin_manageconstants.jsp</result>
+		 	<result name="success">admin_manageconstants.jsp</result>
+			<result name="error">admin_manageconstants.jsp</result>
+		 </action>
+		 <action name="deleteConstantAction" class="org.dms.web.action.ConstantsManageAction" method="deleteConstant">
+		 	<interceptor-ref name="basicStack"></interceptor-ref>
+		 	<result name="input">admin_manageconstants.jsp</result>
+		 	<result name="success">admin_manageconstants.jsp</result>
+			<result name="error">admin_manageconstants.jsp</result>
+		 </action>
+		 <action name="setConstantRecordAction" class="org.dms.web.action.ConstantsManageAction" method="setConstants">
+		 	<interceptor-ref name="basicStack"></interceptor-ref>
+		 	<result name="input">admin_manageconstants.jsp</result>
+		 	<result name="success">admin_manageconstants.jsp</result>
+			<result name="error">admin_manageconstants.jsp</result>
+		 </action>
+		 <action name="editConstantAction" class="org.dms.web.action.ConstantsManageAction" method="editConstants">
+		 	<interceptor-ref name="basicStack"></interceptor-ref>
+		 	<result name="input">admin_manageconstants.jsp</result>
+		 	<result name="success">admin_manageconstants.jsp</result>
+			<result name="error">admin_manageconstants.jsp</result>
+		 </action>
+		 <action name="downloadReportAllConstants" class="org.dms.web.action.ConstantsManageAction" method="getPdfReportForAllConstants">
+		 	<interceptor-ref name="basicStack"></interceptor-ref>
+		 	<result name="success" type="stream">
+		 		<param name="contentType">application/octet-stream</param>
+		 		<param name="inputName">fileInputStream</param>
+		 		<param name="contentDisposition">attachment;filename="dms_constants.pdf"</param>
+		 		<param name="bufferSize">10240</param>
+		 	</result>
+		 </action>
+		 <action name="getAuthorizerNamesList" class="org.dms.web.action.ManagePapersAction" method="findAuthorizersList">
+		 	<interceptor-ref name="basicStack"></interceptor-ref>
+		 	<result type="json" >
+		 		<param name="excludeProperties">paperService</param>
+		 	</result>
+		 </action>
+		 <action name="downloadPaper" class="org.dms.web.action.ManagePapersAction" method="findPaper">
+		 	<interceptor-ref name="basicStack"></interceptor-ref>
+		 	<result name="success" type="stream">
+		 		<param name="contentType">application/octet-stream</param>
+		 		<param name="inputName">fileInputStream</param>
+		 		<param name="contentDisposition">attachment;filename="${fileUploadFileName}"</param>
+		 		<param name="bufferSize">99999999</param>
+		 	</result>
+		 	<result name="input">admin_managepapers.jsp</result>
+		 	<result name="error">admin_managepapers.jsp</result>
+		 </action>
+		 <action name="addNewPaper" class="org.dms.web.action.ManagePapersAction" method="addNewPaper">
+            <interceptor-ref name="fileUpload"/>
+    		<interceptor-ref name="basicStack"/>
+            <result name="input">admin_managepapers.jsp</result>
+   			<result name="success">admin_managepapers.jsp</result>
+   			<result name="error">admin_managepapers.jsp</result>
+		 </action>
+		 <action name="pendingWorkflowActions" class="org.dms.web.action.ManagePapersAction" method="pendingActionWorkflows">
+    		<interceptor-ref name="basicStack"/>
+            <result name="input">admin_managepapers.jsp</result>
+   			<result name="success">admin_managepapers.jsp</result>
+   			<result name="error">admin_managepapers.jsp</result>
+		 </action>	
+		 <action name="searchPaperDetails" class="org.dms.web.action.ManagePapersAction" method="findPaperDetailsAll">
+    		<interceptor-ref name="basicStack"/>
+            <result name="input">admin_managepapers.jsp</result>
+   			<result name="success">admin_managepapers.jsp</result>
+   			<result name="error">admin_managepapers.jsp</result>
+		 </action>
+		 <action name="findWorkflowActionTextList" class="org.dms.web.action.ManagePapersAction" method="getActionsTextList">
+		 	<interceptor-ref name="basicStack"></interceptor-ref>
+		 	<result type="json" >
+		 		<param name="excludeProperties">paperService</param>
+		 	</result>
+		 </action>
+		 <action name="launchWorkflow" class="org.dms.web.action.ManagePapersAction" method="LaunchWorkflow">
+    		<interceptor-ref name="basicStack"/>
+            <result name="input">admin_managepapers.jsp</result>
+   			<result name="success">admin_managepapers.jsp</result>
+   			<result name="error">admin_managepapers.jsp</result>
+		 </action>
+		 <action name="findUsersListToAssign" class="org.dms.web.action.ManagePapersAction" method="getUsernamesListForAssignment">
+    		<interceptor-ref name="basicStack"></interceptor-ref>
+		 	<result type="json" >
+		 		<param name="excludeProperties">paperService</param>
+		 	</result>
+		 </action>
+		 <action name="processWorkflow" class="org.dms.web.action.ManagePaperWorkflowAction" method="processWorkflow">
+    		<interceptor-ref name="basicStack"/>
+            <result name="input">admin_managepapers.jsp</result>
+   			<result name="success">admin_managepapers.jsp</result>
+   			<result name="error">admin_managepapers.jsp</result>
+		 </action>
+ 	</package>
+
+</struts>

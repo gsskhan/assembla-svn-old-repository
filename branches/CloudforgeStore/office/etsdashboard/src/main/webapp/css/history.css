@@ -1,0 +1,48 @@
+body {
+	padding-top: 2%;
+	padding: .5%;
+	font-family : tahoma;
+}
+
+.SecondRow {
+	width: 600px;
+}
+
+.MainRow {
+	width: 400px;
+}
+
+.boderpanel {
+	border: 1px solid #bbb;
+	border-collapse: collapse;
+	padding: 11px;
+}
+
+#pageHead {
+	font-weight: 700;
+	height: 26px;
+}
+
+.x-panel-header-default {
+	background-color: #ffffff;
+	background-image: none;
+	border: 1px solid white;
+}
+
+.x-column-header {
+	border-top: 1px solid #cccccc;
+	border-left: 1px solid #cccccc;
+}
+
+.x-panel-header-text-container-default {
+	color: black;
+}
+
+.boderpanel {
+	border-right: 1px solid #cccccc;
+	border-collapse: collapse;
+	padding: 6px;
+}
+.x-column-header-text{
+	font-weight : 700;
+}

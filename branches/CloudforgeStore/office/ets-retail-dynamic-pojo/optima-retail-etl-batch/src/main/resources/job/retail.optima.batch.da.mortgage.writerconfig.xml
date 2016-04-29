@@ -1,0 +1,802 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:p="http://www.springframework.org/schema/p" xmlns:c="http://www.springframework.org/schema/c"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:aop="http://www.springframework.org/schema/aop"
+	xmlns:batch="http://www.springframework.org/schema/batch" xmlns:util="http://www.springframework.org/schema/util"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans 
+		http://www.springframework.org/schema/beans/spring-beans-2.5.xsd
+		http://www.springframework.org/schema/util 
+		http://www.springframework.org/schema/util/spring-util-2.5.xsd
+		http://www.springframework.org/schema/context
+		http://www.springframework.org/schema/context/spring-context.xsd
+		http://www.springframework.org/schema/batch 
+		http://www.springframework.org/schema/batch/spring-batch-2.1.xsd
+		http://www.springframework.org/schema/aop
+ 		http://www.springframework.org/schema/aop/spring-aop-2.5.xsd">
+
+	<!-- *********************************************** Loans TRL Writer Configuration = START ***************************************************** -->
+	
+	
+	
+<!-- 	change -->
+	
+	<!-- Writer for Loans Indicative tab Start-->
+	<bean id="loansIndicativeHeaderWriter"
+		class="com.citi.retail.optima.etl.batch.job.writer.FileHeaderWriter">
+		<property name="headerString"
+			value="eUniqueIdSrcSys,eSrcSysId,eProdSysId,eRecordType,eAsOfDate,eGlobalProdId,arrangmentName,eDescription,eBookingDate,eOrgEffctDate,eEffectiveDate,eEstimEndDate,eEndDate,arrangementTypeId,eDenominationCurrencyId,eOriginatingChannelId,eArrngBusIntType,eArrgBusIntentDate,ePledgedIndicator,ePledgedElgibilityIndicator,eArrngMatuTypeId,eArrngFinStsType,eArrngFinStsDate,eArrngPastDueDayCount,eGracePrdDayCount,eArrgPastDueAgeClass,eArrgPastDueAgeClassDate,eArrgFinancialStatusTypeId,eArrngLifeCycleStatusId,eArrngLifeCycStatReasonTypeId,eArrngLifeCycleStatusDate,eArrngNextRenewalDate,eNextReviewdate,eArrngPrimaryPymntTypeId,eEntrProdId,eLocalProductCode,localSubProductCode,eLocalProdCategoryCode,originalCampaignId,feeWaiverFlag,feeWaiverExpiryDate,eAcctTypeId,eArrngAcqustnTypeId,eArrngAcqustnDate,arrangementDispositionTypeId,arrangementDispositionDate,eChrgOffTypeId,investorInsuredCategory,investorInsuredActiveFlag,investorInsuredPercentage,eArrngDayCntConvTypId,eIntrBasicCalcPeriodId,eIntrPymntFrequencyPeriodicityId,feePymntFrequencyPeriodicityId,eRateResetPeriodicityIntId,inititalIntrRateResetDt,eNxtIntrRateResetDate,lastIntrRateResetDt,atmCardFlag,islamicAcctIndicator,taxExemptIndicator,onlineBankingInd,eRemngDaysToMaturity,eFinServiceTypId,eOriginalAmt,obligorRecourseInd,citiRecourseInd,pymtFreqPeriodicityId,negativeAmortizationFlg,ballonRepymntInd,eIntrstAccrualStatTypId,eIntrAccrualStsDate,intrOnlyTermPd,principalGracePeriod,noticePeriodDays,acquisitionCost,finServiceCurrReStsId,finServiceCurrReStsDt,finServiceReTypId,finServicePreStsId,finServicePreStsDt,finServiceModPgmId,finServiceModPgmStrtDt,finServiceModPgmCurrSts,finServiceModPgmCurrStsDt,finServiceModPgmEndDt,finServiceModPgmPreStsDt,finServLimitTypId,currFinServPrincplRpymntTypId,eTrblDebtRestructureFlag,restrctFlg,mktRtYldRenegtnFlag,overlmtInd,skipPymntInd,amortAccretionInd,secInd,modRetention,regOEmpFlg,trppTenor,accTrppInstamtamt,lnCrdtAutomaticExtFlg,lnCrdtTermLnConvFlg,incmeDocTypId,crdtDevinInd,ePymntTotalNumbr,remainingPymntNumbr,preComputedLoanFlg,premiumLoanFlg,ppIntrRefNo,localWarehouseRef,upStrmSysRef,custTradeRef,eArrngPurposeTypeId1,arrngPurposeTypeId2,arrngPurposeTypeId3,penaltyRate,ePenaltyAmnt,legalNotificationDays,eArrngNextPymtDueToBankDate,eArrngNextPymtDueToBankAmnt,eArrngLastPymtToBankDate,eAcctLastPymtToBankAmount,accntFirstAdvDt,accntFirstAdvAmnt,acctFirstPymntDate,acctFirstPymntAmnt,acctLstAdvDt,acctLstAdvAmnt,eMissedPymtNumbr,acctLstRecDt,acctLstInstDt,eTotalPymnts,acctLstIntrreviewDt,lstIntrCollectionDt,eDelinq30DayPast2YrsFlag,eArrngSecurityTypId,lienPosTypId,PD,eBaselPortfolioId,otherAlternateId,eCreditFacilityTypeId,eFacilLegalStsTypeId,facilLegalStsTypeDt,eCreditFacArrngApprTypId,creditFacArrngApprDt,creditFacReguSgmntTypId,creditFacAvailStsTypId,origAdvisedComLmt,origAdvisedUncomLmt,origUnAdvisedUncomLmt,lstCreditLmtChngDt,crdtLmtChngTypId,eCreditLimitEffctDate,crdtLmtEndDt,crdtLmtEvtIniTypId,crdtLmtEvtAmnt,eCcarProdCode,bankruptcyDt,promoIntrRtElgFlg,ePmacId,origAcctNum,eLstWriteDownDt,currNgvAmortFlg,princDeferralOptionFlg,princDeferralOptionEndDate,interestDeferralOptionFlg,interestDeferralOptionEndDt,interestOnlyOptionEndDt,eEverWrittenOffFlag,acctFundsAdvCompltFlg,eTotalFundsDisbAmnt,eMonthsOnBooksLocal,eRiskMgmntInd,eDaysPastDueCycEnd,eDelBucket,eCycleEndDelinqBucket,reservedforfutureGenesisusage1,reservedforfutureGenesisusage2,reservedforfutureGenesisusage3,reservedforfutureGenesisusage4,reservedforfutureGenesisusage5,reservedforfutureGenesisusage6,reservedforfutureGenesisusage7,reservedforfutureGenesisusage8,reservedforfutureGenesisusage9,reservedforfutureGenesisusage10,reservedforfutureGenesisusage11,reservedforfutureGenesisusage12,reservedforfutureGenesisusage13"/>		
+	</bean>
+
+	<bean id="loansIndicativeFileWriter" class="org.springframework.batch.item.file.FlatFileItemWriter"
+		scope="step">
+		<property name="resource"
+			value="file:#{#getOutputFilePath(jobParameters[COUNTRYPRODUCT])}GN_SR67841_#{jobParameters[productCodeUpper]}_#{jobParameters[region]}_#{jobParameters[countryCodeUpper]}_RSK_#{jobParameters[dateOfInfo]}_HIST_#{jobParameters[currentDate]}_IND_#{jobParameters[versionId]}.dat_#{stepExecutionContext[partitionId]}" />
+
+<!-- 		<property name="headerCallback" ref="loansIndicativeHeaderWriter" /> -->
+		<property name="lineAggregator">
+			<bean
+				class="org.springframework.batch.item.file.transform.DelimitedLineAggregator">
+				<property name="delimiter" value="|" />
+				<property name="fieldExtractor">
+					<bean
+						class="com.citi.retail.optima.etl.batch.job.writer.fieldextractor.RRASCustomFieldExtractor">
+						<property name="names"
+							value="eUniqueIdSrcSys,eSrcSysId,eProdSysId,eRecordType,eAsOfDate,eGlobalProdId,arrangmentName,eDescription,eBookingDate,eOrgEffctDate,eEffectiveDate,eEstimEndDate,eMtgIndEndDate,arrangementTypeId,eDenominationCurrencyId,eOriginatingChannelId,eArrngBusIntType,eArrgBusIntentDate,ePledgedIndicator,ePledgedElgibilityIndicator,eArrngMatuTypeId,eArrngFinStsType,eArrngFinStsDate,eArrngPastDueDayCount,eGracePrdDayCount,eArrgPastDueAgeClass,eArrgPastDueAgeClassDate,eArrgFinancialStatusTypeId,eArrngLifeCycleStatusId,eArrngLifeCycStatReasonTypeId,eArrngLifeCycleStatusDate,eArrngNextRenewalDate,eNextReviewdate,eArrngPrimaryPymntTypeId,eEntrProdId,eLocalProductCode,localSubProductCode,eLocalProdCategoryCode,originalCampaignId,feeWaiverFlag,feeWaiverExpiryDate,eAcctTypeId,eArrngAcqustnTypeId,eArrngAcqustnDate,arrangementDispositionTypeId,arrangementDispositionDate,eChrgOffTypeId,investorInsuredCategory,investorInsuredActiveFlag,investorInsuredPercentage,eArrngDayCntConvTypId,eIntrBasicCalcPeriodId,eIntrPymntFrequencyPeriodicityId,feePymntFrequencyPeriodicityId,eRateResetPeriodicityIntId,inititalIntrRateResetDt,eNxtIntrRateResetDate,lastIntrRateResetDt,atmCardFlag,islamicAcctIndicator,taxExemptIndicator,onlineBankingInd,eRemngDaysToMaturity,eFinServiceTypId,eOriginalAmt,obligorRecourseInd,citiRecourseInd,pymtFreqPeriodicityId,negativeAmortizationFlg,ballonRepymntInd,eIntrstAccrualStatTypId,eIntrAccrualStsDate,intrOnlyTermPd,principalGracePeriod,noticePeriodDays,acquisitionCost,finServiceCurrReStsId,finServiceCurrReStsDt,finServiceReTypId,finServicePreStsId,finServicePreStsDt,finServiceModPgmId,finServiceModPgmStrtDt,finServiceModPgmCurrSts,finServiceModPgmCurrStsDt,finServiceModPgmEndDt,finServiceModPgmPreStsDt,finServLimitTypId,currFinServPrincplRpymntTypId,eTrblDebtRestructureFlag,restrctFlg,mktRtYldRenegtnFlag,overlmtInd,skipPymntInd,amortAccretionInd,secInd,modRetention,regOEmpFlg,trppTenor,accTrppInstamtamt,lnCrdtAutomaticExtFlg,lnCrdtTermLnConvFlg,incmeDocTypId,crdtDevinInd,ePymntTotalNumbr,remainingPymntNumbr,preComputedLoanFlg,premiumLoanFlg,ppIntrRefNo,localWarehouseRef,upStrmSysRef,custTradeRef,eArrngPurposeTypeId1,arrngPurposeTypeId2,arrngPurposeTypeId3,penaltyRate,ePenaltyAmnt,legalNotificationDays,eArrngNextPymtDueToBankDate,eArrngNextPymtDueToBankAmnt,eArrngLastPymtToBankDate,eAcctLastPymtToBankAmount,accntFirstAdvDt,accntFirstAdvAmnt,acctFirstPymntDate,acctFirstPymntAmnt,acctLstAdvDt,acctLstAdvAmnt,eMissedPymtNumbr,acctLstRecDt,acctLstInstDt,eTotalPymnts,acctLstIntrreviewDt,lstIntrCollectionDt,eDelinq30DayPast2YrsFlag,eArrngSecurityTypId,lienPosTypId,PD,eBaselPortfolioId,otherAlternateId,eCreditFacilityTypeId,eFacilLegalStsTypeId,facilLegalStsTypeDt,eCreditFacArrngApprTypId,creditFacArrngApprDt,creditFacReguSgmntTypId,creditFacAvailStsTypId,origAdvisedComLmt,origAdvisedUncomLmt,origUnAdvisedUncomLmt,lstCreditLmtChngDt,crdtLmtChngTypId,eCreditLimitEffctDate,crdtLmtEndDt,crdtLmtEvtIniTypId,crdtLmtEvtAmnt,eCcarProdCode,bankruptcyDt,promoIntrRtElgFlg,ePmacId,origAcctNum,eLstWriteDownDt,currNgvAmortFlg,princDeferralOptionFlg,princDeferralOptionEndDate,interestDeferralOptionFlg,interestDeferralOptionEndDt,interestOnlyOptionEndDt,eEverWrittenOffFlag,acctFundsAdvCompltFlg,eTotalFundsDisbAmnt,eMonthsOnBooksLocal,eRiskMgmntInd,eDaysPastDueCycEnd,eDelBucket,eCycleEndDelinqBucket,reservedforfutureGenesisusage1,reservedforfutureGenesisusage2,reservedforfutureGenesisusage3,reservedforfutureGenesisusage4,reservedforfutureGenesisusage5,reservedforfutureGenesisusage6,reservedforfutureGenesisusage7,reservedforfutureGenesisusage8,reservedforfutureGenesisusage9,reservedforfutureGenesisusage10,reservedforfutureGenesisusage11,reservedforfutureGenesisusage12,reservedforfutureGenesisusage13"/>						
+						<property name="formatMap">
+							<map key-type="java.lang.String" value-type="java.lang.String">
+								<entry key="eAsOfDate" value="yyyyMMdd" />
+								<entry key="eBookingDate" value="yyyyMMdd" />
+								<entry key="eOrgEffctDate" value="yyyyMMdd" />
+								<entry key="eEffectiveDate" value="yyyyMMdd" />
+								<entry key="eArrgBusIntentDate" value="yyyyMMdd" />
+									<entry key="eEstimEndDate" value="yyyyMMdd" />
+									<entry key="eArrngFinStsDate" value="yyyyMMdd" />
+									<entry key="eArrgPastDueAgeClassDate" value="yyyyMMdd" />
+									<entry key="eArrngAcqustnDate" value="yyyyMMdd" />
+									<entry key="eNxtIntrRateResetDate" value="yyyyMMdd" />
+									<entry key="eIntrAccrualStsDate" value="yyyyMMdd" />
+									<entry key="eArrngLastPymtToBankDate" value="yyyyMMdd" />
+									<entry key="eCreditLimitEffctDate" value="yyyyMMdd" />
+									<entry key="eArrngLifeCycleStatusDate" value="yyyyMMdd" />
+									<entry key="eArrngNextRenewalDate" value="yyyyMMdd" />
+									<entry key="eNextReviewdate" value="yyyyMMdd" />
+									<entry key="eMtgIndEndDate" value="yyyyMMdd" />
+									<entry key="eArrngNextPymtDueToBankDate" value="yyyyMMdd" />
+									<entry key="eLstWriteDownDt" value="yyyyMMdd" />
+									<entry key="bankruptcyDt" value="yyyyMMdd" />
+							</map>							
+						</property>
+					</bean>
+				</property>
+			</bean>
+		</property>
+	</bean>
+	
+	<!-- Writer for loans Indicative tab end -->
+	
+	
+	
+	
+	
+	
+	<!-- Writer for Loans Arrangement IP tab -->
+	<bean id="loansArrangementIpHeaderWriter"
+		class="com.citi.retail.optima.etl.batch.job.writer.FileHeaderWriter">
+		<property name="headerString"
+		value="eUniqueIdSrcSys,eSrcSysId,eProdSysId,eRecordType,eAsOfDate,eUniqueIdSrcSysInvlParty,eArrgInvlvPartyRoleType,ePctAmt,eEffectiveDate,eEndDate,eInvPtySubtypeId,reservedforfutureGenesisusage1,reservedforfutureGenesisusage2,reservedforfutureGenesisusage3,reservedforfutureGenesisusage4,reservedforfutureGenesisusage5,reservedforfutureGenesisusage6,reservedforfutureGenesisusage7,reservedforfutureGenesisusage8,reservedforfutureGenesisusage9,reservedforfutureGenesisusage10,reservedforfutureGenesisusage11,reservedforfutureGenesisusage12,reservedforfutureGenesisusage13,reservedforfutureGenesisusage14,reservedforfutureGenesisusage15,reservedforfutureGenesisusage16,reservedforfutureGenesisusage17,reservedforfutureGenesisusage18,reservedforfutureGenesisusage19" />
+	</bean>
+
+	<bean id="loansArrangementIpWriter" class="org.springframework.batch.item.file.FlatFileItemWriter"
+		scope="step">
+		<property name="resource"
+			value="file:#{#getOutputFilePath(jobParameters[COUNTRYPRODUCT])}GN_SR67841_#{jobParameters[productCodeUpper]}_#{jobParameters[region]}_#{jobParameters[countryCodeUpper]}_RSK_#{jobParameters[dateOfInfo]}_HIST_#{jobParameters[currentDate]}_AIP_#{jobParameters[versionId]}.dat_#{stepExecutionContext[partitionId]}" />
+<!-- 		<property name="headerCallback" ref="loansArrangementIpHeaderWriter" /> -->
+		<property name="lineAggregator">
+			<bean
+				class="org.springframework.batch.item.file.transform.DelimitedLineAggregator">
+				<property name="delimiter" value="|" />
+				<property name="fieldExtractor">
+					<bean
+						class="com.citi.retail.optima.etl.batch.job.writer.fieldextractor.RRASCustomFieldExtractor">
+						<property name="names"
+							value="eUniqueIdSrcSys,eSrcSysId,eProdSysId,eRecordType,eAsOfDate,eUniqueIdSrcSysInvlParty,eArrgInvlvPartyRoleType,ePctAmt,eAIPEffDate,eAIPEndDate,eInvPtySubtypeId,reservedforfutureGenesisusage1,reservedforfutureGenesisusage2,reservedforfutureGenesisusage3,reservedforfutureGenesisusage4,reservedforfutureGenesisusage5,reservedforfutureGenesisusage6,reservedforfutureGenesisusage7,reservedforfutureGenesisusage8,reservedforfutureGenesisusage9,reservedforfutureGenesisusage10,reservedforfutureGenesisusage11,reservedforfutureGenesisusage12,reservedforfutureGenesisusage13,reservedforfutureGenesisusage14,reservedforfutureGenesisusage15,reservedforfutureGenesisusage16,reservedforfutureGenesisusage17,reservedforfutureGenesisusage18,reservedforfutureGenesisusage19" />
+						<property name="formatMap">
+							<map key-type="java.lang.String" value-type="java.lang.String">
+								
+								<entry key="eAsOfDate" value="yyyyMMdd" />
+								<entry key="eAIPEffDate" value="yyyyMMdd" />
+								<entry key="eAIPEndDate" value="yyyyMMdd" />
+							</map>
+						</property>
+					</bean>
+				</property>
+			</bean>
+		</property>
+	</bean>
+	<!-- Writer for Loans Arrangement IP tab end -->
+	
+	<!-- Writer for Loans Arrangement Rating tab -->
+	<bean id="loansArrangementRatingHeaderWriter"
+		class="com.citi.retail.optima.etl.batch.job.writer.FileHeaderWriter">
+		<property name="headerString"
+		value="eUniqueIdSrcSys,eSrcSysId,eProdSysId,eRecordType,eAsOfDate,eRatingIssuerId,eModelCode,eRatingEventReasonTypId,eRank,eEffectiveDateAIR,eARGEndDate,eRatingTypCode,eRatingCode,eFicoEquiRatingCode,eRatingDescription,eScoreReqReturnedFlg,reservedforfutureGenesisusage1,reservedforfutureGenesisusage2,reservedforfutureGenesisusage3,reservedforfutureGenesisusage4,reservedforfutureGenesisusage5,reservedforfutureGenesisusage6,reservedforfutureGenesisusage7,reservedforfutureGenesisusage8,reservedforfutureGenesisusage9" />		
+	</bean>
+
+	<bean id="loansArrangementRatingWriter" class="org.springframework.batch.item.file.FlatFileItemWriter"
+		scope="step">
+		<property name="resource"
+			value="file:#{#getOutputFilePath(jobParameters[COUNTRYPRODUCT])}GN_SR67841_#{jobParameters[productCodeUpper]}_#{jobParameters[region]}_#{jobParameters[countryCodeUpper]}_RSK_#{jobParameters[dateOfInfo]}_HIST_#{jobParameters[currentDate]}_ARG_#{jobParameters[versionId]}.dat_#{stepExecutionContext[partitionId]}" />
+<!-- 		<property name="headerCallback" ref="loansArrangementRatingHeaderWriter" /> -->
+		<property name="lineAggregator">
+			<bean
+				class="org.springframework.batch.item.file.transform.DelimitedLineAggregator"> 
+				<property name="delimiter" value="|" />
+				<property name="fieldExtractor">
+					<bean
+						class="com.citi.retail.optima.etl.batch.job.writer.fieldextractor.RRASCustomFieldExtractor">
+						<property name="names"
+							value="eUniqueIdSrcSys,eSrcSysId,eProdSysId,eRecordType,eAsOfDate,eRatingIssuerId,eModelCode,eRatingEventReasonTypId,eARGRank,eARGEffDate,eARGEndDate,eRatingTypCode,eRatingCode,eFicoEquiRatingCode,eRatingDescription,eScoreReqReturnedFlg,reservedforfutureGenesisusage1,reservedforfutureGenesisusage2,reservedforfutureGenesisusage3,reservedforfutureGenesisusage4,reservedforfutureGenesisusage5,reservedforfutureGenesisusage6,reservedforfutureGenesisusage7,reservedforfutureGenesisusage8,reservedforfutureGenesisusage9" />
+						<property name="formatMap">
+							<map key-type="java.lang.String" value-type="java.lang.String">
+								
+								<entry key="eAsOfDate" value="yyyyMMdd" />
+								<entry key="eARGEndDate" value="yyyyMMdd" />
+								<entry key="eARGEffDate" value="yyyyMMdd" />
+							</map>
+						</property>
+					</bean>
+				</property>
+			</bean>
+		</property>
+	</bean>
+	<!-- Writer for Loans Arrangement Rating tab end -->
+	
+	<!-- Writer for Loans Arrangement Rate tab Start-->
+	<bean id="LoansArgRateHeaderFileWriter"
+		class="com.citi.retail.optima.etl.batch.job.writer.FileHeaderWriter">
+		<property name="headerString"
+			value="eUniqueIdSrcSys,eSrcSysId,eProdSysId,eRecordType,eAsOfDate,eEndDate,eEffctRatePercent,spreadRatePercent,arrngRelationshipTypeId,rateId,rateName,eRateVarTypeId,eRateTypeId,eRateTypEffDt,eRateActiveFlg,reservedforfutureGenesisusage1,reservedforfutureGenesisusage2,reservedforfutureGenesisusage3,reservedforfutureGenesisusage4,reservedforfutureGenesisusage5,reservedforfutureGenesisusage6,reservedforfutureGenesisusage7,reservedforfutureGenesisusage8,reservedforfutureGenesisusage9,reservedforfutureGenesisusage10,reservedforfutureGenesisusage11,reservedforfutureGenesisusage12,reservedforfutureGenesisusage13,reservedforfutureGenesisusage14,reservedforfutureGenesisusage15"/>			
+	</bean>
+
+	<bean id="loansArrangementRateWriter" class="org.springframework.batch.item.file.FlatFileItemWriter"
+		scope="step">
+		<property name="resource"
+			value="file:#{#getOutputFilePath(jobParameters[COUNTRYPRODUCT])}GN_SR67841_#{jobParameters[productCodeUpper]}_#{jobParameters[region]}_#{jobParameters[countryCodeUpper]}_RSK_#{jobParameters[dateOfInfo]}_HIST_#{jobParameters[currentDate]}_AR_#{jobParameters[versionId]}.dat_#{stepExecutionContext[partitionId]}" />
+<!-- 		<property name="headerCallback" ref="LoansArgRateHeaderFileWriter" /> -->
+		<property name="lineAggregator">
+			<bean
+				class="org.springframework.batch.item.file.transform.DelimitedLineAggregator">
+				<property name="delimiter" value="|" />
+				<property name="fieldExtractor">
+					<bean
+						class="com.citi.retail.optima.etl.batch.job.writer.fieldextractor.RRASCustomFieldExtractor">
+						<property name="names"
+							value="eUniqueIdSrcSys,eSrcSysId,eProdSysId,eRecordType,eAsOfDate,eAREndDate,eEffctRatePercent,spreadRatePercent,arrngRelationshipTypeId,rateId,rateName,eRateVarTypeId,eRateTypeId,eRateTypEffDt,eRateActiveFlg,reservedforfutureGenesisusage1,reservedforfutureGenesisusage2,reservedforfutureGenesisusage3,reservedforfutureGenesisusage4,reservedforfutureGenesisusage5,reservedforfutureGenesisusage6,reservedforfutureGenesisusage7,reservedforfutureGenesisusage8,reservedforfutureGenesisusage9,reservedforfutureGenesisusage10,reservedforfutureGenesisusage11,reservedforfutureGenesisusage12,reservedforfutureGenesisusage13,reservedforfutureGenesisusage14,reservedforfutureGenesisusage15"/>
+						<property name="formatMap">
+							<map key-type="java.lang.String" value-type="java.lang.String">
+								<entry key="eAREndDate" value="yyyyMMdd" />
+								<entry key="eAsOfDate" value="yyyyMMdd" />
+								<entry key="eRateTypEffDt" value="yyyyMMdd" />
+							</map>
+						</property>
+					</bean>
+				</property>
+			</bean>
+		</property>
+	</bean>
+	<!-- Writer for Loans Arrangement Rate tab End -->
+	<!-- Writer for India pl tab Start -->
+	
+	
+	
+	<bean id="inPLloansIndicativeFileWriter" class="org.springframework.batch.item.file.FlatFileItemWriter"
+		scope="step">
+		<property name="resource"
+			value="file:#{#getOutputFilePath(jobParameters[COUNTRYPRODUCT])}GN_SR67841_#{jobParameters[productCodeUpper]}_#{jobParameters[region]}_#{jobParameters[countryCodeUpper]}_RSK_#{jobParameters[dateOfInfo]}_HIST_#{jobParameters[currentDate]}_IND_#{jobParameters[versionId]}.dat_#{stepExecutionContext[partitionId]}" />
+
+<!-- 		<property name="headerCallback" ref="loansIndicativeHeaderWriter" /> -->
+		<property name="lineAggregator">
+			<bean
+				class="org.springframework.batch.item.file.transform.DelimitedLineAggregator">
+				<property name="delimiter" value="|" />
+				<property name="fieldExtractor">
+					<bean
+						class="com.citi.retail.optima.etl.batch.job.writer.fieldextractor.RRASCustomFieldExtractor">
+						<property name="names"
+							value="eUniqueIdSrcSys,eSrcSysId,eProdSysId,eRecordType,eAsOfDate,eGlobalProdId,arrangmentName,eDescription,eBookingDate,eOrgEffctDate,eEffectiveDate,eEstimEndDate,eMtgIndEndDate,arrangementTypeId,eDenominationCurrencyId,eOriginatingChannelId,eArrngBusIntType,eArrgBusIntentDate,ePledgedIndicator,ePledgedElgibilityIndicator,eArrngMatuTypeId,eArrngFinStsType,eArrngFinStsDate,eArrngPastDueDayCount,eGracePrdDayCount,eArrgPastDueAgeClass,eArrgPastDueAgeClassDate,eArrgFinancialStatusTypeId,eArrngLifeCycleStatusId,eArrngLifeCycStatReasonTypeId,eArrngLifeCycleStatusDate,eArrngNextRenewalDate,eNextReviewdate,eArrngPrimaryPymntTypeId,eEntrProdId,eLocalProductCode,localSubProductCode,eLocalProdCategoryCode,originalCampaignId,feeWaiverFlag,feeWaiverExpiryDate,eAcctTypeId,eArrngAcqustnTypeId,eArrngAcqustnDate,arrangementDispositionTypeId,arrangementDispositionDate,eChrgOffTypeId,investorInsuredCategory,investorInsuredActiveFlag,investorInsuredPercentage,eArrngDayCntConvTypId,eIntrBasicCalcPeriodId,eIntrPymntFrequencyPeriodicityId,feePymntFrequencyPeriodicityId,eRateResetPeriodicityIntId,inititalIntrRateResetDt,eNxtIntrRateResetDate,lastIntrRateResetDt,atmCardFlag,islamicAcctIndicator,taxExemptIndicator,onlineBankingInd,eRemngDaysToMaturity,eFinServiceTypId,eOriginalAmt,obligorRecourseInd,citiRecourseInd,pymtFreqPeriodicityId,negativeAmortizationFlg,ballonRepymntInd,eIntrstAccrualStatTypId,eIntrAccrualStsDate,intrOnlyTermPd,principalGracePeriod,noticePeriodDays,acquisitionCost,finServiceCurrReStsId,finServiceCurrReStsDt,finServiceReTypId,finServicePreStsId,finServicePreStsDt,finServiceModPgmId,finServiceModPgmStrtDt,finServiceModPgmCurrSts,finServiceModPgmCurrStsDt,finServiceModPgmEndDt,finServiceModPgmPreStsDt,finServLimitTypId,currFinServPrincplRpymntTypId,eTrblDebtRestructureFlag,restrctFlg,mktRtYldRenegtnFlag,overlmtInd,skipPymntInd,amortAccretionInd,secInd,modRetention,regOEmpFlg,trppTenor,accTrppInstamtamt,lnCrdtAutomaticExtFlg,lnCrdtTermLnConvFlg,incmeDocTypId,crdtDevinInd,ePymntTotalNumbr,remainingPymntNumbr,preComputedLoanFlg,premiumLoanFlg,ppIntrRefNo,localWarehouseRef,upStrmSysRef,custTradeRef,eArrngPurposeTypeId1,arrngPurposeTypeId2,arrngPurposeTypeId3,penaltyRate,ePenaltyAmnt,legalNotificationDays,eArrngNextPymtDueToBankDate,eArrngNextPymtDueToBankAmnt,eArrngLastPymtToBankDate,eAcctLastPymtToBankAmount,accntFirstAdvDt,accntFirstAdvAmnt,acctFirstPymntDate,acctFirstPymntAmnt,acctLstAdvDt,acctLstAdvAmnt,eMissedPymtNumbr,acctLstRecDt,acctLstInstDt,eTotalPymnts,acctLstIntrreviewDt,lstIntrCollectionDt,eDelinq30DayPast2YrsFlag,eArrngSecurityTypId,lienPosTypId,PD,eBaselPortfolioId,otherAlternateId,eCreditFacilityTypeId,eFacilLegalStsTypeId,facilLegalStsTypeDt,eCreditFacArrngApprTypId,creditFacArrngApprDt,creditFacReguSgmntTypId,creditFacAvailStsTypId,origAdvisedComLmt,origAdvisedUncomLmt,origUnAdvisedUncomLmt,lstCreditLmtChngDt,crdtLmtChngTypId,eCreditLimitEffctDate,crdtLmtEndDt,crdtLmtEvtIniTypId,crdtLmtEvtAmnt,eCcarProdCode,bankruptcyDt,promoIntrRtElgFlg,ePmacId,origAcctNum,eLstWriteDownDt,currNgvAmortFlg,princDeferralOptionFlg,princDeferralOptionEndDate,interestDeferralOptionFlg,interestDeferralOptionEndDt,interestOnlyOptionEndDt,eEverWrittenOffFlag,acctFundsAdvCompltFlg,eTotalFundsDisbAmnt,eMonthsOnBooksLocal,eRiskMgmntInd,eDaysPastDueCycEnd,eDelBucket,eCycleEndDelinqBucket,reservedforfutureGenesisusage1,reservedforfutureGenesisusage2,reservedforfutureGenesisusage3,reservedforfutureGenesisusage4,reservedforfutureGenesisusage5,reservedforfutureGenesisusage6,reservedforfutureGenesisusage7,reservedforfutureGenesisusage8,reservedforfutureGenesisusage9,reservedforfutureGenesisusage10,reservedforfutureGenesisusage11,reservedforfutureGenesisusage12,reservedforfutureGenesisusage13"/>						
+						<property name="formatMap">
+							<map key-type="java.lang.String" value-type="java.lang.String">
+								<entry key="eAsOfDate" value="yyyyMMdd" />
+								<entry key="eBookingDate" value="yyyyMMdd" />
+								<entry key="eOrgEffctDate" value="yyyyMMdd" />
+								<entry key="eEffectiveDate" value="yyyyMMdd" />
+								<entry key="eArrgBusIntentDate" value="yyyyMMdd" />
+									<entry key="eEstimEndDate" value="yyyyMMdd" />
+									<entry key="eArrngFinStsDate" value="yyyyMMdd" />
+									<entry key="eArrgPastDueAgeClassDate" value="yyyyMMdd" />
+									<entry key="eArrngAcqustnDate" value="yyyyMMdd" />
+									<entry key="eNxtIntrRateResetDate" value="yyyyMMdd" />
+									<entry key="eIntrAccrualStsDate" value="yyyyMMdd" />
+									<entry key="eArrngLastPymtToBankDate" value="yyyyMMdd" />
+									<entry key="eCreditLimitEffctDate" value="yyyyMMdd" />
+									<entry key="eArrngLifeCycleStatusDate" value="yyyyMMdd" />
+									<entry key="eArrngNextRenewalDate" value="yyyyMMdd" />
+									<entry key="eNextReviewdate" value="yyyyMMdd" />
+									<entry key="eMtgIndEndDate" value="yyyyMMdd" />
+									<entry key="eArrngNextPymtDueToBankDate" value="yyyyMMdd" />
+									<entry key="eLstWriteDownDt" value="yyyyMMdd" />
+							</map>							
+						</property>
+					</bean>
+				</property>
+			</bean>
+		</property>
+	</bean>
+	
+	
+		<bean id="inPLloansCommonBalanceWriter" class="com.citi.retail.optima.etl.batch.job.writer.MultiLineFlatFileItemWriter"
+		scope="step">
+		<property name="attrName" value="eCommonBalPlTRLRecords"/>
+		<property name="resource"
+			value="file:#{#getOutputFilePath(jobParameters[COUNTRYPRODUCT])}GN_SR67841_#{jobParameters[productCodeUpper]}_#{jobParameters[region]}_#{jobParameters[countryCodeUpper]}_RSK_#{jobParameters[dateOfInfo]}_HIST_#{jobParameters[currentDate]}_CB_#{jobParameters[versionId]}.dat_#{stepExecutionContext[partitionId]}" />
+<!-- 		<property name="headerCallback" ref="loanscommonBalanceHeaderFileWriter" /> -->
+		<property name="lineAggregator">
+			<bean
+				class="org.springframework.batch.item.file.transform.DelimitedLineAggregator">
+				<property name="delimiter" value="|" />
+				<property name="fieldExtractor">
+					<bean
+						class="com.citi.retail.optima.etl.batch.job.writer.fieldextractor.RRASCustomFieldExtractor">
+						<property name="names"
+							value="eUniqueIdSrcSys,eSrcSysId,eRecordType,legNumber,eProdSysId,eAsOfDate,generalLedgerSysId,dealId,bookingLedgerCC,eBalType,eGLAccount1,glAcct2,fdlAcct,eTransCurr,eFuncCurrencyCode,eBaseCurrencyCode,eTxnAmt,functionalAmt,eBaseAmt,goc,bookingLedgerBranchCode,frsBUCode,notForUse,localDeptId,eLocalLegalVehicleId,notForUse,fairValueAccMethodFlg,fairValue,expenseCode,eLocalProductCode,frsAffCode,notForUse,subStrategyCode,notForUse,notForUse,notForUse,eGaapIndicator,microControlStratCode,firmAcctIMSNo,baseNo,prodId,keyCode1,keyCode2,localLedgerAcctNo,adjInd,userId,adjReasonCode,comment,localGlKey3,localGlKey4,adjStdArrngId,reservedforfutureGenesisusage1,reservedforfutureGenesisusage2,reservedforfutureGenesisusage3,reservedforfutureGenesisusage4,reservedforfutureGenesisusage5,reservedforfutureGenesisusage6" />
+						<property name="formatMap">
+							<map key-type="java.lang.String" value-type="java.lang.String">
+								<entry key="eAsOfDate" value="yyyyMMdd" />
+							</map>
+						</property>
+					</bean>
+				</property>
+			</bean>
+		</property>
+	</bean>
+	
+	
+		<bean id="inPLloansArrangementIPRatingFileWriter" class="org.springframework.batch.item.file.FlatFileItemWriter"
+		scope="step">
+		<property name="resource"
+			value="file:#{#getOutputFilePath(jobParameters[COUNTRYPRODUCT])}GN_SR67841_#{jobParameters[productCodeUpper]}_#{jobParameters[region]}_#{jobParameters[countryCodeUpper]}_RSK_#{jobParameters[dateOfInfo]}_HIST_#{jobParameters[currentDate]}_AIR_#{jobParameters[versionId]}.dat_#{stepExecutionContext[partitionId]}" />
+
+		<property name="lineAggregator">
+			<bean
+				class="org.springframework.batch.item.file.transform.DelimitedLineAggregator">
+				<property name="delimiter" value="|" />
+				<property name="fieldExtractor">
+					<bean
+						class="com.citi.retail.optima.etl.batch.job.writer.fieldextractor.RRASCustomFieldExtractor">
+						<property name="names"
+							value="eUniqueIdSrcSys,eSrcSysId,eProdSysId,eRecordType,eAsOfDate,eInvPtySubtypeId,eUniqueIdSrcSysInvlParty,eRatingIssuerId,eModelCode,eRatingEventReasonTypId,eRank,eAIREffDate,eAIREndDate,eRatingTypCode,eRatingCode,eFicoEquiRatingCode,eRatingDescription,eScoreReqReturnedFlg,reservedforfutureGenesisusage1,reservedforfutureGenesisusage2,reservedforfutureGenesisusage3,reservedforfutureGenesisusage4,reservedforfutureGenesisusage5,reservedforfutureGenesisusage6,reservedforfutureGenesisusage7" />
+						<property name="formatMap">
+							<map key-type="java.lang.String" value-type="java.lang.String">
+								<entry key="eAsOfDate" value="yyyyMMdd" />
+								<entry key="eAIREffDate" value="yyyyMMdd" />
+								<entry key="eAIREndDate" value="yyyyMMdd" />
+							</map>
+						</property>
+					</bean>
+				</property>
+			</bean>
+		</property>
+	</bean>
+	
+	
+	
+	
+	<!-- Writer for India pl tab end -->
+	
+	<!-- Writer for Loans Common Balance tab Start-->
+	<bean id="loanscommonBalanceHeaderFileWriter"
+		class="com.citi.retail.optima.etl.batch.job.writer.FileHeaderWriter">
+		<property name="headerString"
+		value="eUniqueIdSrcSys,eSrcSysId,eRecordType,legNumber,eProdSysId,eAsOfDate,generalLedgerSysId,dealId,bookingLedgerCC,eBalType,eGLAccount1,glAcct2,fdlAcct,eTransCurr,eFuncCurrencyCode,eBaseCurrencyCode,eTxnAmt,functionalAmt,eBaseAmt,goc,bookingLedgerBranchCode,frsBUCode,notForUse,localDeptId,eLocalLegalVehicleId,notForUse,fairValueAccMethodFlg,fairValue,expenseCode,eLocalProductCode,frsAffCode,notForUse,subStrategyCode,notForUse,notForUse,notForUse,eGaapIndicator,microControlStratCode,firmAcctIMSNo,baseNo,prodId,keyCode1,keyCode2,localLedgerAcctNo,adjInd,userId,adjReasonCode,comment,localGlKey3,localGlKey4,adjStdArrngId,reservedforfutureGenesisusage1,reservedforfutureGenesisusage2,reservedforfutureGenesisusage3,reservedforfutureGenesisusage4,reservedforfutureGenesisusage5,reservedforfutureGenesisusage6" />		
+	</bean>
+
+	<bean id="loansCommonBalanceWriter" class="com.citi.retail.optima.etl.batch.job.writer.MultiLineFlatFileItemWriter"
+		scope="step">
+		<property name="attrName" value="eCommonBalPlTRLRecords"/>
+		<property name="resource"
+			value="file:#{#getOutputFilePath(jobParameters[COUNTRYPRODUCT])}GN_SR67841_#{jobParameters[productCodeUpper]}_#{jobParameters[region]}_#{jobParameters[countryCodeUpper]}_RSK_#{jobParameters[dateOfInfo]}_HIST_#{jobParameters[currentDate]}_CB_#{jobParameters[versionId]}.dat_#{stepExecutionContext[partitionId]}" />
+<!-- 		<property name="headerCallback" ref="loanscommonBalanceHeaderFileWriter" /> -->
+		<property name="lineAggregator">
+			<bean
+				class="org.springframework.batch.item.file.transform.DelimitedLineAggregator">
+				<property name="delimiter" value="|" />
+				<property name="fieldExtractor">
+					<bean
+						class="com.citi.retail.optima.etl.batch.job.writer.fieldextractor.RRASCustomFieldExtractor">
+						<property name="names"
+							value="eUniqueIdSrcSys,eSrcSysId,eRecordType,legNumber,eProdSysId,eAsOfDate,generalLedgerSysId,dealId,bookingLedgerCC,eBalType,eGLAccount1,glAcct2,fdlAcct,eTransCurr,eFuncCurrencyCode,eBaseCurrencyCode,eTxnAmt,functionalAmt,eBaseAmt,goc,bookingLedgerBranchCode,frsBUCode,notForUse,localDeptId,eLocalLegalVehicleId,notForUse,fairValueAccMethodFlg,fairValue,expenseCode,eLocalProductCode,frsAffCode,notForUse,subStrategyCode,notForUse,notForUse,notForUse,eGaapIndicator,microControlStratCode,firmAcctIMSNo,baseNo,prodId,keyCode1,keyCode2,localLedgerAcctNo,adjInd,userId,adjReasonCode,comment,localGlKey3,localGlKey4,adjStdArrngId,reservedforfutureGenesisusage1,reservedforfutureGenesisusage2,reservedforfutureGenesisusage3,reservedforfutureGenesisusage4,reservedforfutureGenesisusage5,reservedforfutureGenesisusage6" />
+						<property name="formatMap">
+							<map key-type="java.lang.String" value-type="java.lang.String">
+								<entry key="eAsOfDate" value="yyyyMMdd" />
+							</map>
+						</property>
+					</bean>
+				</property>
+			</bean>
+		</property>
+	</bean>
+	<!-- Writer for Loans Common Balance tab End-->
+	
+	<!-- Writer for Loans Collateral Arrangement tab Start -->
+	<bean id="loansCollArrngHeaderFileWriter"
+		class="com.citi.retail.optima.etl.batch.job.writer.FileHeaderWriter">
+		<property name="headerString"
+			value="eUniqueIdSrcSys,eRecordType,eAsOfDate,eEffectiveDate,eEndDate,eUniqueIdSrcSysInvlParty,eInvPtySubtypeId,eRank,eFicoEquiRatingCode" />
+	</bean>
+
+	<bean id="loansCollArrngFileWriter" class="org.springframework.batch.item.file.FlatFileItemWriter"
+		scope="step">
+		<property name="resource"
+			value="file:#{#getOutputFilePath(jobParameters[COUNTRYPRODUCT])}GN_SR67841_#{jobParameters[productCodeUpper]}_#{jobParameters[region]}_#{jobParameters[countryCodeUpper]}_RSK_#{jobParameters[dateOfInfo]}_HIST_#{jobParameters[currentDate]}_CA_#{jobParameters[versionId]}.dat_#{stepExecutionContext[partitionId]}" />
+<!-- 		<property name="headerCallback" ref="loansArrangmentIpHeaderFileWriter" /> -->
+		<property name="lineAggregator">
+			<bean
+				class="org.springframework.batch.item.file.transform.DelimitedLineAggregator">
+				<property name="delimiter" value="|" />
+				<property name="fieldExtractor">
+					<bean
+						class="com.citi.retail.optima.etl.batch.job.writer.fieldextractor.RRASCustomFieldExtractor">
+						<property name="names"
+							value="eUniqueIdSrcSys,eRecordType,eAsOfDate,eEffectiveDate,eEndDate,eUniqueIdSrcSysInvlParty,eInvPtySubtypeId,eRank,eFicoEquiRatingCode" />
+						<property name="formatMap">
+							<map key-type="java.lang.String" value-type="java.lang.String">
+								<entry key="eAsOfDate" value="yyyyMMdd" />
+								<entry key="eEffectiveDate" value="yyyyMMdd" />
+								
+							</map>
+						</property>
+					</bean>
+				</property>
+			</bean>
+		</property>
+	</bean>
+	
+<bean id="loansArrangementIPRatingHeaderFileWriter"
+		class="com.citi.retail.optima.etl.batch.job.writer.FileHeaderWriter">
+		<property name="headerString"
+			value="eUniqueIdSrcSys,eSrcSysId,eProdSysId,eRecordType,eAsOfDate,eInvPtySubtypeId,eRatingIssuerId,eModelCode,eRatingEventReasonTypId,eRank,eEffectiveDate,eEndDate,eRatingTypCode,eRatingCode,eFicoEquiRatingCode,eRatingDescription,eScoreReqReturnedFlg,reservedforfutureGenesisusage1,reservedforfutureGenesisusage2,reservedforfutureGenesisusage3,reservedforfutureGenesisusage4,reservedforfutureGenesisusage5,reservedforfutureGenesisusage6,reservedforfutureGenesisusage7" />
+	</bean>
+	
+	
+	<bean id="loansArrangementIPRatingFileWriter" class="org.springframework.batch.item.file.FlatFileItemWriter"
+		scope="step">
+		<property name="resource"
+			value="file:#{#getOutputFilePath(jobParameters[COUNTRYPRODUCT])}GN_SR67841_#{jobParameters[productCodeUpper]}_#{jobParameters[region]}_#{jobParameters[countryCodeUpper]}_RSK_#{jobParameters[dateOfInfo]}_HIST_#{jobParameters[currentDate]}_AIR_#{jobParameters[versionId]}.dat_#{stepExecutionContext[partitionId]}" />
+
+		<property name="lineAggregator">
+			<bean
+				class="org.springframework.batch.item.file.transform.DelimitedLineAggregator">
+				<property name="delimiter" value="|" />
+				<property name="fieldExtractor">
+					<bean
+						class="com.citi.retail.optima.etl.batch.job.writer.fieldextractor.RRASCustomFieldExtractor">
+						<property name="names"
+							value="eUniqueIdSrcSys,eSrcSysId,eProdSysId,eRecordType,eAsOfDate,eInvPtySubtypeId,eUniqueIdSrcSys,eRatingIssuerId,eModelCode,eRatingEventReasonTypId,eRank,eEffectiveDate,eEndDate,eRatingTypCode,eRatingCode,eFicoEquiRatingCode,eRatingDescription,eScoreReqReturnedFlg,reservedforfutureGenesisusage1,reservedforfutureGenesisusage2,reservedforfutureGenesisusage3,reservedforfutureGenesisusage4,reservedforfutureGenesisusage5,reservedforfutureGenesisusage6,reservedforfutureGenesisusage7" />
+						<property name="formatMap">
+							<map key-type="java.lang.String" value-type="java.lang.String">
+								<entry key="eAsOfDate" value="yyyyMMdd" />
+								<entry key="eEffectiveDate" value="yyyyMMdd" />
+								<entry key="eEndDate" value="yyyyMMdd" />
+							</map>
+						</property>
+					</bean>
+				</property>
+			</bean>
+		</property>
+	</bean>
+<!-- 	Change -->
+	<!-- Writer for Loans Collateral Arrangement tab End -->
+
+		
+	<!-- *********************************************** Cards TRL Writer Configuration = END ***************************************************** -->
+		<!-- Writer for Indicative tab -->
+	<bean id="mtgindicativeHeaderWriter"
+		class="com.citi.retail.optima.etl.batch.job.writer.FileHeaderWriter">
+		<property name="headerString"
+			value="eUniqueId,eSrcSysId,eProdSysId,eRecType,eAsOfDt,eGlbProdId,eLocalProductId,localSubProductId,entStandProductId,arrngName,eDescription,eBookingDate,eOriginalEffDate,eEffDate,eEstmEndDate,eEndDate,eDenoCurrId,eOrigChannelId,eArrngPurpTypeId,eArrngBusIntType,eArrngBussIntDate,ePledgInd,ePledgEligInd,eArrngMatuTypeId,eArrngFinStatTypId,eArrngFinStatDate,eArrngPastDueDayCount,eGracePerDayCnt,eArrngPastDueAgeClass,eArrngPastDueAgeClassDate,arrngFinStatusRsnTypId,eArrngLifeCycleStatusId,eArrngLifeCycleStatusReasonTypeId,eArrngLifeCycleStatusDate,arrngNxtRenewalDate,arrngPriPayTypId,eArrngAcqTypId,eArrngAcqDt,arrngDisTypId,arrngDisTypDate,eChrgOffTypeId,oriInvInsCatId,oriInvInsActFlag,oriInvInsPer,eArrngDayCntConvTypId,eIntPayFrePerId,eRateResetPerIntId,inIntRateResetDate,eNxtIntrRateResetDate,prevLstIntRateResetDate,taxExemInd,onBnkRelnInd,eFinServiceTypId,eFinServiceLimitTypId,eOrgAmount,eArrngSecTypId,citiRecInd,payFrePerId,eIntrstAccrualStatTypId,eIntrstAccrualStatTypDt,intOnlyTermPeriod,finSerResCurStId,finSerResCurStDate,finSerPrevResStId,finSerPrevResStDate,trbDebtResFlag,mktRateYieldReneFlag,skipPayInd,eSecInd,trppTenor,acctTrppInsAmt,locAutExtFlag,locTermLoanCovFlag,inDocTypId,finserModProgStDate,finserModProgEndDate,finSerResModRsnTypId,finSerModProgId,finSerModProgCurrSts,finSerModProgCurrStsDate,finSerModProgPrevStsTypId,modRetenLossMitTypId,eCreditFacTypId,eFacLegStatTypId,FacilLegalStsDate,eCreFacArrngAppTypId,creFacArrngAppTypDate,creFacRegSegTypId,creFacAvastaTypId,lstCreLmtChngDate,creLimitChnTypId,eArrngNextPymtDueToBankAmt,eArrngNextPymtDueToBankDate,eArrngLastPymtToBankDate,acctLastPaymtToBnkAcct,eMissedPymtNumb,acctLstRecDate,acctLstInsDate,totPay,acctLstIntRevDate,PenRate,PenAmt,legNotDays,eBaselPortfolioId,othAltIdent,eLocalProdCategoryCode,eDelq30DayPast2YrsFlag,linePosTypId,eActualBillingCycleDate,feePayFreqPerId,notPerDays,eCurrAmtType,feeWavFlag,borDate,socEcoCatId,acctFirstAdvAmt,acctFirstAdvDate,acctFirstPayDate,acctLastAdvAmt,acctLastAdvDate,acqCost,eObligorRecourseInd,docTypId,mtgModSigDate,mtgOriProgTypCode,mtgCreRiskCatIntId,eBalloonInd,helocTerm,lmPlanCdId,escAcctMaintInd,mtgOriProgGroupId,comboLoanInd,sopAcctInd,negAmortFlag,intCalPerId,preComLoanFlag,amortAccInd,eNumSchePaymt,eNumRemPaymt,linePosTypEffDate,delqMethCode,accFirstPayAmt,eRestructureFlag,eRegOEmpFlag,probOfDefault,eCrdtLimitEffctDate,eCrdtLimitEndtDate,creditLmtEventInvTypId,creditLmtEventAmt,eCcarProdCode,banktrupcyDate,promoIntRtaeEliFlag,eOrgAdvisedCommitedLimit,orgAdvisedUnCommitedLimit,orgUnAdvisedCommitedLimit,pmacPortId,eOrgAcctNumbr,lstWriteDwnDate,currNegAmmFlag,prinDeffOptFlag,prinDeffOptEndDtae,intDeffOptFlag,intDeffOptEndDtae,intOnlyOptEndDtae,eOrgCombLtvRatio,
+			eOrgLtvRatio,totOriJunLienAmt,eEverWrittenOffFlag,reoStsTypId,eNonTradeResidMtgFlag,mobLocal,riskMngInd,DaysPastDueCyclEnd,eDelinquencyBucket,cycleEndDelqBucket,reservedForFutureGenesisUse1,reservedForFutureGenesisUse2,reservedForFutureGenesisUse3,reservedForFutureGenesisUse4,reservedForFutureGenesisUse5,reservedForFutureGenesisUse6,reservedForFutureGenesisUse7,reservedForFutureGenesisUse8,reservedForFutureGenesisUse9,reservedForFutureGenesisUse10" />
+	</bean>
+
+	<bean id="mtgindicativeFileWriter" class="org.springframework.batch.item.file.FlatFileItemWriter"
+		scope="step">
+		<property name="resource"
+			value="file:#{#getOutputFilePath(jobParameters[COUNTRYPRODUCT])}GN_SR67841_#{jobParameters[productCodeUpper]}_#{jobParameters[region]}_#{jobParameters[countryCodeUpper]}_RSK_#{jobParameters[dateOfInfo]}_HIST_#{jobParameters[currentDate]}_IND_#{jobParameters[versionId]}.dat_#{stepExecutionContext[partitionId]}" />
+
+<!-- 		<property name="headerCallback" ref="mtgindicativeHeaderWriter" /> -->
+		<property name="appendAllowed" value="true"/> 
+		<property name="lineAggregator">
+			<bean
+				class="org.springframework.batch.item.file.transform.DelimitedLineAggregator">
+				<property name="delimiter" value="|" />
+				<property name="fieldExtractor">
+					<bean
+						class="com.citi.retail.optima.etl.batch.job.writer.fieldextractor.RRASCustomFieldExtractor">
+						<property name="names"
+							value="eUniqueId,eSrcSysId,eProdSysId,eRecType,eAsOfDt,eGlbProdId,eLocalProductId,localSubProductId,entStandProductId,arrngName,eDescription,eBookingDate,eOriginalEffDate,eEffDate,eEstmEndDate,eEndDate,eDenoCurrId,eOrigChannelId,eArrngPurpTypeId,eArrngBusIntType,eArrngBussIntDate,ePledgInd,ePledgEligInd,eArrngMatuTypeId,eArrngFinStatTypId,eArrngFinStatDate,eArrngPastDueDayCount,eGracePerDayCnt,eArrngPastDueAgeClass,eArrngPastDueAgeClassDate,arrngFinStatusRsnTypId,eArrngLifeCycleStatusId,eArrngLifeCycleStatusReasonTypeId,eArrngLifeCycleStatusDate,arrngNxtRenewalDate,arrngPriPayTypId,eArrngAcqTypId,eArrngAcqDt,arrngDisTypId,arrngDisTypDate,eChrgOffTypeId,oriInvInsCatId,oriInvInsActFlag,oriInvInsPer,eArrngDayCntConvTypId,eIntPayFrePerId,eRateResetPerIntId,inIntRateResetDate,eNxtIntrRateResetDate,prevLstIntRateResetDate,taxExemInd,onBnkRelnInd,eFinServiceTypId,eFinServiceLimitTypId,eOrgAmount,eArrngSecTypId,citiRecInd,payFrePerId,eIntrstAccrualStatTypId,eIntrstAccrualStatTypDt,intOnlyTermPeriod,finSerResCurStId,finSerResCurStDate,finSerPrevResStId,finSerPrevResStDate,trbDebtResFlag,mktRateYieldReneFlag,skipPayInd,eSecInd,trppTenor,acctTrppInsAmt,locAutExtFlag,locTermLoanCovFlag,inDocTypId,finserModProgStDate,finserModProgEndDate,finSerResModRsnTypId,finSerModProgId,finSerModProgCurrSts,finSerModProgCurrStsDate,finSerModProgPrevStsTypId,modRetenLossMitTypId,eCreditFacTypId,eFacLegStatTypId,FacilLegalStsDate,eCreFacArrngAppTypId,creFacArrngAppTypDate,creFacRegSegTypId,creFacAvastaTypId,lstCreLmtChngDate,creLimitChnTypId,eArrngNextPymtDueToBankAmt,eArrngNextPymtDueToBankDate,eArrngLastPymtToBankDate,acctLastPaymtToBnkAcct,eMissedPymtNumb,acctLstRecDate,acctLstInsDate,totPay,acctLstIntRevDate,PenRate,PenAmt,legNotDays,eBaselPortfolioId,othAltIdent,eLocalProdCategoryCode,eDelq30DayPast2YrsFlag,linePosTypId,eActualBillingCycleDate,feePayFreqPerId,notPerDays,eCurrAmtType,feeWavFlag,borDate,socEcoCatId,acctFirstAdvAmt,acctFirstAdvDate,acctFirstPayDate,acctLastAdvAmt,acctLastAdvDate,acqCost,eObligorRecourseInd,docTypId,mtgModSigDate,mtgOriProgTypCode,mtgCreRiskCatIntId,eBalloonInd,helocTerm,lmPlanCdId,escAcctMaintInd,mtgOriProgGroupId,comboLoanInd,sopAcctInd,negAmortFlag,intCalPerId,preComLoanFlag,amortAccInd,eNumSchePaymt,eNumRemPaymt,linePosTypEffDate,delqMethCode,accFirstPayAmt,eRestructureFlag,eRegOEmpFlag,probOfDefault,eCrdtLimitEffctDate,eCrdtLimitEndtDate,creditLmtEventInvTypId,creditLmtEventAmt,eCcarProdCode,banktrupcyDate,promoIntRtaeEliFlag,eOrgAdvisedCommitedLimit,orgAdvisedUnCommitedLimit,orgUnAdvisedCommitedLimit,pmacPortId,eOrgAcctNumbr,lstWriteDwnDate,currNegAmmFlag,prinDeffOptFlag,prinDeffOptEndDtae,intDeffOptFlag,intDeffOptEndDtae,intOnlyOptEndDtae,eOrgCombLtvRatio,eOrgLtvRatio,totOriJunLienAmt,eEverWrittenOffFlag,reoStsTypId,eNonTradeResidMtgFlag,mobLocal,riskMngInd,DaysPastDueCyclEnd,eDelinquencyBucket,cycleEndDelqBucket,reservedForFutureGenesisUse1,reservedForFutureGenesisUse2,reservedForFutureGenesisUse3,reservedForFutureGenesisUse4,reservedForFutureGenesisUse5,reservedForFutureGenesisUse6,reservedForFutureGenesisUse7,reservedForFutureGenesisUse8,reservedForFutureGenesisUse9,reservedForFutureGenesisUse10" />
+						<property name="formatMap">
+							<map key-type="java.lang.String" value-type="java.lang.String">
+								<entry key="eAsOfDt" value="yyyyMMdd" />
+								<entry key="eBookingDate" value="yyyyMMdd" />
+								<entry key="eOriginalEffDate" value="yyyyMMdd" />
+								<entry key="eEffDate" value="yyyyMMdd" />
+								<entry key="eEstmEndDate" value="yyyyMMdd" />
+								<entry key="eEndDate" value="yyyyMMdd" />								
+								<entry key="eArrngFinStatDate" value="yyyyMMdd" />
+								<entry key="eArrngPastDueAgeClassDate" value="yyyyMMdd" />									
+								<entry key="eArrngBussIntDate" value="yyyyMMdd" />
+								<entry key="eArrngLifeCycleStatusDate" value="yyyyMMdd" />
+								<entry key="eArrngAcqDt" value="yyyyMMdd" />
+								<entry key="eEndDate" value="yyyyMMdd" />
+								<entry key="eArrngLastPymtToBankDate" value="yyyyMMdd" />
+								<entry key="eArrngNextPymtDueToBankDate" value="yyyyMMdd" />
+								<entry key="eBookingDate" value="yyyyMMdd" />
+								<entry key="eArrngAcqDt" value="yyyyMMdd" />
+								<entry key="eIntrstAccrualStatTypDt" value="yyyyMMdd" />
+								<entry key="eCrdtLimitEffctDate" value="yyyyMMdd" />
+								<entry key="eCrdtLimitEndtDate" value="yyyyMMdd" />
+								<entry key="eActualBillingCycleDate" value="yyyyMMdd" />
+								<entry key="arrngNxtRenewalDate" value="yyyyMMdd" />
+								<entry key="arrngDisTypDate" value="yyyyMMdd" />
+								<entry key="inIntRateResetDate" value="yyyyMMdd" />
+								<entry key="eNxtIntrRateResetDate" value="yyyyMMdd" />
+								<entry key="prevLstIntRateResetDate" value="yyyyMMdd" />
+								<entry key="finSerResCurStDate" value="yyyyMMdd" />
+								<entry key="finSerPrevResStDate" value="yyyyMMdd" />
+								<entry key="finserModProgStDate" value="yyyyMMdd" />
+								<entry key="finserModProgEndDate" value="yyyyMMdd" />
+								<entry key="acctLstRecDate" value="yyyyMMdd" />
+								<entry key="lstCreLmtChngDate" value="yyyyMMdd" />
+								<entry key="FacilLegalStsDate" value="yyyyMMdd" />
+								<entry key="finSerModProgCurrStsDate" value="yyyyMMdd" />
+								<entry key="creFacArrngAppTypDate" value="yyyyMMdd" />
+								
+								<entry key="acctLstInsDate" value="yyyyMMdd" />
+								<entry key="borDate" value="yyyyMMdd" />
+								<entry key="acctFirstAdvDate" value="yyyyMMdd" />
+								<entry key="acctFirstPayDate" value="yyyyMMdd" />
+								<entry key="acctLastAdvDate" value="yyyyMMdd" />
+								<entry key="mtgModSigDate" value="yyyyMMdd" />
+								<entry key="banktrupcyDate" value="yyyyMMdd" />
+								<entry key="lstWriteDwnDate" value="yyyyMMdd" />
+								<entry key="prinDeffOptEndDtae" value="yyyyMMdd" />
+								<entry key="intDeffOptEndDtae" value="yyyyMMdd" />
+								<entry key="acctLstIntRevDate" value="yyyyMMdd" />
+								
+								<entry key="linePosTypEffDate" value="yyyyMMdd" />
+								
+							</map>
+						</property>
+					</bean>
+				</property>
+			</bean>
+		</property>
+	</bean>
+
+	<!-- Writer for Arrangement IP tab -->
+	<bean id="mtgarrangementIpHeaderWriter"
+		class="com.citi.retail.optima.etl.batch.job.writer.FileHeaderWriter">
+		<property name="headerString"
+			value="eUniqueId,eSrcSysId,eProdSysId,eRecType,eAsOfDt,eUniqueIdSrcSysInvlParty,eArrngPtyRolType,ePctAmt,eEffDate,eEndDate,eInvPtySubtypeId,checkDigit,invPtyLocRltnpTypId,citiId,stateId,zipCd,countryCd,citiId,stateId,zipCd,countryCd,reservedForFutureGenesisUse1,reservedForFutureGenesisUse2,reservedForFutureGenesisUse3,reservedForFutureGenesisUse4,reservedForFutureGenesisUse5,reservedForFutureGenesisUse6,reservedForFutureGenesisUse7,reservedForFutureGenesisUse8,reservedForFutureGenesisUse9" />
+	</bean>
+
+	<bean id="mtgarrangementIpWriter" class="org.springframework.batch.item.file.FlatFileItemWriter"
+		scope="step">
+		<property name="resource"
+			value="file:#{#getOutputFilePath(jobParameters[COUNTRYPRODUCT])}GN_SR67841_#{jobParameters[productCodeUpper]}_#{jobParameters[region]}_#{jobParameters[countryCodeUpper]}_RSK_#{jobParameters[dateOfInfo]}_HIST_#{jobParameters[currentDate]}_AIP_#{jobParameters[versionId]}.dat_#{stepExecutionContext[partitionId]}" />
+<!-- 		<property name="headerCallback" ref="mtgarrangementIpHeaderWriter" /> -->
+		<property name="appendAllowed" value="true"/>
+		<property name="lineAggregator">
+			<bean
+				class="org.springframework.batch.item.file.transform.DelimitedLineAggregator">
+				<property name="delimiter" value="|" />
+				<property name="fieldExtractor">
+					<bean
+						class="com.citi.retail.optima.etl.batch.job.writer.fieldextractor.RRASCustomFieldExtractor">
+						<property name="names"
+							value="eUniqueId,eSrcSysId,eProdSysId,eRecType,eAsOfDt,eUniqueIdSrcSysInvlParty,eArrngPtyRolType,ePctAmt,eAIPEffDate,eAIPEndDate,eInvPtySubtypeId,checkDigit,invPtyLocRltnpTypId,citiId,stateId,zipCd,countryCd,citiId,stateId,zipCd,countryCd,reservedForFutureGenesisUse1,reservedForFutureGenesisUse2,reservedForFutureGenesisUse3,reservedForFutureGenesisUse4,reservedForFutureGenesisUse5,reservedForFutureGenesisUse6,reservedForFutureGenesisUse7,reservedForFutureGenesisUse8,reservedForFutureGenesisUse9" />
+						<property name="formatMap">
+							<map key-type="java.lang.String" value-type="java.lang.String">
+							<entry key="eAsOfDt" value="yyyyMMdd" />
+								<entry key="eAIPEffDate" value="yyyyMMdd" />
+								<entry key="eAIPEndDate" value="yyyyMMdd" />
+							</map>
+						</property>
+					</bean>
+				</property>
+			</bean>
+		</property>
+	</bean>
+
+	<!-- Writer for Arrangement Rating tab -->
+	<bean id="mtgargRatingHeaderFileWriter"
+		class="com.citi.retail.optima.etl.batch.job.writer.FileHeaderWriter">
+		<property name="headerString"
+			value="eUniqueId,eSrcSysId,eProdSysId,eRecType,eAsOfDt,eRatingIssId,eModelCd,eRatingEvnRsnTypId,eRank,eEffDate,eEndDate,eRatingTypCd,eRatingCd,eFicoEquvRatingCode,ratingDesc,eScoreReqReturnFlag,reservedForFutureGenesisUse1,reservedForFutureGenesisUse2,reservedForFutureGenesisUse3,reservedForFutureGenesisUse4,reservedForFutureGenesisUse5,reservedForFutureGenesisUse6,reservedForFutureGenesisUse7,reservedForFutureGenesisUse8,reservedForFutureGenesisUse9" />
+	</bean>
+
+	<bean id="mtgarrangementRatingWriter" class="org.springframework.batch.item.file.FlatFileItemWriter"
+		scope="step">
+		<property name="resource"
+			value="file:#{#getOutputFilePath(jobParameters[COUNTRYPRODUCT])}GN_SR67841_#{jobParameters[productCodeUpper]}_#{jobParameters[region]}_#{jobParameters[countryCodeUpper]}_RSK_#{jobParameters[dateOfInfo]}_HIST_#{jobParameters[currentDate]}_ARG_#{jobParameters[versionId]}.dat_#{stepExecutionContext[partitionId]}" />
+<!-- 		<property name="headerCallback" ref="mtgargRatingHeaderFileWriter" /> -->
+		<property name="appendAllowed" value="true"/>
+		<property name="lineAggregator">
+			<bean
+				class="org.springframework.batch.item.file.transform.DelimitedLineAggregator">
+				<property name="delimiter" value="|" />
+				<property name="fieldExtractor">
+					<bean
+						class="com.citi.retail.optima.etl.batch.job.writer.fieldextractor.RRASCustomFieldExtractor">
+						<property name="names"
+							value="eUniqueId,eSrcSysId,eProdSysId,eRecType,eAsOfDt,eRatingIssId,eModelCd,eRatingEvnRsnTypId,eARGRank,eARGEffDate,eARGEndDate,eRatingTypCd,eRatingCd,eFicoEquvRatingCode,ratingDesc,eScoreReqReturnFlag,reservedForFutureGenesisUse1,reservedForFutureGenesisUse2,reservedForFutureGenesisUse3,reservedForFutureGenesisUse4,reservedForFutureGenesisUse5,reservedForFutureGenesisUse6,reservedForFutureGenesisUse7,reservedForFutureGenesisUse8,reservedForFutureGenesisUse9" />
+						<property name="formatMap">
+							<map key-type="java.lang.String" value-type="java.lang.String">
+								<entry key="eAsOfDt" value="yyyyMMdd" />
+								<entry key="eARGEffDate" value="yyyyMMdd" />
+								<entry key="eARGEndDate" value="yyyyMMdd" />
+							
+							</map>
+						</property>
+					</bean>
+				</property>
+			</bean>
+		</property>
+	</bean>
+
+	<!-- Writer for Arrangement Rate tab -->
+	<bean id="mtgargRateHeaderFileWriter"
+		class="com.citi.retail.optima.etl.batch.job.writer.FileHeaderWriter">
+		<property name="headerString"
+			value="eUniqueId,eSrcSysId,eProdSysId,eRecType,eAsOfDt,eAREndDate,eEffectiveRatePercentage,speedRatePer,arrngRateTypRelnTypId,rateId,rateName,eRateVarTypeId,eRateTypeId,rateTypEffDate,eRateActiveFlag,reservedForFutureGenesisUse1,reservedForFutureGenesisUse2,reservedForFutureGenesisUse3,reservedForFutureGenesisUse4,reservedForFutureGenesisUse5,reservedForFutureGenesisUse6,reservedForFutureGenesisUse7,reservedForFutureGenesisUse8,reservedForFutureGenesisUse9,reservedForFutureGenesisUse10,reservedForFutureGenesisUse11,reservedForFutureGenesisUse12,reservedForFutureGenesisUse13,reservedForFutureGenesisUse14,reservedForFutureGenesisUse15" />
+	</bean>
+
+	<bean id="mtgarrangementRateWriter" class="org.springframework.batch.item.file.FlatFileItemWriter"
+		scope="step">
+		<property name="resource"
+			value="file:#{#getOutputFilePath(jobParameters[COUNTRYPRODUCT])}GN_SR67841_#{jobParameters[productCodeUpper]}_#{jobParameters[region]}_#{jobParameters[countryCodeUpper]}_RSK_#{jobParameters[dateOfInfo]}_HIST_#{jobParameters[currentDate]}_AR_#{jobParameters[versionId]}.dat_#{stepExecutionContext[partitionId]}" />
+<!-- 		<property name="headerCallback" ref="mtgargRateHeaderFileWriter" /> -->
+		<property name="appendAllowed" value="true"/>
+		<property name="lineAggregator">
+			<bean
+				class="org.springframework.batch.item.file.transform.DelimitedLineAggregator">
+				<property name="delimiter" value="|" />
+				<property name="fieldExtractor">
+					<bean
+						class="com.citi.retail.optima.etl.batch.job.writer.fieldextractor.RRASCustomFieldExtractor">
+						<property name="names"
+							value="eUniqueId,eSrcSysId,eProdSysId,eRecType,eAsOfDt,eAREndDate,eEffectiveRatePercentage,speedRatePer,arrngRateTypRelnTypId,rateId,rateName,eRateVarTypeId,eRateTypeId,rateTypEffDate,eRateActiveFlag,reservedForFutureGenesisUse1,reservedForFutureGenesisUse2,reservedForFutureGenesisUse3,reservedForFutureGenesisUse4,reservedForFutureGenesisUse5,reservedForFutureGenesisUse6,reservedForFutureGenesisUse7,reservedForFutureGenesisUse8,reservedForFutureGenesisUse9,reservedForFutureGenesisUse10,reservedForFutureGenesisUse11,reservedForFutureGenesisUse12,reservedForFutureGenesisUse13,reservedForFutureGenesisUse14,reservedForFutureGenesisUse15" />
+							<property name="formatMap">
+							<map key-type="java.lang.String" value-type="java.lang.String">
+								<entry key="eAREndDate" value="yyyyMMdd" />
+								<entry key="eAsOfDt" value="yyyyMMdd" />
+							</map>
+						</property>
+					</bean>
+				</property>
+			</bean>
+		</property>
+	</bean>
+
+	<!-- Writer for Collateral Arrangement tab -->
+	<bean id="mtgcollArrngHeaderFileWriter"
+		class="com.citi.retail.optima.etl.batch.job.writer.FileHeaderWriter">
+		<property name="headerString"
+			value="eUniqueId,eSrcSysId,eProdSysId,eRecTypeColl,eAsOfDt,eResourceItemTypId,primCollInd,revFreqId,resourceItemName,desc,eEffDate,eCaEndDate,collArrngUniqueIdInSrcSys,collArrngSrcSysId,resItemValueAmt,eResItemValMethodId,resItemValEffDt,eResItemBalCurrId,eResItemBalTypId,resItemValEvtRsnTypId,eLoanAssestRelnType,eRelationEffDate,colTypId,eGlobProdIdentifier,eStdArrgId,arrgName,eDescription,eBookingDate,eOriginalEffDate,eEffDate,estEndDt,endDt,arrngTypId,eDenomCurrId,eOrigChannelId,eArrngPurpTypeId,eArrngBusIntType,eArrngBussIntDate,ePledgInd,ePledgEligInd,eArrngMatuTypeId,eArrngFinStatTypId,eArrngFinStatDate,eArrngPastDueDayCount,eGracePerDayCnt,eArrngPastDueAgeClass,eArrngPastDueAgeClassDate,arrgFinStsRsnTypId,eArrngLifeCycleStatusId,arrgLifCyclStsRsnTypId,eArrngLifeCycleStatusDate,arrgNxtRnwlDt,eCreditRiskMtgtTypId,collSrcTypId,legalEnfFlag,legalRightToPossFlag,reHypInd,collLocCode,inValMarginFlag,eOriginalAmt,addTypId,loanToAssetRelnType,occTyp,ePropApprDate,propApprTypId,realPropTotUnit,eRealPropType,propLocName,ePropCity,ePropCountry,ePropState,ePropZipCode,ePropAddLine1,propAddLine2,propAddLine3,reservedForFutureGenesisUse1,reservedForFutureGenesisUse2,reservedForFutureGenesisUse3,reservedForFutureGenesisUse4,reservedForFutureGenesisUse5"/>
+	</bean>
+
+	<bean id="mtgcollArrngWriter" class="org.springframework.batch.item.file.FlatFileItemWriter"
+		scope="step">
+		<property name="resource"
+			value="file:#{#getOutputFilePath(jobParameters[COUNTRYPRODUCT])}GN_SR67841_#{jobParameters[productCodeUpper]}_#{jobParameters[region]}_#{jobParameters[countryCodeUpper]}_RSK_#{jobParameters[dateOfInfo]}_HIST_#{jobParameters[currentDate]}_CA_#{jobParameters[versionId]}.dat_#{stepExecutionContext[partitionId]}" />
+<!-- 		<property name="headerCallback" ref="mtgcollArrngHeaderFileWriter" /> -->
+		<property name="appendAllowed" value="true"/>
+		<property name="lineAggregator">
+			<bean
+				class="org.springframework.batch.item.file.transform.DelimitedLineAggregator">
+				<property name="delimiter" value="|" />
+				<property name="fieldExtractor">
+					<bean
+						class="com.citi.retail.optima.etl.batch.job.writer.fieldextractor.RRASCustomFieldExtractor">
+						<property name="names"
+						value="eUniqueId,eSrcSysId,eProdSysId,eRecTypeColl,eAsOfDt,eResourceItemTypId,primCollInd,revFreqId,resourceItemName,desc,eEffDate,eCaEndDate,collArrngUniqueIdInSrcSys,collArrngSrcSysId,resItemValueAmt,eResItemValMethodId,resItemValEffDt,eResItemBalCurrId,eResItemBalTypId,resItemValEvtRsnTypId,eLoanAssestRelnType,eRelationEffDate,colTypId,eGlobProdIdentifier,eStdArrgId,arrgName,eDescription,eBookingDate,eOriginalEffDate,eEffDate,estEndDt,endDt,arrngTypId,eDenomCurrId,eOrigChannelId,eArrngPurpTypeId,eCAArrngBusIntType,eArrngBussIntDate,ePledgInd,ePledgEligInd,eArrngMatuTypeId,eArrngFinStatTypId,eArrngFinStatDate,eArrngPastDueDayCount,eGracePerDayCnt,eArrngPastDueAgeClass,eArrngPastDueAgeClassDate,arrgFinStsRsnTypId,eArrngLifeCycleStatusId,arrgLifCyclStsRsnTypId,eArrngLifeCycleStatusDate,arrgNxtRnwlDt,eCreditRiskMtgtTypId,collSrcTypId,legalEnfFlag,legalRightToPossFlag,reHypInd,collLocCode,inValMarginFlag,eOriginalAmt,addTypId,eLoanAssestRelnType,occTyp,ePropApprDate,propApprTypId,realPropTotUnit,eRealPropType,propLocName,ePropCity,ePropCountry,ePropState,ePropZipCode,ePropAddLine1,propAddLine2,propAddLine3,reservedForFutureGenesisUse1,reservedForFutureGenesisUse2,reservedForFutureGenesisUse3,reservedForFutureGenesisUse4,reservedForFutureGenesisUse5"/>
+<!-- 							value="eUniqueId,eSrcSysId,eProdSysId,eRecType,eAsOfDt,resourceItemTypId,primCollInd,revFreqId,resourceItemName,eDescription,eEffDate,eCaEndDate,collArrngUniqueIdInSrcSys,collArrngSrcSysId,resItemValueAmt,resItemValMethodId,resItemValEffDt,resItemBalCurrId,resItemBalTypId,resItemValEvtRsnTypId,loanToAssRelTyp,relEffDt,colTypId,globProdIdentifier,stdArrgId,arrgName,desc,bookingDt,origEffDt,effDt,estEndDt,endDt,arrngTypId,denomCurrId,orgChannelId,arrgPurpTypId,arrgBusIntentTyp,arrgBusIntntDt,pledgedInd,pledgedEligInd,arrgMatTypId,arrgFinStsTypId,arrgFinStsDt,arrgPastDueDayCnt,gracePrdDayCnt,arrgPastDueAgngClss,arrgPastDueAgngClssDt,arrgFinStsRsnTypId,arrgLifCyclStsTypId,arrgLifCyclStsRsnTypId,arrgLifCycStsDt,arrgNxtRnwlDt,creditRiskMtgtTypId,collSrcTypId,legalEnfFlag,legalRightToPossFlag,reHypInd,collLocCode,inValMarginFlag,eOrgAmount,addTypId,loanToAssetRelnType,occTyp,propApprDate,propApprTypId,realPropTotUnit,realPropTypId,propLocName,propCity,propCountry,propState,propZipCode,propAddLine1,propAddLine2,propAddLine3,reservedForFutureGenesisUse1,reservedForFutureGenesisUse2,reservedForFutureGenesisUse3,reservedForFutureGenesisUse4,reservedForFutureGenesisUse5" /> -->
+
+						<property name="formatMap">
+							<map key-type="java.lang.String" value-type="java.lang.String">
+								<entry key="eCaEndDate" value="yyyyMMdd" />
+								<entry key="eEffDate" value="yyyyMMdd" />
+								<entry key="eAsOfDt" value="yyyyMMdd" />
+								<entry key="eBookingDate" value="yyyyMMdd" />
+								<entry key="eOriginalEffDate" value="yyyyMMdd" />
+								<entry key="eArrngLifeCycleStatusDate" value="yyyyMMdd" />
+								<entry key="eArrngBussIntDate" value="yyyyMMdd" />
+								<entry key="eArrngFinStatDate" value="yyyyMMdd" />
+								<entry key="eArrngPastDueAgeClassDate" value="yyyyMMdd" />
+								<entry key="eRelationEffDate" value="yyyyMMdd" />
+								<entry key="ePropApprDate" value="yyyyMMdd" />
+							</map>
+						</property>
+					</bean>
+				</property>
+			</bean>
+		</property>
+	</bean>
+	<!-- Writer for Common Balance tab -->
+	<bean id="mtgcommonBalanceHeaderFileWriter"
+		class="com.citi.retail.optima.etl.batch.job.writer.FileHeaderWriter">
+		<property name="headerString"
+			value="eUniqueId,eSrcSysId,eRecType,eLegNumber,eProdSysId,eAsOfDt,eGlSysId,eDealId,eBookingLedgrCntryCode,eBalType,eGLAccount1,eGlAccount2,eFdlAccount,eTranCurr,eFuncCurr,eBaseCurrCode,eTxnAmt,eFuncAmt,eBaseAmt,eGoc,eBookingLedgrBrCode,eFrsBuCode,eNotForUse,eLclDeptId,eLclLglVehicleCde,eNotForUse,eFairValAcctMthFlg,eFairValLvl,eExpCode,eLocalProdCode,eFrsAffCode,eNotForUse,eSubStatCode,eNotForUse,eNotForUse,eNotForUse,eGAAPInd,eMicroCntrlCode,eFirmAccountImsNmbr,eBaseNmbr,eIdProd,eKeyCode1,eKeyCode2,eLclLdgrAcctNmbr,eAdjInd,eUserId,eAdjResnCode,eCmnReasonDesc,eLocalGlKey3,eLocalGlKey4,eAdjStndardArrngId,eAdjFinMarketPositionId,reservedForFutureGenesisUse1,reservedForFutureGenesisUse2,reservedForFutureGenesisUse3,reservedForFutureGenesisUse4,reservedForFutureGenesisUse5"/>
+	</bean>
+
+	<!-- <bean id="mtgcommonBalanceWriter" class="org.springframework.batch.item.file.FlatFileItemWriter"
+		scope="step"> -->
+		<bean id="mtgcommonBalanceWriter" class="com.citi.retail.optima.etl.batch.job.writer.MultiLineFlatFileItemWriter" scope="step">
+    <property name="attrName" value="eCommonBalMtgTRLRecords"/>
+	
+		<property name="resource"
+			value="file:#{#getOutputFilePath(jobParameters[COUNTRYPRODUCT])}GN_SR67841_#{jobParameters[productCodeUpper]}_#{jobParameters[region]}_#{jobParameters[countryCodeUpper]}_RSK_#{jobParameters[dateOfInfo]}_HIST_#{jobParameters[currentDate]}_CB_#{jobParameters[versionId]}.dat_#{stepExecutionContext[partitionId]}" />
+<!-- 		<property name="headerCallback" ref="mtgcommonBalanceHeaderFileWriter" /> -->
+		<property name="appendAllowed" value="true"/> 
+		<property name="lineAggregator">
+			<bean
+				class="org.springframework.batch.item.file.transform.DelimitedLineAggregator">
+				<property name="delimiter" value="|" />
+				<property name="fieldExtractor">
+					<bean
+						class="com.citi.retail.optima.etl.batch.job.writer.fieldextractor.RRASCustomFieldExtractor">
+						<property name="names"
+							value="eUniqueId,eSrcSysId,eRecType,eLegNumber,eProdSysId,eAsOfDt,eGlSysId,eDealId,eBookingLedgrCntryCode,eBalType,eGLAccount1,eGlAccount2,eFdlAccount,eTranCurr,eFuncCurr,eBaseCurrCode,eTxnAmt,eFuncAmt,eBaseAmt,eGoc,eBookingLedgrBrCode,eFrsBuCode,eNotForUse,eLclDeptId,eLclLglVehicleCde,eNotForUse,eFairValAcctMthFlg,eFairValLvl,eExpCode,eLocalProdCode,eFrsAffCode,eNotForUse,eSubStatCode,eNotForUse,eNotForUse,eNotForUse,eGAAPInd,eMicroCntrlCode,eFirmAccountImsNmbr,eBaseNmbr,eIdProd,eKeyCode1,eKeyCode2,eLclLdgrAcctNmbr,eAdjInd,eUserId,eAdjResnCode,eCmnReasonDesc,eLocalGlKey3,eLocalGlKey4,eAdjStndardArrngId,eAdjFinMarketPositionId,reservedForFutureGenesisUse1,reservedForFutureGenesisUse2,reservedForFutureGenesisUse3,reservedForFutureGenesisUse4,reservedForFutureGenesisUse5" />				
+						<property name="formatMap">
+							<map key-type="java.lang.String" value-type="java.lang.String">
+								<entry key="eEffDate" value="yyyyMMdd" />
+								<entry key="eEndDate" value="yyyyMMdd" />
+								<entry key="eAsOfDt" value="yyyyMMdd" />
+							</map>
+						</property>				
+				</bean>		
+			</property>	
+	</bean>
+	</property>
+	</bean>
+	
+	<!-- Writer for Arrangement Ip Rating tab -->
+	<bean id="mtgarrngIpRatingHeaderFileWriter"
+		class="com.citi.retail.optima.etl.batch.job.writer.FileHeaderWriter">
+		<property name="headerString"
+			value="eUniqueId,eSrcSysId,eProdSysId,eRecType,eAsOfDt,eInvlvPartySubTypeId,eInvPtyUniqueId,eRatingIssId,eModelCd,eRatingEvnRsnTypId,eRank,eEffDate,eEndDate,eRatingTypCd,eRatingCd,eFicoEquvRatingCode,ratingDesc,scoreReqReturnedFlg,reservedForFutureGenesisUse1,reservedForFutureGenesisUse2,reservedForFutureGenesisUse3,reservedForFutureGenesisUse4,reservedForFutureGenesisUse5,reservedForFutureGenesisUse6,reservedForFutureGenesisUse7" />
+	</bean>
+
+	<bean id="mtgarrngIpRatingWriter" class="org.springframework.batch.item.file.FlatFileItemWriter"
+		scope="step">
+		<property name="resource"
+			value="file:#{#getOutputFilePath(jobParameters[COUNTRYPRODUCT])}GN_SR67841_#{jobParameters[productCodeUpper]}_#{jobParameters[region]}_#{jobParameters[countryCodeUpper]}_RSK_#{jobParameters[dateOfInfo]}_HIST_#{jobParameters[currentDate]}_AIR_#{jobParameters[versionId]}.dat_#{stepExecutionContext[partitionId]}" />
+<!-- 		<property name="headerCallback" ref="mtgcollArrngHeaderFileWriter" /> -->
+		<property name="appendAllowed" value="true"/>
+		<property name="lineAggregator">
+			<bean
+				class="org.springframework.batch.item.file.transform.DelimitedLineAggregator">
+				<property name="delimiter" value="|" />
+				<property name="fieldExtractor">
+					<bean
+						class="com.citi.retail.optima.etl.batch.job.writer.fieldextractor.RRASCustomFieldExtractor">
+						<property name="names"
+							value="eUniqueId,eSrcSysId,eProdSysId,eRecType,eAsOfDt,eInvlvPartySubTypeId,eInvPtyUniqueId,eRatingIssId,eModelCd,eRatingEvnRsnTypId,eRank,eEffDate,eAIREndDate,eRatingTypCd,eRatingCd,eFicoEquvRatingCode,ratingDesc,scoreReqReturnedFlg,reservedForFutureGenesisUse1,reservedForFutureGenesisUse2,reservedForFutureGenesisUse3,reservedForFutureGenesisUse4,reservedForFutureGenesisUse5,reservedForFutureGenesisUse6,reservedForFutureGenesisUse7" />
+						<property name="formatMap">
+							<map key-type="java.lang.String" value-type="java.lang.String">
+								
+								<entry key="eAIREndDate" value="yyyyMMdd" />
+								
+								<entry key="eAsOfDt" value="yyyyMMdd" />
+								<entry key="eEffDate" value="yyyyMMdd" />							
+							</map>
+						</property>
+					</bean>
+				</property>
+			</bean>
+		</property>
+	</bean>
+	
+
+	<bean id="mtgRecHeaderWriter" class="com.citi.retail.optima.etl.batch.job.writer.FileHeaderWriter">
+		<property name="headerString" value="status,orgbkval,netbkval,acctnumb,bauimp,keepflg,statenow" />
+	</bean>
+	
+<!--  	<bean id="mtgRecFileWriter" class="org.springframework.batch.item.file.FlatFileItemWriter"
+		scope="step">
+		<property name="resource"
+			value="file:${filewatcher.output.folder}GN_PS07396_#{jobParameters[productCodeUpper]}_#{jobParameters[region]}_#{jobParameters[countryCodeUpper]}_RSK_#{jobParameters[dateOfInfo]}_HIST_#{jobParameters[currentDate]}_ExcludedRecords_#{jobParameters[versionId]}.dat_#{stepExecutionContext[partitionId]}" />
+	
+			<property name="headerCallback" ref="mtgRecHeaderWriter" /> 
+			<property name="lineAggregator">
+			<bean
+				class="org.springframework.batch.item.file.transform.DelimitedLineAggregator">
+				<property name="delimiter" value="|" />
+				<property name="fieldExtractor">
+					<bean
+						class="org.springframework.batch.item.file.transform.BeanWrapperFieldExtractor">
+						<property name="names"
+						value="status,orgbkval,netbkval,acctnumb,bauimp,keepflg,statenow" />
+					</bean>
+				</property>
+			</bean>
+		</property>
+	</bean>
+	
+	<bean id="loansRecFileWriter" class="org.springframework.batch.item.file.FlatFileItemWriter"
+              scope="step">
+              <property name="resource"
+                     value="file:${filewatcher.output.folder}GN_PS07396_#{jobParameters[productCodeUpper]}_#{jobParameters[region]}_#{jobParameters[countryCodeUpper]}_RSK_#{jobParameters[dateOfInfo]}_HIST_#{jobParameters[currentDate]}_ExcludedRecords_#{jobParameters[versionId]}.dat_#{stepExecutionContext[partitionId]}" />
+              
+              <property name="headerCallback" ref="mtgRecHeaderWriter" /> 
+              <property name="lineAggregator">
+                     <bean
+                           class="org.springframework.batch.item.file.transform.DelimitedLineAggregator">
+                           <property name="delimiter" value="|" />
+                           <property name="fieldExtractor">
+                                  <bean
+                                         class="org.springframework.batch.item.file.transform.BeanWrapperFieldExtractor">
+                                         <property name="names"
+                                                value="status,orgbkval,netbkval,acctnumb,bauimp,keepflg,statenow" />
+                                  </bean>
+                           </property>
+                     </bean>
+              </property>
+       </bean>
+ -->	<util:list id="plFooterItemList" scope="step" list-class="java.util.ArrayList">
+			<bean class="com.citi.retail.optima.etl.common.model.RainbowFileFooter" p:hashFileType="FINSERVTYP" p:hashField="eFinServiceTypId" 
+			p:outputFileResourceName="GN_SR67841_#{jobParameters[productCodeUpper]}_#{jobParameters[region]}_#{jobParameters[countryCodeUpper]}_RSK_#{jobParameters[dateOfInfo]}_HIST_#{jobParameters[currentDate]}_IND_#{jobParameters[versionId]}."/>
+			<bean class="com.citi.retail.optima.etl.common.model.RainbowFileFooter" p:hashFileType="RNK" p:hashField="eRank" 
+			p:outputFileResourceName="GN_SR67841_#{jobParameters[productCodeUpper]}_#{jobParameters[region]}_#{jobParameters[countryCodeUpper]}_RSK_#{jobParameters[dateOfInfo]}_HIST_#{jobParameters[currentDate]}_AIR_#{jobParameters[versionId]}."/>
+			<bean class="com.citi.retail.optima.etl.common.model.RainbowFileFooter" p:hashFileType="BAL_TYP" p:hashField="eBalType" 
+			p:outputFileResourceName="GN_SR67841_#{jobParameters[productCodeUpper]}_#{jobParameters[region]}_#{jobParameters[countryCodeUpper]}_RSK_#{jobParameters[dateOfInfo]}_HIST_#{jobParameters[currentDate]}_CB_#{jobParameters[versionId]}."/>
+			<bean class="com.citi.retail.optima.etl.common.model.RainbowFileFooter" p:hashFileType="RTE_VARTYP" p:hashField="eRateVarTypeId" 
+			p:outputFileResourceName="GN_SR67841_#{jobParameters[productCodeUpper]}_#{jobParameters[region]}_#{jobParameters[countryCodeUpper]}_RSK_#{jobParameters[dateOfInfo]}_HIST_#{jobParameters[currentDate]}_AR_#{jobParameters[versionId]}."/>
+			<bean class="com.citi.retail.optima.etl.common.model.RainbowFileFooter" p:hashFileType="RANK" p:hashField="eARGRank" 
+			p:outputFileResourceName="GN_SR67841_#{jobParameters[productCodeUpper]}_#{jobParameters[region]}_#{jobParameters[countryCodeUpper]}_RSK_#{jobParameters[dateOfInfo]}_HIST_#{jobParameters[currentDate]}_ARG_#{jobParameters[versionId]}."/>
+			<bean class="com.citi.retail.optima.etl.common.model.RainbowFileFooter" p:hashFileType="PCT" p:hashField="ePctAmt" 
+			p:outputFileResourceName="GN_SR67841_#{jobParameters[productCodeUpper]}_#{jobParameters[region]}_#{jobParameters[countryCodeUpper]}_RSK_#{jobParameters[dateOfInfo]}_HIST_#{jobParameters[currentDate]}_AIP_#{jobParameters[versionId]}."/>
+			<bean class="com.citi.retail.optima.etl.common.model.RainbowFileFooter" p:hashFileType="SUPPTYP_ID" p:hashField="eISupTypId" 
+			p:outputFileResourceName="GN_SR67841_#{jobParameters[productCodeUpper]}_#{jobParameters[region]}_#{jobParameters[countryCodeUpper]}_RSK_#{jobParameters[dateOfInfo]}_HIST_#{jobParameters[currentDate]}_GI_#{jobParameters[versionId]}."/>
+			<bean class="com.citi.retail.optima.etl.common.model.RainbowFileFooter" p:hashFileType="BUS_INTTYP" p:hashField="eCAArrngBusIntType" 
+			p:outputFileResourceName="GN_SR67841_#{jobParameters[productCodeUpper]}_#{jobParameters[region]}_#{jobParameters[countryCodeUpper]}_RSK_#{jobParameters[dateOfInfo]}_HIST_#{jobParameters[currentDate]}_CA_#{jobParameters[versionId]}."/>
+			<bean class="com.citi.retail.optima.etl.common.model.RainbowFileFooter" p:hashFileType="PCT" p:hashField="eArrngPctAmt" 
+			p:outputFileResourceName="GN_SR67841_#{jobParameters[productCodeUpper]}_#{jobParameters[region]}_#{jobParameters[countryCodeUpper]}_RSK_#{jobParameters[dateOfInfo]}_HIST_#{jobParameters[currentDate]}_AA_#{jobParameters[versionId]}."/>
+			<bean class="com.citi.retail.optima.etl.common.model.RainbowFileFooter" p:hashFileType="LOSSMTGTYP" p:hashField="eLossMitgPrgmId" 
+			p:outputFileResourceName="GN_SR67841_#{jobParameters[productCodeUpper]}_#{jobParameters[region]}_#{jobParameters[countryCodeUpper]}_RSK_#{jobParameters[dateOfInfo]}_HIST_#{jobParameters[currentDate]}_ALM_#{jobParameters[versionId]}."/>
+<!-- 			<bean class="com.citi.retail.optima.etl.common.model.RainbowFileFooter" p:hashFileType="" p:hashField="" 
+			p:outputFileResourceName="GN_SR67841_#{jobParameters[productCodeUpper]}_#{jobParameters[region]}_#{jobParameters[countryCodeUpper]}_RSK_#{jobParameters[dateOfInfo]}_HIST_#{jobParameters[currentDate]}_ExcludedRecords_#{jobParameters[versionId]}."/>
+ -->	</util:list>
+	<util:list id="mtgFooterItemList" scope="step" list-class="java.util.ArrayList">
+			<bean class="com.citi.retail.optima.etl.common.model.RainbowFileFooter" p:hashFileType="FINSERVTYP" p:hashField="eFinServiceTypId" 
+			p:outputFileResourceName="GN_SR67841_#{jobParameters[productCodeUpper]}_#{jobParameters[region]}_#{jobParameters[countryCodeUpper]}_RSK_#{jobParameters[dateOfInfo]}_HIST_#{jobParameters[currentDate]}_IND_#{jobParameters[versionId]}."/>
+			<bean class="com.citi.retail.optima.etl.common.model.RainbowFileFooter" p:hashFileType="RNK" p:hashField="eRank" 
+			p:outputFileResourceName="GN_SR67841_#{jobParameters[productCodeUpper]}_#{jobParameters[region]}_#{jobParameters[countryCodeUpper]}_RSK_#{jobParameters[dateOfInfo]}_HIST_#{jobParameters[currentDate]}_AIR_#{jobParameters[versionId]}."/>
+			<bean class="com.citi.retail.optima.etl.common.model.RainbowFileFooter" p:hashFileType="BAL_TYP" p:hashField="eBalType" 
+			p:outputFileResourceName="GN_SR67841_#{jobParameters[productCodeUpper]}_#{jobParameters[region]}_#{jobParameters[countryCodeUpper]}_RSK_#{jobParameters[dateOfInfo]}_HIST_#{jobParameters[currentDate]}_CB_#{jobParameters[versionId]}."/>
+			<bean class="com.citi.retail.optima.etl.common.model.RainbowFileFooter" p:hashFileType="RTE_VARTYP" p:hashField="eRateVarTypeId" 
+			p:outputFileResourceName="GN_SR67841_#{jobParameters[productCodeUpper]}_#{jobParameters[region]}_#{jobParameters[countryCodeUpper]}_RSK_#{jobParameters[dateOfInfo]}_HIST_#{jobParameters[currentDate]}_AR_#{jobParameters[versionId]}."/>
+			<bean class="com.citi.retail.optima.etl.common.model.RainbowFileFooter" p:hashFileType="RANK" p:hashField="eARGRank" 
+			p:outputFileResourceName="GN_SR67841_#{jobParameters[productCodeUpper]}_#{jobParameters[region]}_#{jobParameters[countryCodeUpper]}_RSK_#{jobParameters[dateOfInfo]}_HIST_#{jobParameters[currentDate]}_ARG_#{jobParameters[versionId]}."/>
+			<bean class="com.citi.retail.optima.etl.common.model.RainbowFileFooter" p:hashFileType="PCT" p:hashField="ePctAmt" 
+			p:outputFileResourceName="GN_SR67841_#{jobParameters[productCodeUpper]}_#{jobParameters[region]}_#{jobParameters[countryCodeUpper]}_RSK_#{jobParameters[dateOfInfo]}_HIST_#{jobParameters[currentDate]}_AIP_#{jobParameters[versionId]}."/>
+			<bean class="com.citi.retail.optima.etl.common.model.RainbowFileFooter" p:hashFileType="SUPPTYP_ID" p:hashField="eISupTypId" 
+			p:outputFileResourceName="GN_SR67841_#{jobParameters[productCodeUpper]}_#{jobParameters[region]}_#{jobParameters[countryCodeUpper]}_RSK_#{jobParameters[dateOfInfo]}_HIST_#{jobParameters[currentDate]}_GI_#{jobParameters[versionId]}."/>
+			<bean class="com.citi.retail.optima.etl.common.model.RainbowFileFooter" p:hashFileType="BUS_INTTYP" p:hashField="eCAArrngBusIntType" 
+			p:outputFileResourceName="GN_SR67841_#{jobParameters[productCodeUpper]}_#{jobParameters[region]}_#{jobParameters[countryCodeUpper]}_RSK_#{jobParameters[dateOfInfo]}_HIST_#{jobParameters[currentDate]}_CA_#{jobParameters[versionId]}."/>
+			<bean class="com.citi.retail.optima.etl.common.model.RainbowFileFooter" p:hashFileType="LOSSMTGTYP" p:hashField="eLossMitgPrgmId" 
+			p:outputFileResourceName="GN_SR67841_#{jobParameters[productCodeUpper]}_#{jobParameters[region]}_#{jobParameters[countryCodeUpper]}_RSK_#{jobParameters[dateOfInfo]}_HIST_#{jobParameters[currentDate]}_ALM_#{jobParameters[versionId]}."/>
+<!-- 			<bean class="com.citi.retail.optima.etl.common.model.RainbowFileFooter" p:hashFileType="" p:hashField="" 
+			p:outputFileResourceName="GN_SR67841_#{jobParameters[productCodeUpper]}_#{jobParameters[region]}_#{jobParameters[countryCodeUpper]}_RSK_#{jobParameters[dateOfInfo]}_HIST_#{jobParameters[currentDate]}_ExcludedRecords_#{jobParameters[versionId]}."/>
+ -->	</util:list>
+</beans>

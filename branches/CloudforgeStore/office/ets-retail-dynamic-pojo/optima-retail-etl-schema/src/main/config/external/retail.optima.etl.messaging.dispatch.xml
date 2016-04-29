@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<beans  xmlns="http://www.springframework.org/schema/beans"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xmlns:c="http://www.springframework.org/schema/c"
+        xmlns:p="http://www.springframework.org/schema/p"
+        xmlns:oxm="http://www.springframework.org/schema/oxm"
+        xmlns:util="http://www.springframework.org/schema/util"
+        xsi:schemaLocation="
+                http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.2.xsd
+                http://www.springframework.org/schema/oxm http://www.springframework.org/schema/oxm/spring-oxm-3.2.xsd
+                http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util-3.2.xsd">
+
+    <bean   id="optimaRetailMessageDispatcher"
+            class="com.citi.retail.optima.etl.message.impl.OptimaRetailMessageDispatcherImpl"
+            c:jmsTemplate-ref="optimaRetailJmsTemplate"
+            c:converterFactory-ref="optimaRetailMessageConverterFactory"
+    />    
+    
+    <bean   id="optimaRetailMessageConverterFactory"
+            class="com.citi.retail.optima.etl.message.impl.OptimaRetailMessageConverterFactoryImpl"
+            c:converterMap-ref="converterMap"
+    />
+    
+    <util:map id="converterMap" key-type="java.lang.Class">
+        <entry key="com.citi.retail.optima.etl.xsd.genesis.GenesisRREvent" value-ref="genOutMessageConverter"/>
+        <entry key="com.citi.retail.optima.xsd.internal.OptimaRetailETLEvent" value-ref="internalMessageConverter"/>
+    </util:map>
+    
+    <bean   id="genOutMessageConverter"
+            class="org.springframework.jms.support.converter.MarshallingMessageConverter"
+            p:marshaller-ref="genMarshaller"
+            p:unmarshaller-ref="genMarshaller"
+            p:targetType="TEXT"
+    />
+    
+    <bean   id="internalMessageConverter"
+            class="org.springframework.jms.support.converter.MarshallingMessageConverter"
+            p:marshaller-ref="marshaller"
+            p:unmarshaller-ref="marshaller"
+            p:targetType="TEXT"
+    />  
+    
+    <oxm:jaxb2-marshaller id="marshaller">
+        <oxm:class-to-be-bound name="com.citi.retail.optima.xsd.internal.OptimaRetailETLEvent" />
+    </oxm:jaxb2-marshaller>
+
+    <oxm:jaxb2-marshaller id="genMarshaller">
+        <oxm:class-to-be-bound name="com.citi.retail.optima.etl.xsd.genesis.GenesisRREvent" />
+    </oxm:jaxb2-marshaller>
+    
+    <bean   id="optimaRetailJmsTemplate"
+            class="org.springframework.jms.core.JmsTemplate"
+            p:connectionFactory-ref="optimaRetailJmsConnectionFactory"
+    />  
+    
+    <bean   id="optimaRetailJmsConnectionFactory"
+            class="org.springframework.jms.connection.CachingConnectionFactory"
+            p:targetConnectionFactory-ref="jmsConnectionFactory"
+            p:sessionCacheSize="10"
+            p:cacheProducers="true"
+            p:cacheConsumers="true"
+    />
+    
+    <bean id="jmsConnectionFactory" class="org.apache.activemq.ActiveMQConnectionFactory">
+        <property name="brokerURL" value="tcp://localhost:61616" />
+    </bean>
+</beans>

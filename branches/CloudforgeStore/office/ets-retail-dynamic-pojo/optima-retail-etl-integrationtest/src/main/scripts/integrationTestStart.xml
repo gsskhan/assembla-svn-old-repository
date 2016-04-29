@@ -1,0 +1,18 @@
+<project name="integrationTestStart" basedir="." default="start">
+
+    <property name="lib.dir" value="${app.dir}/lib"/>
+    
+    <property name="adminClassName" value="com.citi.retail.optima.etl.integration.test.IntegrationTestInitiator"/>
+    
+    <target name="start">   
+        <java fork="true" maxmemory="${maxMemory}" failonerror="true" classname="${adminClassName}" inputstring="">
+            <classpath>
+				<pathelement path="${app.dir}/config"/>
+				<fileset dir="${lib.dir}">
+					<include name="**/*.jar"/>
+				</fileset>
+            </classpath>
+        	<sysproperty key="xmldir" value="${app.dir/xml}"/>
+        </java>
+    </target>   
+</project>
