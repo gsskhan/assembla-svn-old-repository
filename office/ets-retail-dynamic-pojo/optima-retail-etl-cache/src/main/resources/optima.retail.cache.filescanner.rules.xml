@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<beans	xmlns="http://www.springframework.org/schema/beans"
+		xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+		xmlns:c="http://www.springframework.org/schema/c"
+		xmlns:p="http://www.springframework.org/schema/p"				
+		xmlns:util="http://www.springframework.org/schema/util"
+		xmlns:context="http://www.springframework.org/schema/context"
+		xsi:schemaLocation="
+				http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.2.xsd
+				http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util-3.2.xsd
+				http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-3.2.xsd">
+				
+	
+	<bean	id="fileScannerRulesCacheService"
+			factory-bean="rulesEhCacheManager"
+			factory-method="getCache"
+			c:_0="fileScannerRuleCache"
+	/>
+
+	<bean	id="fileScannerRulesRefCacheLoader"
+			class="com.citi.retail.optima.etl.cache.ehcache.FileScannerCacheDataLoader"
+			p:cache-ref="fileScannerRulesCacheService"
+			p:cacheEntryHelper-ref="fileScannerRulesRefCacheEntryHelper"
+			p:dao-ref="fileScannerRulesDao"
+			p:preloadCache="true"
+	/>
+
+	<bean	id="fileScannerRulesRefCacheEntryHelper"
+			class="com.citi.retail.optima.etl.cache.helper.FileScannerCacheEntryHelper"
+	/>
+	
+	<bean	id="fileScannerRulesDao" 
+			class="com.citi.retail.optima.etl.cache.dao.impl.FileScannerRulesDaoImpl"
+			p:ruleFileNames="${filescanner.rules.fileNames}"
+	/>		
+
+	<bean	id="fileScannerRulesLookup"
+			class="com.citi.retail.optima.etl.cache.lookup.FileScannerRulesLookup"
+			c:_0-ref="rulesEhCacheManager"
+			depends-on="fileScannerRulesRefCacheLoader"
+	/> 
+
+</beans>

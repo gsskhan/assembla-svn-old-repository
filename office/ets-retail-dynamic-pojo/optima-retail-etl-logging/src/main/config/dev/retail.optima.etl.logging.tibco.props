@@ -1,0 +1,4 @@
+optima.tibco.server.url=tcp://vm-b945-2e86.nam.nsroot.net:39422
+optima.tibco.username=optimaretailETL
+optima.tibco.password=optimaretailETL
+optima.queue.exception.out=optima.exception.out1

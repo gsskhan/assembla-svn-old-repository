@@ -1,0 +1,358 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<fileValidationRules functionName="LLR-PEARL"
+	columnCount="34" delimiter="," allowedExtentions="*.csv,*.xls,*.xlsx">
+<inputColumn columnId="1" columnName="template_date" duplicate="true" order="0" dataType="String" notNull="true" regex="20\d\d(0[1-9]|1[0-2])(0[1-9]|[12][0-9]|3[01])">
+	<errorMessages>
+		<entry>
+			<key>NOT_NULL_INVALID</key>
+			<value>Template Date should not be blank OR null</value>
+		</entry>
+		<entry>
+			<key>DATATYPE_INVALID</key>
+			<value>Template_date is not in valid format</value>
+		</entry>		
+	</errorMessages>
+</inputColumn>
+<inputColumn columnId="2" columnName="template_quarter" duplicate="true" order="1" dataType="String" notNull="true" regex="[1234](Q|q)20\d\d">
+	<errorMessages>
+		<entry>
+			<key>NOT_NULL_INVALID</key>
+			<value>Template Quarter should not be blank OR null</value>
+		</entry>
+		<entry>
+			<key>DATATYPE_INVALID</key>
+			<value>Data type is not valid for Template Quarter</value>
+		</entry>		
+	</errorMessages>
+</inputColumn>
+<inputColumn columnId="3" columnName="cycle" duplicate="true" order="2" dataType="String" notNull="true" maxlength="5">
+	<errorMessages>
+		<entry>
+			<key>NOT_NULL_INVALID</key>
+			<value>Cycle should not be blank OR null</value>
+		</entry>
+		<entry>
+			<key>DATATYPE_INVALID</key>
+			<value>Data type is not valid for Cycle</value>
+		</entry>		
+		<entry>
+			<key>LENGTH_INVALID</key>
+			<value>Length is not valid for Cycle</value>
+		</entry>		
+	</errorMessages>
+</inputColumn>
+<inputColumn columnId="4" columnName="con_comm" duplicate="true" order="3" dataType="String" notNull="true" regex="[a-zA-Z]{3,5}">
+	<errorMessages>
+		<entry>
+			<key>NOT_NULL_INVALID</key>
+			<value>CON_COMM should not be blank OR null</value>
+		</entry>
+		<entry>
+			<key>DATATYPE_INVALID</key>
+			<value>Data type is not valid for CON_COMM</value>
+		</entry>		
+	</errorMessages>
+</inputColumn>
+<inputColumn columnId="5" columnName="region" duplicate="true" order="4" dataType="String" notNull="true" maxlength="5">
+	<errorMessages>
+		<entry>
+			<key>NOT_NULL_INVALID</key>
+			<value>Region should not be blank OR null</value>
+		</entry>
+		<entry>
+			<key>DATATYPE_INVALID</key>
+			<value>Data type is not valid for Region</value>
+		</entry>		
+		<entry>
+			<key>LENGTH_INVALID</key>
+			<value>Length is not valid for Region</value>
+		</entry>		
+	</errorMessages>
+</inputColumn>
+<inputColumn columnId="6" columnName="country" duplicate="true" order="5" dataType="String" notNull="true" regex="([A-Z]){2}">
+	<errorMessages>
+		<entry>
+			<key>NOT_NULL_INVALID</key>
+			<value>Country should not be blank OR null</value>
+		</entry>
+		<entry>
+			<key>DATATYPE_INVALID</key>
+			<value>Data type is not valid for Country</value>
+		</entry>		
+	</errorMessages>
+</inputColumn>
+<inputColumn columnId="7" columnName="business" duplicate="true" order="6" dataType="String" notNull="true" regex="[0-9a-zA-Z_\- ]{1,20}">
+	<errorMessages>
+		<entry>
+			<key>NOT_NULL_INVALID</key>
+			<value>Business Unit should not be blank OR null</value>
+		</entry>
+		<entry>
+			<key>DATATYPE_INVALID</key>
+			<value>Data type is not valid for Business Unit</value>
+		</entry>		
+	</errorMessages>
+</inputColumn>
+<inputColumn columnId="8" columnName="legal_vehicle" duplicate="true" order="7" dataType="String" notNull="true" maxlength="15">
+	<errorMessages>
+		<entry>
+			<key>NOT_NULL_INVALID</key>
+			<value>Legal Vehicle should not be blank OR null</value>
+		</entry>
+		<entry>
+			<key>DATATYPE_INVALID</key>
+			<value>Data type is not valid for Legal Vehicle</value>
+		</entry>
+		<entry>
+			<key>LENGTH_INVALID</key>
+			<value>Length is not valid for Legal Vehicle</value>
+		</entry>		
+	</errorMessages>
+</inputColumn>
+<inputColumn columnId="9" columnName="corp_holdings" duplicate="true" order="8" dataType="String" notNull="true" regex="([A-Z]){1}">
+	<errorMessages>
+		<entry>
+			<key>NOT_NULL_INVALID</key>
+			<value>Corp Holdings should not be blank OR null</value>
+		</entry>
+		<entry>
+			<key>DATATYPE_INVALID</key>
+			<value>Data type is not valid for Corp Holdings</value>
+		</entry>		
+	</errorMessages>
+</inputColumn>
+<inputColumn columnId="10" columnName="product1" duplicate="true" order="9" dataType="String" notNull="true" regex="([A-Z]){1}">
+	<errorMessages>
+		<entry>
+			<key>NOT_NULL_INVALID</key>
+			<value>Product1 should not be blank OR null</value>
+		</entry>
+		<entry>
+			<key>DATATYPE_INVALID</key>
+			<value>Data type is not valid for Product1</value>
+		</entry>		
+	</errorMessages>
+</inputColumn>
+<inputColumn columnId="11" columnName="product2" duplicate="true" order="10" dataType="String" notNull="true" maxlength="15">
+	<errorMessages>
+		<entry>
+			<key>NOT_NULL_INVALID</key>
+			<value>Product2 should not be blank OR null</value>
+		</entry>
+		<entry>
+			<key>DATATYPE_INVALID</key>
+			<value>Data type is not valid for Product2</value>
+		</entry>
+		<entry>
+			<key>LENGTH_INVALID</key>
+			<value>Length is not valid for Product2</value>
+		</entry>		
+	</errorMessages>
+</inputColumn>
+<inputColumn columnId="12" columnName="product3" duplicate="false" order="11" dataType="String" notNull="false" maxlength="15">
+	<errorMessages>
+		<entry>
+			<key>DATATYPE_INVALID</key>
+			<value>Data type is not valid for Product3</value>
+		</entry>
+		<entry>
+			<key>LENGTH_INVALID</key>
+			<value>Length is not valid for Product3</value>
+		</entry>		
+	</errorMessages>
+</inputColumn>
+<inputColumn columnId="13" columnName="pearl_prevq_fnl_enr" duplicate="false" order="12" dataType="NegativeDecimal" notNull="false" >
+	<errorMessages>
+		<entry>
+			<key>DATATYPE_INVALID</key>
+			<value>Data type is not valid for PEARL_PrevQ_Fnl_ENR</value>
+		</entry>		
+	</errorMessages>
+</inputColumn>
+<inputColumn columnId="14" columnName="pearl_prevq_llr_bal_total" duplicate="false" order="13" dataType="NegativeDecimal" notNull="false" >
+	<errorMessages>
+		<entry>
+			<key>DATATYPE_INVALID</key>
+			<value>Data type is not valid for PEARL_PrevQ_LLR_Bal_Total</value>
+		</entry>		
+	</errorMessages>
+</inputColumn>
+<inputColumn columnId="15" columnName="pearl_prevq_llr_bal_fas5" duplicate="false" order="14" dataType="NegativeDecimal" notNull="false" >
+	<errorMessages>
+		<entry>
+			<key>DATATYPE_INVALID</key>
+			<value>Data type is not valid for PEARL_PrevQ_LLR_Bal_FAS5</value>
+				</entry>		
+	</errorMessages>
+</inputColumn>
+<inputColumn columnId="16" columnName="pearl_prevq_llr_bal_fas114" duplicate="false" order="15" dataType="NegativeDecimal" notNull="false" >
+	<errorMessages>
+		<entry>
+			<key>DATATYPE_INVALID</key>
+			<value>Data type is not valid for PEARL_PrevQ_LLR_Bal_FAS114</value>
+		</entry>		
+	</errorMessages>
+</inputColumn>
+<inputColumn columnId="17" columnName="pearl_prevq_provision_llr_bal_fas5" duplicate="false" order="16" dataType="NegativeDecimal" notNull="false" >
+	<errorMessages>
+		<entry>
+			<key>DATATYPE_INVALID</key>
+			<value>Data type is not valid for PEARL_PrevQ_Provision_LLR_Bal_FAS5</value>
+		</entry>		
+	</errorMessages>
+</inputColumn>
+<inputColumn columnId="18" columnName="pearl_prevq_provision_llr_bal_fas114" duplicate="false" order="17" dataType="NegativeDecimal" notNull="false" >
+	<errorMessages>
+		<entry>
+			<key>DATATYPE_INVALID</key>
+			<value>Data type is not valid for PEARL_PrevQ_Provision_LLR_Bal_FAS114</value>
+		</entry>		
+	</errorMessages>
+</inputColumn>
+<inputColumn columnId="19" columnName="pearl_prevq_provision_llr_bal_total" duplicate="false" order="18" dataType="NegativeDecimal" notNull="false" >
+	<errorMessages>
+		<entry>
+			<key>DATATYPE_INVALID</key>
+			<value>Data type is not valid for PEARL_PrevQ_Provision_LLR_Bal_Total</value>
+		</entry>		
+	</errorMessages>
+</inputColumn>
+<inputColumn columnId="20" columnName="pearl_prevq_fnl_ncl" duplicate="false" order="19" dataType="NegativeDecimal" notNull="false" >
+	<errorMessages>
+		<entry>
+			<key>DATATYPE_INVALID</key>
+			<value>Data type is not valid for PEARL_PrevQ_Fnl_NCL</value>
+		</entry>		
+	</errorMessages>
+</inputColumn>
+<inputColumn columnId="21" columnName="pearl_prevq_fnl_gcl" duplicate="false" order="20" dataType="NegativeDecimal" notNull="false" >
+	<errorMessages>
+		<entry>
+			<key>DATATYPE_INVALID</key>
+			<value>Data type is not valid for PEARL_PrevQ_Fnl_GCL</value>
+		</entry>		
+	</errorMessages>
+</inputColumn>
+<inputColumn columnId="22" columnName="pearl_prevq_fnl_recoveries" duplicate="false" order="21" dataType="NegativeDecimal" notNull="false" >
+	<errorMessages>
+		<entry>
+			<key>DATATYPE_INVALID</key>
+			<value>Data type is not valid for PEARL_PrevQ_Fnl_Recoveries</value>
+		</entry>		
+	</errorMessages>
+</inputColumn>
+<inputColumn columnId="23" columnName="pearl_currq_fnl_enr" duplicate="false" order="22" dataType="NegativeDecimal" notNull="false" >
+	<errorMessages>
+		<entry>
+			<key>DATATYPE_INVALID</key>
+			<value>Data type is not valid for PEARL_CurrQ_Fnl_ENR</value>
+		</entry>		
+	</errorMessages>
+</inputColumn>
+<inputColumn columnId="24" columnName="pearl_currq_llr_bal_total" duplicate="false" order="23" dataType="NegativeDecimal" notNull="false" >
+	<errorMessages>
+		<entry>
+			<key>DATATYPE_INVALID</key>
+			<value>Data type is not valid for PEARL_CurrQ_LLR_Bal_Total</value>
+		</entry>		
+	</errorMessages>
+</inputColumn>
+<inputColumn columnId="25" columnName="pearl_currq_llr_bal_fas5" duplicate="false" order="24" dataType="NegativeDecimal" notNull="false" >
+	<errorMessages>
+		<entry>
+			<key>DATATYPE_INVALID</key>
+			<value>Data type is not valid for PEARL_CurrQ_LLR_Bal_FAS5</value>
+		</entry>		
+	</errorMessages>
+</inputColumn>
+<inputColumn columnId="26" columnName="pearl_currq_llr_bal_fas114" duplicate="false" order="25" dataType="NegativeDecimal" notNull="false" >
+	<errorMessages>
+		<entry>
+			<key>DATATYPE_INVALID</key>
+			<value>Data type is not valid for PEARL_CurrQ_LLR_Bal_FAS114</value>
+		</entry>		
+	</errorMessages>
+</inputColumn>
+<inputColumn columnId="27" columnName="pearl_currq_provision_llr_bal_fas5" duplicate="false" order="26" dataType="NegativeDecimal" notNull="false" >
+	<errorMessages>
+		<entry>
+			<key>DATATYPE_INVALID</key>
+			<value>Data type is not valid for PEARL_CurrQ_Provision_LLR_Bal_FAS5</value>
+		</entry>		
+	</errorMessages>
+</inputColumn>
+<inputColumn columnId="28" columnName="pearl_currq_provision_llr_bal_fas114" duplicate="false" order="27" dataType="NegativeDecimal" notNull="false" >
+	<errorMessages>
+		<entry>
+			<key>DATATYPE_INVALID</key>
+			<value>Data type is not valid for PEARL_CurrQ_Provision_LLR_Bal_FAS114</value>
+		</entry>		
+	</errorMessages>
+</inputColumn>
+<inputColumn columnId="29" columnName="pearl_currq_provision_llr_bal_total" duplicate="false" order="28" dataType="NegativeDecimal" notNull="false" >
+	<errorMessages>
+		<entry>
+			<key>DATATYPE_INVALID</key>
+			<value>Data type is not valid for PEARL_CurrQ_Provision_LLR_Bal_Total</value>
+		</entry>		
+	</errorMessages>
+</inputColumn>
+<inputColumn columnId="30" columnName="pearl_currq_fnl_ncl" duplicate="false" order="29" dataType="NegativeDecimal" notNull="false" >
+	<errorMessages>
+		<entry>
+			<key>DATATYPE_INVALID</key>
+			<value>Data type is not valid for PEARL_CurrQ_Fnl_NCL</value>
+		</entry>		
+	</errorMessages>
+</inputColumn>
+<inputColumn columnId="31" columnName="pearl_currq_fnl_gcl" duplicate="false" order="30" dataType="NegativeDecimal" notNull="false" >
+	<errorMessages>
+		<entry>
+			<key>DATATYPE_INVALID</key>
+			<value>Data type is not valid for PEARL_CurrQ_Fnl_GCL</value>
+		</entry>		
+	</errorMessages>
+</inputColumn>
+<inputColumn columnId="32" columnName="pearl_currq_fnl_recoveries" duplicate="false" order="31" dataType="NegativeDecimal" notNull="false" >
+	<errorMessages>
+		<entry>
+			<key>DATATYPE_INVALID</key>
+			<value>Data type is not valid for PEARL_CurrQ_Fnl_Recoveries</value>
+		</entry>		
+	</errorMessages>
+</inputColumn>
+<inputColumn columnId="33" columnName="pearl_prevq_eoq_fx_rate" duplicate="false" order="32" dataType="NegativeDecimal" notNull="true" >
+	<errorMessages>
+		<entry>
+			<key>NOT_NULL_INVALID</key>
+			<value>PEARL_PrevQ_EOQ_FX_Rate should not be blank OR null</value>
+		</entry>
+		<entry>
+			<key>DATATYPE_INVALID</key>
+			<value>Data type is not valid for PEARL_PrevQ_EOQ_FX_Rate</value>
+		</entry>		
+	</errorMessages>
+</inputColumn>
+<inputColumn columnId="34" columnName="pearl_currq_eoq_fx_rate" duplicate="false" order="33" dataType="NegativeDecimal" notNull="false" >
+	<errorMessages>
+		<entry>
+			<key>DATATYPE_INVALID</key>
+			<value>Data type is not valid for PEARL_CurrQ_EOQ_FX_Rate</value>
+		</entry>		
+	</errorMessages>
+</inputColumn>
+<errorMessages>
+		<entry>
+			<key>CLMN_COUNT_MISMATCH</key>
+			<value>Column Count is not 35 for row {}</value>
+		</entry>
+		<entry>
+			<key>HEADER_INVALID</key>
+			<value>Header Value is invalid</value>
+		</entry>
+		<entry>
+			<key>DUPLICATE_ROW</key>
+			<value>Duplicate row for row {}</value>
+		</entry>
+	</errorMessages>
+</fileValidationRules>

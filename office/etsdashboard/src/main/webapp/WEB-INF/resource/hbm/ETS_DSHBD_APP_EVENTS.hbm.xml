@@ -1,0 +1,51 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<!-- Generated Jan 1, 2014 5:49:07 AM by Hibernate Tools 3.4.0.CR1 -->
+<hibernate-mapping>
+    <class name="com.citi.ets.dashboard.entity.Events" table="ETS_DSHBD_APP_EVENTS">
+        <id name="app_events_id" type="java.lang.String">
+            <column name="APP_EVENTS_ID" />
+            <generator class="assigned" />
+        </id>
+        <property name="app_csid" type="java.lang.String">
+            <column name="APP_CSID" />
+        </property>
+        <property name="app_name" type="java.lang.String">
+            <column name="APP_NAME" />
+        </property>
+        <property name="app_kpi_name" type="java.lang.String">
+            <column name="APP_KPI_NAME" />
+        </property>
+        <property name="kpi_category_name" type="java.lang.String">
+            <column name="KPI_CATEGORY_NAME" />
+        </property>
+        <property name="kpi_value" type="java.lang.String">
+            <column name="KPI_VALUE" />
+        </property>
+        <property name="event_message" type="java.lang.String">
+            <column name="EVENT_MESSAGE" />
+        </property>
+        <property name="app_event_category_status" type="java.lang.String">
+            <column name="APP_EVENT_CATEGORY_STATUS" />
+        </property>      
+        <property name="kpi_parameter" type="java.lang.String">
+            <column name="KPI_PARAMETER" />
+        </property>    
+        <property name="event_timestamp" type="java.sql.Date">
+            <column name="EVENT_TIMESTAMP" />
+        </property>  
+        <property name="apps_id" type="java.lang.String">
+            <column name="APPS_ID" />
+        </property>     
+        <property name="correlation_id" type="java.lang.String">
+            <column name="CORRELATION_ID" />
+        </property> 
+        <property name="last_update" type="java.sql.Date">
+            <column name="LAST_UPDATE" />
+        </property>
+        <property name="last_updatedby" type="java.lang.String">
+            <column name="LAST_UPDATEDBY" />
+        </property>
+    </class>
+</hibernate-mapping>

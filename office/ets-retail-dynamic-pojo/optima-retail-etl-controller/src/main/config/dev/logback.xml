@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<configuration debug="true">
+	
+	<logger name="org.springframework" level="OFF" />
+
+	<appender name="OptimaRetailConsoleAppender" class="ch.qos.logback.core.ConsoleAppender">
+		<encoder>
+			<pattern>%d{HH:mm:ss.SSS} [%thread] %-5level %logger{36} - %msg%n
+			</pattern>
+		</encoder>
+		<filter class="com.citi.retail.optima.etl.common.log.ConsoleFilter"></filter>
+	</appender>
+
+	 <appender name="OptimaRetailSiftingAppender" class="ch.qos.logback.classic.sift.SiftingAppender">
+      <discriminator class="ch.qos.logback.classic.sift.MDCBasedDiscriminator">
+         <Key>LogFileName</Key>
+         <DefaultValue>Default</DefaultValue>
+      </discriminator>
+      <sift>
+         <appender name="${LogFileName}" class="ch.qos.logback.core.rolling.RollingFileAppender">
+         	<File>/opt/orbs/home/ETL/logs/${LogFileName}.log</File>         
+            <rollingPolicy class="ch.qos.logback.core.rolling.FixedWindowRollingPolicy">
+               <FileNamePattern>${LogFileName}.%i.log</FileNamePattern>
+               <MinIndex>1</MinIndex>
+               <MaxIndex>100</MaxIndex>
+            </rollingPolicy>
+            <triggeringPolicy class="ch.qos.logback.core.rolling.SizeBasedTriggeringPolicy">
+               <MaxFileSize>5MB</MaxFileSize>
+            </triggeringPolicy>
+            <layout class="ch.qos.logback.classic.PatternLayout">
+               <Pattern>%d{ISO8601} %-5level %C{1} [%M:%L] [%thread] - %msg%n</Pattern>
+            </layout>
+         </appender>
+      </sift>
+   </appender>
+   
+    <appender name="DedugSiftingAppender" class="com.citi.retail.optima.etl.common.log.CustomDbAppender">
+     <filter class="com.citi.retail.optima.etl.common.log.DebugFilter"></filter>  
+   </appender>
+      
+  <appender name="jmsAppender" class="ch.qos.logback.classic.net.JMSQueueAppender">
+		<InitialContextFactoryName>com.tibco.tibjms.naming.TibjmsInitialContextFactory
+		</InitialContextFactoryName>
+		<ProviderURL>tcp://vm-b945-2e86.nam.nsroot.net:39422</ProviderURL>
+		<QueueConnectionFactoryBindingName>corp.cate.na.cloudapp.QueueCF</QueueConnectionFactoryBindingName>
+        <QueueBindingName>QueueCF</QueueBindingName>		
+	</appender>    
+   
+   <appender name="AsyncAppender" class="ch.qos.logback.classic.AsyncAppender"> 
+    <filter class="com.citi.retail.optima.etl.common.log.JmsFilter"></filter> 
+    <appender-ref ref="jmsAppender" /> 
+    <includeCallerData>true</includeCallerData> 
+    <queueSize>100000</queueSize>
+    <discardingThreshold>0</discardingThreshold>
+   </appender> 
+   
+   
+   <appender name="OptimaRetailEmailAppender" class="ch.qos.logback.classic.net.SMTPAppender">
+	  <filter class="com.citi.retail.optima.etl.common.log.SmtpFilter" /> 
+	  <smtpHost>vm-8da0-538f.nam.nsroot.net</smtpHost> 
+	  <to>senthilkumar.ramachandran@citi.com</to> 
+	  <from>buildManager@vm-8da0-538f.nam.nsroot.net</from> 
+	  <subject>Optima Retail ETL Exception [FATAL] encountered</subject> 
+	  <layout class="ch.qos.logback.classic.PatternLayout">
+	  	<pattern>%d{ISO8601} %-5level %C{1} [%M:%L] [%thread] - %msg%n</pattern> 
+	  </layout>
+	  <cyclicBufferTracker class="ch.qos.logback.core.spi.CyclicBufferTrackerImpl">
+	  	<bufferSize>1</bufferSize> 
+	  </cyclicBufferTracker>
+  </appender>
+   
+	<root level="debug">	
+      <appender-ref ref="DedugSiftingAppender"/>    
+      <appender-ref ref="OptimaRetailSiftingAppender"/>
+	  <appender-ref ref="OptimaRetailEmailAppender" />
+	  <appender-ref ref="OptimaRetailConsoleAppender"/>	   
+	  <appender-ref ref="AsyncAppender"/>	   
+	</root>
+
+</configuration>

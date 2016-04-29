@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+    xmlns:p="http://www.springframework.org/schema/p" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:util="http://www.springframework.org/schema/util" xmlns:context="http://www.springframework.org/schema/context"
+    xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.2.xsd
+                            http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util-3.2.xsd
+                            http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-3.2.xsd">
+
+    <context:annotation-config />
+
+
+    <import resource="optima.retail.aggregation.config.test.xml"/>
+    <!-- <import resource="optima.retail.cache.rules.xml"/> -->
+    <import resource="optima.retail.datasource.test.xml"/>
+        
+    <bean id="aggregationProcessor"
+        class="com.citi.retail.optima.etl.batch.job.processor.AggregationProcessor"
+        p:aggregationServiceFactory-ref="aggregationServiceFactory"
+        p:batchInstanceId="12345"
+        p:monthEndDate="06/06/2013"
+        p:keyList="cardsMonthEndStep:3" />
+        
+       
+    <bean id="eventAggregationProcessor"
+        class="com.citi.retail.optima.etl.batch.job.processor.EventAggregationProcessor"
+        p:aggregationServiceFactory-ref="aggregationServiceFactory"
+        p:batchInstanceId="12345"
+        p:monthEndDate="06/06/2013"
+        p:keyList="fdicRMEvent:9" 
+        p:accountTraceabilityRequired="true"/>
+       
+</beans>    

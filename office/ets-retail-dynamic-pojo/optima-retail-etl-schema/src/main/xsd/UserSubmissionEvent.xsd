@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xsd:schema targetNamespace="http://citi.com/retail/optima/UserSubmission"
+	xmlns:schemas="http://citi.com/retail/optima/UserSubmission" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+	<xsd:element name="userSubmissionEvent">
+		<xsd:complexType>
+			<xsd:sequence>
+				<xsd:element ref="schemas:eventType" minOccurs="1" />
+				<xsd:element ref="schemas:eventTimestamp" minOccurs="1" />
+				<xsd:element ref="schemas:asOfBusinessDate" />
+				<xsd:element ref="schemas:fileID" />
+				<xsd:element ref="schemas:fileType"/>
+			</xsd:sequence>
+		</xsd:complexType>
+	</xsd:element>
+	<xsd:element name="fileType" type="schemas:fileTypes"/>
+	<xsd:element name="eventType" type="schemas:eventTypes" />
+	<xsd:element name="eventTimestamp" type="schemas:formattedTimestamp" />
+	<xsd:element name="fileID" type="xsd:integer" />
+	<xsd:element name="asOfBusinessDate" type="xsd:string" />
+	<xsd:simpleType name="fileTypes">
+    <xsd:restriction base="xsd:string">
+      <xsd:enumeration value="CSV"/>
+      <xsd:enumeration value="XLS"/>
+      <xsd:enumeration value="XLSX"/>
+    </xsd:restriction>  
+  </xsd:simpleType>
+	<xsd:simpleType name="eventTypes">
+		<xsd:restriction base="xsd:string">
+			<xsd:enumeration value="CCAR_USER_SUBMISSION" />
+			<xsd:enumeration value="FDIC_USER_SUBMISSION" />
+			<xsd:enumeration value="GCBC_PORTFOLIO_DEFINITION" />
+			<xsd:enumeration value="GCBC_MONTH_END" />
+			<xsd:enumeration value="PEARL_FEED" />
+			<xsd:enumeration value="CALL_REPORT_LINE_ITEM_FEED" />
+			<xsd:enumeration value="FICO_FDIC_PD_MAPPING_FEED" />
+			<xsd:enumeration value="CCAR_SUPPLEMENTARY_USER_SUBMISSION" />
+			<xsd:enumeration value="LLR_GCBC_USER_SUBMISSION" />
+			<xsd:enumeration value="LLR_GC20_USER_SUBMISSION" />
+			<xsd:enumeration value="LLR_PEARL_USER_SUBMISSION" />
+			<xsd:enumeration value="LLR_WEBMA_USER_SUBMISSION" />
+		</xsd:restriction>
+	</xsd:simpleType>
+	<xsd:simpleType name="formattedTimestamp">
+		<xsd:restriction base="xsd:string">
+			<xsd:pattern
+				value="\d{4}[\-](0[1-9]|1[012])[\-](0[1-9]|[12][0-9]|3[01])[ ]([2][0-3]|[0][0-9]|[1][0-9])[:]([0-5][0-9]|[6][0])[:]([0-5][0-9]|[6][0])" />
+		</xsd:restriction>
+	</xsd:simpleType>
+</xsd:schema>

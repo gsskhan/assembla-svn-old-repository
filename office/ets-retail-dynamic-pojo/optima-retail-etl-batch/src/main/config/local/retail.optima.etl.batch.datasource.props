@@ -1,0 +1,71 @@
+# Optima Retail DB properties for DEV
+optima.db.dev.driverClassName=oracle.jdbc.pool.OracleDataSource
+optima.db.dev.url=jdbc:oracle:thin:@vm-f962-051e.nam.nsroot.net:1522:ORDSDVG
+optima.db.dev.user=ORDSETL
+optima.db.dev.pass=ordsetl
+optima.db.dev.pool.name=ETLBatchConnectionPool
+optima.db.dev.pool.min=100
+optima.db.dev.pool.max=200
+
+# Optima Retail DB properties for SIT
+optima.db.sit.driverClassName=oracle.jdbc.pool.OracleDataSource
+optima.db.sit.url=jdbc:oracle:thin:@vm-f962-051e.nam.nsroot.net:1522:ORDSDVG
+optima.db.sit.user=ORDSETL
+optima.db.sit.pass=ordsetl
+optima.db.sit.pool.name=ETLBatchConnectionPool
+optima.db.sit.pool.min=100
+optima.db.sit.pool.max=200
+
+# Optima Retail DB properties for UAT
+optima.db.uat.driverClassName=oracle.jdbc.pool.OracleDataSource
+optima.db.uat.url=jdbc:oracle:thin:@mworsdb1uc.nam.nsroot.net:1800:ORDSUAT
+optima.db.uat.user=ccardaq
+optima.db.uat.pass=88B3rt37
+optima.db.uat.pool.name=ETLBatchConnectionPool
+optima.db.uat.pool.min=100
+optima.db.uat.pool.max=200
+
+# Optima Retail DB properties for PROD
+optima.db.prod.driverClassName=oracle.jdbc.pool.OracleDataSource
+optima.db.prod.url=jdbc:oracle:thin:@mworsdb1uc.nam.nsroot.net:1800:ORDSUAT
+optima.db.prod.user=ccardaq
+optima.db.prod.pass=88B3rt37
+optima.db.prod.pool.name=ETLBatchConnectionPool
+optima.db.prod.pool.min=100
+optima.db.prod.pool.max=200
+
+#  Genesis Emulator DB properties DEV
+genesisEmulator.db.dev.driverClassName=oracle.jdbc.pool.OracleDataSource
+genesisEmulator.db.dev.url=jdbc:oracle:thin:@vm-f962-051e.nam.nsroot.net:1522:ORDSDVG
+genesisEmulator.db.dev.user=ORDSETL
+genesisEmulator.db.dev.pass=ordsetl
+genesisEmulator.db.dev.pool.name=ETLGenesisConnectionPool
+genesisEmulator.db.dev.pool.min=100
+genesisEmulator.db.dev.pool.max=200
+
+#  Genesis Emulator DB properties SIT
+genesisEmulator.db.sit.driverClassName=oracle.jdbc.pool.OracleDataSource
+genesisEmulator.db.sit.url=jdbc:oracle:thin:@vm-f962-051e.nam.nsroot.net:1522:ORDSDVG
+genesisEmulator.db.sit.user=ORDSETL
+genesisEmulator.db.sit.pass=ordsetl
+genesisEmulator.db.sit.pool.name=ETLGenesisConnectionPool
+genesisEmulator.db.sit.pool.min=100
+genesisEmulator.db.sit.pool.max=200
+
+#  Genesis Emulator DB properties UAT
+genesisEmulator.db.uat.driverClassName=oracle.jdbc.pool.OracleDataSource
+genesisEmulator.db.uat.url=jdbc:oracle:thin:@mworsdb1uc.nam.nsroot.net:1800:ORDSUAT
+genesisEmulator.db.uat.user=ccardaq
+genesisEmulator.db.uat.pass=88B3rt37
+genesisEmulator.db.uat.pool.name=ETLGenesisConnectionPool
+genesisEmulator.db.uat.pool.min=100
+genesisEmulator.db.uat.pool.max=200
+
+#  Genesis Emulator DB properties PROD
+genesisEmulator.db.prod.driverClassName=oracle.jdbc.pool.OracleDataSource
+genesisEmulator.db.prod.url=jdbc:oracle:thin:@mworsdb1uc.nam.nsroot.net:1800:ORDSUAT
+genesisEmulator.db.prod.user=ccardaq
+genesisEmulator.db.prod.pass=88B3rt37
+genesisEmulator.db.prod.pool.name=ETLGenesisConnectionPool
+genesisEmulator.db.prod.pool.min=100
+genesisEmulator.db.prod.pool.max=200

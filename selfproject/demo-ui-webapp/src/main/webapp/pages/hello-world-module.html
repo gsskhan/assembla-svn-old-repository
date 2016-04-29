@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html ng-app="myApp">
+<head>
+	<meta charset="UTF-8">
+	<title>Hello world</title>
+	<script type="text/javascript" src="../resources/angular/angular.min.js"></script>
+</head>
+
+<body ng-controller="TextController">
+	<p>Message= {{someText.message}}</p>
+	<p ng-bind="someText.message"></p>
+</body>
+
+<script type="text/javascript">
+	var appModule = angular.module('myApp',[]);
+	appModule.controller('TextController', function($scope){
+		var someText = {};
+		someText.message = 'Hello from gulam. I am testing a module creation.';
+		$scope.someText = someText;
+	});
+</script>
+</html>

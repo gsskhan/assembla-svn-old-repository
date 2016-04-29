@@ -1,0 +1,28 @@
+#
+# Optima Retail DB properties
+#
+optima.db.driverClassName = oracle.jdbc.pool.OracleDataSource
+optima.db.url=jdbc:oracle:thin:@mworsdb1s.nam.nsroot.net:1526:ORDSDVG
+optima.db.user=ORDSETL
+optima.db.pass=ordsetl
+optima.db.pool.name=ETLBatchConnectionPool
+#optima.db.pool.min=16
+#optima.db.pool.max=20
+#we have changed the value due to Connection issue
+optima.db.pool.min=100
+optima.db.pool.max=200
+
+
+#
+# Genesis Emulator DB Properteis
+#
+genesisEmulator.db.driverClassName = oracle.jdbc.pool.OracleDataSource
+genesisEmulator.db.url=jdbc:oracle:thin:@mworsdb1s.nam.nsroot.net:1526:ORDSDVG
+genesisEmulator.db.user=ORDSETL
+genesisEmulator.db.pass=ordsetl
+genesisEmulator.db.pool.name=ETLGenesisConnectionPool
+#genesisEmulator.db.pool.min=16
+#genesisEmulator.db.pool.max=20
+# we have changed the value due to Connection issue
+genesisEmulator.db.pool.min=100
+genesisEmulator.db.pool.max=200

@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<fileValidationRules functionName="TEASER" columnCount="2" delimiter="|" allowedExtentions="*.dat">
+
+	<inputColumn columnId="1" columnName="teaserrateflag" duplicate="false" order="0" dataType="String" notNull="true" regex="([0-9]{1})">
+	<errorMessages>
+		<entry>
+			<key>NOT_NULL_INVALID</key>
+			<value>teaserrateflag cannot be blank or null</value>
+		</entry>
+		<entry>
+			<key>DATATYPE_INVALID</key>
+			<value>teaserrateflag should be in a valid format</value>
+		</entry>
+		</errorMessages>
+	</inputColumn>
+	
+	<inputColumn columnId="2" columnName="acctnumb" duplicate="true" order="1" dataType="String" notNull="true" regex="([0-9]{14})">
+		<errorMessages>
+		<entry>
+			<key>NOT_NULL_INVALID</key>
+			<value>acctnumb cannot be blank or null</value>
+		</entry>
+		<entry>
+			<key>DATATYPE_INVALID</key>
+			<value>acctnumb should be a valid account Number</value>
+		</entry>
+		</errorMessages>
+	</inputColumn>
+	
+	<errorMessages>
+		<entry>
+			<key>CLMN_COUNT_MISMATCH</key>
+			<value>Column Count is not 4 for row {}</value>
+		</entry>
+		<entry>
+			<key>HEADER_INVALID</key>
+			<value>Header Value is invalid</value>
+		</entry>
+		<entry>
+			<key>DUPLICATE_ROW</key>
+			<value>Duplicate row for row {}</value>
+		</entry>
+		<entry>
+			<key>DATATYPE_INVALID</key>
+			<value>Data type is not valid for row {}</value>
+		</entry>
+	</errorMessages>
+</fileValidationRules>

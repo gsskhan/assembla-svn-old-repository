@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:p="http://www.springframework.org/schema/p" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:util="http://www.springframework.org/schema/util" xmlns:context="http://www.springframework.org/schema/context"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.2.xsd
+							http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util-3.2.xsd
+							http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-3.2.xsd">
+
+	<context:annotation-config />
+
+
+  <import resource="optima.retail.validation.category.test.xml"/>
+  <import resource="optima.retail.cache.validation.test.xml"/>
+  <import resource="optima.retail.cache.referencedata.xml"/>
+  <import resource="optima.retail.cache.rules.xml"/>
+
+	<!-- Validation Processor -->
+	
+	<bean id="validationProcessor"
+		class="com.citi.retail.optima.etl.batch.job.processor.ValidationProcessor"
+		p:validationServiceBean-ref="validationService"  
+        />
+        
+        
+       <bean id="validationOutputProcessor"
+		class="com.citi.retail.optima.etl.batch.job.processor.ValidationOutputProcessor"
+		p:validationServiceBean-ref="validationService"  
+        />
+
+
+</beans>	

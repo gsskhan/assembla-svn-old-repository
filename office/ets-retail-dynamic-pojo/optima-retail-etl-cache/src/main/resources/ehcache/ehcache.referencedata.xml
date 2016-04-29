@@ -1,0 +1,199 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ehcache xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="ehcache.xsd" updateCheck="false" monitoring="autodetect" dynamicConfig="true" name="referenceDataCache">
+
+	<cache name="srcProdCache" maxEntriesLocalHeap="0" eternal="true"/>
+	<cache name="srcSysCache" maxEntriesLocalHeap="0" eternal="true"/>
+	<cache name="srcbuCache" maxEntriesLocalHeap="0" eternal="true"/>
+	<cache name="srcCountryCache" maxEntriesLocalHeap="0" eternal="true"/>
+	<cache name="srcRegionCache" maxEntriesLocalHeap="0" eternal="true"/>
+	<cache name="rptCycleCache" maxEntriesLocalHeap="0" eternal="true"/>
+	<cache name="llrLVCache" maxEntriesLocalHeap="0" eternal="true"/>
+    <cache name="llrCorpHldCache" maxEntriesLocalHeap="0" eternal="true"/>
+	<cache name="llrConCommCache" maxEntriesLocalHeap="0" eternal="true"/>
+    <cache name="llrTFormCache" maxEntriesLocalHeap="0" eternal="true"/>
+
+    <cache name="delinquencyStatusCache" maxEntriesLocalHeap="0" eternal="true">
+    <searchable keys="true" values="false">
+            <searchAttribute name="processingUnitId"/>
+        </searchable>
+    </cache>
+    
+    <cache name="ficoCache" maxEntriesLocalHeap="0" eternal="true">
+    <searchable keys="true" values="false">
+            <searchAttribute name="processingUnitId"/>
+        </searchable>
+    </cache>
+    
+    <cache name="ficoFlatCache" maxEntriesLocalHeap="0" eternal="true">
+    <searchable keys="false" values="true">
+            <searchAttribute name="keyId"/>
+        </searchable>
+    </cache>
+    
+    <cache name="ficoIdCache" maxEntriesLocalHeap="0" eternal="true"/>
+    
+      <cache name="ficoMappingCache" maxEntriesLocalHeap="0" eternal="true">
+    <searchable keys="false" values="true">
+            <searchAttribute name="refBandId"/>
+            <searchAttribute name="outputBandType"/>
+        </searchable>
+    </cache>
+    
+    <cache name="ageCache" maxEntriesLocalHeap="0" eternal="true">
+    <searchable keys="true" values="false">
+            <searchAttribute name="processingUnitId"/>
+        </searchable>
+    </cache>
+    
+    <cache name="ageFlatCache" maxEntriesLocalHeap="0" eternal="true">
+    <searchable keys="false" values="true">
+            <searchAttribute name="keyId"/>
+        </searchable>
+    </cache>
+    
+    <cache name="ageIdCache" maxEntriesLocalHeap="0" eternal="true"/>
+    
+      <cache name="ageMappingCache" maxEntriesLocalHeap="0" eternal="true">
+    <searchable keys="false" values="true">
+            <searchAttribute name="refBandId"/>
+            <searchAttribute name="outputBandType"/>
+        </searchable>
+    </cache>
+    
+     <cache name="ltvCache" maxEntriesLocalHeap="0" eternal="true">
+    <searchable keys="true" values="false">
+            <searchAttribute name="processingUnitId"/>
+        </searchable>
+    </cache>
+    
+    <cache name="ltvIdCache" maxEntriesLocalHeap="0" eternal="true"/>
+    
+    <cache name="ltvFlatCache" maxEntriesLocalHeap="0" eternal="true">
+    <searchable keys="false" values="true">
+            <searchAttribute name="keyId"/>
+        </searchable>
+    </cache>
+    
+      <cache name="ltvMappingCache" maxEntriesLocalHeap="0" eternal="true">
+    <searchable keys="false" values="true">
+            <searchAttribute name="refBandId"/>
+            <searchAttribute name="outputBandType"/>
+        </searchable>
+    </cache>
+    
+    <cache name="delQCache" maxEntriesLocalHeap="0" eternal="true">
+    <searchable keys="true" values="false">
+            <searchAttribute name="processingUnitId"/>
+        </searchable>
+    </cache>
+    
+    <cache name="delQFlatCache" maxEntriesLocalHeap="0" eternal="true">
+    <searchable keys="false" values="true">
+            <searchAttribute name="keyId"/>
+        </searchable>
+    </cache>
+    
+      <cache name="delQMappingCache" maxEntriesLocalHeap="0" eternal="true">
+    <searchable keys="false" values="true">
+            <searchAttribute name="refBandId"/>
+            <searchAttribute name="outputBandType"/>
+        </searchable>
+    </cache>
+    
+    <cache name="delQIdCache" maxEntriesLocalHeap="0" eternal="true"/>
+    
+    <cache name="productCache" maxEntriesLocalHeap="0" eternal="true">
+    <searchable keys="true" values="false">
+            <searchAttribute name="processingUnitId"/>
+        </searchable>
+    </cache>
+    
+    <cache name="pdRangeCache" maxEntriesLocalHeap="0" eternal="true"/>
+    
+    <cache name="ficoSplScrCache" maxEntriesLocalHeap="0" eternal="true"/>
+    
+    <cache name="ficoPdMapCache" maxEntriesLocalHeap="0" eternal="true"/>
+    
+    <cache name="ficoModelRangeCache" maxEntriesLocalHeap="0" eternal="true"/>
+    
+    <!-- <cache name="ageCache" maxEntriesLocalHeap="0" eternal="true">
+    <searchable keys="true" values="false">
+            <searchAttribute name="processingUnitId"/>
+        </searchable>
+    </cache> -->
+    
+    <cache name="ltvRatioCache" maxEntriesLocalHeap="0" eternal="true">
+    <searchable keys="true" values="false">
+            <searchAttribute name="processingUnitId"/>
+        </searchable>
+    </cache>
+    
+    <cache name="iccarRegionCache" maxEntriesLocalHeap="0" eternal="true"/>
+    
+    <cache name="fdicBusinessUnitCache" maxEntriesLocalHeap="0" eternal="true"/>
+    
+    <cache name="fdicRegionCache" maxEntriesLocalHeap="0" eternal="true"/>
+
+    <cache name="riskMitigationCache" maxEntriesLocalHeap="0" eternal="true">
+        <searchable keys="true" values="false">
+            <searchAttribute name="processingUnitId"/>
+        </searchable>
+    </cache>
+    <cache name="productToPUCache" maxEntriesLocalHeap="0" eternal="true"/>
+    
+    <cache name="collateralizedCache" maxEntriesLocalHeap="0" eternal="true">
+        <searchable keys="true" values="false">
+            <searchAttribute name="processingUnitId"/>
+            <searchAttribute name="segmentType"/>
+        </searchable>
+    </cache>
+
+    <cache name="countryCache" maxEntriesLocalHeap="0" eternal="true"/>
+    <cache name="geographyCache" maxEntriesLocalHeap="0" eternal="true"/>
+    <cache name="countryGeographyMappingCache" maxEntriesLocalHeap="0" eternal="true"/>
+    <cache name="regionUserSegCache" maxEntriesLocalHeap="0" eternal="true"/>
+    <cache name="regionByIdCache" maxEntriesLocalHeap="0" eternal="true"/>
+    <cache name="countryRegionCache" maxEntriesLocalHeap="0" eternal="true"/>
+    
+    <cache name="portfolioDefinitionCache" maxEntriesLocalHeap="0" eternal="true"/>
+    <cache name="fedPortfolioCache" maxEntriesLocalHeap="0" eternal="true"/>
+    <cache name="commonBusinessUnitCache" maxEntriesLocalHeap="0" eternal="true"/>    
+    
+    <cache name="collateralisedFlatCache" maxEntriesLocalHeap="0" eternal="true">
+    <searchable keys="false" values="true">
+            <searchAttribute name="keyId"/>
+        </searchable>
+    </cache>
+    
+    <cache name="vintageFlatCache" maxEntriesLocalHeap="0" eternal="true">
+    <searchable keys="false" values="true">
+            <searchAttribute name="keyId"/>
+        </searchable>
+    </cache>    
+        
+    <cache name="collateralisedIdCache" maxEntriesLocalHeap="0" eternal="true"/>
+    
+    <cache name="collateralisedMappingCache" maxEntriesLocalHeap="0" eternal="true">
+    <searchable keys="false" values="true">
+            <searchAttribute name="refBandId"/>
+            <searchAttribute name="outputBandType"/>
+        </searchable>
+    </cache>
+    
+    <cache name="puToSysProcIdCache" maxEntriesLocalHeap="0" eternal="true"/>    
+    <cache name="accLvlProdCdToProdCdSegCache" maxEntriesLocalHeap="0" eternal="true"/>    
+    <cache name="userEntitlementCache" maxEntriesLocalHeap="0" eternal="true"/>    
+    <cache name="countryGeographyMapCache" maxEntriesLocalHeap="0" eternal="true"/>
+    <cache name="commonGeographyCache" maxEntriesLocalHeap="0" eternal="true"/>
+    <cache name="geographyFedSegCache" maxEntriesLocalHeap="0" eternal="true"/>
+    <cache name="rptPeriodCache" maxEntriesLocalHeap="0" eternal="true">
+    <searchable keys="true" values="false">
+            <searchAttribute name="rptPrd"/>
+        </searchable>
+     </cache>
+    <cache name="calendarCache" maxEntriesLocalHeap="0" eternal="true">
+      <searchable keys="true" values="false">
+            <searchAttribute name="processingUnit"/>
+        </searchable>
+     </cache>
+</ehcache>

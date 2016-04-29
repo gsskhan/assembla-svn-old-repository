@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:p="http://www.springframework.org/schema/p" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:util="http://www.springframework.org/schema/util" xmlns:context="http://www.springframework.org/schema/context"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.2.xsd
+							http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util-3.2.xsd
+							http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-3.2.xsd">
+
+	<context:annotation-config />
+
+
+  <import resource="optima.retail.enrichment.config.test.xml"/>
+
+	<!-- Enrichment Processor -->
+	
+	<bean id="enrichmentProcessor"
+		class="com.citi.retail.optima.etl.batch.job.processor.EnrichmentProcessor"
+		p:enrichmentServiceBean-ref="enrichmentService"
+		p:batchInstanceId="123" />
+		
+	<bean id="customEvaluationContext"
+		class="com.citi.retail.optima.etl.context.OptimaRetailCustomEvaluationContext"
+		init-method="init" />
+		
+			<bean id="preProcessorDataServiceFactory"
+		class="com.citi.optima.retail.batch.preprocess.PreProcessorDataServiceFactoryImpl" />
+
+	<bean 
+      id="enrichmentService"
+      class="org.mockito.Mockito" 
+      factory-method="mock"
+      primary="true">
+  <constructor-arg value="com.citi.retail.optima.etl.enrichment.impl.EnrichmentServiceImpl"/>
+</bean>
+<bean 
+      id="stepExecution"
+      class="org.mockito.Mockito" 
+      factory-method="mock"
+      primary="true">
+  <constructor-arg value="org.springframework.batch.core.StepExecution"/>
+</bean>
+
+<bean id="preProcessDataProvider"
+		class="com.citi.optima.retail.batch.preprocess.PreProcessDataProviderImpl"/>
+
+</beans>	

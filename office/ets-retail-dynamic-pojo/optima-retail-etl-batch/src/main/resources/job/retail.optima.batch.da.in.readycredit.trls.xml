@@ -1,0 +1,610 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:p="http://www.springframework.org/schema/p" xmlns:c="http://www.springframework.org/schema/c"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:aop="http://www.springframework.org/schema/aop"
+	xmlns:batch="http://www.springframework.org/schema/batch" xmlns:util="http://www.springframework.org/schema/util"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans 
+		http://www.springframework.org/schema/beans/spring-beans-2.5.xsd
+		http://www.springframework.org/schema/util 
+		http://www.springframework.org/schema/util/spring-util-2.5.xsd
+		http://www.springframework.org/schema/context
+		http://www.springframework.org/schema/context/spring-context.xsd
+		http://www.springframework.org/schema/batch 
+		http://www.springframework.org/schema/batch/spring-batch-2.1.xsd
+		http://www.springframework.org/schema/aop
+ 		http://www.springframework.org/schema/aop/spring-aop-2.5.xsd">
+
+
+	<!-- *********************************************** IN RC JOB Configuration=START ***************************************************** -->
+	<batch:job id="DA-IN-RC-Batch" job-repository="jobRepository" restartable="true" incrementer="jobParamIncrementer">
+		<batch:step id="springStart" next="inRcFxrateProcessStep">
+			<batch:tasklet ref="timerTaskletBegin" />
+		</batch:step>
+		<!-- This section is for FX Rate -->
+		<batch:step id="inRcFxrateProcessStep" parent="fxrateDataProcessStep"
+            next="inRcCbFinanceDataProcessStep" />	
+        <batch:step id="inRcCbFinanceDataProcessStep" parent="cbFinanceDataProcessStep" next="rcCorpAlsProcessStep" />	
+		<batch:step id="rcCorpAlsProcessStep" parent="corpAlsProcessStep:master" 
+			next="rcRewriteAlsProcessStep" />
+		<batch:step id="rcRewriteAlsProcessStep" parent="rewriteAlsProcessStep:master" 
+			next="rcRetailAlsProcessStep" />
+		<batch:step id="rcRetailAlsProcessStep" parent="retailAlsProcessStep:master" 
+			next="rcAlsAggregationStep" />
+		<!-- <batch:step id="rcMergeProcessStep" parent="mergeProcessStep:master" 
+			next="rcAlsAggregationStep" /> -->
+		<batch:step id="rcAlsAggregationStep" next="inRcFileMergeStep" >
+			<batch:tasklet ref="rcAlsAggregationResultsTasklet" />
+		</batch:step>
+		<batch:step id="inRcFileMergeStep" next="endSpringStep" >
+			<batch:tasklet ref="rcFileMergeTasklet" />
+			<batch:listeners>
+				<batch:listener ref="rcFileMergeTasklet"/>
+			</batch:listeners>
+		</batch:step>		
+		
+		<batch:step id="endSpringStep">
+			<batch:tasklet ref="timerTaskletEnd" />
+		</batch:step>		
+		
+		<batch:listeners>
+			<batch:listener ref="inRcAcqJobListener" />
+		</batch:listeners>
+		
+	</batch:job>
+			
+	<bean id="inRcAcqJobListener"
+		class="com.citi.optima.retail.batch.listeners.DataAcqJobListener">
+		<property name="batchJobInstanceDao" ref="jobInstanceDao" />
+		<property name="internalMessageChannel" ref="batchCompletionHandlerChannel" />
+		<property name="errorReportHandler">
+			<bean class="com.citi.retail.optima.etl.batch.report.ErrorReportHandler" />
+		</property>
+		<!-- <property name="preProcessorFactory" ref="preProcessorDataServiceFactory" />
+		<property name="dataServiceName" value="com.citi.optima.retail.batch.preprocess.TwMortgagesDataServiceImpl" /> -->
+		<property name="jobConfigDao" ref="jobConfigDao" />
+<!-- 		<property name="footerItemList" ref="rcFooterItemList" /> -->
+	</bean>	
+	
+	<!-- *********************************************** CORP ALS Step Configuration=START ***************************************************** -->
+	<!-- *********************************************** Common Beans = START ***************************************************** -->
+	<bean id="dateEditor"
+		class="org.springframework.beans.propertyeditors.CustomDateEditor" scope="step">
+		<constructor-arg>
+			<bean class="java.text.SimpleDateFormat">
+				<constructor-arg value="ddMMMyyyy" />
+			</bean>
+		</constructor-arg>
+		<constructor-arg value="true" />
+	</bean>
+	<bean id="dateEditor1"
+		class="org.springframework.beans.propertyeditors.CustomDateEditor" scope="step">
+		<constructor-arg>
+			<bean class="java.text.SimpleDateFormat">
+				<constructor-arg value="mm/dd/yy" />
+			</bean>
+		</constructor-arg>
+		<constructor-arg value="true" />
+	</bean>
+	<bean id="dateEditor2"
+		class="org.springframework.beans.propertyeditors.CustomDateEditor" scope="step">
+		<constructor-arg>
+			<bean class="java.text.SimpleDateFormat">
+				<constructor-arg value="yyyy-mm-dd" />
+			</bean>
+		</constructor-arg>
+		<constructor-arg value="true" />
+	</bean>
+	<bean id="format_ddMMMyyyy" class="java.text.SimpleDateFormat" scope="prototype">
+		<constructor-arg value="ddMMMyyyy" />
+	</bean>
+	<bean id="format_mm_dd_yy" class="java.text.SimpleDateFormat" scope="prototype">
+		<constructor-arg value="mm/dd/yy" />
+	</bean>
+	<bean id="dateFormat_yyyy-MM-dd" class="java.text.SimpleDateFormat" scope="prototype">
+		<constructor-arg value="yyyy-MM-dd" />
+	</bean>
+	<bean id="dateFormat_yyyymm" class="java.text.SimpleDateFormat" scope="prototype">
+		<constructor-arg value="yyyymm" />
+	</bean>
+	
+	
+	<!-- *********************************************** Common Beans = END ***************************************************** -->
+	<bean name="corpAlsProcessStep:master"
+		class="org.springframework.batch.core.partition.support.PartitionStep">
+		<property name="jobRepository" ref="jobRepository" />
+		<property name="stepExecutionSplitter">
+			<bean
+				class="org.springframework.batch.core.partition.support.SimpleStepExecutionSplitter">
+				<constructor-arg ref="jobRepository" />
+				<constructor-arg ref="rcCorpAlsDataProcStep" />
+				<constructor-arg ref="rcCorpAlsPartitioner" />
+			</bean>
+		</property>
+		<property name="partitionHandler">
+			<bean
+				class="org.springframework.batch.core.partition.support.TaskExecutorPartitionHandler"
+				scope="step">
+				<property name="taskExecutor">
+					<bean
+						class="org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor">
+						<property name="corePoolSize" value="8" />
+						<property name="maxPoolSize" value="12" />
+					</bean>
+				</property>
+				<property name="step" ref="rcCorpAlsDataProcStep" />
+				<property name="gridSize" value="8" />
+			</bean>
+		</property>
+	</bean>
+
+	<bean id="rcCorpAlsPartitioner"
+		class="com.citi.retail.optima.etl.batch.job.infra.FlatFileDataPartitioner"
+		scope="step">
+		<property name="directoryName" value="#{#getInputFilePath(jobParameters[COUNTRYPRODUCT])}" />
+		<property name= "originalFile" value="#{#getInputFilePath(jobParameters[COUNTRYPRODUCT])}" />
+		<property name="splitFile" value="#{#getInputFilePath(jobParameters[COUNTRYPRODUCT])}" />
+		<property name="archvFile" value="#{#getArchiveFilePath(jobParameters[COUNTRYPRODUCT])}" />
+		<property name="evalContext" ref="customEvaluationContext" />
+		<property name="filePattern" value="#{jobParameters[CORPMAST]}" />
+		<property name="noOfRecordsPerSplit" value="100000" />
+				<property name="startTime" value="#{jobParameters[STRT_TIME]}"></property> 
+		<property name="jobName" value="#{jobParameters[JOB_NAME]}"></property>
+	</bean>
+
+	<batch:step id="rcCorpAlsDataProcStep">
+		<batch:tasklet allow-start-if-complete="false">
+			<batch:chunk reader="rcCorpAlsCsvReader" processor="rcCoprAlsDataProcessor"
+				writer="rcAlsCsvFileItemWriter" commit-interval="10000" skip-limit="50000">
+				<batch:skippable-exception-classes>
+					<batch:include
+						class="com.citi.retail.optima.etl.common.exception.OptimaRetailDataException" />
+				</batch:skippable-exception-classes>
+			</batch:chunk>
+		</batch:tasklet>
+		<batch:listeners>
+			<batch:listener ref="rcCorpAlsEnrichmentProcessor" />
+ 			<batch:listener ref="rcCorpAlsAggregationProcessor" />  
+			<batch:listener ref="rcAlsCsvFileItemWriter" />
+			<batch:listener ref="rcAlscommonBalanceWriter" />
+			<batch:listener ref="rcCorpAlsCsvReader" />
+		</batch:listeners>
+	</batch:step>
+
+	<bean id="rcCorpAlsCsvReader" class="com.citi.retail.optima.etl.batch.job.reader.CustomItemReader"
+		scope="step" lazy-init="true">
+<!-- 		<property name="linesToSkip" value="1" /> -->
+		<property name="strict" value="true"></property>
+		<property name="resource" value="#{stepExecutionContext[fileName]}"></property>
+		<property name= "fileName" value="#{stepExecutionContext[fileName]}"></property>
+		<property name="lineMapper">
+			<bean class="org.springframework.batch.item.file.mapping.DefaultLineMapper">
+				<property name="lineTokenizer">
+					<bean
+						class="org.springframework.batch.item.file.transform.DelimitedLineTokenizer">
+
+						<property name="delimiter" value="|" />
+						<property name="names"
+							value="#{#getFileColumnNameList('IN_RC_CORPMAST')}" />	
+					</bean>
+				</property>
+				<property name="fieldSetMapper">
+					<bean
+						class="com.citi.retail.optima.etl.batch.job.mapper.InRcCorpmastFieldSetMapper">
+						<property name="dateFormat" ref="dateFormat_yyyyMMdd"/>
+					</bean>
+		</property>
+			</bean>
+		</property>
+	</bean>	
+		
+	<bean id="rcCoprAlsDataProcessor"
+		class="org.springframework.batch.item.support.CompositeItemProcessor"
+		scope="step">
+		<property name="delegates">
+			<util:list>
+				<ref bean="rcCorpAlsEnrichmentProcessor" />
+				<ref bean="rcCorpAlsAggregationProcessor" />
+			</util:list>
+		</property>
+	</bean>
+	
+		<bean id="rcCorpAlsEnrichmentProcessor"
+		class="com.citi.retail.optima.etl.batch.job.processor.EnrichmentProcessor"
+		scope="step" p:enrichmentServiceBean-ref="rcCorpAlsEnrichmentService"
+		p:timeTracker-ref="timeTracker">
+		<property name="batchInstanceId" value="#{jobParameters[batchInstanceId]}" />
+		<property name="jobName" value="#{jobParameters[JOB_NAME]}"/>
+		<property name="fileName" value="#{stepExecutionContext[fileName]}"></property>
+		<property name="eTLQueryExecutor" ref="queryExecutor" />	
+		<property name="auditFileId" value="#{jobParameters[AUDITFILEID]}"/>
+		<property name="auditFiles" value="#{jobParameters[AUDITFILES]}"/>
+		<property name="jobMessageDao" ref="jobMessageDao"/>		
+		<property name="ctlFileDt" value="#{jobParameters[CTLFILECREATIONDT]}"/>
+		<property name="jobConfigDao" ref="jobConfigDao" />
+	</bean>
+	
+	<bean	id="rcCorpAlsEnrichmentService"
+			class="com.citi.retail.optima.etl.enrichment.impl.EnrichmentServiceImpl"
+			p:evalContext-ref="customEvaluationContext"
+			p:enrichmentRules-ref="enrichmentRulesHolder"
+			p:keyList="#{#getConcatenatedKeys(jobParameters[sys_proc_id], 'rcCorpAlsDataProcStep', null)}" 
+			scope="step"/>
+	<bean name="rcCorpAlsAggregationProcessor"
+		class="com.citi.retail.optima.etl.batch.job.processor.AggregationProcessor"
+		init-method="init" scope="step">
+		<property name="aggregationServiceFactory" ref="aggregationServiceFactory" />
+		<property name="batchInstanceId" value="#{jobParameters[batchInstanceId]}" />
+		<property name="monthEndDate" value="#{jobParameters[reportDate]}" />
+		<property name="keyList"
+			value="#{#getConcatenatedKeys(jobParameters[sys_proc_id], 'rcCorpAlsDataProcStep',null)}" />
+		<property name="stepName" value="rcCorpAlsDataProcStep" />
+		<property name="accountTraceabilityRequired" value="false" />
+		<property name="timeTracker" ref="timeTracker" />
+		<property name="sysProcId" value="#{jobParameters[sys_proc_id]}" />
+	</bean>
+	<bean id="rcAlsCsvFileItemWriter" class="com.citi.retail.optima.etl.batch.job.writer.ReadyCreditConditionalCompositeItemWriter" scope="step">
+<!-- 		<property name="excludeItemDelegate" ref="excludeRcRecFileWriter" /> -->
+		<property name="delegates">
+			<util:list>	
+				<ref bean="rcAlsIndicativeFileWriter"/>
+				<ref bean="rcAlsarrangementIpRatingWriter"/>
+				<ref bean="rcAlscommonBalanceWriter"/>
+			</util:list>
+		</property>
+	</bean>
+	
+	<!-- *********************************************** CORP ALS Step Configuration=END ***************************************************** -->
+	
+	<!-- *********************************************** REWRITE ALS Step Configuration=START ***************************************************** -->
+	<bean name="rewriteAlsProcessStep:master"
+		class="org.springframework.batch.core.partition.support.PartitionStep">
+		<property name="jobRepository" ref="jobRepository" />
+		<property name="stepExecutionSplitter">
+			<bean
+				class="org.springframework.batch.core.partition.support.SimpleStepExecutionSplitter">
+				<constructor-arg ref="jobRepository" />
+				<constructor-arg ref="rcRewriteAlsDataProcStep" />
+				<constructor-arg ref="rcRewriteAlsPartitioner" />
+			</bean>
+		</property>
+		<property name="partitionHandler">
+			<bean
+				class="org.springframework.batch.core.partition.support.TaskExecutorPartitionHandler"
+				scope="step">
+				<property name="taskExecutor">
+					<bean
+						class="org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor">
+						<property name="corePoolSize" value="8" />
+						<property name="maxPoolSize" value="12" />
+					</bean>
+				</property>
+				<property name="step" ref="rcRewriteAlsDataProcStep" />
+				<property name="gridSize" value="8" />
+			</bean>
+		</property>
+	</bean>
+
+	<bean id="rcRewriteAlsPartitioner"
+		class="com.citi.retail.optima.etl.batch.job.infra.FlatFileDataPartitioner"
+		scope="step">
+		<property name="directoryName" value="#{#getInputFilePath(jobParameters[COUNTRYPRODUCT])}" />
+		<property name= "originalFile" value="#{#getInputFilePath(jobParameters[COUNTRYPRODUCT])}" />
+		<property name="splitFile" value="#{#getInputFilePath(jobParameters[COUNTRYPRODUCT])}" />
+		<property name="archvFile" value="#{#getArchiveFilePath(jobParameters[COUNTRYPRODUCT])}" />
+		<property name="evalContext" ref="customEvaluationContext" />
+		<property name="filePattern" value="#{jobParameters[RWMAST]}" />
+		<property name="noOfRecordsPerSplit" value="100000" />
+				<property name="startTime" value="#{jobParameters[STRT_TIME]}"></property> 
+		<property name="jobName" value="#{jobParameters[JOB_NAME]}"></property>
+	</bean>
+
+	<batch:step id="rcRewriteAlsDataProcStep">
+		<batch:tasklet allow-start-if-complete="false">
+			<batch:chunk reader="rcRewriteAlsCsvReader" processor="rcRewriteAlsDataProcessor"
+				writer="rcAlsCsvFileItemWriter" commit-interval="10000" skip-limit="50000">
+				<batch:skippable-exception-classes>
+					<batch:include
+						class="com.citi.retail.optima.etl.common.exception.OptimaRetailDataException" />
+				</batch:skippable-exception-classes>
+			</batch:chunk>
+		</batch:tasklet>
+		<batch:listeners>
+			<batch:listener ref="rcRewriteAlsEnrichmentProcessor" />
+  			<batch:listener ref="rcRewriteAlsAggregationProcessor" />  
+			<batch:listener ref="rcAlsCsvFileItemWriter" />
+			<batch:listener ref="rcAlscommonBalanceWriter" />
+			<batch:listener ref="rcRewriteAlsCsvReader" />
+		</batch:listeners>
+	</batch:step>
+
+	<bean id="rcRewriteAlsCsvReader" class="com.citi.retail.optima.etl.batch.job.reader.CustomItemReader"
+		scope="step" lazy-init="true">
+<!-- 		<property name="linesToSkip" value="1" /> -->
+		<property name="strict" value="true"></property>
+		<property name="resource" value="#{stepExecutionContext[fileName]}"></property>
+		<property name= "fileName" value="#{stepExecutionContext[fileName]}"></property>
+		<property name="lineMapper">
+			<bean class="org.springframework.batch.item.file.mapping.DefaultLineMapper">
+				<property name="lineTokenizer">
+					<bean
+						class="org.springframework.batch.item.file.transform.DelimitedLineTokenizer">
+
+						<property name="delimiter" value="|" />
+						<property name="names"
+							value="#{#getFileColumnNameList('IN_RC_RWMAST')}" />	
+					</bean>
+				</property>
+				<property name="fieldSetMapper">
+					<bean
+						class="com.citi.retail.optima.etl.batch.job.mapper.InRcRwmastFieldSetMapper">
+						<property name="dateFormat" ref="dateFormat_mm_dd_yyyy"/>
+					</bean>
+		</property>
+			</bean>
+		</property>
+	</bean>	
+		
+	<bean id="rcRewriteAlsDataProcessor"
+		class="org.springframework.batch.item.support.CompositeItemProcessor"
+		scope="step">
+		<property name="delegates">
+			<util:list>
+				<ref bean="rcRewriteAlsEnrichmentProcessor" />
+ 				<ref bean="rcRewriteAlsAggregationProcessor" />  
+			</util:list>
+		</property>
+	</bean>
+	
+		<bean id="rcRewriteAlsEnrichmentProcessor"
+		class="com.citi.retail.optima.etl.batch.job.processor.EnrichmentProcessor"
+		scope="step" p:enrichmentServiceBean-ref="rcRewriteAlsEnrichmentService"
+		p:timeTracker-ref="timeTracker">
+		<property name="batchInstanceId" value="#{jobParameters[batchInstanceId]}" />
+		<property name="jobName" value="#{jobParameters[JOB_NAME]}"/>
+		<property name="fileName" value="#{stepExecutionContext[fileName]}"></property>
+	<property name="auditFileId" value="#{jobParameters[AUDITFILEID]}"/>
+		<property name="auditFiles" value="#{jobParameters[AUDITFILES]}"/>
+		<property name="jobMessageDao" ref="jobMessageDao"/>	
+		<property name="eTLQueryExecutor" ref="queryExecutor" />	
+		<property name="ctlFileDt" value="#{jobParameters[CTLFILECREATIONDT]}"/>
+		<property name="jobConfigDao" ref="jobConfigDao" />
+		
+	</bean>
+	
+	<bean	id="rcRewriteAlsEnrichmentService"
+			class="com.citi.retail.optima.etl.enrichment.impl.EnrichmentServiceImpl"
+			p:evalContext-ref="customEvaluationContext"
+			p:enrichmentRules-ref="enrichmentRulesHolder"
+			p:keyList="#{#getConcatenatedKeys(jobParameters[sys_proc_id], 'rcRewriteAlsDataProcStep', null)}" 
+			scope="step"/>
+	
+	<bean name="rcRewriteAlsAggregationProcessor"
+		class="com.citi.retail.optima.etl.batch.job.processor.AggregationProcessor"
+		init-method="init" scope="step">
+		<property name="aggregationServiceFactory" ref="aggregationServiceFactory" />
+		<property name="batchInstanceId" value="#{jobParameters[batchInstanceId]}" />
+		<property name="monthEndDate" value="#{jobParameters[reportDate]}" />
+		<property name="keyList"
+			value="#{#getConcatenatedKeys(jobParameters[sys_proc_id], 'rcRewriteAlsDataProcStep',null)}" />
+		<property name="stepName" value="rcRewriteAlsDataProcStep" />
+		<property name="accountTraceabilityRequired" value="false" />
+		<property name="timeTracker" ref="timeTracker" />
+		<property name="sysProcId" value="#{jobParameters[sys_proc_id]}" />
+	</bean>
+	
+	<!-- *********************************************** REWRITE ALS Step Configuration=END ***************************************************** -->
+	
+		<!-- *********************************************** RETAIL ALS Step Configuration=START ***************************************************** -->
+	<bean name="retailAlsProcessStep:master"
+		class="org.springframework.batch.core.partition.support.PartitionStep">
+		<property name="jobRepository" ref="jobRepository" />
+		<property name="stepExecutionSplitter">
+			<bean
+				class="org.springframework.batch.core.partition.support.SimpleStepExecutionSplitter">
+				<constructor-arg ref="jobRepository" />
+				<constructor-arg ref="rcRetailAlsDataProcStep" />
+				<constructor-arg ref="rcRetailAlsPartitioner" />
+			</bean>
+		</property>
+		<property name="partitionHandler">
+			<bean
+				class="org.springframework.batch.core.partition.support.TaskExecutorPartitionHandler"
+				scope="step">
+				<property name="taskExecutor">
+					<bean
+						class="org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor">
+						<property name="corePoolSize" value="8" />
+						<property name="maxPoolSize" value="12" />
+					</bean>
+				</property>
+				<property name="step" ref="rcRetailAlsDataProcStep" />
+				<property name="gridSize" value="8" />
+			</bean>
+		</property>
+	</bean>
+
+	<bean id="rcRetailAlsPartitioner"
+		class="com.citi.retail.optima.etl.batch.job.infra.FlatFileDataPartitioner"
+		scope="step">
+		<property name="directoryName" value="#{#getInputFilePath(jobParameters[COUNTRYPRODUCT])}" />
+		<property name= "originalFile" value="#{#getInputFilePath(jobParameters[COUNTRYPRODUCT])}" />
+		<property name="splitFile" value="#{#getInputFilePath(jobParameters[COUNTRYPRODUCT])}" />
+		<property name="archvFile" value="#{#getArchiveFilePath(jobParameters[COUNTRYPRODUCT])}" />
+		<property name="evalContext" ref="customEvaluationContext" />
+		<property name="filePattern" value="#{jobParameters[RETMAST]}" />
+		<property name="noOfRecordsPerSplit" value="100000" />
+				<property name="startTime" value="#{jobParameters[STRT_TIME]}"></property> 
+		<property name="jobName" value="#{jobParameters[JOB_NAME]}"></property>
+	</bean>
+
+	<batch:step id="rcRetailAlsDataProcStep">
+		<batch:tasklet allow-start-if-complete="false">
+			<batch:chunk reader="rcRetailAlsCsvReader" processor="rcRetailAlsDataProcessor"
+				writer="rcAlsCsvFileItemWriter" commit-interval="10000" skip-limit="50000">
+				<batch:skippable-exception-classes>
+					<batch:include
+						class="com.citi.retail.optima.etl.common.exception.OptimaRetailDataException" />
+				</batch:skippable-exception-classes>
+			</batch:chunk>
+		</batch:tasklet>
+		<batch:listeners>
+			<batch:listener ref="rcRetailAlsEnrichmentProcessor" />
+  			<batch:listener ref="rcRetailAlsAggregationProcessor" />
+			<batch:listener ref="rcAlsCsvFileItemWriter" />
+			<batch:listener ref="rcAlscommonBalanceWriter" />
+			<batch:listener ref="rcRetailAlsCsvReader" />
+		</batch:listeners>
+	</batch:step>
+
+	<bean id="rcRetailAlsCsvReader" class="com.citi.retail.optima.etl.batch.job.reader.CustomItemReader"
+		scope="step" lazy-init="true">
+<!-- 		<property name="linesToSkip" value="1" /> -->
+		<property name="strict" value="true"></property>
+		<property name="resource" value="#{stepExecutionContext[fileName]}"></property>
+		<property name= "fileName" value="#{stepExecutionContext[fileName]}"></property>
+		<property name="lineMapper">
+			<bean class="org.springframework.batch.item.file.mapping.DefaultLineMapper">
+				<property name="lineTokenizer">
+					<bean
+						class="org.springframework.batch.item.file.transform.DelimitedLineTokenizer">
+
+						<property name="delimiter" value="|" />
+						<property name="names"
+							value="#{#getFileColumnNameList('IN_RC_RETMAST')}" />	
+					</bean>
+				</property>
+				<property name="fieldSetMapper">
+					<bean
+						class="com.citi.retail.optima.etl.batch.job.mapper.InRcRetmastFieldSetMapper">
+						<property name="dateFormat" ref="dateFormat_yyyyMMdd"/>
+					</bean>
+		</property>
+			</bean>
+		</property>
+	</bean>	
+		
+	<bean id="rcRetailAlsDataProcessor"
+		class="org.springframework.batch.item.support.CompositeItemProcessor"
+		scope="step">
+		<property name="delegates">
+			<util:list>
+				<ref bean="rcRetailAlsEnrichmentProcessor" />
+ 				 <ref bean="rcRetailAlsAggregationProcessor" />
+			</util:list>
+		</property>
+	</bean>
+	
+		<bean id="rcRetailAlsEnrichmentProcessor"
+		class="com.citi.retail.optima.etl.batch.job.processor.EnrichmentProcessor"
+		scope="step" p:enrichmentServiceBean-ref="rcRetailAlsEnrichmentService"
+		p:timeTracker-ref="timeTracker">
+		<property name="batchInstanceId" value="#{jobParameters[batchInstanceId]}" />
+		<property name="jobName" value="#{jobParameters[JOB_NAME]}"/>
+		<property name="fileName" value="#{stepExecutionContext[fileName]}"></property>
+		<property name="auditFileId" value="#{jobParameters[AUDITFILEID]}"/>
+		<property name="auditFiles" value="#{jobParameters[AUDITFILES]}"/>
+		<property name="jobMessageDao" ref="jobMessageDao"/>	
+		<property name="eTLQueryExecutor" ref="queryExecutor" />	
+		<property name="ctlFileDt" value="#{jobParameters[CTLFILECREATIONDT]}"/>
+		<property name="jobConfigDao" ref="jobConfigDao" />
+	</bean>
+	
+	<bean	id="rcRetailAlsEnrichmentService"
+			class="com.citi.retail.optima.etl.enrichment.impl.EnrichmentServiceImpl"
+			p:evalContext-ref="customEvaluationContext"
+			p:enrichmentRules-ref="enrichmentRulesHolder"
+			p:keyList="#{#getConcatenatedKeys(jobParameters[sys_proc_id], 'rcRetailAlsDataProcStep', null)}" 
+			scope="step"/>
+	
+	<bean name="rcRetailAlsAggregationProcessor"
+		class="com.citi.retail.optima.etl.batch.job.processor.AggregationProcessor"
+		init-method="init" scope="step">
+		<property name="aggregationServiceFactory" ref="aggregationServiceFactory" />
+		<property name="batchInstanceId" value="#{jobParameters[batchInstanceId]}" />
+		<property name="monthEndDate" value="#{jobParameters[reportDate]}" />
+		<property name="keyList"
+			value="#{#getConcatenatedKeys(jobParameters[sys_proc_id], 'rcRetailAlsDataProcStep',null)}" />
+		<property name="stepName" value="rcRetailAlsDataProcStep" />
+		<property name="accountTraceabilityRequired" value="false" />
+		<property name="timeTracker" ref="timeTracker" />
+		<property name="sysProcId" value="#{jobParameters[sys_proc_id]}" />
+	</bean>
+	
+	<!-- *********************************************** RETAIL ALS Step Configuration=END ***************************************************** -->
+	
+	
+	<!-- *********************************************** ReadyCredit Aggregation Step Configuration=START ***************************************************** -->
+	
+<!-- 	<bean name="rcCorpAlsAggregationProcessor" -->
+<!-- 		class="com.citi.retail.optima.etl.batch.job.processor.AggregationProcessor" -->
+<!-- 		init-method="init" scope="step"> -->
+<!-- 		<property name="aggregationServiceFactory" ref="aggregationServiceFactory" /> -->
+<!-- 		<property name="batchInstanceId" value="#{jobParameters[batchInstanceId]}" /> -->
+<!-- 		<property name="monthEndDate" value="#{jobParameters[reportDate]}" /> -->
+<!-- 		<property name="keyList" -->
+<!-- 			value="#{#getConcatenatedKeys(jobParameters[sys_proc_id], 'rcCorpAlsDataProcStep',null)}" /> -->
+<!-- 		<property name="stepName" value="rcCorpAlsDataProcStep" /> -->
+<!-- 		<property name="accountTraceabilityRequired" value="false" /> -->
+<!-- 		<property name="timeTracker" ref="timeTracker" /> -->
+<!-- 		<property name="sysProcId" value="#{jobParameters[sys_proc_id]}" /> -->
+<!-- 	</bean> -->
+	
+	<bean name="rcAlsAggregationResultsTasklet" class="com.citi.retail.optima.etl.batch.tasklet.FooterSummaryAggregationResultTasklet"
+		scope="step">
+		<property name="aggregationServiceFactory" ref="aggregationServiceFactory" />
+		<property name="batchInstanceId" value="#{jobParameters[batchInstanceId]}" />
+		<property name="stepName" value="rcCorpAlsDataProcStep" />
+		<property name="sysProcId" value="#{jobParameters[sys_proc_id]}" />
+		<property name="footerAggrRuleId" value="105" />
+		<property name="footerItemList" ref="rcFooterItemList" />
+		<property name="aggrFooterWriter" ref="rcAggrFooterWriter"/>
+		<property name="jobConfigDao" ref="jobConfigDao" />
+	</bean>
+	
+	
+	<bean id="rcAggrFooterWriter" class="org.springframework.batch.item.file.FlatFileItemWriter">
+	
+ 		<property name="lineAggregator">
+	  	<bean class="org.springframework.batch.item.file.transform.FormatterLineAggregator" >
+	  		<property name="fieldExtractor">
+	  		<bean class="org.springframework.batch.item.file.transform.BeanWrapperFieldExtractor">
+	  			<property name="names" value="writeCount,hashFileType,aggregatedHashValue"/>
+	  		</bean>
+	  		</property>
+	  	<property name="format" value="TRL%09d%-10s%018d"></property>
+	  </bean>
+		</property>
+  </bean> 
+	
+	<!-- *********************************************** Rainbow Aggregation Step Configuration=END ***************************************************** -->
+	
+	
+	<!-- *********************************************** File Merge Step Configuration=START ***************************************************** --> 
+  
+  	<bean name="rcFileMergeTasklet" class="com.citi.retail.optima.etl.batch.tasklet.FileMergeTasklet"
+		scope="step">
+		<property name="footerItemList" ref="rcFooterItemList" />
+		<property name="header" value="HDR#{jobParameters[currentDate]}#{jobParameters[dateOfInfo]}" />
+		<property name="format" value="%3s%09d%-10s%018d" />
+		<property name="outputDirectory" value="#{#getOutputFilePath(jobParameters[COUNTRYPRODUCT])}" />
+		<property name="auditFileId" value="#{jobParameters[AUDITFILEID]}"/>
+<!-- 		<property name="auditFiles" value="#{jobParameters[AUDITFILES]}"/> -->
+		<property name="queryExec" ref="queryExecutor"/>
+		<property name="rainbowFileName" value="#{jobParameters[CORPMAST]}"/>
+		<property name="jobMessageDao" ref="jobMessageDao"/>
+		<property name="inputDirectory" value="#{#getInputFilePath(jobParameters[COUNTRYPRODUCT])}" />
+		<property name="archiveDirectory" value="#{#getArchiveFilePath(jobParameters[COUNTRYPRODUCT])}" />
+	<property name="batchInstanceId" value="#{jobParameters[batchInstanceId]}" />
+	<property name="jobConfigDao" ref="jobConfigDao" />
+	</bean>
+
+	
+	<bean id="dateFormat_yyyyMMdd" class="java.text.SimpleDateFormat" scope="prototype">
+		<constructor-arg value="yyyyMMdd" />
+	</bean>
+	
+	<bean id="dateFormat_mm_dd_yyyy" class="java.text.SimpleDateFormat" scope="prototype">
+		<constructor-arg value="MM/dd/yyyy" />
+	</bean>	
+</beans>

@@ -1,0 +1,60 @@
+/**
+ * 
+ */
+package com.citi.retail.optima.etl.batch;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.slf4j.MDC;
+import org.springframework.beans.BeansException;
+import org.springframework.context.support.ClassPathXmlApplicationContext;
+
+/**
+ * @author gv74035
+ *
+ */
+public class ControllerBatchInitiator {
+
+	private static final Logger LOGGER = LoggerFactory
+			.getLogger(ControllerBatchInitiator.class);
+
+	
+	/**
+	 * @param args
+	 */
+	public static void main(String[] args) {
+		ControllerBatchInitiator controllerBatchInitiator = new ControllerBatchInitiator();
+		controllerBatchInitiator.launch();
+	}
+	
+	public void launch() {
+		MDC.put("LogFileName", "Controller-Batch-Log-Test" );
+		try {
+			ClassPathXmlApplicationContext context = null;
+			String env="DEV";
+			env = System.getenv("VAR");
+			if (null == env){
+				env = "DEV";
+			}
+	        if(env.equalsIgnoreCase("DEV")){
+	        	context = new ClassPathXmlApplicationContext(
+	                    new String[] {"/retail.optima.etl.controller-batch.integration.xml","/retail.optima.etl.controller.datasource.dev.xml","/retail.optima.etl.batch.datasource.dev.xml"});
+	            }else if(env.equalsIgnoreCase("SIT")){
+	            	context = new ClassPathXmlApplicationContext(
+	                        new String[] {"/retail.optima.etl.controller-batch.integration.xml","/retail.optima.etl.controller.datasource.sit.xml","/retail.optima.etl.batch.datasource.sit.xml"});
+	            }else if(env.equalsIgnoreCase("UAT")){
+	            	context = new ClassPathXmlApplicationContext(
+	                        new String[] {"/retail.optima.etl.controller-batch.integration.xml","/retail.optima.etl.controller.datasource.uat.xml","/retail.optima.etl.batch.datasource.uat.xml"});
+	            }else if(env.equalsIgnoreCase("PROD")){
+	            	context = new ClassPathXmlApplicationContext(
+	                        new String[] {"/retail.optima.etl.controller-batch.integration.xml","/retail.optima.etl.controller.datasource.prod.xml","/retail.optima.etl.batch.datasource.prod.xml"});
+	            }
+			context.start();
+		} catch (BeansException e) {
+			e.printStackTrace();
+			LOGGER.error("Exception occured while loading Controller  - Batch Main"
+					+ e);
+		}
+	}
+
+}

@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<fileValidationRules functionName="CCAR" columnCount="50" delimiter="," allowedExtentions="*.csv,*.txt,*.xls,*.xlsx">
+	<inputColumn columnId="1" columnName="REPORTING_PERIOD" duplicate="true" order="0" dataType="Integer" notNull="true" regex="20[0-4]\d(0[1-9]|1[0-2])"/>
+	<inputColumn columnId="2" columnName="GCBC_PORTFOLIO_ID" duplicate="true" order="1" dataType="String" notNull="true"/>
+	<inputColumn columnId="3" columnName="SUBMITTER_ID" duplicate="false" order="2" dataType="String" notNull="true"/>
+	<inputColumn columnId="4" columnName="CONTACT_ID" duplicate="false" order="3" dataType="String" notNull="true"/>
+	<inputColumn columnId="5" columnName="VERSION" duplicate="true" order="4" dataType="Integer" notNull="true" regex="([1-9]{1})"/>
+	<inputColumn columnId="6" columnName="REGION" duplicate="true" order="5" dataType="Integer" notNull="true"/>
+	<inputColumn columnId="7" columnName="COUNTRY" duplicate="true" order="6" dataType="String" notNull="true"/>
+	<inputColumn columnId="8" columnName="PRODUCT_TYPE" duplicate="true" order="7" dataType="String" notNull="true"/>
+	<inputColumn columnId="9" columnName="COLLATERALIZED_FLG" duplicate="true" order="8" dataType="NegativeInteger" notNull="true"/>
+	<inputColumn columnId="10" columnName="CURR_LINE_LOAN_SIZE" duplicate="true" order="9" dataType="NegativeInteger" notNull="true"/>
+	<inputColumn columnId="11" columnName="ORIG_LTV" duplicate="true" order="10" dataType="NegativeInteger" notNull="true"/>
+	<inputColumn columnId="12" columnName="AGE" duplicate="true" order="11" dataType="NegativeInteger" notNull="true"/>
+	<inputColumn columnId="13" columnName="VINTAGE" duplicate="true" order="12" dataType="NegativeInteger" notNull="true"/>
+	<inputColumn columnId="14" columnName="CURR_DLQ_STATUS" duplicate="true" order="13" dataType="NegativeInteger" notNull="true"/>
+	<inputColumn columnId="15" columnName="ORIG_FICO" duplicate="true" order="14" dataType="NegativeInteger" notNull="true"/>
+	<inputColumn columnId="16" columnName="N_ACCT" duplicate="false" order="15" dataType="Integer" notNull="true" regex="([\d]{1,24})"/>
+	<inputColumn columnId="17" columnName="D_UPB" duplicate="false" order="16" dataType="NegativeDecimal" notNull="true" regex="([[-/+][\d]*[.][\d]*]{1,24})"/>
+	<inputColumn columnId="18" columnName="D_ENR" duplicate="false" order="17" dataType="NegativeDecimal" notNull="true" regex="([[-/+][\d]*[.][\d]*]{1,24})"/>
+	<inputColumn columnId="19" columnName="D_OS_ACCT_GE30_DPD_24M" duplicate="false" order="18" dataType="NegativeDecimal" regex="([[-/+][\d]*[.][\d]*]{0,24})"/>
+	<inputColumn columnId="20" columnName="N_ACCTS_GE30_DPD_24M" duplicate="false" order="19" dataType="Integer" regex="([\d]{0,24})"/>
+	<inputColumn columnId="21" columnName="D_ACCT_EVER_30DPD_LAST12" duplicate="false" order="20" dataType="NegativeDecimal" regex="([[-/+][\d]*[.][\d]*]{0,24})"/>
+	<inputColumn columnId="22" columnName="D_ACCT_EVER_60DPD_LAST12" duplicate="false" order="21" dataType="NegativeDecimal" regex="([[-/+][\d]*[.][\d]*]{0,24})"/>
+	<inputColumn columnId="23" columnName="N_NEW_ACCOUNTS" duplicate="false" order="22" dataType="Integer" regex="([\d]{0,24})"/>
+	<inputColumn columnId="24" columnName="D_NEW_ACCOUNTS" duplicate="false" order="23" dataType="NegativeDecimal" regex="([[-/+][\d]*[.][\d]*]{0,24})"/>
+	<inputColumn columnId="25" columnName="D_COMMITMENTS" duplicate="false" order="24" dataType="NegativeDecimal" regex="([[-/+][\d]*[.][\d]*]{0,24})"/>
+	<inputColumn columnId="26" columnName="D_NEW_COMMITMENTS" duplicate="false" order="25" dataType="NegativeDecimal" regex="([[-/+][\d]*[.][\d]*]{0,24})"/>
+	<inputColumn columnId="27" columnName="D_COMMITMENT_INCREASES" duplicate="false" order="26" dataType="NegativeDecimal" regex="([[-/+][\d]*[.][\d]*]{0,24})"/>
+	<inputColumn columnId="28" columnName="D_COMMITMENT_DECREASES" duplicate="false" order="27" dataType="NegativeDecimal" regex="([[-/+][\d]*[.][\d]*]{0,24})"/>
+	<inputColumn columnId="29" columnName="D_MODIFICATIONS" duplicate="false" order="28" dataType="NegativeDecimal" regex="([[-/+][\d]*[.][\d]*]{0,24})"/>
+	<inputColumn columnId="30" columnName="D_GROSS_CONTRACTUAL_CO" duplicate="false" order="29" dataType="NegativeDecimal" notNull="true" regex="([[-/+][\d]*[.][\d]*]{1,24})"/>
+	<inputColumn columnId="31" columnName="D_BANKRUPTCY_CO" duplicate="false" order="30" dataType="NegativeDecimal" notNull="true" regex="([[-/+][\d]*[.][\d]*]{1,24})"/>
+	<inputColumn columnId="32" columnName="D_RECOVERIES" duplicate="false" order="31" dataType="NegativeDecimal" notNull="true" regex="([[-/+][\d]*[.][\d]*]{1,24})"/>
+	<inputColumn columnId="33" columnName="N_ACCT_CO" duplicate="false" order="32" dataType="NegativeDecimal" notNull="true" regex="([[-/+][\d]*[.][\d]*]{1,24})"/>
+	<inputColumn columnId="34" columnName="D_NET_CO" duplicate="false" order="33" dataType="NegativeDecimal" notNull="true" regex="([[-/+][\d]*[.][\d]*]{1,24})"/>
+	<inputColumn columnId="35" columnName="D_ADJ_NET_CO" duplicate="false" order="34" dataType="NegativeDecimal" notNull="true" regex="([[-/+][\d]*[.][\d]*]{1,24})"/>
+	<inputColumn columnId="36" columnName="D_FORECLOSURE" duplicate="false" order="35" dataType="NegativeDecimal" regex="([[-/+][\d]*[.][\d]*]{0,24})"/>
+	<inputColumn columnId="37" columnName="D_NEW_FORECLOSURE" duplicate="false" order="36" dataType="NegativeDecimal" regex="([[-/+][\d]*[.][\d]*]{0,24})"/>
+	<inputColumn columnId="38" columnName="D_REO" duplicate="false" order="37" dataType="NegativeDecimal" regex="([[-/+][\d]*[.][\d]*]{0,24})"/>
+	<inputColumn columnId="39" columnName="D_NEW_REO" duplicate="false" order="38" dataType="NegativeDecimal" regex="([[-/+][\d]*[.][\d]*]{0,24})"/>
+	<inputColumn columnId="40" columnName="D_VEHICLE_TYPE_CAR_VAN" duplicate="false" order="39" dataType="NegativeDecimal" regex="([[-/+][\d]*[.][\d]*]{0,24})"/>
+	<inputColumn columnId="41" columnName="D_VEHICLE_TYPE_SUV_TRUCK" duplicate="false" order="40" dataType="NegativeDecimal" regex="([[-/+][\d]*[.][\d]*]{0,24})"/>
+	<inputColumn columnId="42" columnName="D_VEHICLE_TYPE_SPORT" duplicate="false" order="41" dataType="NegativeDecimal" regex="([[-/+][\d]*[.][\d]*]{0,24})"/>
+	<inputColumn columnId="43" columnName="D_VEHICLE_TYPE_UNKNOWN" duplicate="false" order="42" dataType="NegativeDecimal" regex="([[-/+][\d]*[.][\d]*]{0,24})"/>
+	<inputColumn columnId="44" columnName="D_REPO" duplicate="false" order="43" dataType="NegativeDecimal" regex="([[-/+][\d]*[.][\d]*]{0,24})"/>
+	<inputColumn columnId="45" columnName="D_CUR_MONTH_REPO" duplicate="false" order="44" dataType="NegativeDecimal" regex="([[-/+][\d]*[.][\d]*]{0,24})"/>
+	<inputColumn columnId="46" columnName="D_PROJ_VALUE_LEASE" duplicate="false" order="45" dataType="NegativeDecimal" regex="([[-/+][\d]*[.][\d]*]{0,24})"/>
+	<inputColumn columnId="47" columnName="D_ACT_SALE_PROCEEDS_LEASE" duplicate="false" order="46" dataType="NegativeDecimal" regex="([[-/+][\d]*[.][\d]*]{0,24})"/>
+	<inputColumn columnId="48" columnName="REF_PORTFOLIO_CCY" duplicate="false" order="47" dataType="String" notNull="true" regex="([0-9a-zA-Z_ ]{1,3})"/>
+	<inputColumn columnId="49" columnName="REF_FX_RATE" duplicate="false" order="48" dataType="Decimal" notNull="true" regex="([[\d]*[.][\d]*]{1,16})"/>
+	<inputColumn columnId="50" columnName="REF_REPORTING_BASIS" duplicate="false" order="49" dataType="Integer" regex="([\d]{1})"/>
+	<errorMessages>
+		<entry>
+			<key>CLMN_COUNT_MISMATCH</key>
+			<value>Column Count is not 50 for row {}</value>
+		</entry>
+		<entry>
+			<key>HEADER_INVALID</key>
+			<value>Header Value is invalid</value>
+		</entry>
+		<entry>
+			<key>DUPLICATE_ROW</key>
+			<value>Duplicate row for row {}</value>
+		</entry>
+		<entry>
+			<key>DATATYPE_INVALID</key>
+			<value>Data type is not valid for row {}</value>
+		</entry>
+	</errorMessages>
+</fileValidationRules>

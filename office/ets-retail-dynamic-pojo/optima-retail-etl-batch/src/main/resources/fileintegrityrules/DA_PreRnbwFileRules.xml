@@ -1,0 +1,2240 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<fileValidationRules functionName="PRE-RNBW" columnCount="171" delimiter="|" allowedExtentions="*.dat">
+	<inputColumn columnId="1" columnName="CARDTYPE" duplicate="false" order="0" dataType="String" notNull="false" regex="([a-zA-Z0-9]{0,3})">
+	<errorMessages>
+		<entry>
+			<key>NOT_NULL_INVALID</key>
+			<value>CARDTYPE cannot be blank or null</value>
+		</entry>
+		<entry>
+			<key>DATATYPE_INVALID</key>
+			<value>CARDTYPE should be in the valid format</value>
+		</entry>
+		</errorMessages>
+	</inputColumn>
+	
+	<inputColumn columnId="2" columnName="DATEBRTH" duplicate="false" order="1" dataType="String" notNull="false" regex="((((19|20)\d\d)-(0[1-9]|1[0-2])-(0[1-9]|[12][0-9]|3[01]))?)">
+	<errorMessages>
+		<entry>
+			<key>NOT_NULL_INVALID</key>
+			<value>DATEBRTH cannot be blank or null</value>
+		</entry>
+		<entry>
+			<key>DATATYPE_INVALID</key>
+			<value>DATEBRTH should be in the valid format</value>
+		</entry>
+		</errorMessages>
+	</inputColumn>
+	
+	<inputColumn columnId="3" columnName="DATEOPEN" duplicate="false" order="2" dataType="String" notNull="false" regex="((((19|20)\d\d)-(0[1-9]|1[0-2])-(0[1-9]|[12][0-9]|3[01]))?)">
+		<errorMessages>
+		<entry>
+			<key>NOT_NULL_INVALID</key>
+			<value>DATEOPEN cannot be blank or null</value>
+		</entry>
+		<entry>
+			<key>DATATYPE_INVALID</key>
+			<value>DATEOPEN should be in the valid format</value>
+		</entry>
+		</errorMessages>
+	</inputColumn>
+	
+	<inputColumn columnId="4" columnName="DATECNCL" duplicate="false" order="3" dataType="String" notNull="false" regex="((((19|20)\d\d)-(0[1-9]|1[0-2])-(0[1-9]|[12][0-9]|3[01]))?)">
+		<errorMessages>
+		<entry>
+			<key>NOT_NULL_INVALID</key>
+			<value>DATECNCL cannot be blank or null</value>
+		</entry>
+		<entry>
+			<key>DATATYPE_INVALID</key>
+			<value>DATECNCL should be in the valid format</value>
+		</entry>
+		</errorMessages>
+	</inputColumn>
+	
+	<inputColumn columnId="5" columnName="DATECLT1" duplicate="false" order="4" dataType="String" notNull="false" regex="((((19|20)\d\d)-(0[1-9]|1[0-2])-(0[1-9]|[12][0-9]|3[01]))?)">
+		<errorMessages>
+		<entry>
+			<key>NOT_NULL_INVALID</key>
+			<value>DATECLT1 cannot be blank or null</value>
+		</entry>
+		<entry>
+			<key>DATATYPE_INVALID</key>
+			<value>DATECLT1 should be in the valid format</value>
+		</entry>
+		</errorMessages>
+	</inputColumn>
+	
+	<inputColumn columnId="6" columnName="CLT1" duplicate="false" order="5" dataType="NegativeDecimal" notNull="false" regex="([[-/+][\d]]{0,13}([.][\d]{0,2})?)">
+		<errorMessages>
+		<entry>
+			<key>NOT_NULL_INVALID</key>
+			<value>CLT1 cannot be blank or null</value>
+		</entry>
+		<entry>
+			<key>DATATYPE_INVALID</key>
+			<value>CLT1 should be in the valid format</value>
+		</entry>
+		</errorMessages>
+	</inputColumn>
+
+	<inputColumn columnId="7" columnName="DATLCLT1" duplicate="false" order="6" dataType="String" notNull="false" regex="((((19|20)\d\d)-(0[1-9]|1[0-2])-(0[1-9]|[12][0-9]|3[01]))?)">
+		<errorMessages>
+		<entry>
+			<key>NOT_NULL_INVALID</key>
+			<value>DATLCLT1 cannot be blank or null</value>
+		</entry>
+		<entry>
+			<key>DATATYPE_INVALID</key>
+			<value>DATLCLT1 should be in the valid format</value>
+		</entry>
+		</errorMessages>
+	</inputColumn>
+	
+	<inputColumn columnId="8" columnName="LCLT1" duplicate="false" order="7" dataType="NegativeDecimal" notNull="false" regex="([[-/+][\d]]{0,13}([.][\d]{0,2})?)">
+		<errorMessages>
+		<entry>
+			<key>NOT_NULL_INVALID</key>
+			<value>LCLT1 cannot be blank or null</value>
+		</entry>
+		<entry>
+			<key>DATATYPE_INVALID</key>
+			<value>LCLT1 should be in the valid format</value>
+		</entry>
+		</errorMessages>
+	</inputColumn>
+	
+	<inputColumn columnId="9" columnName="DATEEXP1" duplicate="false" order="8" dataType="String" notNull="false" regex="((((19|20)\d\d)-(0[1-9]|1[0-2])-(0[1-9]|[12][0-9]|3[01]))?)">
+		<errorMessages>
+		<entry>
+			<key>NOT_NULL_INVALID</key>
+			<value>DATEEXP1 cannot be blank or null</value>
+		</entry>
+		<entry>
+			<key>DATATYPE_INVALID</key>
+			<value>DATEEXP1 should be in the valid format</value>
+		</entry>
+		</errorMessages>
+	</inputColumn>
+	
+	<inputColumn columnId="10" columnName="CYCLE" duplicate="false" order="9" dataType="Intger" notNull="false" regex="([0-9]{0,3})">
+		<errorMessages>
+		<entry>
+			<key>NOT_NULL_INVALID</key>
+			<value>CYCLE cannot be blank or null</value>
+		</entry>
+		<entry>
+			<key>DATATYPE_INVALID</key>
+			<value>CYCLE should be in the valid format</value>
+		</entry>
+		</errorMessages>
+	</inputColumn>
+	
+	<inputColumn columnId="11" columnName="GENDER" duplicate="false" order="10" dataType="String" notNull="false" regex="([a-zA-Z0-9]{0,1})">
+		<errorMessages>
+		<entry>
+			<key>NOT_NULL_INVALID</key>
+			<value>GENDER cannot be blank or null</value>
+		</entry>
+		<entry>
+			<key>DATATYPE_INVALID</key>
+			<value>GENDER should be in the valid format</value>
+		</entry>
+		</errorMessages>
+	</inputColumn>
+	
+	<inputColumn columnId="12" columnName="MARRIAGE" duplicate="false" order="11" dataType="String" notNull="false" regex="([a-zA-Z0-9]{0,1})">
+		<errorMessages>
+		<entry>
+			<key>NOT_NULL_INVALID</key>
+			<value>MARRIAGE cannot be blank or null</value>
+		</entry>
+		<entry>
+			<key>DATATYPE_INVALID</key>
+			<value>MARRIAGE should be in the valid format</value>
+		</entry>
+		</errorMessages>
+	</inputColumn>
+	
+	<inputColumn columnId="13" columnName="EDUCTION" duplicate="false" order="12" dataType="String" notNull="false" regex="([a-zA-Z0-9]{0,2})">
+		<errorMessages>
+		<entry>
+			<key>NOT_NULL_INVALID</key>
+			<value>EDUCTION cannot be blank or null</value>
+		</entry>
+		<entry>
+			<key>DATATYPE_INVALID</key>
+			<value>EDUCTION should be in the valid format</value>
+		</entry>
+		</errorMessages>
+	</inputColumn>
+	
+	<inputColumn columnId="14" columnName="HOMEZIP" duplicate="false" order="13" dataType="String" notNull="false" regex="([a-zA-Z0-9]{0,9})">
+		<errorMessages>
+		<entry>
+			<key>NOT_NULL_INVALID</key>
+			<value>HOMEZIP cannot be blank or null</value>
+		</entry>
+		<entry>
+			<key>DATATYPE_INVALID</key>
+			<value>HOMEZIP should be in the valid format</value>
+		</entry>
+		</errorMessages>
+	</inputColumn>
+	
+	<inputColumn columnId="15" columnName="OCCUPATN" duplicate="false" order="14" dataType="String" notNull="false" regex="([a-zA-Z0-9]{0,4})">
+		<errorMessages>
+		<entry>
+			<key>NOT_NULL_INVALID</key>
+			<value>OCCUPATN cannot be blank or null</value>
+		</entry>
+		<entry>
+			<key>DATATYPE_INVALID</key>
+			<value>OCCUPATN should be in the valid format</value>
+		</entry>
+		</errorMessages>
+	</inputColumn>
+	
+	<inputColumn columnId="16" columnName="INCOME" duplicate="false" order="15" dataType="Decimal" notNull="false" regex="([[-/+][\d]]{0,14}([.][\d]{0,2})?)">
+		<errorMessages>
+		<entry>
+			<key>NOT_NULL_INVALID</key>
+			<value>INCOME cannot be blank or null</value>
+		</entry>
+		<entry>
+			<key>DATATYPE_INVALID</key>
+			<value>INCOME should be in the valid format</value>
+		</entry>
+		</errorMessages>
+	</inputColumn>
+	
+	<inputColumn columnId="17" columnName="HSOWNER" duplicate="false" order="16" dataType="String" notNull="false" regex="([a-zA-Z0-9]{0,1})">
+		<errorMessages>
+		<entry>
+			<key>NOT_NULL_INVALID</key>
+			<value>HSOWNER cannot be blank or null</value>
+		</entry>
+		<entry>
+			<key>DATATYPE_INVALID</key>
+			<value>HSOWNER should be in the valid format</value>
+		</entry>
+		</errorMessages>
+	</inputColumn>
+	
+	<inputColumn columnId="18" columnName="AGENCODE" duplicate="false" order="17" dataType="String" notNull="false" regex="([a-zA-Z0-9]{0,16})">
+		<errorMessages>
+		<entry>
+			<key>NOT_NULL_INVALID</key>
+			<value>AGENCODE cannot be blank or null</value>
+		</entry>
+		<entry>
+			<key>DATATYPE_INVALID</key>
+			<value>AGENCODE should be in the valid format</value>
+		</entry>
+		</errorMessages>
+	</inputColumn>
+	
+	<inputColumn columnId="19" columnName="CLSCOD1" duplicate="false" order="18" dataType="String" notNull="false" regex="([a-zA-Z0-9]{0,2})">
+		<errorMessages>
+		<entry>
+			<key>NOT_NULL_INVALID</key>
+			<value>CLSCOD1 cannot be blank or null</value>
+		</entry>
+		<entry>
+			<key>DATATYPE_INVALID</key>
+			<value>CLSCOD1 should be in the valid format</value>
+		</entry>
+		</errorMessages>
+	</inputColumn>
+	
+	<inputColumn columnId="20" columnName="STATUS1" duplicate="false" order="19" dataType="String" notNull="false" regex="([a-zA-Z0-9]{0,1})">
+		<errorMessages>
+		<entry>
+			<key>NOT_NULL_INVALID</key>
+			<value>STATUS1 cannot be blank or null</value>
+		</entry>
+		<entry>
+			<key>DATATYPE_INVALID</key>
+			<value>STATUS1 should be in the valid format</value>
+		</entry>
+		</errorMessages>
+	</inputColumn>
+	
+	<inputColumn columnId="21" columnName="POT" duplicate="false" order="20" dataType="String" notNull="false" regex="([0-9]{0,3})">
+		<errorMessages>
+		<entry>
+			<key>NOT_NULL_INVALID</key>
+			<value>POT cannot be blank or null</value>
+		</entry>
+		<entry>
+			<key>DATATYPE_INVALID</key>
+			<value>POT should be in the valid format</value>
+		</entry>
+		</errorMessages>
+	</inputColumn>
+	
+	<inputColumn columnId="22" columnName="POTEXP" duplicate="false" order="21" dataType="String" notNull="false" regex="([0-9]{0,7})">
+		<errorMessages>
+		<entry>
+			<key>NOT_NULL_INVALID</key>
+			<value>POTEXP cannot be blank or null</value>
+		</entry>
+		<entry>
+			<key>DATATYPE_INVALID</key>
+			<value>POTEXP should be in the valid format</value>
+		</entry>
+		</errorMessages>
+	</inputColumn>
+
+	<inputColumn columnId="23" columnName="CURRBLNC" duplicate="false" order="22" dataType="NegativeDecimal" notNull="false" regex="([[-/+][\d]]{0,14}([.][\d]{0,2})?)">
+		<errorMessages>
+		<entry>
+			<key>NOT_NULL_INVALID</key>
+			<value>CURRBLNC cannot be blank or null</value>
+		</entry>
+		<entry>
+			<key>DATATYPE_INVALID</key>
+			<value>CURRBLNC should be in the valid format</value>
+		</entry>
+		</errorMessages>
+	</inputColumn>	
+	
+	<inputColumn columnId="24" columnName="ANR1" duplicate="false" order="23" dataType="NegativeDecimal" notNull="false" regex="([[-/+][\d]]{0,14}([.][\d]{0,2})?)">
+		<errorMessages>
+		<entry>
+			<key>NOT_NULL_INVALID</key>
+			<value>ANR1 cannot be blank or null</value>
+		</entry>
+		<entry>
+			<key>DATATYPE_INVALID</key>
+			<value>ANR1 should be in the valid format</value>
+		</entry>
+		</errorMessages>
+	</inputColumn>	
+	
+	<inputColumn columnId="25" columnName="PAYAMT1" duplicate="false" order="24" dataType="NegativeDecimal" notNull="false" regex="([[-/+][\d]]{0,14}([.][\d]{0,2})?)">
+		<errorMessages>
+		<entry>
+			<key>NOT_NULL_INVALID</key>
+			<value>PAYAMT1 cannot be blank or null</value>
+		</entry>
+		<entry>
+			<key>DATATYPE_INVALID</key>
+			<value>PAYAMT1 should be in the valid format</value>
+		</entry>
+		</errorMessages>
+	</inputColumn>	
+	
+	<inputColumn columnId="26" columnName="DATEPAY" duplicate="false" order="25" dataType="String" notNull="false" regex="((((19|20)\d\d)-(0[1-9]|1[0-2])-(0[1-9]|[12][0-9]|3[01]))?)">
+		<errorMessages>
+		<entry>
+			<key>NOT_NULL_INVALID</key>
+			<value>DATEPAY cannot be blank or null</value>
+		</entry>
+		<entry>
+			<key>DATATYPE_INVALID</key>
+			<value>DATEPAY should be in the valid format</value>
+		</entry>
+		</errorMessages>
+	</inputColumn>	
+	
+	<inputColumn columnId="27" columnName="DELQPROF" duplicate="false" order="26" dataType="String" notNull="false" regex="([a-zA-Z0-9]{1,24})">
+		<errorMessages>
+		<entry>
+			<key>NOT_NULL_INVALID</key>
+			<value>DELQPROF cannot be blank or null</value>
+		</entry>
+		<entry>
+			<key>DATATYPE_INVALID</key>
+			<value>DELQPROF should be in the valid format</value>
+		</entry>
+		</errorMessages>
+	</inputColumn>
+	
+	<inputColumn columnId="28" columnName="INTRST" duplicate="false" order="27" dataType="NegativeDecimal" notNull="false" regex="([[-/+][\d]]{0,14}([.][\d]{0,2})?)">
+		<errorMessages>
+		<entry>
+			<key>NOT_NULL_INVALID</key>
+			<value>INTRST cannot be blank or null</value>
+		</entry>
+		<entry>
+			<key>DATATYPE_INVALID</key>
+			<value>INTRST should be in the valid format</value>
+		</entry>
+		</errorMessages>
+	</inputColumn>		
+	
+	<inputColumn columnId="29" columnName="COFFAMT" duplicate="false" order="28" dataType="NegativeDecimal" notNull="false" regex="([[-/+][\d]]{0,14}([.][\d]{0,2})?)">
+		<errorMessages>
+		<entry>
+			<key>NOT_NULL_INVALID</key>
+			<value>COFFAMT cannot be blank or null</value>
+		</entry>
+		<entry>
+			<key>DATATYPE_INVALID</key>
+			<value>COFFAMT should be in the valid format</value>
+		</entry>
+		</errorMessages>
+	</inputColumn>	
+	
+	<inputColumn columnId="30" columnName="DATEBLK1" duplicate="false" order="29" dataType="String" notNull="false" regex="((((19|20)\d\d)-(0[1-9]|1[0-2])-(0[1-9]|[12][0-9]|3[01]))?)">
+		<errorMessages>
+		<entry>
+			<key>NOT_NULL_INVALID</key>
+			<value>DATEBLK1 cannot be blank or null</value>
+		</entry>
+		<entry>
+			<key>DATATYPE_INVALID</key>
+			<value>DATEBLK1 should be in the valid format</value>
+		</entry>
+		</errorMessages>
+	</inputColumn>	
+	
+	<inputColumn columnId="31" columnName="SUPPCARD" duplicate="false" order="30" dataType="String" notNull="false" regex="([0-9]{0,3})">
+		<errorMessages>
+		<entry>
+			<key>NOT_NULL_INVALID</key>
+			<value>SUPPCARD cannot be blank or null</value>
+		</entry>
+		<entry>
+			<key>DATATYPE_INVALID</key>
+			<value>SUPPCARD should be in the valid format</value>
+		</entry>
+		</errorMessages>
+	</inputColumn>	
+	
+	<inputColumn columnId="32" columnName="CSHBLNC1" duplicate="false" order="31" dataType="NegativeDecimal" notNull="false" regex="([[-/+][\d]]{0,14}([.][\d]{0,2})?)">
+		<errorMessages>
+		<entry>
+			<key>NOT_NULL_INVALID</key>
+			<value>CSHBLNC1 cannot be blank or null</value>
+		</entry>
+		<entry>
+			<key>DATATYPE_INVALID</key>
+			<value>CSHBLNC1 should be in the valid format</value>
+		</entry>
+		</errorMessages>
+	</inputColumn>	
+	
+	<inputColumn columnId="33" columnName="RTLBLNC1" duplicate="false" order="32" dataType="NegativeDecimal" notNull="false" regex="([[-/+][\d]]{0,14}([.][\d]{0,2})?)">
+		<errorMessages>
+		<entry>
+			<key>NOT_NULL_INVALID</key>
+			<value>RTLBLNC1 cannot be blank or null</value>
+		</entry>
+		<entry>
+			<key>DATATYPE_INVALID</key>
+			<value>RTLBLNC1 should be in the valid format</value>
+		</entry>
+		</errorMessages>
+	</inputColumn>
+	
+	<inputColumn columnId="34" columnName="BLOCK1" duplicate="false" order="33" dataType="String" notNull="false" regex="([a-zA-Z0-9]{0,1})">
+		<errorMessages>
+		<entry>
+			<key>NOT_NULL_INVALID</key>
+			<value>BLOCK1 cannot be blank or null</value>
+		</entry>
+		<entry>
+			<key>DATATYPE_INVALID</key>
+			<value>BLOCK1 should be in the valid format</value>
+		</entry>
+		</errorMessages>
+	</inputColumn>
+	
+	<inputColumn columnId="35" columnName="ALTBLK1" duplicate="false" order="34" dataType="String" notNull="false" regex="([a-zA-Z0-9]{0,1})">
+		<errorMessages>
+		<entry>
+			<key>NOT_NULL_INVALID</key>
+			<value>ALTBLK1 cannot be blank or null</value>
+		</entry>
+		<entry>
+			<key>DATATYPE_INVALID</key>
+			<value>ALTBLK1 should be in the valid format</value>
+		</entry>
+		</errorMessages>
+	</inputColumn>
+	
+	<inputColumn columnId="36" columnName="PHOTO" duplicate="false" order="35" dataType="String" notNull="false" regex="([a-zA-Z0-9]{0,1})">
+		<errorMessages>
+		<entry>
+			<key>NOT_NULL_INVALID</key>
+			<value>PHOTO cannot be blank or null</value>
+		</entry>
+		<entry>
+			<key>DATATYPE_INVALID</key>
+			<value>PHOTO should be in the valid format</value>
+		</entry>
+		</errorMessages>
+	</inputColumn>	
+	
+	<inputColumn columnId="37" columnName="SOURCE" duplicate="false" order="36" dataType="String" notNull="false" regex="([a-zA-Z0-9]{0,15})">
+		<errorMessages>
+		<entry>
+			<key>NOT_NULL_INVALID</key>
+			<value>SOURCE cannot be blank or null</value>
+		</entry>
+		<entry>
+			<key>DATATYPE_INVALID</key>
+			<value>SOURCE should be in the valid format</value>
+		</entry>
+		</errorMessages>
+	</inputColumn>		
+	
+	<inputColumn columnId="38" columnName="CUSTID" duplicate="false" order="37" dataType="Integer" notNull="false" regex="([0-9]{0,17})">
+		<errorMessages>
+		<entry>
+			<key>NOT_NULL_INVALID</key>
+			<value>CUSTID cannot be blank or null</value>
+		</entry>
+		<entry>
+			<key>DATATYPE_INVALID</key>
+			<value>CUSTID should be in the valid format</value>
+		</entry>
+		</errorMessages>
+	</inputColumn>
+	
+	<inputColumn columnId="39" columnName="HOMETIME" duplicate="false" order="38" dataType="String" notNull="false" regex="([0-9]{0,4})">
+		<errorMessages>
+		<entry>
+			<key>NOT_NULL_INVALID</key>
+			<value>HOMETIME cannot be blank or null</value>
+		</entry>
+		<entry>
+			<key>DATATYPE_INVALID</key>
+			<value>HOMETIME should be in the valid format</value>
+		</entry>
+		</errorMessages>
+	</inputColumn>	
+	
+	<inputColumn columnId="40" columnName="WORKZIP" duplicate="false" order="39" dataType="String" notNull="false" regex="([a-zA-Z0-9]{0,9})">
+		<errorMessages>
+		<entry>
+			<key>NOT_NULL_INVALID</key>
+			<value>WORKZIP cannot be blank or null</value>
+		</entry>
+		<entry>
+			<key>DATATYPE_INVALID</key>
+			<value>WORKZIP should be in the valid format</value>
+		</entry>
+		</errorMessages>
+	</inputColumn>			
+	
+	<inputColumn columnId="41" columnName="PROFESSN" duplicate="false" order="40" dataType="String" notNull="false" regex="([a-zA-Z0-9]{0,4})">
+		<errorMessages>
+		<entry>
+			<key>NOT_NULL_INVALID</key>
+			<value>enr_lcyamt cannot be blank or null</value>
+		</entry>
+		<entry>
+			<key>DATATYPE_INVALID</key>
+			<value>enr_lcyamt should be in the valid format</value>
+		</entry>
+		</errorMessages>
+	</inputColumn>
+	
+	<inputColumn columnId="42" columnName="CLT2" duplicate="false" order="41" dataType="NegativeDecimal" notNull="false" regex="([[-/+][\d]]{0,13}([.][\d]{0,2})?)">
+		<errorMessages>
+		<entry>
+			<key>NOT_NULL_INVALID</key>
+			<value>CLT2 cannot be blank or null</value>
+		</entry>
+		<entry>
+			<key>DATATYPE_INVALID</key>
+			<value>CLT2 should be in the valid format</value>
+		</entry>
+		</errorMessages>
+	</inputColumn>
+	
+	<inputColumn columnId="43" columnName="DATECLT2" duplicate="false" order="42" dataType="String" notNull="false" regex="((((19|20)\d\d)-(0[1-9]|1[0-2])-(0[1-9]|[12][0-9]|3[01]))?)">
+		<errorMessages>
+		<entry>
+			<key>NOT_NULL_INVALID</key>
+			<value>DATECLT2 cannot be blank or null</value>
+		</entry>
+		<entry>
+			<key>DATATYPE_INVALID</key>
+			<value>DATECLT2 should be in the valid format</value>
+		</entry>
+		</errorMessages>
+	</inputColumn>		
+	
+	<inputColumn columnId="44" columnName="LCLT2" duplicate="false" order="43" dataType="NegativeDecimal" notNull="false" regex="([[-/+][\d]]{0,13}([.][\d]{0,2})?)">
+		<errorMessages>
+		<entry>
+			<key>NOT_NULL_INVALID</key>
+			<value>LCLT2 cannot be blank or null</value>
+		</entry>
+		<entry>
+			<key>DATATYPE_INVALID</key>
+			<value>LCLT2 should be in the valid format</value>
+		</entry>
+		</errorMessages>
+	</inputColumn>	
+	
+	<inputColumn columnId="45" columnName="DATLCLT2" duplicate="false" order="44" dataType="String" notNull="false" regex="((((19|20)\d\d)-(0[1-9]|1[0-2])-(0[1-9]|[12][0-9]|3[01]))?)">
+		<errorMessages>
+		<entry>
+			<key>NOT_NULL_INVALID</key>
+			<value>DATLCLT2 cannot be blank or null</value>
+		</entry>
+		<entry>
+			<key>DATATYPE_INVALID</key>
+			<value>DATLCLT2 should be in the valid format</value>
+		</entry>
+		</errorMessages>
+	</inputColumn>
+	
+	<inputColumn columnId="46" columnName="ANR2" duplicate="false" order="45" dataType="NegativeDecimal" notNull="false" regex="([[-/+][\d]]{0,14}([.][\d]{0,2})?)">
+		<errorMessages>
+		<entry>
+			<key>NOT_NULL_INVALID</key>
+			<value>ANR2 cannot be blank or null</value>
+		</entry>
+		<entry>
+			<key>DATATYPE_INVALID</key>
+			<value>ANR2 should be in the valid format</value>
+		</entry>
+		</errorMessages>
+	</inputColumn>		
+	
+	<inputColumn columnId="47" columnName="RTLBLNC2" duplicate="false" order="46" dataType="NegativeDecimal" notNull="false" regex="([[-/+][\d]]{0,14}([.][\d]{0,2})?)">
+		<errorMessages>
+		<entry>
+			<key>NOT_NULL_INVALID</key>
+			<value>RTLBLNC2 cannot be blank or null</value>
+		</entry>
+		<entry>
+			<key>DATATYPE_INVALID</key>
+			<value>RTLBLNC2 should be in the valid format</value>
+		</entry>
+		</errorMessages>
+	</inputColumn>	
+	
+	<inputColumn columnId="48" columnName="CSHBLNC2" duplicate="false" order="47" dataType="NegativeDecimal" notNull="false" regex="([[-/+][\d]]{0,14}([.][\d]{0,2})?)">
+		<errorMessages>
+		<entry>
+			<key>NOT_NULL_INVALID</key>
+			<value>CSHBLNC2 cannot be blank or null</value>
+		</entry>
+		<entry>
+			<key>DATATYPE_INVALID</key>
+			<value>CSHBLNC2 should be in the valid format</value>
+		</entry>
+		</errorMessages>
+	</inputColumn>		
+	
+	<inputColumn columnId="49" columnName="LCSHCNT2" duplicate="false" order="48" dataType="Integer" notNull="false" regex="([0-9]{0,5})">
+		<errorMessages>
+		<entry>
+			<key>NOT_NULL_INVALID</key>
+			<value>LCSHCNT2 cannot be blank or null</value>
+		</entry>
+		<entry>
+			<key>DATATYPE_INVALID</key>
+			<value>LCSHCNT2 should be in the valid format</value>
+		</entry>
+		</errorMessages>
+	</inputColumn>	
+	
+	<inputColumn columnId="50" columnName="LCSHCNT1" duplicate="false" order="49" dataType="Integer" notNull="false" regex="([0-9]{0,5})">
+		<errorMessages>
+		<entry>
+			<key>NOT_NULL_INVALID</key>
+			<value>LCSHCNT1 cannot be blank or null</value>
+		</entry>
+		<entry>
+			<key>DATATYPE_INVALID</key>
+			<value>LCSHCNT1 should be in the valid format</value>
+		</entry>
+		</errorMessages>
+	</inputColumn>	
+	
+	<inputColumn columnId="51" columnName="LRTLCNT2" duplicate="false" order="50" dataType="Integer" notNull="false" regex="([0-9]{0,5})">
+		<errorMessages>
+		<entry>
+			<key>NOT_NULL_INVALID</key>
+			<value>LRTLCNT2 cannot be blank or null</value>
+		</entry>
+		<entry>
+			<key>DATATYPE_INVALID</key>
+			<value>LRTLCNT2 should be in the valid format</value>
+		</entry>
+		</errorMessages>
+	</inputColumn>
+	
+	<inputColumn columnId="52" columnName="LRTLCNT1" duplicate="false" order="51" dataType="Integer" notNull="false" regex="([0-9]{0,5})">
+		<errorMessages>
+		<entry>
+			<key>NOT_NULL_INVALID</key>
+			<value>LRTLCNT1 cannot be blank or null</value>
+		</entry>
+		<entry>
+			<key>DATATYPE_INVALID</key>
+			<value>LRTLCNT1 should be in the valid format</value>
+		</entry>
+		</errorMessages>
+	</inputColumn>	
+	
+	<inputColumn columnId="53" columnName="LCSHAMT2" duplicate="false" order="52" dataType="NegativeDecimal" notNull="false" regex="([[-/+][\d]]{0,14}([.][\d]{0,2})?)">
+		<errorMessages>
+		<entry>
+			<key>NOT_NULL_INVALID</key>
+			<value>LCSHAMT2 cannot be blank or null</value>
+		</entry>
+		<entry>
+			<key>DATATYPE_INVALID</key>
+			<value>LCSHAMT2 should be in the valid format</value>
+		</entry>
+		</errorMessages>
+	</inputColumn>	
+	
+	<inputColumn columnId="54" columnName="LCSHAMT1" duplicate="false" order="53" dataType="NegativeDecimal" notNull="false" regex="([[-/+][\d]]{0,14}([.][\d]{0,2})?)">
+		<errorMessages>
+		<entry>
+			<key>NOT_NULL_INVALID</key>
+			<value>LCSHAMT1 cannot be blank or null</value>
+		</entry>
+		<entry>
+			<key>DATATYPE_INVALID</key>
+			<value>LCSHAMT1 should be in the valid format</value>
+		</entry>
+		</errorMessages>
+	</inputColumn>
+	
+	<inputColumn columnId="55" columnName="LRTLAMT2" duplicate="false" order="54" dataType="NegativeDecimal" notNull="false" regex="([[-/+][\d]]{0,14}([.][\d]{0,2})?)">
+		<errorMessages>
+		<entry>
+			<key>NOT_NULL_INVALID</key>
+			<value>LRTLAMT2 cannot be blank or null</value>
+		</entry>
+		<entry>
+			<key>DATATYPE_INVALID</key>
+			<value>LRTLAMT2 should be in the valid format</value>
+		</entry>
+		</errorMessages>
+	</inputColumn>
+	
+	<inputColumn columnId="56" columnName="LRTLAMT1" duplicate="false" order="55" dataType="NegativeDecimal" notNull="false" regex="([[-/+][\d]]{0,14}([.][\d]{0,2})?)">
+		<errorMessages>
+		<entry>
+			<key>NOT_NULL_INVALID</key>
+			<value>LRTLAMT1 cannot be blank or null</value>
+		</entry>
+		<entry>
+			<key>DATATYPE_INVALID</key>
+			<value>LRTLAMT1 should be in the valid format</value>
+		</entry>
+		</errorMessages>
+	</inputColumn>		
+	
+	<inputColumn columnId="57" columnName="OCSHCNT2" duplicate="false" order="56" dataType="Integer" notNull="false" regex="([0-9]{0,5})">
+		<errorMessages>
+		<entry>
+			<key>NOT_NULL_INVALID</key>
+			<value>OCSHCNT2 cannot be blank or null</value>
+		</entry>
+		<entry>
+			<key>DATATYPE_INVALID</key>
+			<value>OCSHCNT2 should be in the valid format</value>
+		</entry>
+		</errorMessages>
+	</inputColumn>	
+	
+	<inputColumn columnId="58" columnName="OCSHCNT1" duplicate="false" order="57" dataType="Integer" notNull="false" regex="([0-9]{0,5})">
+		<errorMessages>
+		<entry>
+			<key>NOT_NULL_INVALID</key>
+			<value>OCSHCNT1 cannot be blank or null</value>
+		</entry>
+		<entry>
+			<key>DATATYPE_INVALID</key>
+			<value>OCSHCNT1 should be in the valid format</value>
+		</entry>
+		</errorMessages>
+	</inputColumn>	
+	
+	<inputColumn columnId="59" columnName="ORTLCNT2" duplicate="false" order="58" dataType="Integer" notNull="false" regex="([0-9]{0,5})">
+		<errorMessages>
+		<entry>
+			<key>NOT_NULL_INVALID</key>
+			<value>ORTLCNT2 cannot be blank or null</value>
+		</entry>
+		<entry>
+			<key>DATATYPE_INVALID</key>
+			<value>ORTLCNT2 should be in the valid format</value>
+		</entry>
+		</errorMessages>
+	</inputColumn>
+	
+	<inputColumn columnId="60" columnName="ORTLCNT1" duplicate="false" order="59" dataType="String" notNull="false" regex="([a-zA-Z0-9]{0,5})">
+		<errorMessages>
+		<entry>
+			<key>NOT_NULL_INVALID</key>
+			<value>ORTLCNT1 cannot be blank or null</value>
+		</entry>
+		<entry>
+			<key>DATATYPE_INVALID</key>
+			<value>ORTLCNT1 should be in the valid format</value>
+		</entry>
+		</errorMessages>
+	</inputColumn>	
+	
+	<inputColumn columnId="61" columnName="OCSHAMT2" duplicate="false" order="60" dataType="NegativeDecimal" notNull="false" regex="([[-/+][\d]]{0,14}([.][\d]{0,2})?)">
+		<errorMessages>
+		<entry>
+			<key>NOT_NULL_INVALID</key>
+			<value>OCSHAMT2 cannot be blank or null</value>
+		</entry>
+		<entry>
+			<key>DATATYPE_INVALID</key>
+			<value>OCSHAMT2 should be in the valid format</value>
+		</entry>
+		</errorMessages>
+	</inputColumn>	
+	
+	<inputColumn columnId="62" columnName="OCSHAMT1" duplicate="false" order="61" dataType="NegativeDecimal" notNull="false" regex="([[-/+][\d]]{0,14}([.][\d]{0,2})?)">
+		<errorMessages>
+		<entry>
+			<key>NOT_NULL_INVALID</key>
+			<value>OCSHAMT1 cannot be blank or null</value>
+		</entry>
+		<entry>
+			<key>DATATYPE_INVALID</key>
+			<value>OCSHAMT1 should be in the valid format</value>
+		</entry>
+		</errorMessages>
+	</inputColumn>		
+	
+	<inputColumn columnId="63" columnName="ORTLAMT2" duplicate="false" order="62" dataType="NegativeDecimal" notNull="false" regex="([[-/+][\d]]{0,14}([.][\d]{0,2})?)">
+		<errorMessages>
+		<entry>
+			<key>NOT_NULL_INVALID</key>
+			<value>ORTLAMT2 cannot be blank or null</value>
+		</entry>
+		<entry>
+			<key>DATATYPE_INVALID</key>
+			<value>ORTLAMT2 should be in the valid format</value>
+		</entry>
+		</errorMessages>
+	</inputColumn>	
+	
+	<inputColumn columnId="64" columnName="ORTLAMT1" duplicate="false" order="63" dataType="NegativeDecimal" notNull="false" regex="([[-/+][\d]]{0,14}([.][\d]{0,2})?)">
+		<errorMessages>
+		<entry>
+			<key>NOT_NULL_INVALID</key>
+			<value>ORTLAMT1 cannot be blank or null</value>
+		</entry>
+		<entry>
+			<key>DATATYPE_INVALID</key>
+			<value>ORTLAMT1 should be in the valid format</value>
+		</entry>
+		</errorMessages>
+	</inputColumn>		
+	
+	<inputColumn columnId="65" columnName="PAYAMT2" duplicate="false" order="64" dataType="NegativeDecimal" notNull="false" regex="([[-/+][\d]]{0,14}([.][\d]{0,2})?)">
+		<errorMessages>
+		<entry>
+			<key>NOT_NULL_INVALID</key>
+			<value>PAYAMT2 cannot be blank or null</value>
+		</entry>
+		<entry>
+			<key>DATATYPE_INVALID</key>
+			<value>PAYAMT2 should be in the valid format</value>
+		</entry>
+		</errorMessages>
+	</inputColumn>
+	
+	<inputColumn columnId="66" columnName="ANFEE" duplicate="false" order="65" dataType="NegativeDecimal" notNull="false" regex="([[-/+][\d]]{0,14}([.][\d]{0,2})?)">
+		<errorMessages>
+		<entry>
+			<key>NOT_NULL_INVALID</key>
+			<value>ANFEE cannot be blank or null</value>
+		</entry>
+		<entry>
+			<key>DATATYPE_INVALID</key>
+			<value>ANFEE should be in the valid format</value>
+		</entry>
+		</errorMessages>
+	</inputColumn>
+	
+	<inputColumn columnId="67" columnName="LATEFEE" duplicate="false" order="66" dataType="NegativeDecimal" notNull="false" regex="([[-/+][\d]]{0,14}([.][\d]{0,2})?)">
+		<errorMessages>
+		<entry>
+			<key>NOT_NULL_INVALID</key>
+			<value>LATEFEE cannot be blank or null</value>
+		</entry>
+		<entry>
+			<key>DATATYPE_INVALID</key>
+			<value>LATEFEE should be in the valid format</value>
+		</entry>
+		</errorMessages>
+	</inputColumn>
+	
+	<inputColumn columnId="68" columnName="CSHFEE" duplicate="false" order="67" dataType="NegativeDecimal" notNull="false" regex="([[-/+][\d]]{0,14}([.][\d]{0,2})?)">
+		<errorMessages>
+		<entry>
+			<key>NOT_NULL_INVALID</key>
+			<value>CSHFEE cannot be blank or null</value>
+		</entry>
+		<entry>
+			<key>DATATYPE_INVALID</key>
+			<value>CSHFEE should be in the valid format</value>
+		</entry>
+		</errorMessages>
+	</inputColumn>		
+	
+	<inputColumn columnId="69" columnName="OTHERFEE" duplicate="false" order="68" dataType="NegativeDecimal" notNull="false" regex="([[-/+][\d]]{0,14}([.][\d]{0,2})?)">
+		<errorMessages>
+		<entry>
+			<key>NOT_NULL_INVALID</key>
+			<value>OTHERFEE cannot be blank or null</value>
+		</entry>
+		<entry>
+			<key>DATATYPE_INVALID</key>
+			<value>OTHERFEE should be in the valid format</value>
+		</entry>
+		</errorMessages>
+	</inputColumn>
+	
+	<inputColumn columnId="70" columnName="BEHSCORE" duplicate="false" order="69" dataType="String" notNull="false" regex="([0-9]{0,6})">
+		<errorMessages>
+		<entry>
+			<key>NOT_NULL_INVALID</key>
+			<value>BEHSCORE cannot be blank or null</value>
+		</entry>
+		<entry>
+			<key>DATATYPE_INVALID</key>
+			<value>BEHSCORE should be in the valid format</value>
+		</entry>
+		</errorMessages>
+	</inputColumn>		
+	
+	<inputColumn columnId="71" columnName="BSCOREID" duplicate="false" order="70" dataType="String" notNull="false" regex="([0-9]{0,4})">
+		<errorMessages>
+		<entry>
+			<key>NOT_NULL_INVALID</key>
+			<value>BSCOREID cannot be blank or null</value>
+		</entry>
+		<entry>
+			<key>DATATYPE_INVALID</key>
+			<value>BSCOREID should be in the valid format</value>
+		</entry>
+		</errorMessages>
+	</inputColumn>	
+	
+	<inputColumn columnId="72" columnName="SCORE" duplicate="false" order="71" dataType="String" notNull="false" regex="([0-9]{0,6})">
+		<errorMessages>
+		<entry>
+			<key>NOT_NULL_INVALID</key>
+			<value>SCORE cannot be blank or null</value>
+		</entry>
+		<entry>
+			<key>DATATYPE_INVALID</key>
+			<value>SCORE should be in the valid format</value>
+		</entry>
+		</errorMessages>
+	</inputColumn>
+	
+	<inputColumn columnId="73" columnName="SCOREID" duplicate="false" order="72" dataType="String" notNull="false" regex="([0-9]{0,4})">
+		<errorMessages>
+		<entry>
+			<key>NOT_NULL_INVALID</key>
+			<value>SCOREID cannot be blank or null</value>
+		</entry>
+		<entry>
+			<key>DATATYPE_INVALID</key>
+			<value>SCOREID should be in the valid format</value>
+		</entry>
+		</errorMessages>
+	</inputColumn>
+	
+	<inputColumn columnId="74" columnName="RISKLEVL" duplicate="false" order="73" dataType="String" notNull="false" regex="([a-zA-Z0-9]{0,1})">
+		<errorMessages>
+		<entry>
+			<key>NOT_NULL_INVALID</key>
+			<value>RISKLEVL cannot be blank or null</value>
+		</entry>
+		<entry>
+			<key>DATATYPE_INVALID</key>
+			<value>RISKLEVL should be in the valid format</value>
+		</entry>
+		</errorMessages>
+	</inputColumn>		
+	
+	<inputColumn columnId="75" columnName="WO_PRN" duplicate="false" order="74" dataType="NegativeDecimal" notNull="false" regex="([[-/+][\d]]{0,14}([.][\d]{0,2})?)">
+		<errorMessages>
+		<entry>
+			<key>NOT_NULL_INVALID</key>
+			<value>WO_PRN cannot be blank or null</value>
+		</entry>
+		<entry>
+			<key>DATATYPE_INVALID</key>
+			<value>WO_PRN should be in the valid format</value>
+		</entry>
+		</errorMessages>
+	</inputColumn>	
+	
+	<inputColumn columnId="76" columnName="WO_INTR" duplicate="false" order="75" dataType="NegativeDecimal" notNull="false" regex="([[-/+][\d]]{0,14}([.][\d]{0,2})?)">
+		<errorMessages>
+		<entry>
+			<key>NOT_NULL_INVALID</key>
+			<value>WO_INTR cannot be blank or null</value>
+		</entry>
+		<entry>
+			<key>DATATYPE_INVALID</key>
+			<value>WO_INTR should be in the valid format</value>
+		</entry>
+		</errorMessages>
+	</inputColumn>
+	
+	<inputColumn columnId="77" columnName="WO_OTHER" duplicate="false" order="76" dataType="NegativeDecimal" notNull="false" regex="([[-/+][\d]]{0,14}([.][\d]{0,2})?)">
+		<errorMessages>
+		<entry>
+			<key>NOT_NULL_INVALID</key>
+			<value>WO_OTHER cannot be blank or null</value>
+		</entry>
+		<entry>
+			<key>DATATYPE_INVALID</key>
+			<value>WO_OTHER should be in the valid format</value>
+		</entry>
+		</errorMessages>
+	</inputColumn>
+	
+	<inputColumn columnId="78" columnName="REC_PRN" duplicate="false" order="77" dataType="NegativeDecimal" notNull="false" regex="([[-/+][\d]]{0,14}([.][\d]{0,2})?)">
+		<errorMessages>
+		<entry>
+			<key>NOT_NULL_INVALID</key>
+			<value>REC_PRN cannot be blank or null</value>
+		</entry>
+		<entry>
+			<key>DATATYPE_INVALID</key>
+			<value>REC_PRN should be in the valid format</value>
+		</entry>
+		</errorMessages>
+	</inputColumn>	
+	
+	<inputColumn columnId="79" columnName="REC_INTR" duplicate="false" order="78" dataType="NegativeDecimal" notNull="false" regex="([[-/+][\d]]{0,14}([.][\d]{0,2})?)">
+		<errorMessages>
+		<entry>
+			<key>NOT_NULL_INVALID</key>
+			<value>REC_INTR cannot be blank or null</value>
+		</entry>
+		<entry>
+			<key>DATATYPE_INVALID</key>
+			<value>REC_INTR should be in the valid format</value>
+		</entry>
+		</errorMessages>
+	</inputColumn>		
+	
+	<inputColumn columnId="80" columnName="REC_OTH" duplicate="false" order="79" dataType="NegativeDecimal" notNull="false" regex="([[-/+][\d]]{0,14}([.][\d]{0,2})?)">
+		<errorMessages>
+		<entry>
+			<key>NOT_NULL_INVALID</key>
+			<value>REC_OTH cannot be blank or null</value>
+		</entry>
+		<entry>
+			<key>DATATYPE_INVALID</key>
+			<value>REC_OTH should be in the valid format</value>
+		</entry>
+		</errorMessages>
+	</inputColumn>
+	
+	<inputColumn columnId="81" columnName="BLOCK2" duplicate="false" order="80" dataType="String" notNull="false" regex="([a-zA-Z0-9]{0,1})">
+		<errorMessages>
+		<entry>
+			<key>NOT_NULL_INVALID</key>
+			<value>BLOCK2 cannot be blank or null</value>
+		</entry>
+		<entry>
+			<key>DATATYPE_INVALID</key>
+			<value>BLOCK2 should be in the valid format</value>
+		</entry>
+		</errorMessages>
+	</inputColumn>
+	
+	<inputColumn columnId="82" columnName="DATEBLK2" duplicate="false" order="81" dataType="String" notNull="false" regex="((((19|20)\d\d)-(0[1-9]|1[0-2])-(0[1-9]|[12][0-9]|3[01]))?)">
+		<errorMessages>
+		<entry>
+			<key>NOT_NULL_INVALID</key>
+			<value>DATEBLK2 cannot be blank or null</value>
+		</entry>
+		<entry>
+			<key>DATATYPE_INVALID</key>
+			<value>DATEBLK2 should be in the valid format</value>
+		</entry>
+		</errorMessages>
+	</inputColumn>
+	
+	<inputColumn columnId="83" columnName="ALTBLK2" duplicate="false" order="82" dataType="String" notNull="false" regex="([a-zA-Z0-9]{0,1})">
+		<errorMessages>
+		<entry>
+			<key>NOT_NULL_INVALID</key>
+			<value>ALTBLK2 cannot be blank or null</value>
+		</entry>
+		<entry>
+			<key>DATATYPE_INVALID</key>
+			<value>ALTBLK2 should be in the valid format</value>
+		</entry>
+		</errorMessages>
+	</inputColumn>
+	
+	<inputColumn columnId="84" columnName="CLSCOD2" duplicate="false" order="83" dataType="String" notNull="false" regex="([a-zA-Z0-9]{0,2})">
+		<errorMessages>
+		<entry>
+			<key>NOT_NULL_INVALID</key>
+			<value>CLSCOD2 cannot be blank or null</value>
+		</entry>
+		<entry>
+			<key>DATATYPE_INVALID</key>
+			<value>CLSCOD2 should be in the valid format</value>
+		</entry>
+		</errorMessages>
+	</inputColumn>
+	
+	<inputColumn columnId="85" columnName="LCLSCOD2" duplicate="false" order="84" dataType="String" notNull="false" regex="([a-zA-Z0-9]{0,2})">
+		<errorMessages>
+		<entry>
+			<key>NOT_NULL_INVALID</key>
+			<value>LCLSCOD2 cannot be blank or null</value>
+		</entry>
+		<entry>
+			<key>DATATYPE_INVALID</key>
+			<value>LCLSCOD2 should be in the valid format</value>
+		</entry>
+		</errorMessages>
+	</inputColumn>
+	
+	<inputColumn columnId="86" columnName="LCLSCOD1" duplicate="false" order="85" dataType="String" notNull="false" regex="([a-zA-Z0-9]{0,2})">
+		<errorMessages>
+		<entry>
+			<key>NOT_NULL_INVALID</key>
+			<value>LCLSCOD1 cannot be blank or null</value>
+		</entry>
+		<entry>
+			<key>DATATYPE_INVALID</key>
+			<value>LCLSCOD1 should be in the valid format</value>
+		</entry>
+		</errorMessages>
+	</inputColumn>
+	
+	<inputColumn columnId="87" columnName="STATUS2" duplicate="false" order="86" dataType="String" notNull="false" regex="([a-zA-Z0-9]{0,1})">
+		<errorMessages>
+		<entry>
+			<key>NOT_NULL_INVALID</key>
+			<value>STATUS2 cannot be blank or null</value>
+		</entry>
+		<entry>
+			<key>DATATYPE_INVALID</key>
+			<value>STATUS2 should be in the valid format</value>
+		</entry>
+		</errorMessages>
+	</inputColumn>
+	
+	<inputColumn columnId="88" columnName="DATEST2" duplicate="false" order="87" dataType="String" notNull="false" regex="((((19|20)\d\d)-(0[1-9]|1[0-2])-(0[1-9]|[12][0-9]|3[01]))?)">
+		<errorMessages>
+		<entry>
+			<key>NOT_NULL_INVALID</key>
+			<value>DATEST2 cannot be blank or null</value>
+		</entry>
+		<entry>
+			<key>DATATYPE_INVALID</key>
+			<value>DATEST2 should be in the valid format</value>
+		</entry>
+		</errorMessages>
+	</inputColumn>	
+	
+	<inputColumn columnId="89" columnName="DATEST1" duplicate="false" order="88" dataType="String" notNull="false" regex="((((19|20)\d\d)-(0[1-9]|1[0-2])-(0[1-9]|[12][0-9]|3[01]))?)">
+		<errorMessages>
+		<entry>
+			<key>NOT_NULL_INVALID</key>
+			<value>DATEST1 cannot be blank or null</value>
+		</entry>
+		<entry>
+			<key>DATATYPE_INVALID</key>
+			<value>DATEST1 should be in the valid format</value>
+		</entry>
+		</errorMessages>
+	</inputColumn>	
+	
+	<inputColumn columnId="90" columnName="usercde1" duplicate="false" order="89"  dataType="String" notNull="false" regex="([a-zA-Z0-9]{0,2})">
+		<errorMessages>
+		<entry>
+			<key>NOT_NULL_INVALID</key>
+			<value>usercde1 cannot be blank or null</value>
+		</entry>
+		<entry>
+			<key>DATATYPE_INVALID</key>
+			<value>usercde1 should be in the valid format</value>
+		</entry>
+		</errorMessages>
+	</inputColumn>
+	
+	<inputColumn columnId="91" columnName="usercde2" duplicate="false" order="90"  dataType="String" notNull="false" regex="([a-zA-Z0-9]{0,2})">
+		<errorMessages>
+		<entry>
+			<key>NOT_NULL_INVALID</key>
+			<value>usercde2 cannot be blank or null</value>
+		</entry>
+		<entry>
+			<key>DATATYPE_INVALID</key>
+			<value>usercde2 should be in the valid format</value>
+		</entry>
+		</errorMessages>
+	</inputColumn>			
+
+	<inputColumn columnId="92" columnName="usercde3" duplicate="false" order="91" dataType="String" notNull="false" regex="([a-zA-Z0-9]{0,2})">
+		<errorMessages>
+		<entry>
+			<key>NOT_NULL_INVALID</key>
+			<value>usercde3 cannot be blank or null</value>
+		</entry>
+		<entry>
+			<key>DATATYPE_INVALID</key>
+			<value>usercde3 should be in the valid format</value>
+		</entry>
+		</errorMessages>
+	</inputColumn>	
+	
+	<inputColumn columnId="93" columnName="DEVNCODE" duplicate="false" order="92" dataType="String" notNull="false" regex="([a-zA-Z0-9]{0,2})">
+		<errorMessages>
+		<entry>
+			<key>NOT_NULL_INVALID</key>
+			<value>DEVNCODE cannot be blank or null</value>
+		</entry>
+		<entry>
+			<key>DATATYPE_INVALID</key>
+			<value>DEVNCODE should be in the valid format</value>
+		</entry>
+		</errorMessages>
+	</inputColumn>		
+	
+	<inputColumn columnId="94" columnName="TEMPCLT" duplicate="false" order="93" dataType="NegativeDecimal" notNull="false" regex="([[-/+][\d]]{0,13}([.][\d]{0,2})?)">
+		<errorMessages>
+		<entry>
+			<key>NOT_NULL_INVALID</key>
+			<value>TEMPCLT cannot be blank or null</value>
+		</entry>
+		<entry>
+			<key>DATATYPE_INVALID</key>
+			<value>TEMPCLT should be in the valid format</value>
+		</entry>
+		</errorMessages>
+	</inputColumn>
+	
+	<inputColumn columnId="95" columnName="TEMPIND" duplicate="false" order="94" dataType="String" notNull="false" regex="([a-zA-Z0-9]{0,1})">
+		<errorMessages>
+		<entry>
+			<key>NOT_NULL_INVALID</key>
+			<value>TEMPIND cannot be blank or null</value>
+		</entry>
+		<entry>
+			<key>DATATYPE_INVALID</key>
+			<value>TEMPIND should be in the valid format</value>
+		</entry>
+		</errorMessages>
+	</inputColumn>		
+	
+	<inputColumn columnId="96" columnName="achind" duplicate="false" order="95" dataType="String" notNull="false" regex="([a-zA-Z0-9]{1})">
+		<errorMessages>
+		<entry>
+			<key>NOT_NULL_INVALID</key>
+			<value>achind cannot be blank or null</value>
+		</entry>
+		<entry>
+			<key>DATATYPE_INVALID</key>
+			<value>achind should be in the valid format</value>
+		</entry>
+		</errorMessages>
+	</inputColumn>
+	
+	<inputColumn columnId="97" columnName="FEECODE" duplicate="false" order="96" dataType="String" notNull="false" regex="([a-zA-Z0-9]{0,1})">
+		<errorMessages>
+		<entry>
+			<key>NOT_NULL_INVALID</key>
+			<value>FEECODE cannot be blank or null</value>
+		</entry>
+		<entry>
+			<key>DATATYPE_INVALID</key>
+			<value>FEECODE should be in the valid format</value>
+		</entry>
+		</errorMessages>
+	</inputColumn>
+	
+	<inputColumn columnId="98" columnName="DATEEXP2" duplicate="true" order="97" dataType="String" notNull="false" regex="((((19|20)\d\d)-(0[1-9]|1[0-2])-(0[1-9]|[12][0-9]|3[01]))?)">
+		<errorMessages>
+		<entry>
+			<key>NOT_NULL_INVALID</key>
+			<value>DATEEXP2 cannot be blank or null</value>
+		</entry>
+		<entry>
+			<key>DATATYPE_INVALID</key>
+			<value>DATEEXP2 should be in the valid format</value>
+		</entry>
+		</errorMessages>
+	</inputColumn>		
+	
+	<inputColumn columnId="99" columnName="DATEFEE" duplicate="true" order="98" dataType="String" notNull="false" regex="((((19|20)\d\d)-(0[1-9]|1[0-2])-(0[1-9]|[12][0-9]|3[01]))?)">
+		<errorMessages>
+		<entry>
+			<key>NOT_NULL_INVALID</key>
+			<value>DATEFEE cannot be blank or null</value>
+		</entry>
+		<entry>
+			<key>DATATYPE_INVALID</key>
+			<value>DATEFEE should be in the valid format</value>
+		</entry>
+		</errorMessages>
+	</inputColumn>		
+	
+	<inputColumn columnId="100" columnName="DATERTL" duplicate="false" order="99" dataType="String" notNull="false" regex="((((19|20)\d\d)-(0[1-9]|1[0-2])-(0[1-9]|[12][0-9]|3[01]))?)">
+		<errorMessages>
+		<entry>
+			<key>NOT_NULL_INVALID</key>
+			<value>DATERTL cannot be blank or null</value>
+		</entry>
+		<entry>
+			<key>DATATYPE_INVALID</key>
+			<value>DATERTL should be in the valid format</value>
+		</entry>
+		</errorMessages>
+	</inputColumn>			
+	
+	<inputColumn columnId="101" columnName="DATECSH" duplicate="false" order="100" dataType="String" notNull="false" regex="((((19|20)\d\d)-(0[1-9]|1[0-2])-(0[1-9]|[12][0-9]|3[01]))?)">
+	<errorMessages>
+		<entry>
+			<key>NOT_NULL_INVALID</key>
+			<value>DATECSH cannot be blank or null</value>
+		</entry>
+		<entry>
+			<key>DATATYPE_INVALID</key>
+			<value>DATECSH should be in the valid format</value>
+		</entry>
+		</errorMessages>
+	</inputColumn>
+	
+	<inputColumn columnId="102" columnName="DATETMPF" duplicate="false" order="101" dataType="String" notNull="false" regex="((((19|20)\d\d)-(0[1-9]|1[0-2])-(0[1-9]|[12][0-9]|3[01]))?)">
+	<errorMessages>
+		<entry>
+			<key>NOT_NULL_INVALID</key>
+			<value>DATETMPF cannot be blank or null</value>
+		</entry>
+		<entry>
+			<key>DATATYPE_INVALID</key>
+			<value>DATETMPF should be in the valid format</value>
+		</entry>
+		</errorMessages>
+	</inputColumn>
+	
+	<inputColumn columnId="103" columnName="DATETMPT" duplicate="false" order="102" dataType="String" notNull="false" regex="((((19|20)\d\d)-(0[1-9]|1[0-2])-(0[1-9]|[12][0-9]|3[01]))?)">
+		<errorMessages>
+		<entry>
+			<key>NOT_NULL_INVALID</key>
+			<value>DATETMPT cannot be blank or null</value>
+		</entry>
+		<entry>
+			<key>DATATYPE_INVALID</key>
+			<value>DATETMPT should be in the valid format</value>
+		</entry>
+		</errorMessages>
+	</inputColumn>
+	
+	<inputColumn columnId="104" columnName="availclt" duplicate="false" order="103" dataType="NegativeDecimal" notNull="false" regex="([[-/+][\d]]{0,11})">
+		<errorMessages>
+		<entry>
+			<key>NOT_NULL_INVALID</key>
+			<value>availclt cannot be blank or null</value>
+		</entry>
+		<entry>
+			<key>DATATYPE_INVALID</key>
+			<value>availclt should be in the valid format</value>
+		</entry>
+		</errorMessages>
+	</inputColumn>
+	
+	<inputColumn columnId="105" columnName="IDNO" duplicate="false" order="104" dataType="String" notNull="false" regex="([a-zA-Z0-9]{0,10})">
+		<errorMessages>
+		<entry>
+			<key>NOT_NULL_INVALID</key>
+			<value>IDNO cannot be blank or null</value>
+		</entry>
+		<entry>
+			<key>DATATYPE_INVALID</key>
+			<value>IDNO should be in the valid format</value>
+		</entry>
+		</errorMessages>
+	</inputColumn>
+	
+	<inputColumn columnId="106" columnName="REVIND" duplicate="false" order="105" dataType="String" notNull="false" regex="([a-zA-Z0-9]{0,1})">
+		<errorMessages>
+		<entry>
+			<key>NOT_NULL_INVALID</key>
+			<value>REVIND cannot be blank or null</value>
+		</entry>
+		<entry>
+			<key>DATATYPE_INVALID</key>
+			<value>REVIND should be in the valid format</value>
+		</entry>
+		</errorMessages>
+	</inputColumn>
+
+	<inputColumn columnId="107" columnName="ACCTIND" duplicate="false" order="106" dataType="String" notNull="false" regex="([a-zA-Z0-9 ]{0,15})">
+		<errorMessages>
+		<entry>
+			<key>NOT_NULL_INVALID</key>
+			<value>ACCTIND cannot be blank or null</value>
+		</entry>
+		<entry>
+			<key>DATATYPE_INVALID</key>
+			<value>ACCTIND should be in the valid format</value>
+		</entry>
+		</errorMessages>
+	</inputColumn>
+	
+	<inputColumn columnId="108" columnName="LCYCBLNC" duplicate="false" order="107" dataType="NegativeDecimal" notNull="false" regex="([[-/+][\d]]{0,14}([.][\d]{0,2})?)">
+		<errorMessages>
+		<entry>
+			<key>NOT_NULL_INVALID</key>
+			<value>LCYCBLNC cannot be blank or null</value>
+		</entry>
+		<entry>
+			<key>DATATYPE_INVALID</key>
+			<value>LCYCBLNC should be in the valid format</value>
+		</entry>
+		</errorMessages>
+	</inputColumn>
+	
+	<inputColumn columnId="109" columnName="LMONBLNC" duplicate="false" order="108" dataType="NegativeDecimal" notNull="false" regex="([[-/+][\d]]{0,14}([.][\d]{0,2})?)">
+		<errorMessages>
+		<entry>
+			<key>NOT_NULL_INVALID</key>
+			<value>LMONBLNC cannot be blank or null</value>
+		</entry>
+		<entry>
+			<key>DATATYPE_INVALID</key>
+			<value>LMONBLNC should be in the valid format</value>
+		</entry>
+		</errorMessages>
+	</inputColumn>
+	
+	<inputColumn columnId="110" columnName="LBEHSCOR" duplicate="false" order="109" dataType="Integer" notNull="false" regex="([0-9]{0,6})">
+		<errorMessages>
+		<entry>
+			<key>NOT_NULL_INVALID</key>
+			<value>LBEHSCOR cannot be blank or null</value>
+		</entry>
+		<entry>
+			<key>DATATYPE_INVALID</key>
+			<value>LBEHSCOR should be in the valid format</value>
+		</entry>
+		</errorMessages>
+	</inputColumn>
+	
+	<inputColumn columnId="111" columnName="LBSCORID" duplicate="false" order="110" dataType="Integer" notNull="false" regex="([0-9]{0,4})">
+		<errorMessages>
+		<entry>
+			<key>NOT_NULL_INVALID</key>
+			<value>LBSCORID cannot be blank or null</value>
+		</entry>
+		<entry>
+			<key>DATATYPE_INVALID</key>
+			<value>LBSCORID should be in the valid format</value>
+		</entry>
+		</errorMessages>
+	</inputColumn>
+	
+	<inputColumn columnId="112" columnName="BS6M" duplicate="false" order="111" dataType="Integer" notNull="false" regex="([0-9]{0,6})">
+		<errorMessages>
+		<entry>
+			<key>NOT_NULL_INVALID</key>
+			<value>BS6M cannot be blank or null</value>
+		</entry>
+		<entry>
+			<key>DATATYPE_INVALID</key>
+			<value>BS6M should be in the valid format</value>
+		</entry>
+		</errorMessages>
+	</inputColumn>
+	
+	<inputColumn columnId="113" columnName="BSID6M" duplicate="false" order="112" dataType="Integer" notNull="false" regex="([0-9]{0,4})">
+		<errorMessages>
+		<entry>
+			<key>NOT_NULL_INVALID</key>
+			<value>BSID6M cannot be blank or null</value>
+		</entry>
+		<entry>
+			<key>DATATYPE_INVALID</key>
+			<value>BSID6M should be in the valid format</value>
+		</entry>
+		</errorMessages>
+	</inputColumn>
+	
+	<inputColumn columnId="114" columnName="BS12M" duplicate="false" order="113" dataType="Integer" notNull="false" regex="([0-9]{0,6})">
+		<errorMessages>
+		<entry>
+			<key>NOT_NULL_INVALID</key>
+			<value>BS12M cannot be blank or null</value>
+		</entry>
+		<entry>
+			<key>DATATYPE_INVALID</key>
+			<value>BS12M should be in the valid format</value>
+		</entry>
+		</errorMessages>
+	</inputColumn>
+	
+	<inputColumn columnId="115" columnName="BSID12M" duplicate="false" order="114" dataType="Integer" notNull="false" regex="([0-9]{0,4})">
+		<errorMessages>
+		<entry>
+			<key>NOT_NULL_INVALID</key>
+			<value>BSID12M cannot be blank or null</value>
+		</entry>
+		<entry>
+			<key>DATATYPE_INVALID</key>
+			<value>BSID12M should be in the valid format</value>
+		</entry>
+		</errorMessages>
+	</inputColumn>
+	
+	<inputColumn columnId="116" columnName="MONBLNC" duplicate="false" order="115" dataType="Decimal" notNull="false" regex="([[-/+][\d]]{0,15}([.][\d]{0,2})?)">
+		<errorMessages>
+		<entry>
+			<key>NOT_NULL_INVALID</key>
+			<value>MONBLNC cannot be blank or null</value>
+		</entry>
+		<entry>
+			<key>DATATYPE_INVALID</key>
+			<value>MONBLNC should be in the valid format</value>
+		</entry>
+		</errorMessages>
+	</inputColumn>
+	
+	<inputColumn columnId="117" columnName="DCNT1" duplicate="false" order="116" dataType="Integer" notNull="false" regex="([0-9]{0,3})">
+		<errorMessages>
+		<entry>
+			<key>NOT_NULL_INVALID</key>
+			<value>DCNT1 cannot be blank or null</value>
+		</entry>
+		<entry>
+			<key>DATATYPE_INVALID</key>
+			<value>DCNT1 should be in the valid format</value>
+		</entry>
+		</errorMessages>
+	</inputColumn>
+	
+	<inputColumn columnId="118" columnName="DCNT2" duplicate="false" order="117" dataType="Integer" notNull="false" regex="([0-9]{0,3})">
+		<errorMessages>
+		<entry>
+			<key>NOT_NULL_INVALID</key>
+			<value>DCNT2 cannot be blank or null</value>
+		</entry>
+		<entry>
+			<key>DATATYPE_INVALID</key>
+			<value>DCNT2 should be in the valid format</value>
+		</entry>
+		</errorMessages>
+	</inputColumn>
+	
+	<inputColumn columnId="119" columnName="DCNT3" duplicate="false" order="118" dataType="Integer" notNull="false" regex="([0-9]{0,3})">
+		<errorMessages>
+		<entry>
+			<key>NOT_NULL_INVALID</key>
+			<value>DCNT3 cannot be blank or null</value>
+		</entry>
+		<entry>
+			<key>DATATYPE_INVALID</key>
+			<value>DCNT3 should be in the valid format</value>
+		</entry>
+		</errorMessages>
+	</inputColumn>
+	
+	<inputColumn columnId="120" columnName="DCNT4" duplicate="false" order="119" dataType="Integer" notNull="false" regex="([0-9]{0,3})">
+		<errorMessages>
+		<entry>
+			<key>NOT_NULL_INVALID</key>
+			<value>DCNT4 cannot be blank or null</value>
+		</entry>
+		<entry>
+			<key>DATATYPE_INVALID</key>
+			<value>DCNT4 should be in the valid format</value>
+		</entry>
+		</errorMessages>
+	</inputColumn>
+	
+	<inputColumn columnId="121" columnName="DCNT5" duplicate="false" order="120" dataType="Integer" notNull="false" regex="([0-9]{0,3})">
+		<errorMessages>
+		<entry>
+			<key>NOT_NULL_INVALID</key>
+			<value>DCNT5 cannot be blank or null</value>
+		</entry>
+		<entry>
+			<key>DATATYPE_INVALID</key>
+			<value>DCNT5 should be in the valid format</value>
+		</entry>
+		</errorMessages>
+	</inputColumn>
+	
+	<inputColumn columnId="122" columnName="DCNT6" duplicate="false" order="121" dataType="Integer" notNull="false" regex="([0-9]{0,3})">
+		<errorMessages>
+		<entry>
+			<key>NOT_NULL_INVALID</key>
+			<value>DCNT6 cannot be blank or null</value>
+		</entry>
+		<entry>
+			<key>DATATYPE_INVALID</key>
+			<value>DCNT6 should be in the valid format</value>
+		</entry>
+		</errorMessages>
+	</inputColumn>
+
+	<inputColumn columnId="123" columnName="DCNT7" duplicate="false" order="122" dataType="Integer" notNull="false" regex="([0-9]{0,4})">
+		<errorMessages>
+		<entry>
+			<key>NOT_NULL_INVALID</key>
+			<value>DCNT7 cannot be blank or null</value>
+		</entry>
+		<entry>
+			<key>DATATYPE_INVALID</key>
+			<value>DCNT7 should be in the valid format</value>
+		</entry>
+		</errorMessages>
+	</inputColumn>	
+	
+	<inputColumn columnId="124" columnName="DCNT8" duplicate="false" order="123" dataType="Integer" notNull="false" regex="([0-9]{0,3})">
+		<errorMessages>
+		<entry>
+			<key>NOT_NULL_INVALID</key>
+			<value>DCNT8 cannot be blank or null</value>
+		</entry>
+		<entry>
+			<key>DATATYPE_INVALID</key>
+			<value>DCNT8 should be in the valid format</value>
+		</entry>
+		</errorMessages>
+	</inputColumn>	
+	
+	<inputColumn columnId="125" columnName="creatdte" duplicate="false" order="124" dataType="String" notNull="false" regex="((((19|20)\d\d)-(0[1-9]|1[0-2])-(0[1-9]|[12][0-9]|3[01]))?)">
+		<errorMessages>
+		<entry>
+			<key>NOT_NULL_INVALID</key>
+			<value>creatdte cannot be blank or null</value>
+		</entry>
+		<entry>
+			<key>DATATYPE_INVALID</key>
+			<value>creatdte should be in the valid format</value>
+		</entry>
+		</errorMessages>
+	</inputColumn>	
+	
+	<inputColumn columnId="126" columnName="xfer_eff" duplicate="false" order="125" dataType="String" notNull="false" regex="((((19|20)\d\d)-(0[1-9]|1[0-2])-(0[1-9]|[12][0-9]|3[01]))?)">
+		<errorMessages>
+		<entry>
+			<key>NOT_NULL_INVALID</key>
+			<value>xfer_eff cannot be blank or null</value>
+		</entry>
+		<entry>
+			<key>DATATYPE_INVALID</key>
+			<value>xfer_eff should be in the valid format</value>
+		</entry>
+		</errorMessages>
+	</inputColumn>	
+	
+	<inputColumn columnId="127" columnName="pinregen" duplicate="false" order="126" dataType="String" notNull="false" regex="((((19|20)\d\d)-(0[1-9]|1[0-2])-(0[1-9]|[12][0-9]|3[01]))?)">
+		<errorMessages>
+		<entry>
+			<key>NOT_NULL_INVALID</key>
+			<value>pinregen cannot be blank or null</value>
+		</entry>
+		<entry>
+			<key>DATATYPE_INVALID</key>
+			<value>pinregen should be in the valid format</value>
+		</entry>
+		</errorMessages>
+	</inputColumn>
+	
+	<inputColumn columnId="128" columnName="inc_ind" duplicate="false" order="127" dataType="String" notNull="false" regex="([a-zA-Z0-9]{0,2})">
+		<errorMessages>
+		<entry>
+			<key>NOT_NULL_INVALID</key>
+			<value>inc_ind cannot be blank or null</value>
+		</entry>
+		<entry>
+			<key>DATATYPE_INVALID</key>
+			<value>inc_ind should be in the valid format</value>
+		</entry>
+		</errorMessages>
+	</inputColumn>		
+	
+	<inputColumn columnId="129" columnName="eb_oinc" duplicate="false" order="128" dataType="Integer" notNull="false" regex="([0-9]{0,12})">
+		<errorMessages>
+		<entry>
+			<key>NOT_NULL_INVALID</key>
+			<value>eb_oinc cannot be blank or null</value>
+		</entry>
+		<entry>
+			<key>DATATYPE_INVALID</key>
+			<value>eb_oinc should be in the valid format</value>
+		</entry>
+		</errorMessages>
+	</inputColumn>	
+	
+	<inputColumn columnId="130" columnName="oinc_ind" duplicate="false" order="129" dataType="String" notNull="false" regex="([a-zA-Z0-9]{0,1})">
+		<errorMessages>
+		<entry>
+			<key>NOT_NULL_INVALID</key>
+			<value>oinc_ind cannot be blank or null</value>
+		</entry>
+		<entry>
+			<key>DATATYPE_INVALID</key>
+			<value>oinc_ind should be in the valid format</value>
+		</entry>
+		</errorMessages>
+	</inputColumn>	
+	
+	<inputColumn columnId="131" columnName="cre_scor" duplicate="false" order="130" dataType="Integer" notNull="false" regex="([0-9]{0,6})">
+		<errorMessages>
+		<entry>
+			<key>NOT_NULL_INVALID</key>
+			<value>cre_scor cannot be blank or null</value>
+		</entry>
+		<entry>
+			<key>DATATYPE_INVALID</key>
+			<value>cre_scor should be in the valid format</value>
+		</entry>
+		</errorMessages>
+	</inputColumn>	
+	
+	<inputColumn columnId="132" columnName="rev_scor" duplicate="false" order="131" dataType="NegativeDecimal" notNull="false" regex="([0-9]{0,6})">
+		<errorMessages>
+		<entry>
+			<key>NOT_NULL_INVALID</key>
+			<value>rev_scor cannot be blank or null</value>
+		</entry>
+		<entry>
+			<key>DATATYPE_INVALID</key>
+			<value>rev_scor should be in the valid format</value>
+		</entry>
+		</errorMessages>
+	</inputColumn>	
+	
+	<inputColumn columnId="133" columnName="score_id" duplicate="false" order="132" dataType="String" notNull="false" regex="([a-zA-Z0-9]{0,1})">
+		<errorMessages>
+		<entry>
+			<key>NOT_NULL_INVALID</key>
+			<value>score_id cannot be blank or null</value>
+		</entry>
+		<entry>
+			<key>DATATYPE_INVALID</key>
+			<value>score_id should be in the valid format</value>
+		</entry>
+		</errorMessages>
+	</inputColumn>
+	
+	<inputColumn columnId="134" columnName="tte" duplicate="false" order="133" dataType="Integer" notNull="false" regex="([0-9]{0,12})">
+		<errorMessages>
+		<entry>
+			<key>NOT_NULL_INVALID</key>
+			<value>tte cannot be blank or null</value>
+		</entry>
+		<entry>
+			<key>DATATYPE_INVALID</key>
+			<value>tte should be in the valid format</value>
+		</entry>
+		</errorMessages>
+	</inputColumn>
+	
+	<inputColumn columnId="135" columnName="mue" duplicate="false" order="134" dataType="Integer" notNull="false" regex="([0-9]{0,12})">
+		<errorMessages>
+		<entry>
+			<key>NOT_NULL_INVALID</key>
+			<value>mue cannot be blank or null</value>
+		</entry>
+		<entry>
+			<key>DATATYPE_INVALID</key>
+			<value>mue should be in the valid format</value>
+		</entry>
+		</errorMessages>
+	</inputColumn>
+	
+	<inputColumn columnId="136" columnName="avaline" duplicate="false" order="135" dataType="Integer" notNull="false" regex="([0-9]{0,12})">
+		<errorMessages>
+		<entry>
+			<key>NOT_NULL_INVALID</key>
+			<value>avaline cannot be blank or null</value>
+		</entry>
+		<entry>
+			<key>DATATYPE_INVALID</key>
+			<value>avaline should be in the valid format</value>
+		</entry>
+		</errorMessages>
+	</inputColumn>	
+	
+	<inputColumn columnId="137" columnName="member_since_date" duplicate="false" order="136" dataType="String" notNull="false" regex="((((19|20)\d\d)-(0[1-9]|1[0-2])-(0[1-9]|[12][0-9]|3[01]))?)">
+		<errorMessages>
+		<entry>
+			<key>NOT_NULL_INVALID</key>
+			<value>member_since_date cannot be blank or null</value>
+		</entry>
+		<entry>
+			<key>DATATYPE_INVALID</key>
+			<value>member_since_date should be in the valid format</value>
+		</entry>
+		</errorMessages>
+	</inputColumn>		
+	
+	<inputColumn columnId="138" columnName="address_chg_dte" duplicate="false" order="137" dataType="String" notNull="false" regex="((((19|20)\d\d)-(0[1-9]|1[0-2])-(0[1-9]|[12][0-9]|3[01]))?)">
+		<errorMessages>
+		<entry>
+			<key>NOT_NULL_INVALID</key>
+			<value>address_chg_dte cannot be blank or null</value>
+		</entry>
+		<entry>
+			<key>DATATYPE_INVALID</key>
+			<value>address_chg_dte should be in the valid format</value>
+		</entry>
+		</errorMessages>
+	</inputColumn>
+	
+	<inputColumn columnId="139" columnName="ci_rate" duplicate="false" order="138" dataType="NegativeDecimal" notNull="false" regex="([[-/+][\d]]{0,10}([.][\d]{0,7})?)">
+		<errorMessages>
+		<entry>
+			<key>NOT_NULL_INVALID</key>
+			<value>ci_rate cannot be blank or null</value>
+		</entry>
+		<entry>
+			<key>DATATYPE_INVALID</key>
+			<value>ci_rate should be in the valid format</value>
+		</entry>
+		</errorMessages>
+	</inputColumn>	
+	
+	<inputColumn columnId="140" columnName="ri_rate" duplicate="false" order="139" dataType="NegativeDecimal" notNull="false" regex="([[-/+][\d]]{0,10}([.][\d]{0,7})?)">
+		<errorMessages>
+		<entry>
+			<key>NOT_NULL_INVALID</key>
+			<value>ri_rate cannot be blank or null</value>
+		</entry>
+		<entry>
+			<key>DATATYPE_INVALID</key>
+			<value>ri_rate should be in the valid format</value>
+		</entry>
+		</errorMessages>
+	</inputColumn>			
+	
+	<inputColumn columnId="141" columnName="cash_accr_intr" duplicate="false" order="140" dataType="NegativeDecimal" notNull="false" regex="([[-/+][\d]]{0,14}([.][\d]{0,4})?)">
+		<errorMessages>
+		<entry>
+			<key>NOT_NULL_INVALID</key>
+			<value>cash_accr_intr cannot be blank or null</value>
+		</entry>
+		<entry>
+			<key>DATATYPE_INVALID</key>
+			<value>cash_accr_intr should be in the valid format</value>
+		</entry>
+		</errorMessages>
+	</inputColumn>
+	
+	<inputColumn columnId="142" columnName="rtl_accr_intr" duplicate="false" order="141" dataType="NegativeDecimal" notNull="false" regex="([[-/+][\d]]{0,14}([.][\d]{0,4})?)">
+		<errorMessages>
+		<entry>
+			<key>NOT_NULL_INVALID</key>
+			<value>rtl_accr_intr cannot be blank or null</value>
+		</entry>
+		<entry>
+			<key>DATATYPE_INVALID</key>
+			<value>rtl_accr_intr should be in the valid format</value>
+		</entry>
+		</errorMessages>
+	</inputColumn>
+	
+	<inputColumn columnId="143" columnName="CSHINTR" duplicate="false" order="142" dataType="NegativeDecimal" notNull="false" regex="([[-/+][\d]]{0,14}([.][\d]{0,2})?)">
+		<errorMessages>
+		<entry>
+			<key>NOT_NULL_INVALID</key>
+			<value>CSHINTR cannot be blank or null</value>
+		</entry>
+		<entry>
+			<key>DATATYPE_INVALID</key>
+			<value>CSHINTR should be in the valid format</value>
+		</entry>
+		</errorMessages>
+	</inputColumn>		
+	
+	<inputColumn columnId="144" columnName="RTLINTR" duplicate="false" order="143" dataType="NegativeDecimal" notNull="false" regex="([[-/+][\d]]{0,14}([.][\d]{0,2})?)">
+		<errorMessages>
+		<entry>
+			<key>NOT_NULL_INVALID</key>
+			<value>RTLINTR cannot be blank or null</value>
+		</entry>
+		<entry>
+			<key>DATATYPE_INVALID</key>
+			<value>RTLINTR should be in the valid format</value>
+		</entry>
+		</errorMessages>
+	</inputColumn>	
+	
+	<inputColumn columnId="145" columnName="BAR" duplicate="false" order="144" dataType="NegativeDecimal" notNull="false" regex="([[-/+][\d]]{0,14}([.][\d]{0,2})?)">
+		<errorMessages>
+		<entry>
+			<key>NOT_NULL_INVALID</key>
+			<value>BAR cannot be blank or null</value>
+		</entry>
+		<entry>
+			<key>DATATYPE_INVALID</key>
+			<value>BAR should be in the valid format</value>
+		</entry>
+		</errorMessages>
+	</inputColumn>
+	
+	<inputColumn columnId="146" columnName="DUEDATEGRP" duplicate="false" order="145" dataType="String" notNull="false" regex="([a-zA-Z0-9]{0,1})">
+		<errorMessages>
+		<entry>
+			<key>NOT_NULL_INVALID</key>
+			<value>DUEDATEGRP cannot be blank or null</value>
+		</entry>
+		<entry>
+			<key>DATATYPE_INVALID</key>
+			<value>DUEDATEGRP should be in the valid format</value>
+		</entry>
+		</errorMessages>
+	</inputColumn>		
+	
+	<inputColumn columnId="147" columnName="REAGEREQ1" duplicate="false" order="146" dataType="String" notNull="false" regex="([a-zA-Z0-9]{0,1})">
+		<errorMessages>
+		<entry>
+			<key>NOT_NULL_INVALID</key>
+			<value>REAGEREQ1 cannot be blank or null</value>
+		</entry>
+		<entry>
+			<key>DATATYPE_INVALID</key>
+			<value>REAGEREQ1 should be in the valid format</value>
+		</entry>
+		</errorMessages>
+	</inputColumn>	
+	
+	<inputColumn columnId="148" columnName="REAGEDATE1" duplicate="false" order="147" dataType="String" notNull="false" regex="((((19|20)\d\d)-(0[1-9]|1[0-2])-(0[1-9]|[12][0-9]|3[01]))?)">
+		<errorMessages>
+		<entry>
+			<key>NOT_NULL_INVALID</key>
+			<value>REAGEDATE1 cannot be blank or null</value>
+		</entry>
+		<entry>
+			<key>DATATYPE_INVALID</key>
+			<value>REAGEDATE1 should be in the valid format</value>
+		</entry>
+		</errorMessages>
+	</inputColumn>		
+	
+	<inputColumn columnId="149" columnName="REAGEREQ2" duplicate="false" order="148" dataType="NegativeDecimal" notNull="false" regex="([a-zA-Z0-9]{0,1})">
+		<errorMessages>
+		<entry>
+			<key>NOT_NULL_INVALID</key>
+			<value>REAGEREQ2 cannot be blank or null</value>
+		</entry>
+		<entry>
+			<key>DATATYPE_INVALID</key>
+			<value>REAGEREQ2 should be in the valid format</value>
+		</entry>
+		</errorMessages>
+	</inputColumn>	
+	
+	<inputColumn columnId="150" columnName="REAGEDATE2" duplicate="false" order="149" dataType="String" notNull="false" regex="((((19|20)\d\d)-(0[1-9]|1[0-2])-(0[1-9]|[12][0-9]|3[01]))?)">
+		<errorMessages>
+		<entry>
+			<key>NOT_NULL_INVALID</key>
+			<value>REAGEDATE2 cannot be blank or null</value>
+		</entry>
+		<entry>
+			<key>DATATYPE_INVALID</key>
+			<value>REAGEDATE2 should be in the valid format</value>
+		</entry>
+		</errorMessages>
+	</inputColumn>	
+	
+	<inputColumn columnId="151" columnName="ALOP_AMNT" duplicate="false" order="150" dataType="NegativeDecimal" notNull="false" regex="([[-/+][\d]]{0,14}([.][\d]{0,2})?)">
+		<errorMessages>
+		<entry>
+			<key>NOT_NULL_INVALID</key>
+			<value>ALOP_AMNT cannot be blank or null</value>
+		</entry>
+		<entry>
+			<key>DATATYPE_INVALID</key>
+			<value>ALOP_AMNT should be in the valid format</value>
+		</entry>
+		</errorMessages>
+	</inputColumn>
+	
+	<inputColumn columnId="152" columnName="EPP_AMNT" duplicate="false" order="151" dataType="NegativeDecimal" notNull="false" regex="([[-/+][\d]]{0,14}([.][\d]{0,2})?)">
+		<errorMessages>
+		<entry>
+			<key>NOT_NULL_INVALID</key>
+			<value>EPP_AMNT cannot be blank or null</value>
+		</entry>
+		<entry>
+			<key>DATATYPE_INVALID</key>
+			<value>EPP_AMNT should be in the valid format</value>
+		</entry>
+		</errorMessages>
+	</inputColumn>	
+	
+	<inputColumn columnId="153" columnName="ALOP_CRLIMIT" duplicate="false" order="152" dataType="NegativeDecimal" notNull="false" regex="([[-/+][\d]]{0,13}([.][\d]{0,2})?)">
+		<errorMessages>
+		<entry>
+			<key>NOT_NULL_INVALID</key>
+			<value>ALOP_CRLIMIT cannot be blank or null</value>
+		</entry>
+		<entry>
+			<key>DATATYPE_INVALID</key>
+			<value>ALOP_CRLIMIT should be in the valid format</value>
+		</entry>
+		</errorMessages>
+	</inputColumn>	
+	
+	<inputColumn columnId="154" columnName="ALOP_OLD_CRLIMIT" duplicate="false" order="153" dataType="NegativeDecimal" notNull="false" regex="([[-/+][\d]]{0,13}([.][\d]{0,2})?)">
+		<errorMessages>
+		<entry>
+			<key>NOT_NULL_INVALID</key>
+			<value>ALOP_OLD_CRLIMIT cannot be blank or null</value>
+		</entry>
+		<entry>
+			<key>DATATYPE_INVALID</key>
+			<value>ALOP_OLD_CRLIMIT should be in the valid format</value>
+		</entry>
+		</errorMessages>
+	</inputColumn>
+	
+	<inputColumn columnId="155" columnName="ALOP_TOTLIMIT" duplicate="false" order="154" dataType="NegativeDecimal" notNull="false" regex="([[-/+][\d]]{0,13}([.][\d]{0,2})?)">
+		<errorMessages>
+		<entry>
+			<key>NOT_NULL_INVALID</key>
+			<value>ALOP_TOTLIMIT cannot be blank or null</value>
+		</entry>
+		<entry>
+			<key>DATATYPE_INVALID</key>
+			<value>ALOP_TOTLIMIT should be in the valid format</value>
+		</entry>
+		</errorMessages>
+	</inputColumn>
+	
+	<inputColumn columnId="156" columnName="ALOP_SP_LMT_PER" duplicate="false" order="155" dataType="NegativeDecimal" notNull="false" regex="([[\d]]{0,3})">
+		<errorMessages>
+		<entry>
+			<key>NOT_NULL_INVALID</key>
+			<value>ALOP_SP_LMT_PER cannot be blank or null</value>
+		</entry>
+		<entry>
+			<key>DATATYPE_INVALID</key>
+			<value>ALOP_SP_LMT_PER should be in the valid format</value>
+		</entry>
+		</errorMessages>
+	</inputColumn>		
+	
+	<inputColumn columnId="157" columnName="EMV_TAG" duplicate="false" order="156" dataType="String" notNull="false" regex="([a-zA-Z0-9]{0,1})">
+		<errorMessages>
+		<entry>
+			<key>NOT_NULL_INVALID</key>
+			<value>EMV_TAG cannot be blank or null</value>
+		</entry>
+		<entry>
+			<key>DATATYPE_INVALID</key>
+			<value>EMV_TAG should be in the valid format</value>
+		</entry>
+		</errorMessages>
+	</inputColumn>	
+	
+	<inputColumn columnId="158" columnName="EMV_CARD_USE_IND" duplicate="false" order="157" dataType="String" notNull="false" regex="([a-zA-Z0-9]{0,1})">
+		<errorMessages>
+		<entry>
+			<key>NOT_NULL_INVALID</key>
+			<value>EMV_CARD_USE_IND cannot be blank or null</value>
+		</entry>
+		<entry>
+			<key>DATATYPE_INVALID</key>
+			<value>EMV_CARD_USE_IND should be in the valid format</value>
+		</entry>
+		</errorMessages>
+	</inputColumn>	
+	
+	<inputColumn columnId="159" columnName="CURR_LSCODE" duplicate="false" order="158" dataType="String" notNull="false" regex="([a-zA-Z0-9]{0,2})">
+		<errorMessages>
+		<entry>
+			<key>NOT_NULL_INVALID</key>
+			<value>CURR_LSCODE cannot be blank or null</value>
+		</entry>
+		<entry>
+			<key>DATATYPE_INVALID</key>
+			<value>CURR_LSCODE should be in the valid format</value>
+		</entry>
+		</errorMessages>
+	</inputColumn>
+	
+	<inputColumn columnId="160" columnName="CURR_LSCODE_EFF_DTE" duplicate="false" order="159" dataType="String" notNull="false" regex="((((19|20)\d\d)-(0[1-9]|1[0-2])-(0[1-9]|[12][0-9]|3[01]))?)">
+		<errorMessages>
+		<entry>
+			<key>NOT_NULL_INVALID</key>
+			<value>CURR_LSCODE_EFF_DTE cannot be blank or null</value>
+		</entry>
+		<entry>
+			<key>DATATYPE_INVALID</key>
+			<value>CURR_LSCODE_EFF_DTE should be in the valid format</value>
+		</entry>
+		</errorMessages>
+	</inputColumn>	
+	
+	<inputColumn columnId="161" columnName="PEND_LSCODE" duplicate="false" order="160" dataType="String" notNull="false" regex="([a-zA-Z0-9]{0,2})">
+		<errorMessages>
+		<entry>
+			<key>NOT_NULL_INVALID</key>
+			<value>PEND_LSCODE cannot be blank or null</value>
+		</entry>
+		<entry>
+			<key>DATATYPE_INVALID</key>
+			<value>PEND_LSCODE should be in the valid format</value>
+		</entry>
+		</errorMessages>
+	</inputColumn>	
+	
+	<inputColumn columnId="162" columnName="PREV_LSCODE" duplicate="false" order="161" dataType="String" notNull="false" regex="([a-zA-Z0-9]{0,2})">
+		<errorMessages>
+		<entry>
+			<key>NOT_NULL_INVALID</key>
+			<value>PREV_LSCODE cannot be blank or null</value>
+		</entry>
+		<entry>
+			<key>DATATYPE_INVALID</key>
+			<value>PREV_LSCODE should be in the valid format</value>
+		</entry>
+		</errorMessages>
+	</inputColumn>		
+	
+	<inputColumn columnId="163" columnName="JCIC_ICNO" duplicate="false" order="162" dataType="String" notNull="false" regex="([a-zA-Z0-9]{0,10})">
+		<errorMessages>
+		<entry>
+			<key>NOT_NULL_INVALID</key>
+			<value>JCIC_ICNO cannot be blank or null</value>
+		</entry>
+		<entry>
+			<key>DATATYPE_INVALID</key>
+			<value>JCIC_ICNO should be in the valid format</value>
+		</entry>
+		</errorMessages>
+	</inputColumn>	
+	
+	<inputColumn columnId="164" columnName="JCIC_SI" duplicate="false" order="163" dataType="String" notNull="false" regex="([a-zA-Z0-9]{0,2})">
+		<errorMessages>
+		<entry>
+			<key>NOT_NULL_INVALID</key>
+			<value>JCIC_SI cannot be blank or null</value>
+		</entry>
+		<entry>
+			<key>DATATYPE_INVALID</key>
+			<value>JCIC_SI should be in the valid format</value>
+		</entry>
+		</errorMessages>
+	</inputColumn>		
+	
+	<inputColumn columnId="165" columnName="Fin_chrg" duplicate="false" order="164" dataType="NegativeDecimal" notNull="false" regex="([[-/+][\d]]{0,14}([.][\d]{0,2})?)">
+		<errorMessages>
+		<entry>
+			<key>NOT_NULL_INVALID</key>
+			<value>Fin_chrg cannot be blank or null</value>
+		</entry>
+		<entry>
+			<key>DATATYPE_INVALID</key>
+			<value>Fin_chrg should be in the valid format</value>
+		</entry>
+		</errorMessages>
+	</inputColumn>
+	
+	<inputColumn columnId="166" columnName="Mdue" duplicate="false" order="165" dataType="NegativeDecimal" notNull="false" regex="([[-/+][\d]]{0,14}([.][\d]{0,2})?)">
+		<errorMessages>
+		<entry>
+			<key>NOT_NULL_INVALID</key>
+			<value>Mdue cannot be blank or null</value>
+		</entry>
+		<entry>
+			<key>DATATYPE_INVALID</key>
+			<value>Mdue should be in the valid format</value>
+		</entry>
+		</errorMessages>
+	</inputColumn>
+	
+	<inputColumn columnId="167" columnName="Tot_amt_due" duplicate="false" order="166" dataType="NegativeDecimal" notNull="false" regex="([[-/+][\d]]{0,14}([.][\d]{0,2})?)">
+		<errorMessages>
+		<entry>
+			<key>NOT_NULL_INVALID</key>
+			<value>Tot_amt_due cannot be blank or null</value>
+		</entry>
+		<entry>
+			<key>DATATYPE_INVALID</key>
+			<value>Tot_amt_due should be in the valid format</value>
+		</entry>
+		</errorMessages>
+	</inputColumn>
+	
+	<inputColumn columnId="168" columnName="z_type" duplicate="false" order="167" dataType="String" notNull="false" regex="([a-zA-Z0-9]{0,5})">
+		<errorMessages>
+		<entry>
+			<key>NOT_NULL_INVALID</key>
+			<value>z_type cannot be blank or null</value>
+		</entry>
+		<entry>
+			<key>DATATYPE_INVALID</key>
+			<value>z_type should be in the valid format</value>
+		</entry>
+		</errorMessages>
+	</inputColumn>		
+	
+	<inputColumn columnId="169" columnName="CNR" duplicate="false" order="168" dataType="NegativeDecimal" notNull="false" regex="([[-/+][\d]]{0,8})">
+		<errorMessages>
+		<entry>
+			<key>NOT_NULL_INVALID</key>
+			<value>CNR cannot be blank or null</value>
+		</entry>
+		<entry>
+			<key>DATATYPE_INVALID</key>
+			<value>CNR should be in the valid format</value>
+		</entry>
+		</errorMessages>
+	</inputColumn>
+	
+	<inputColumn columnId="170" columnName="CBR" duplicate="false" order="169" dataType="NegativeDecimal" notNull="false" regex="([[-/+][\d]]{0,8})">
+		<errorMessages>
+		<entry>
+			<key>DATATYPE_INVALID</key>
+			<value>CBR should be in the valid format</value>
+		</entry>
+		</errorMessages>
+	</inputColumn>		
+	
+	<inputColumn columnId="171" columnName="CARDNMBR" duplicate="true" order="170" dataType="String" notNull="false" regex="([0-9]{0,16})">
+		<errorMessages>
+		<entry>
+			<key>NOT_NULL_INVALID</key>
+			<value>CARDNMBR cannot be blank or null</value>
+		</entry>
+		<entry>
+			<key>DATATYPE_INVALID</key>
+			<value>CARDNMBR should be in the valid format</value>
+		</entry>
+		</errorMessages>
+	</inputColumn>																										
+		
+	<errorMessages>
+		<entry>
+			<key>CLMN_COUNT_MISMATCH</key>
+			<value>Column Count is not 3 for row {}</value>
+		</entry>
+		<entry>
+			<key>HEADER_INVALID</key>
+			<value>Header Value is invalid</value>
+		</entry>
+		<entry>
+			<key>DUPLICATE_ROW</key>
+			<value>Duplicate row for row {}</value>
+		</entry>
+		<entry>
+			<key>DATATYPE_INVALID</key>
+			<value>Data type is not valid for row {}</value>
+		</entry>
+	</errorMessages>
+</fileValidationRules>

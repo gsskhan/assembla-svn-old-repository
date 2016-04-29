@@ -1,0 +1,36 @@
+create or replace
+PROCEDURE         "CREATE_INTERNAL_MESSAGE_LOG"(
+  EVENT_TYPE	 VARCHAR,
+  REQTR_ID VARCHAR,
+  MESSAGE	     CLOB,
+  PRIORITY NUMBER,
+  ORG_MESSAGE_ID NUMBER,
+  MESSAGE_ID OUT NUMBER,
+  MESSAGE_TYPE_ID OUT NUMBER)
+  
+AS
+  l_timestamp TIMESTAMP := sysdate;  
+  l_message_log_seqNo NUMBER := ORC_MSG_LOG_SEQ.nextVal;
+  l_msg_type_id number;
+BEGIN
+
+  select orc_msg_typ 
+   into  l_msg_type_id
+  from ORC_MSG_TYP
+ where evnt_typ = EVENT_TYPE ;
+
+
+  INSERT INTO ORC_MSG_LOG(MSG_ID,ORC_MSG_TYP_ID,RECV_TS,REQR_ID,MSG,PRIORITY)
+    VALUES
+  (l_message_log_seqNo,l_msg_type_id,l_timestamp, REQTR_ID,MESSAGE, PRIORITY);
+	
+  INSERT INTO ORC_ORIG_MSG_MAP(MSG_ID,ORIG_MSG_ID)
+  VALUES
+  (l_message_log_seqNo,ORG_MESSAGE_ID)
+  
+  MESSAGE_ID := l_message_log_seqNo;
+  MESSAGE_TYPE_ID := l_msg_type_id;
+  
+END CREATE_INTERNAL_MESSAGE_LOG;
+
+

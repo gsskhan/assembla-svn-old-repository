@@ -1,0 +1,52 @@
+<project name="batch" basedir=".">
+
+	<!--
+	<property name="app.dir" value="${basedir}/.."/>
+	-->
+	<property name="lib.dir" value="${app.dir}/lib"/>
+	
+	<property name="config.dir" value="${app.dir}/config"/>
+	
+	<property name="adminClassName" value="com.citi.retail.optima.etl.container.ContainerAdmin"/>
+		
+	<property name="batch.module.name" value="batch"/>
+	<property name="batch.module.config" value="classpath:/retail.optima.etl.batch.xml"/>
+	<property name="batch.module.autoStart" value="true"/>
+	
+	<!--
+	<property name="maxMemory" value="1024m"/>
+	<property name="jmx.port" value="1099"/>
+	<property name="http.port" value="7070"/>
+	-->	
+		
+	<path id="batch.classpath">
+		<pathelement path="${app.dir}/config"/>
+		<fileset dir="${lib.dir}">
+			<include name="**/*.jar"/>
+		</fileset>
+
+	</path>
+
+	<target name="start">	
+		<java  taskname="antBatchAdminStart" fork="true" maxmemory="${maxMemory}" classname="${adminClassName}" classpathref="batch.classpath" output="${app.dir}/config/batchStartAnt.log">
+			<arg value="--command=start"/>
+			<arg value="--type=container"/>
+			<arg value="--module-name=${batch.module.name}"/>
+			<arg value="--module-config=${batch.module.config}"/>
+			<arg value="--auto-start=${batch.module.autoStart}"/>
+
+			<sysproperty key="jmx.port" value="${jmx.port}"/>
+			<sysproperty key="http.port" value="${http.port}"/>
+		</java>
+	</target>
+	
+	<target name="stop">	
+		<java taskname="antBatchAdminStop" fork="true" classname="${adminClassName}" classpathref="batch.classpath" failonerror="true" >
+			<arg value="--command=stop"/>
+			<arg value="--type=container"/>
+
+			<sysproperty key="jmx.port" value="${jmx.port}"/>
+			<sysproperty key="http.port" value="${http.port}"/>
+		</java>
+	</target>	
+</project>

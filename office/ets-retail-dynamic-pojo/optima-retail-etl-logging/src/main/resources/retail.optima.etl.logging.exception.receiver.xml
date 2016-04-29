@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:tx="http://www.springframework.org/schema/tx" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:int="http://www.springframework.org/schema/integration"
+	xmlns:beans="http://www.springframework.org/schema/beans"
+	xmlns:int-jms="http://www.springframework.org/schema/integration/jms"
+	xmlns:c="http://www.springframework.org/schema/c"
+	xmlns:p="http://www.springframework.org/schema/p"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans 
+	http://www.springframework.org/schema/beans/spring-beans-3.2.xsd 
+	 http://www.springframework.org/schema/tx 
+     http://www.springframework.org/schema/tx/spring-tx-3.0.xsd
+	 http://www.springframework.org/schema/integration 
+	 http://www.springframework.org/schema/integration/spring-integration.xsd
+	 http://www.springframework.org/schema/integration/jms			
+	 http://www.springframework.org/schema/integration/jms/spring-integration-jms.xsd">
+	 
+	 <bean id="applicationProperties"
+        class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
+        <property name="locations">
+            <list>                
+                <value>classpath:retail.optima.etl.logging.datasource.props</value>   
+                <value>classpath:retail.optima.etl.logging.tibco.props</value>     
+            </list>
+        </property>
+    </bean>
+    
+    <import resource="classpath:retail.optima.etl.logging.exception.dao.xml" /> 
+ 	
+	<int:channel id="exceptionJmsInChannel" />
+
+	<int-jms:message-driven-channel-adapter
+		id="loggingJmsAdapter" destination="loggingQueueDestination" channel="exceptionJmsInChannel"
+		connection-factory="loggingCachingConnectionFactory" concurrent-consumers="3"
+		max-concurrent-consumers="5" idle-consumer-limit="1"/>
+
+	<int:channel id="excptionJmsReceiveChannel">
+		<int:queue capacity="100000"/>
+	</int:channel> 
+
+	<int:service-activator id="jmsMessageListener"
+		input-channel="exceptionJmsInChannel" output-channel="excptionJmsReceiveChannel"
+		ref="exceptionMessageListener" method="exceptionHandler" />
+
+	<beans:bean id="exceptionMessageListener"
+		class="com.citi.retail.optima.etl.logging.handler.ExceptionMessageListener">
+		<beans:property name="exceptionMessageDao" ref="exceptionMessageDao" />
+	</beans:bean>
+
+
+</beans>

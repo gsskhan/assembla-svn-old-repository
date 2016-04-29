@@ -1,0 +1,260 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<beans	xmlns="http://www.springframework.org/schema/beans"
+		xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+		xmlns:c="http://www.springframework.org/schema/c"
+		xmlns:p="http://www.springframework.org/schema/p"				
+		xmlns:util="http://www.springframework.org/schema/util"
+		xmlns:context="http://www.springframework.org/schema/context"
+		xsi:schemaLocation="
+				http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.2.xsd
+				http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util-3.2.xsd
+				http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-3.2.xsd">
+
+	<context:annotation-config />
+					
+	<bean id="cacheProperties"
+        class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
+        <property name="locations">
+            <list>
+                <value>classpath:optima.retail.cache.sql.queries.properties</value>
+                <value>classpath:optima.retail.cache.filescanner.rulenames.properties</value>
+            </list>
+        </property>
+    </bean>
+    <bean	id="rulesEhCacheManager"
+    		class="org.springframework.cache.ehcache.EhCacheCacheManager"
+			p:cacheManager-ref="rulesCacheManager"
+	/>
+
+	<bean	id="rulesCacheManager"
+			class="org.springframework.cache.ehcache.EhCacheManagerFactoryBean"
+			p:cacheManagerName="ruleCache"
+			p:configLocation="classpath:ehcache/ehcache.rules.xml"
+	/>
+	
+	<!-- enrichment Rules begin -->
+ 	<!-- <bean	id="enrichmentRulesLookup"
+			class="com.citi.retail.optima.etl.cache.lookup.EnrichmentRulesLookup"
+			c:_0-ref="enrichmentCacheService"
+			depends-on="enrichCacheLoader"
+	/>
+    
+    <bean	id="enrichmentCacheService"
+    		factory-bean="rulesEhCacheManager"
+    		factory-method="getCache"
+    		c:_0="enrichmentRuleCache"
+    />
+    
+    <bean	id="enrichCacheLoader"
+    		class="com.citi.retail.optima.etl.cache.ehcache.EnrichmentRulesLoaderImpl"
+    		p:cache-ref="enrichmentCacheService"
+    		p:cacheEntryHelper-ref="enrichCacheEntryHelper"
+    		p:dao-ref="rulesDaoImpl"
+    		p:preloadCache="true"
+    />
+
+	<bean	id="enrichCacheEntryHelper"
+			class="com.citi.retail.optima.etl.cache.helper.EnrichmentCacheEntryHelper"
+	/>  -->
+    
+ <!--    <bean	id="rulesDaoImpl"
+    		class="com.citi.retail.optima.etl.cache.dao.impl.EnrichmentRulesDaoImpl"
+    		p:sql="${query.cache.rules.enrichment}"
+    		p:keySql="${query.cache.rules.enrichment.with.key}"
+    		p:jdbcTemplate-ref="jdbcTemplate"
+    /> -->
+
+	<!-- Aggregation Rule -->        
+<!--     <bean	id="aggregationCacheService"
+    		factory-bean="rulesEhCacheManager"
+    		factory-method="getCache"
+    		c:_0="aggregationRuleCache"
+    />   
+
+    <bean	id="aggregationCacheLoader"
+    		class="com.citi.retail.optima.etl.cache.ehcache.AggregationRulesLoaderImpl"
+    		p:cache-ref="aggregationCacheService"
+    		p:cacheEntryHelper-ref="aggregationCacheEntryHelper"
+    		p:dao-ref="aggregationRuleDao"
+    		p:preloadCache="true"
+    /> 
+
+    <bean	id="aggregationCacheEntryHelper"
+    		class="com.citi.retail.optima.etl.cache.helper.AggregationCacheEntryHelper"
+    />
+    
+    <bean	id="aggregationRuleDao"
+    		class="com.citi.retail.optima.etl.cache.dao.impl.AggregationRulesDaoImpl"
+    		p:sql="${query.cache.rules.aggregation}"
+    		p:keySql="${query.cache.rules.aggregation.with.key}"
+    		p:jdbcTemplate-ref="jdbcTemplate"
+    />
+    
+    <bean	id="aggregationRulesLookup"
+    		class="com.citi.retail.optima.etl.cache.lookup.AggregationRulesLookup"
+    		c:_0-ref="aggregationCacheService"
+    		depends-on="aggregationCacheLoader"
+    /> -->	
+	    
+    <!-- Aggregation SQL Cache -->
+<!--     <bean	id="aggregationSqlCacheService"
+    		factory-bean="rulesEhCacheManager"
+    		factory-method="getCache"
+    		c:_0="aggregationSqlCache"
+    />
+
+    <bean	id="aggregationSqlCacheLoader"
+    		class="com.citi.retail.optima.etl.cache.ehcache.AggregationSqlLoaderImpl"
+    		p:cache-ref="aggregationSqlCacheService"
+    		p:cacheEntryHelper-ref="aggregationSqlCacheEntryHelper"
+    		p:dao-ref="aggregationSqlDao"
+    		p:preloadCache="true"
+    />
+
+    <bean	id="aggregationSqlCacheEntryHelper"
+    		class="com.citi.retail.optima.etl.cache.helper.AggregationSqlCacheEntryHelper"
+    />
+    
+    <bean	id="aggregationSqlLookup"
+    		class="com.citi.retail.optima.etl.cache.lookup.AggregationSqlRuleLookup"
+    		c:_0-ref="aggregationSqlCacheService"
+    		depends-on="aggregationSqlCacheLoader"
+    />
+    
+    <bean	id="aggregationSqlDao"
+    		class="com.citi.retail.optima.etl.cache.dao.impl.AggregationSqlDaoImpl"
+    		p:keySql="${query.cache.rules.aggregation.sql.with.key}"
+    		p:jdbcTemplate-ref="jdbcTemplate"
+    /> -->
+   
+	<!-- Refresh Utility bean  -->
+<!--     <bean	id ="aggregationCacheRefreshUtility"
+    		class ="com.citi.retail.optima.etl.cache.util.CacheRefreshUtility"
+    		p:cacheLoader-ref="aggregationCacheLoader"
+    /> -->	
+    
+    <!-- validation Rules begin -->
+<!-- 	<bean	id="validationRulesCacheService"
+			factory-bean="rulesEhCacheManager"
+			factory-method="getCache"
+			c:_0="validationRuleCache"
+	/>
+
+	<bean	id="validationRulesRefCacheLoader"
+			class="com.citi.retail.optima.etl.cache.ehcache.ValidationRulesLoaderImpl"
+			p:cache-ref="validationRulesCacheService"
+			p:cacheEntryHelper-ref="validationRulesRefCacheEntryHelper"
+			p:dao-ref="validationRulesDao"
+			p:preloadCache="true"
+	/>
+
+	<bean	id="validationRulesRefCacheEntryHelper"
+			class="com.citi.retail.optima.etl.cache.helper.ValidationCacheEntryHelper"
+	/>
+	
+	<bean	id="validationRulesDao" class="com.citi.retail.optima.etl.cache.dao.impl.ValidationRulesDaoImpl">
+		<property name="sql">
+			<value>
+					<![CDATA[
+					  SELECT ruleset.*,
+					  params.params_name,
+					  params.params_value
+					FROM (select result1.*,cat.cat_desc from (							                
+							                         SELECT case when mapped_rules.cat_cd is null then to_char(mapped_rules.PROC_UNIT_ID) else mapped_rules.cat_cd||':'||to_char(mapped_rules.PROC_UNIT_ID) END AS KEY, 
+							                         mapped_rules.PROC_UNIT_ID,
+							                         mapped_rules.attr_id,
+							                         mapped_rules.VLD_RULE_ID,
+							                         attributes.clas_nm,
+							                         attributes.attr_nm,
+							                         mapped_rules.vld_typ,
+							                         mapped_rules.CAT_CD,
+							                         rules.VLD_RULE_NM,
+							                         rules.vld_clas,
+							                         mapped_rules.VLD_RULE_EXEC_ORD
+							                        FROM orc_etl_attribute attributes,
+							                        orc_vld_rule rules,
+							                        orc_vld_map mapped_rules
+							                        WHERE mapped_rules.attr_id = attributes.attr_id
+							                        AND mapped_rules.VLD_RULE_ID=rules.VLD_RULE_ID
+                                      AND mapped_rules.eff_sts = rules.eff_sts
+                                      AND mapped_rules.eff_sts ='A'                                    
+							          )result1, orc_cat cat where result1.CAT_CD = cat.CAT_CD order by PROC_UNIT_ID ) ruleset
+                        LEFT OUTER JOIN orc_vld_rule_params params ON ruleset.attr_id = params.attr_id 
+                        AND ruleset.VLD_RULE_ID = params.VLD_RULE_ID AND ruleset.PROC_UNIT_ID = params.PROC_UNIT_ID 
+                        order by VLD_RULE_EXEC_ORD
+					]]>
+			</value>
+		</property>
+		<property name="jdbcTemplate" ref="jdbcTemplate" />
+	</bean>
+
+	<bean	id="validationRulesLookup"
+			class="com.citi.retail.optima.etl.cache.lookup.ValidationRulesLookup"
+			c:_0-ref="validationRulesCacheService"
+			depends-on="validationRulesRefCacheLoader"
+	/> -->
+
+<!-- Spel validation Rules begin -->
+  	<!-- <bean	id="spelValidationRulesCacheService"
+			factory-bean="rulesEhCacheManager"
+			factory-method="getCache"
+			c:_0="spelValidationRuleCache"
+	/>
+
+ 	<bean	id="spelValidationRulesRefCacheLoader"
+			class="com.citi.retail.optima.etl.cache.ehcache.SpelValidationRulesLoaderImpl"
+			p:cache-ref="spelValidationRulesCacheService"
+			p:cacheEntryHelper-ref="spelValidationRulesRefCacheEntryHelper"
+			p:dao-ref="spelValidationRulesDao"
+			p:preloadCache="true"
+	/>
+
+	<bean	id="spelValidationRulesRefCacheEntryHelper"
+			class="com.citi.retail.optima.etl.cache.helper.SpelValidationCacheEntryHelper"
+	/>
+
+	<bean id="spelValidationRulesDao"
+		class="com.citi.retail.optima.etl.cache.dao.impl.SpelValidationRulesDaoImpl"
+		p:sql="${query.cache.rules.validation.spel.with.key}"
+    	p:jdbcTemplate-ref="jdbcTemplate"
+		
+		/>
+	
+	 <bean	id="spelValidationRulesLookup"
+			class="com.citi.retail.optima.etl.cache.lookup.SpelValidationRulesLookup"
+			c:_0-ref="spelValidationRulesCacheService"
+			depends-on="spelValidationRulesRefCacheLoader"
+	/> -->
+	
+	<!-- Start file scaner -->
+<!-- 	<bean	id="fileScannerRulesCacheService"
+			factory-bean="rulesEhCacheManager"
+			factory-method="getCache"
+			c:_0="fileScannerRuleCache"
+	/>
+
+	<bean	id="fileScannerRulesRefCacheLoader"
+			class="com.citi.retail.optima.etl.cache.ehcache.FileScannerCacheDataLoader"
+			p:cache-ref="fileScannerRulesCacheService"
+			p:cacheEntryHelper-ref="fileScannerRulesRefCacheEntryHelper"
+			p:dao-ref="fileScannerRulesDao"
+			p:preloadCache="true"
+	/>
+
+	<bean	id="fileScannerRulesRefCacheEntryHelper"
+			class="com.citi.retail.optima.etl.cache.helper.FileScannerCacheEntryHelper"
+	/>
+	
+	<bean	id="fileScannerRulesDao" 
+			class="com.citi.retail.optima.etl.cache.dao.impl.FileScannerRulesDaoImpl"
+			p:ruleFileNames="${filescanner.rules.fileNames}"
+	/>		
+
+	<bean	id="fileScannerRulesLookup"
+			class="com.citi.retail.optima.etl.cache.lookup.FileScannerRulesLookup"
+			c:_0-ref="fileScannerRulesCacheService"
+			depends-on="fileScannerRulesRefCacheLoader"
+	/>  -->
+	<!-- End file scaner -->
+	<!-- import resource="classpath:optima.retail.cache.filescanner.rules.xml" /-->
+</beans>														

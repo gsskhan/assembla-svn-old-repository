@@ -1,0 +1,278 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:p="http://www.springframework.org/schema/p" xmlns:c="http://www.springframework.org/schema/c"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:aop="http://www.springframework.org/schema/aop"
+	xmlns:batch="http://www.springframework.org/schema/batch" xmlns:util="http://www.springframework.org/schema/util"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans 
+		http://www.springframework.org/schema/beans/spring-beans-2.5.xsd
+		http://www.springframework.org/schema/util 
+		http://www.springframework.org/schema/util/spring-util-2.5.xsd
+		http://www.springframework.org/schema/context
+		http://www.springframework.org/schema/context/spring-context.xsd
+		http://www.springframework.org/schema/batch 
+		http://www.springframework.org/schema/batch/spring-batch-2.1.xsd
+		http://www.springframework.org/schema/aop
+ 		http://www.springframework.org/schema/aop/spring-aop-2.5.xsd">
+
+
+	<!-- *********************************************** India Personal Loan JOB Configuration=START ***************************************************** -->
+	<batch:job id="DA-IN-PL-BATCH" job-repository="jobRepository" restartable="true" incrementer="jobParamIncrementer">
+		<batch:step id="springStart" next="fxrateProcessStep">
+			<batch:tasklet ref="timerTaskletBegin" />
+		</batch:step>	
+		<batch:step id="fxrateProcessStep" parent="fxrateDataProcessStep"
+			next="inPlCbFinanceDataProcessStep" />	
+		<batch:step id="inPlCbFinanceDataProcessStep" parent="cbFinanceDataProcessStep" next="inPLProcessStep" />			
+		<batch:step id="inPLProcessStep" parent="inPLProcessStep:master"  
+			next="inPLAggregationStep" />
+		<batch:step id="inPLAggregationStep" next="inPLfileMergeStep" >
+			<batch:tasklet ref="inPLAggregationResultsTasklet" />
+		</batch:step>				
+		<batch:step id="inPLfileMergeStep" next="endSpringStep" >
+			<batch:tasklet ref="inPLFileMergeTasklet" />
+			<batch:listeners>
+				<batch:listener ref="inPLFileMergeTasklet"/>
+			</batch:listeners>
+		</batch:step>		
+		
+		<batch:step id="endSpringStep">
+			<batch:tasklet ref="timerTaskletEnd" />
+		</batch:step>		
+		
+		<batch:listeners>
+			<batch:listener ref="inPLAcqGcbcJobListener" />
+		</batch:listeners>
+		
+	</batch:job>
+			
+	<bean id="inPLAcqGcbcJobListener"
+		class="com.citi.optima.retail.batch.listeners.DataAcqJobListener">
+		<property name="batchJobInstanceDao" ref="jobInstanceDao" />
+		<property name="internalMessageChannel" ref="batchCompletionHandlerChannel" />
+		<property name="errorReportHandler">
+			<bean class="com.citi.retail.optima.etl.batch.report.ErrorReportHandler" />
+		</property>
+		<property name="jobConfigDao" ref="jobConfigDao" />
+<!-- 		<property name="footerItemList" ref="plFooterItemList" /> -->
+	</bean>
+
+	
+	<!-- ***********************************************India Personal Loan Step Configuration=START ***************************************************** -->
+	<bean name="inPLProcessStep:master"
+		class="org.springframework.batch.core.partition.support.PartitionStep">
+		<property name="jobRepository" ref="jobRepository" />
+		<property name="stepExecutionSplitter">
+			<bean
+				class="org.springframework.batch.core.partition.support.SimpleStepExecutionSplitter">
+				<constructor-arg ref="jobRepository" />
+				<constructor-arg ref="inPLDataProcStep" />
+				<constructor-arg ref="inPLPartitioner" />
+			</bean>
+		</property>
+		<property name="partitionHandler">
+			<bean
+				class="org.springframework.batch.core.partition.support.TaskExecutorPartitionHandler"
+				scope="step">
+				<property name="taskExecutor">
+					<bean
+						class="org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor">
+						<property name="corePoolSize" value="8" />
+						<property name="maxPoolSize" value="12" />
+					</bean>
+				</property>
+				<property name="step" ref="inPLDataProcStep" />
+				<property name="gridSize" value="8" />
+			</bean>
+		</property>
+	</bean>
+
+	<bean id="inPLPartitioner"
+		class="com.citi.retail.optima.etl.batch.job.infra.FlatFileDataPartitioner"
+		scope="step">
+		<property name="directoryName" value="#{#getInputFilePath(jobParameters[COUNTRYPRODUCT])}" />
+		<property name= "originalFile" value="#{#getInputFilePath(jobParameters[COUNTRYPRODUCT])}" />
+		<property name="splitFile" value="#{#getInputFilePath(jobParameters[COUNTRYPRODUCT])}" />
+		<property name="archvFile" value="#{#getArchiveFilePath(jobParameters[COUNTRYPRODUCT])}" />
+		<property name="evalContext" ref="customEvaluationContext" />
+		<property name="filePattern" value="#{jobParameters[IN_LOANS]}" />
+		<property name="noOfRecordsPerSplit" value="100000" />
+				<property name="startTime" value="#{jobParameters[STRT_TIME]}"></property> 
+		<property name="jobName" value="#{jobParameters[JOB_NAME]}"></property>
+	</bean>
+
+	<batch:step id="inPLDataProcStep">
+		<batch:tasklet allow-start-if-complete="false">
+			<batch:chunk reader="inPLCsvReader" processor="inPLDataProcessor"
+				writer="inPLCsvWriter" commit-interval="10000" skip-limit="50000">
+				<batch:skippable-exception-classes>
+					<batch:include
+						class="com.citi.retail.optima.etl.common.exception.OptimaRetailDataException" />
+						  
+
+						
+				</batch:skippable-exception-classes>
+			</batch:chunk>
+		</batch:tasklet>
+		
+		<batch:listeners>
+			<batch:listener ref="inPLEnrichmentProcessor" />
+			<batch:listener ref="inPLAggregationProcessor" />
+			<batch:listener ref="inPLCsvWriter" />
+			<batch:listener ref="inPLloansCommonBalanceWriter" />
+			<batch:listener ref="inPLCsvReader" />
+		</batch:listeners>
+	</batch:step>
+
+	<bean id="inPLCsvReader" class="com.citi.retail.optima.etl.batch.job.reader.CustomItemReader"
+		scope="step" lazy-init="true">
+<!-- 		<property name="linesToSkip" value="1" /> -->
+		<property name="strict" value="true"></property>
+		<property name="resource" value="#{stepExecutionContext[fileName]}"></property>
+		<property name= "fileName" value="#{stepExecutionContext[fileName]}"></property>
+		<property name="lineMapper">
+			<bean class="org.springframework.batch.item.file.mapping.DefaultLineMapper">
+				<property name="lineTokenizer">
+					<bean
+						class="org.springframework.batch.item.file.transform.DelimitedLineTokenizer">
+						<property name="delimiter" value="|" />
+						<property name="names"	value="#{#getFileColumnNameList('IN_PL_RNBW')}" />						
+<!-- 							value="rptPer,port,cityCode,loanNo,fxRate,loanAmt,loanPos,totBal,curDel,wOffFlag,dLamt,dPos,dEnr,dReco,dGcl,currLinL,curDlqS,bandFico,origFico,corpFlag,bookingDate,type" /> -->
+					</bean>
+				</property>
+				<property name="fieldSetMapper">
+					<bean
+						class="com.citi.retail.optima.etl.batch.job.mapper.InPlRnbwFieldSetMapper">
+						<property name="dateFormat" ref="format_ddMMMyyyy"/>
+					</bean>
+		</property>
+			</bean>
+		</property>
+	</bean>
+		
+	<bean id="inPLDataProcessor"
+		class="org.springframework.batch.item.support.CompositeItemProcessor"
+		scope="step">
+		<property name="delegates">
+			<util:list>
+				<ref bean="inPLEnrichmentProcessor" />
+				<ref bean="inPLAggregationProcessor" />
+			</util:list>
+		</property>
+	</bean>
+	
+		<bean id="inPLEnrichmentProcessor"
+		class="com.citi.retail.optima.etl.batch.job.processor.EnrichmentProcessor"
+		scope="step" p:enrichmentServiceBean-ref="inPLEnrichmentService"
+		p:timeTracker-ref="timeTracker">
+		<property name="batchInstanceId" value="#{jobParameters[batchInstanceId]}" />
+		<property name="jobName" value="#{jobParameters[JOB_NAME]}"/>
+		<property name="fileName" value="#{stepExecutionContext[fileName]}"></property>
+		
+		<property name="auditFileId" value="#{jobParameters[AUDITFILEID]}"/>
+		<property name="auditFiles" value="#{jobParameters[AUDITFILES]}"/>
+		<property name="jobMessageDao" ref="jobMessageDao"/>		
+		<property name="ctlFileDt" value="#{jobParameters[CTLFILECREATIONDT]}"/>
+		<property name="jobConfigDao" ref="jobConfigDao" />
+		
+	</bean>
+	
+	<bean	id="inPLEnrichmentService"
+			class="com.citi.retail.optima.etl.enrichment.impl.EnrichmentServiceImpl"
+			p:evalContext-ref="customEvaluationContext"
+			p:enrichmentRules-ref="enrichmentRulesHolder"
+			p:keyList="#{#getConcatenatedKeys(jobParameters[sys_proc_id], 'inPLDataProcStep', null)}" 
+			scope="step"/>
+	
+	
+	<bean name="inPLAggregationProcessor"
+		class="com.citi.retail.optima.etl.batch.job.processor.AggregationProcessor"
+		init-method="init" scope="step">
+		<property name="aggregationServiceFactory" ref="aggregationServiceFactory" />
+		<property name="batchInstanceId" value="#{jobParameters[batchInstanceId]}" />
+		<property name="monthEndDate" value="#{jobParameters[reportDate]}" />
+		<property name="keyList"
+			value="#{#getConcatenatedKeys(jobParameters[sys_proc_id], 'inPLDataProcStep',null)}" />
+		<property name="stepName" value="inPLDataProcStep" />
+		<property name="accountTraceabilityRequired" value="false" />
+		<property name="timeTracker" ref="timeTracker" />
+		<property name="sysProcId" value="#{jobParameters[sys_proc_id]}" />
+	</bean>
+	
+	<bean name="inPLAggregationResultsTasklet" class="com.citi.retail.optima.etl.batch.tasklet.FooterSummaryAggregationResultTasklet"
+		scope="step">
+		<property name="aggregationServiceFactory" ref="aggregationServiceFactory" />
+		<property name="batchInstanceId" value="#{jobParameters[batchInstanceId]}" />
+		<property name="stepName" value="inPLDataProcStep" />
+		<property name="sysProcId" value="#{jobParameters[sys_proc_id]}" />
+		<property name="footerAggrRuleId" value="104" />
+		<property name="footerItemList" ref="plFooterItemList" />
+		<property name="aggrFooterWriter" ref="inPLaggrFooterWriter"/>
+		<property name="jobConfigDao" ref="jobConfigDao" />
+	</bean>
+	
+	<util:list id="inPLfooterItemList" scope="step" list-class="java.util.ArrayList">
+			<bean class="com.citi.retail.optima.etl.common.model.RainbowFileFooter" p:hashFileType="FINSERVTYP" p:hashField="eFinServiceTypId" 
+			p:outputFileResourceName="GN_SR67841_#{jobParameters[productCode]}_#{jobParameters[region]}_#{jobParameters[countryCode]}_RSK_#{jobParameters[dateOfInfo]}_HIST_#{jobParameters[currentDate]}_IND_#{jobParameters[versionId]}."/>
+			<bean class="com.citi.retail.optima.etl.common.model.RainbowFileFooter" p:hashFileType="RNK" p:hashField="eRank" 
+			p:outputFileResourceName="GN_SR67841_#{jobParameters[productCode]}_#{jobParameters[region]}_#{jobParameters[countryCode]}_RSK_#{jobParameters[dateOfInfo]}_HIST_#{jobParameters[currentDate]}_AIR_#{jobParameters[versionId]}."/>
+			<bean class="com.citi.retail.optima.etl.common.model.RainbowFileFooter" p:hashFileType="BAL_TYP" p:hashField="eBalType" 
+			p:outputFileResourceName="GN_SR67841_#{jobParameters[productCode]}_#{jobParameters[region]}_#{jobParameters[countryCode]}_RSK_#{jobParameters[dateOfInfo]}_HIST_#{jobParameters[currentDate]}_CB_#{jobParameters[versionId]}."/>
+			
+			<!-- <bean class="com.citi.retail.optima.etl.common.model.RainbowFileFooter" p:hashFileType="PCT" p:hashField="ePctAmt" 
+			p:outputFileResourceName="GN_SR67841_#{jobParameters[productCode]}_#{jobParameters[region]}_#{jobParameters[countryCode]}_RSK_#{jobParameters[dateOfInfo]}_HIST_#{jobParameters[currentDate]}_AIP_#{jobParameters[versionId]}."/>
+		
+			<bean class="com.citi.retail.optima.etl.common.model.RainbowFileFooter" p:hashFileType="RTE_VARTYP" p:hashField="eRateVarTypId" 
+			p:outputFileResourceName="GN_SR67841_#{jobParameters[productCode]}_#{jobParameters[region]}_#{jobParameters[countryCode]}_RSK_#{jobParameters[dateOfInfo]}_HIST_#{jobParameters[currentDate]}_AR_#{jobParameters[versionId]}."/> 
+			<bean class="com.citi.retail.optima.etl.common.model.RainbowFileFooter" p:hashFileType="BAL_TYP" p:hashField="eFinServiceTypId" 
+			p:outputFileResourceName="GN_SR67841_#{jobParameters[productCode]}_#{jobParameters[region]}_#{jobParameters[countryCode]}_RSK_#{jobParameters[dateOfInfo]}_HIST_#{jobParameters[currentDate]}_CB_#{jobParameters[versionId]}."/>
+			<bean class="com.citi.retail.optima.etl.common.model.RainbowFileFooter" p:hashFileType="RANK" p:hashField="eRank" 
+			p:outputFileResourceName="GN_SR67841_#{jobParameters[productCode]}_#{jobParameters[region]}_#{jobParameters[countryCode]}_RSK_#{jobParameters[dateOfInfo]}_HIST_#{jobParameters[currentDate]}_ARG_#{jobParameters[versionId]}."/>
+ 			<bean class="com.citi.retail.optima.etl.common.model.RainbowFileFooter" p:hashFileType="BUS_INTTYP" p:hashField="eRank"  
+ 			p:outputFileResourceName="GN_SR67841_#{jobParameters[productCode]}_#{jobParameters[region]}_#{jobParameters[countryCode]}_RSK_#{jobParameters[dateOfInfo]}_HIST_#{jobParameters[currentDate]}_CA_#{jobParameters[versionId]}."/> -->
+	</util:list>	
+	
+	<bean id="inPLaggrFooterWriter" class="org.springframework.batch.item.file.FlatFileItemWriter">
+	
+ 	<property name="lineAggregator">
+	  <bean class="org.springframework.batch.item.file.transform.FormatterLineAggregator" >
+	  	<property name="fieldExtractor">
+	  		<bean class="org.springframework.batch.item.file.transform.BeanWrapperFieldExtractor">
+	  			<property name="names" value="writeCount,hashFileType,aggregatedHashValue"/>
+	  		</bean>
+	  	</property>
+	  	<property name="format" value="TRL%09d%-10s%018d"></property>
+	  </bean>
+	</property>
+  </bean>
+  
+  <bean id="inPLCsvWriter" class="com.citi.retail.optima.etl.batch.job.writer.LoansConditionalCompositeItemWriter" scope="step">
+		<property name="delegates">
+			<util:list>				
+<ref bean="inPLloansIndicativeFileWriter" />  
+<ref bean="inPLloansArrangementIPRatingFileWriter" />
+<ref bean="inPLloansCommonBalanceWriter" />
+
+			</util:list>
+		</property>
+	</bean>
+	
+	<!-- *********************************************** India Personal Loan Configuration=END ***************************************************** -->
+	
+	<bean name="inPLFileMergeTasklet" class="com.citi.retail.optima.etl.batch.tasklet.FileMergeTasklet"
+		scope="step">
+		<property name="footerItemList" ref="plFooterItemList" />
+		<property name="header" value="HDR#{jobParameters[currentDate]}#{jobParameters[dateOfInfo]}" />
+		<property name="format" value="%3s%09d%-10s%018d" />
+		<property name="outputDirectory" value="#{#getOutputFilePath(jobParameters[COUNTRYPRODUCT])}" />
+			<property name="auditFileId" value="#{jobParameters[AUDITFILEID]}"/>
+<!-- 		<property name="auditFiles" value="#{jobParameters[AUDITFILES]}"/> -->
+		<property name="rainbowFileName" value="#{jobParameters[IN_LOANS]}"/>
+		<property name="jobMessageDao" ref="jobMessageDao"/>
+		<property name="queryExec" ref="queryExecutor"/>
+		<property name="inputDirectory" value="#{#getInputFilePath(jobParameters[COUNTRYPRODUCT])}" />
+		<property name="archiveDirectory" value="#{#getArchiveFilePath(jobParameters[COUNTRYPRODUCT])}" />
+	<property name="batchInstanceId" value="#{jobParameters[batchInstanceId]}" />
+	<property name="jobConfigDao" ref="jobConfigDao" />
+	</bean>
+</beans>

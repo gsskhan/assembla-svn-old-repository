@@ -1,0 +1,9 @@
+# Optima Retail DB properties
+#
+optima.db.driverClassName = oracle.jdbc.pool.OracleDataSource
+optima.db.url=jdbc:oracle:thin:@vm-f962-051e.nam.nsroot.net:1522:ORDSDVG
+optima.db.user=ORDSETL
+optima.db.pass=ordsetl
+optima.db.pool.name=ETLBatchConnectionPool
+optima.db.pool.min=16
+optima.db.pool.max=20

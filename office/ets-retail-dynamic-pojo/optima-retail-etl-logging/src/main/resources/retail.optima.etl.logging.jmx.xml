@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<beans	xmlns="http://www.springframework.org/schema/beans"
+		xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+		xmlns:p="http://www.springframework.org/schema/p"
+		xmlns:util="http://www.springframework.org/schema/util"
+		xmlns:context="http://www.springframework.org/schema/context"
+		xsi:schemaLocation="
+			http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.2.xsd
+			http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util-3.2.xsd
+			http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-3.2.xsd">
+    
+    <context:property-placeholder
+            location="classpath:optima.retail.etl.logging.jmx.props"
+            ignore-resource-not-found="true"
+            ignore-unresolvable="true"
+            system-properties-mode="OVERRIDE"
+    />
+    
+    <!-- server-side connector -->
+    <bean   id="loggingJmxServerConnector"
+            class="org.springframework.jmx.support.ConnectorServerFactoryBean"
+            p:objectName="connector:name=${module}-rmi"
+            p:serviceUrl="service:jmx:rmi:///jndi/rmi://${jmx.host}:${jmx.port}/${module}"
+    />
+    
+    <!-- mbean exporter -->        
+    <bean   id="loggingMBeanExporter"
+            class="org.springframework.jmx.export.MBeanExporter"
+            p:beans-ref="loggingExportingBeanMap"
+            p:server-ref="mbeanServer"
+            p:assembler-ref="loggingMBeanInfoAssembler"
+            p:registrationBehaviorName="REGISTRATION_FAIL_ON_EXISTING"
+    />
+    
+    <bean   id="loggingMBeanInfoAssembler"
+            class="org.springframework.jmx.export.assembler.InterfaceBasedMBeanInfoAssembler"
+            p:managedInterfaces-ref="loggingManagedInterfaces"
+    />
+    
+    <!-- exporting beans -->
+    <util:map id="loggingExportingBeanMap">
+        <entry key="optima.retail.etl:module=${module}" value-ref="loggingMBean"/>
+    </util:map>
+        
+    <!-- managed interface -->
+    <util:list id="loggingManagedInterfaces">
+        <value>com.citi.retail.optima.etl.logging.container.jmx.LoggingMBean</value>
+    </util:list>
+    
+    <bean	id="loggingMBean"
+    		class="com.citi.retail.optima.etl.logging.container.jmx.impl.LoggingMBeanImpl"
+    		p:loggingJmsAdapter-ref="loggingJmsAdapter"
+    />
+</beans>

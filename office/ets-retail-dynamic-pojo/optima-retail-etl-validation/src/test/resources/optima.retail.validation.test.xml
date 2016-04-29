@@ -1,0 +1,108 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:p="http://www.springframework.org/schema/p" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:util="http://www.springframework.org/schema/util" xmlns:context="http://www.springframework.org/schema/context"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.2.xsd
+							http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util-3.2.xsd
+							http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-3.2.xsd">
+
+	<!-- Register Annotation-based Post Processing Beans -->
+	<context:annotation-config />
+	
+	<bean id="validationProperties"
+        class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
+        <property name="ignoreUnresolvablePlaceholders" value="true"/>        
+        <property name="locations">
+            <list>
+                <value>classpath:optima.retail.etl.validation.datasource.props</value>
+                <value>classpath:optima.retail.etl.validation.sql.properties</value>
+            </list>
+        </property>
+    </bean>
+
+	<bean id="validationService"
+		class="com.citi.retail.optima.etl.validation.impl.ValidationServiceImpl"
+		p:validator-ref="spelidator" p:rulesLoader-ref="validationRulesHolder"
+		p:evalContext-ref="validationEvaluationContext" 		
+		p:keyList-ref="keyList" />
+
+	<bean id="validationRulesHolder"
+		class="com.citi.retail.optima.etl.validation.ValidationRulesLoader"
+		p:validationRulesDao-ref="validationRulesDao" />
+
+	<bean id="validationRulesDao"
+		class="com.citi.retail.optima.etl.validation.dao.impl.ValidationRulesDaoImpl"
+		p:sql="${query.cache.rules.validation.spel.with.key}"
+		p:jdbcTemplate-ref="jdbcTemplate" />
+		
+	<bean id="spelidator"
+		class="com.citi.retail.optima.etl.validation.validator.impl.SPELidator" />
+
+	<!-- Custom Evaluation Context -->
+	<bean id="validationEvaluationContext"
+		class="com.citi.retail.optima.etl.validation.support.ValidationCustomEvaluationContext"
+		p:customEvaluationProvider-ref="customEvaluationProvider"
+		init-method="init" />	
+		
+	<bean id="customEvaluationProvider"
+		class="com.citi.retail.optima.etl.validation.support.test.CustomEvaluationProviderImpl"/>
+		
+	<bean	id="jdbcTemplate"
+    	class="org.springframework.jdbc.core.JdbcTemplate"
+    	p:dataSource-ref="optimaDbPool"
+    />	
+		
+	<bean	id="optimaDbPool"
+		class="oracle.ucp.jdbc.PoolDataSourceFactory"
+		factory-method="getPoolDataSource"
+		lazy-init="true"
+		p:connectionFactoryClassName="${optima.db.driverClassName}"
+		p:SQLForValidateConnection="select 1 from DUAL"			
+		p:URL="${optima.db.url}"
+		p:user="${optima.db.user}"
+		p:password="${optima.db.pass}"
+		p:connectionPoolName="${optima.db.pool.name}"
+		p:minPoolSize="${optima.db.pool.min}"
+		p:maxPoolSize="${optima.db.pool.max}"
+	/>
+	
+	<!-- Testing configurations -->
+	<util:list id="keyList">
+		<value>suppDataProcessStep:19</value>		
+	</util:list>
+	<bean id="userSubCCARRecord"
+		class="com.citi.retail.optima.etl.validation.model.UserSubmissionCCARRecord"
+		scope="prototype" />
+		
+	<bean id="lineMapper" class="org.springframework.batch.item.file.mapping.DefaultLineMapper">
+		<property name="lineTokenizer">
+			<bean
+				class="org.springframework.batch.item.file.transform.DelimitedLineTokenizer">
+				<property name="names"
+					value="rptPeriod,gcbcPortfolioId,submitterId,contactId,dataVersion,region,country,productType,collateralizedFlag,currLineLoanSize,originalLtv,age,vintage,delqStatus,origFico,netAccounts,unpaidPrinBalAmt,enrAmt,outstandingDpdOver30Amt,numAcctDpdOver30,accountEver30DpdLast12Amt,accountEver60DpdLast12Amt,numNewAccounts,newAccountAmt,commitmentAmt,newCommitmentAmt,commitmentIncrAmt,commitmentDecrAmt,modificationAmt,grossContractualChargeOffAmt,bankruptcyChargeOffAmt,recovery,numAcctChargeOff,netChargeOffAmt,adjNetChargeOffAmt,foreclosureAmt,newForeclosureAmt,reoAmt,newReoAmt,vehicleTypeCarVanAmt,vehicleTypeSuvTruckAmt,vehicleTypeSportAmt,vehicleTypeUnknown,repo,currentMonthRepo,projectedvalueLease,ActSaleProceedsLease,refPortfolioCcy,fxRate,rptBasis" />
+			</bean>
+		</property>
+		
+		<property name="fieldSetMapper">
+			<bean
+				class="org.springframework.batch.item.file.mapping.BeanWrapperFieldSetMapper">
+				<property name="prototypeBeanName" value="userSubCCARRecord" />
+			</bean>
+		</property>
+	</bean>
+	
+	<bean id="lineMapper1" class="org.springframework.batch.item.file.mapping.DefaultLineMapper">
+		<property name="lineTokenizer">
+			<bean
+				class="org.springframework.batch.item.file.transform.DelimitedLineTokenizer">
+				<property name="names"
+								value="reporting_period,region,country,business_unit,product_type,b_cumulative_gross_chargeoffs,c_cumulative_impairments_fair_value_adjustments,f_auto_leases_rpt_y_14q,g_non_auto_leases_rpt_y_14q,h_non_purpose_sec_loans_rpt_bhckb539_bhckk207,i_sme_corp_card_loans_commercial_industrial_loans_us,j_sme_corp_card_loans_commercial_industrial_loans_outside_us,k_sme_corp_card_loans_ind_household_family_other_credit_cards,l_sme_corp_card_loans_household_family_other_revolving,submitter_id" />				
+			</bean>
+		</property>
+		
+		<property name="fieldSetMapper">
+					<bean
+						class="com.citi.retail.optima.etl.validation.SupplementaryFieldsetMapper"/>
+		</property>
+	</bean>	
+</beans>

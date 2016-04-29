@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<optimaRetailETLEvent
+    xmlns="http://citi.com/retail/optima/schemas/event/OptimaRetail">
+	<eventType>ORETL_ATTEST_FEED_REQUEST</eventType>
+    <eventTimestamp>2013-03-14 17:37:52</eventTimestamp>
+    <requestID>ORETL-063650e67b8c400f90f1b07e242414f3</requestID>
+    <reportPeriod>2012-12-31</reportPeriod>
+    <scheduleID>1,2</scheduleID>
+    <portfolioID>USUR00001</portfolioID>
+    <versionID>1</versionID>
+    <approverID>mk67854</approverID>
+    <originalMsgId>287</originalMsgId>
+    <batchInstanceId>148</batchInstanceId>
+    <priority>2</priority> 
+     <countryCode>CA</countryCode>  
+</optimaRetailETLEvent>

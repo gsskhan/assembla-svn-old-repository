@@ -1,0 +1,2150 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<fileValidationRules functionName="LLR-USER-SUB"
+	columnCount="205" delimiter="," allowedExtentions="*.xls,*.xlsx">
+	<inputColumn columnId="1" columnName="template_date"  regex="([0-9a-zA-Z_\- ]*)"
+		duplicate="false" order="0" dataType="String" notNull="true">
+		<errorMessages>
+			<entry>
+				<key>NOT_NULL_INVALID</key>
+				<value>Template_date cannot be blank or null</value>
+			</entry>
+			<entry>
+				<key>DATATYPE_INVALID</key>
+				<value>Template_date date format is wrong it should be in
+					'MM/DD/YYYY' format</value>
+			</entry>
+		</errorMessages>
+	</inputColumn>
+
+	<inputColumn columnId="2" columnName="template_quarter"
+		duplicate="true" order="1" dataType="String" notNull="true"
+		regex="([0-9a-zA-Z_\- ]{1,6})" maxlength="6">
+		<errorMessages>
+			<entry>
+				<key>NOT_NULL_INVALID</key>
+				<value>Template_quarter cannot be blank or null</value>
+			</entry>
+			<entry>
+				<key>DATATYPE_INVALID</key>
+				<value>Template_quarter format is not valid</value>
+			</entry>
+		</errorMessages>
+	</inputColumn>
+
+	<inputColumn columnId="3" columnName="cycle" duplicate="true"
+		order="2" dataType="String" notNull="true" regex="([0-9a-zA-Z_\- ]{1,5})">
+		<errorMessages>
+			<entry>
+				<key>NOT_NULL_INVALID</key>
+				<value>Cycle cannot be blank or null</value>
+			</entry>
+			<entry>
+				<key>DATATYPE_INVALID</key>
+				<value>Cycle format is not valid</value>
+			</entry>
+		</errorMessages>
+	</inputColumn>
+
+
+	<inputColumn columnId="4" columnName="con_comm" duplicate="true"
+		order="3" dataType="String" notNull="true" regex="([0-9a-zA-Z_\- ]{1,5})">
+		<errorMessages>
+			<entry>
+				<key>NOT_NULL_INVALID</key>
+				<value>Con_comm cannot be blank or null</value>
+			</entry>
+			<entry>
+				<key>DATATYPE_INVALID</key>
+				<value>Con_comm format is not valid</value>
+			</entry>
+		</errorMessages>
+	</inputColumn>
+
+	<inputColumn columnId="5" columnName="region" duplicate="true"
+		order="4" dataType="String" notNull="true" regex="([0-9a-zA-Z_\- ]{1,5})">
+		<errorMessages>
+			<entry>
+				<key>NOT_NULL_INVALID</key>
+				<value>Region cannot be blank or null</value>
+			</entry>
+			<entry>
+				<key>DATATYPE_INVALID</key>
+				<value>Region format is not valid</value>
+			</entry>
+		</errorMessages>
+	</inputColumn>
+
+	<inputColumn columnId="6" columnName="country" duplicate="true"
+		order="5" dataType="String" notNull="true" regex="([0-9a-zA-Z_\- ]{1,2})">
+		<errorMessages>
+			<entry>
+				<key>NOT_NULL_INVALID</key>
+				<value>Country cannot be blank or null</value>
+			</entry>
+			<entry>
+				<key>DATATYPE_INVALID</key>
+				<value>Country format is not valid</value>
+			</entry>
+		</errorMessages>
+	</inputColumn>
+
+	<inputColumn columnId="7" columnName="business" duplicate="true"
+		order="6" dataType="String" notNull="true" regex="([0-9a-zA-Z_\- ]{1,20})">
+		<errorMessages>
+			<entry>
+				<key>NOT_NULL_INVALID</key>
+				<value>Business cannot be blank or null</value>
+			</entry>
+			<entry>
+				<key>DATATYPE_INVALID</key>
+				<value>Business format is not valid</value>
+			</entry>
+		</errorMessages>
+	</inputColumn>
+
+	<inputColumn columnId="8" columnName="corp_holdings"
+		duplicate="true" order="7" dataType="String" notNull="true"
+		regex="([0-9a-zA-Z_\- ]{1})">
+		<errorMessages>
+			<entry>
+				<key>NOT_NULL_INVALID</key>
+				<value>Corp_holdings cannot be blank or null</value>
+			</entry>
+			<entry>
+				<key>DATATYPE_INVALID</key>
+				<value>Corp_holdings format is not valid</value>
+			</entry>
+		</errorMessages>
+	</inputColumn>
+
+	<inputColumn columnId="9" columnName="legal_vehicle"
+		duplicate="true" order="8" dataType="String" notNull="true"
+		regex="([0-9a-zA-Z_\- ]{1,15})">
+		<errorMessages>
+			<entry>
+				<key>NOT_NULL_INVALID</key>
+				<value>Legal_vehicle cannot be blank or null</value>
+			</entry>
+			<entry>
+				<key>DATATYPE_INVALID</key>
+				<value>Legal_vehicle format is not valid</value>
+			</entry>
+		</errorMessages>
+	</inputColumn>
+
+	<inputColumn columnId="10" columnName="product1" duplicate="true"
+		order="9" dataType="String" notNull="true" regex="([0-9a-zA-Z_\- ]{1})">
+		<errorMessages>
+			<entry>
+				<key>NOT_NULL_INVALID</key>
+				<value>Product1 cannot be blank or null</value>
+			</entry>
+			<entry>
+				<key>DATATYPE_INVALID</key>
+				<value>Product1 format is not valid</value>
+			</entry>
+		</errorMessages>
+	</inputColumn>
+
+	<inputColumn columnId="11" columnName="product2" duplicate="true"
+		order="10" dataType="String" notNull="true" regex="([0-9a-zA-Z_\- ]{1,15})">
+		<errorMessages>
+			<entry>
+				<key>NOT_NULL_INVALID</key>
+				<value>Product2 cannot be blank or null</value>
+			</entry>
+			<entry>
+				<key>DATATYPE_INVALID</key>
+				<value>Product2 format is not valid</value>
+			</entry>
+		</errorMessages>
+	</inputColumn>
+
+	<inputColumn columnId="12" columnName="product3" duplicate="false"
+		order="11" dataType="String" notNull="false" regex="([0-9a-zA-Z_\- ]{0,15})">
+		<errorMessages>
+			<entry>
+				<key>NOT_NULL_INVALID</key>
+				<value>Product3 cannot be blank or null</value>
+			</entry>
+			<entry>
+				<key>DATATYPE_INVALID</key>
+				<value>Product3 format is not valid</value>
+			</entry>
+		</errorMessages>
+	</inputColumn>
+
+
+	<inputColumn columnId="13" columnName="CurrQ_EO_FX_Rate_Business"
+		duplicate="false" order="12" dataType="NegativeDecimal" notNull="false">
+		<errorMessages>
+			<entry>
+				<key>DATATYPE_INVALID</key>
+				<value>CurrQ_EO_FX_Rate_Business format is not valid</value>
+			</entry>
+		</errorMessages>
+	</inputColumn>
+
+	<inputColumn columnId="14" columnName="PrevQ_FX_Rate_Business"
+		duplicate="false" order="13" dataType="NegativeDecimal" notNull="true">
+		<errorMessages>
+			<entry>
+				<key>NOT_NULL_INVALID</key>
+				<value>PrevQ_FX_Rate_Business cannot be blank or null</value>
+			</entry>
+			<entry>
+				<key>DATATYPE_INVALID</key>
+				<value>PrevQ_FX_Rate_Business format is not valid</value>
+			</entry>
+		</errorMessages>
+	</inputColumn>
+
+	<inputColumn columnId="15" columnName="CurrQ_TotalENR"
+		duplicate="false" order="14" dataType="NegativeDecimal" notNull="false">
+		<errorMessages>
+			<entry>
+				<key>DATATYPE_INVALID</key>
+				<value>CurrQ_TotalENR format is not valid</value>
+			</entry>
+		</errorMessages>
+	</inputColumn>
+
+	<inputColumn columnId="16" columnName="PrevQ_TotalENR"
+		duplicate="false" order="15" dataType="NegativeDecimal" notNull="false">
+		<errorMessages>
+			<entry>
+				<key>DATATYPE_INVALID</key>
+				<value>PrevQ_TotalENR format is not valid</value>
+			</entry>
+		</errorMessages>
+	</inputColumn>
+
+	<inputColumn columnId="17" columnName="CurrQ_TotalENR_Adjustment"
+		duplicate="false" order="16" dataType="NegativeDecimal" notNull="true">
+		<errorMessages>
+			<entry>
+				<key>NOT_NULL_INVALID</key>
+				<value>CurrQ_TotalENR_Adjustment cannot be blank or null</value>
+			</entry>
+			<entry>
+				<key>DATATYPE_INVALID</key>
+				<value>CurrQ_TotalENR_Adjustment format is not valid</value>
+			</entry>
+		</errorMessages>
+	</inputColumn>
+
+	<inputColumn columnId="18" columnName="PrevQ_TotalENR_Adjustment"
+		duplicate="false" order="17" dataType="NegativeDecimal" notNull="true">
+		<errorMessages>
+			<entry>
+				<key>NOT_NULL_INVALID</key>
+				<value>PrevQ_TotalENR_Adjustment cannot be blank or null</value>
+			</entry>
+			<entry>
+				<key>DATATYPE_INVALID</key>
+				<value>PrevQ_TotalENR_Adjustment format is not valid</value>
+			</entry>
+		</errorMessages>
+	</inputColumn>
+
+	<inputColumn columnId="19" columnName="CurrQ_FAS5_ENR"
+		duplicate="false" order="18" dataType="NegativeDecimal" notNull="false">
+		<errorMessages>
+			<entry>
+				<key>DATATYPE_INVALID</key>
+				<value>CurrQ_FAS5_ENR format is not valid</value>
+			</entry>
+		</errorMessages>
+	</inputColumn>
+
+	<inputColumn columnId="20" columnName="PrevQ_FAS5_ENR"
+		duplicate="false" order="19" dataType="NegativeDecimal" notNull="false">
+		<errorMessages>
+			<entry>
+				<key>DATATYPE_INVALID</key>
+				<value>PrevQ_FAS5_ENR format is not valid</value>
+			</entry>
+		</errorMessages>
+	</inputColumn>
+
+	<inputColumn columnId="21" columnName="CurrQ_FAS5_ENR Adjustment"
+		duplicate="false" order="20" dataType="NegativeDecimal" notNull="true">
+		<errorMessages>
+			<entry>
+				<key>NOT_NULL_INVALID</key>
+				<value>CurrQ_FAS5_ENR Adjustment cannot be blank or null</value>
+			</entry>
+			<entry>
+				<key>DATATYPE_INVALID</key>
+				<value>CurrQ_FAS5_ENR Adjustment format is not valid</value>
+			</entry>
+		</errorMessages>
+	</inputColumn>
+
+	<inputColumn columnId="22" columnName="PrevQ_FAS5_ENR_Adjustment"
+		duplicate="false" order="21" dataType="NegativeDecimal" notNull="true">
+		<errorMessages>
+			<entry>
+				<key>NOT_NULL_INVALID</key>
+				<value>PrevQ_FAS5_ENR_Adjustment cannot be blank or null</value>
+			</entry>
+			<entry>
+				<key>DATATYPE_INVALID</key>
+				<value>PrevQ_FAS5_ENR_Adjustment format is not valid</value>
+			</entry>
+		</errorMessages>
+	</inputColumn>
+
+	<inputColumn columnId="23" columnName="CurrQ_SOP03_ENR"
+		duplicate="false" order="22" dataType="NegativeDecimal" notNull="false">
+		<errorMessages>
+			<entry>
+				<key>DATATYPE_INVALID</key>
+				<value>CurrQ_SOP03_ENR Adjustment format is not valid</value>
+			</entry>
+		</errorMessages>
+	</inputColumn>
+
+
+	<inputColumn columnId="24" columnName="PrevQ_SOP03_ENR"
+		duplicate="false" order="23" dataType="NegativeDecimal" notNull="false">
+		<errorMessages>
+			<entry>
+				<key>DATATYPE_INVALID</key>
+				<value>CurrQ_SOP03_ENR Adjustment format is not valid</value>
+			</entry>
+		</errorMessages>
+	</inputColumn>
+
+	<inputColumn columnId="25" columnName="CurrQ_SOP03_ENR_Adjustment"
+		duplicate="false" order="24" dataType="NegativeDecimal" notNull="true">
+		<errorMessages>
+			<entry>
+				<key>NOT_NULL_INVALID</key>
+				<value>CurrQ_SOP03_ENR_Adjustment cannot be blank or null</value>
+			</entry>
+			<entry>
+				<key>DATATYPE_INVALID</key>
+				<value>CurrQ_SOP03_ENR_Adjustment format is not valid</value>
+			</entry>
+		</errorMessages>
+	</inputColumn>
+
+	<inputColumn columnId="26" columnName="PrevQ_SOP03_ENR_Adjustment"
+		duplicate="false" order="25" dataType="NegativeDecimal" notNull="true">
+		<errorMessages>
+			<entry>
+				<key>NOT_NULL_INVALID</key>
+				<value>PrevQ_SOP03_ENR_Adjustment cannot be blank or null</value>
+			</entry>
+			<entry>
+				<key>DATATYPE_INVALID</key>
+				<value>PrevQ_SOP03_ENR_Adjustment format is not valid</value>
+			</entry>
+		</errorMessages>
+	</inputColumn>
+
+	<inputColumn columnId="27" columnName="CurrQ_STMODs_ENR "
+		duplicate="false" order="26" dataType="NegativeDecimal" notNull="false">
+		<errorMessages>
+			<entry>
+				<key>DATATYPE_INVALID</key>
+				<value>CurrQ_STMODs_ENR format is not valid</value>
+			</entry>
+		</errorMessages>
+	</inputColumn>
+
+	<inputColumn columnId="28" columnName="PrevQ_STMODs_ENR"
+		duplicate="false" order="27" dataType="NegativeDecimal" notNull="false">
+		<errorMessages>
+			<entry>
+				<key>DATATYPE_INVALID</key>
+				<value>PrevQ_STMODs_ENR format is not valid</value>
+			</entry>
+		</errorMessages>
+	</inputColumn>
+
+	<inputColumn columnId="29" columnName="CurrQ_STMODs_ENR_Adjustment"
+		duplicate="false" order="28" dataType="NegativeDecimal" notNull="true">
+		<errorMessages>
+			<entry>
+				<key>NOT_NULL_INVALID</key>
+				<value>CurrQ_STMODs_ENR_Adjustment cannot be blank or null</value>
+			</entry>
+			<entry>
+				<key>DATATYPE_INVALID</key>
+				<value>CurrQ_STMODs_ENR_Adjustment format is not valid</value>
+			</entry>
+		</errorMessages>
+	</inputColumn>
+
+	<inputColumn columnId="30" columnName="PrevQ_STMODs_ENR_Adjustment"
+		duplicate="false" order="29" dataType="NegativeDecimal" notNull="true">
+		<errorMessages>
+			<entry>
+				<key>NOT_NULL_INVALID</key>
+				<value>PrevQ_STMODs_ENR_Adjustment cannot be blank or null</value>
+			</entry>
+			<entry>
+				<key>DATATYPE_INVALID</key>
+				<value>PrevQ_STMODs_ENR_Adjustment format is not valid</value>
+			</entry>
+		</errorMessages>
+	</inputColumn>
+
+	<inputColumn columnId="31" columnName="CurrQ_FAS114_ENR"
+		duplicate="false" order="30" dataType="NegativeDecimal" notNull="false">
+		<errorMessages>
+			<entry>
+				<key>DATATYPE_INVALID</key>
+				<value>CurrQ_FAS114_ENR format is not valid</value>
+			</entry>
+		</errorMessages>
+	</inputColumn>
+
+	<inputColumn columnId="32" columnName="PrevQ_FAS114_ENR"
+		duplicate="false" order="31" dataType="NegativeDecimal" notNull="false">
+		<errorMessages>
+			<entry>
+				<key>DATATYPE_INVALID</key>
+				<value>PrevQ_FAS114_ENR format is not valid</value>
+			</entry>
+		</errorMessages>
+	</inputColumn>
+
+	<inputColumn columnId="33" columnName="CurrQ_FAS114_Writeoff_ENR"
+		duplicate="false" order="32" dataType="NegativeDecimal" notNull="false">
+		<errorMessages>
+			<entry>
+				<key>DATATYPE_INVALID</key>
+				<value>CurrQ_FAS114_Writeoff_ENR format is not valid</value>
+			</entry>
+		</errorMessages>
+	</inputColumn>
+
+	<inputColumn columnId="34" columnName="PrevQ_FAS114_Writeoff_ENR"
+		duplicate="false" order="33" dataType="NegativeDecimal" notNull="false">
+		<errorMessages>
+			<entry>
+				<key>DATATYPE_INVALID</key>
+				<value>PrevQ_FAS114_Writeoff_ENR format is not valid</value>
+			</entry>
+		</errorMessages>
+	</inputColumn>
+
+	<inputColumn columnId="35" columnName="CurrQ_FAS114_ENR Adjustment"
+		duplicate="false" order="34" dataType="NegativeDecimal" notNull="true">
+		<errorMessages>
+			<entry>
+				<key>NOT_NULL_INVALID</key>
+				<value>CurrQ_FAS114_ENR Adjustment cannot be blank or null</value>
+			</entry>
+			<entry>
+				<key>DATATYPE_INVALID</key>
+				<value>CurrQ_FAS114_ENR Adjustment format is not valid</value>
+			</entry>
+		</errorMessages>
+	</inputColumn>
+
+	<inputColumn columnId="36" columnName="PrevQ_FAS114_ENR Adjustment"
+		duplicate="false" order="35" dataType="NegativeDecimal" notNull="true">
+		<errorMessages>
+			<entry>
+				<key>NOT_NULL_INVALID</key>
+				<value>PrevQ_FAS114_ENR Adjustment cannot be blank or null</value>
+			</entry>
+			<entry>
+				<key>DATATYPE_INVALID</key>
+				<value>PrevQ_FAS114_ENR Adjustment format is not valid</value>
+			</entry>
+		</errorMessages>
+	</inputColumn>
+
+	<inputColumn columnId="37" columnName="CurrQ_ENR_Adjustment_Rationale"
+		duplicate="false" order="36" dataType="String" notNull="false">
+		<errorMessages>
+			<entry>
+				<key>NOT_NULL_INVALID</key>
+				<value>CurrQ_ENR_Adjustment_Rationale cannot be blank or null
+				</value>
+			</entry>
+			<entry>
+				<key>DATATYPE_INVALID</key>
+				<value>CurrQ_ENR_Adjustment_Rationale format is not valid</value>
+			</entry>
+		</errorMessages>
+	</inputColumn>
+
+	<inputColumn columnId="38" columnName="PrevQ_ENR_Adjustment_Rationale"
+		duplicate="false" order="37" dataType="String" notNull="false">
+		<errorMessages>
+			<entry>
+				<key>NOT_NULL_INVALID</key>
+				<value>PrevQ_ENR_Adjustment_Rationale cannot be blank or null
+				</value>
+			</entry>
+			<entry>
+				<key>DATATYPE_INVALID</key>
+				<value>PrevQ_ENR_Adjustment_Rationale format is not valid</value>
+			</entry>
+		</errorMessages>
+	</inputColumn>
+
+	<inputColumn columnId="39" columnName="CurrQ_GCL"
+		duplicate="false" order="38" dataType="NegativeDecimal" notNull="false">
+		<errorMessages>
+			<entry>
+				<key>DATATYPE_INVALID</key>
+				<value>CurrQ_GCL format is not valid</value>
+			</entry>
+		</errorMessages>
+	</inputColumn>
+
+	<inputColumn columnId="40" columnName="PrevQ_GCL"
+		duplicate="false" order="39" dataType="NegativeDecimal" notNull="false">
+		<errorMessages>
+			<entry>
+				<key>DATATYPE_INVALID</key>
+				<value>PrevQ_GCL format is not valid</value>
+			</entry>
+		</errorMessages>
+	</inputColumn>
+
+	<inputColumn columnId="41" columnName="CurrQ_NCL"
+		duplicate="false" order="40" dataType="NegativeDecimal" notNull="false">
+		<errorMessages>
+			<entry>
+				<key>DATATYPE_INVALID</key>
+				<value>CurrQ_NCL format is not valid</value>
+			</entry>
+		</errorMessages>
+	</inputColumn>
+
+	<inputColumn columnId="42" columnName="PrevQ_NCL"
+		duplicate="false" order="41" dataType="NegativeDecimal" notNull="false">
+		<errorMessages>
+			<entry>
+				<key>DATATYPE_INVALID</key>
+				<value>PrevQ_NCL format is not valid</value>
+			</entry>
+		</errorMessages>
+	</inputColumn>
+
+	<inputColumn columnId="43" columnName="CurrQ_Recovery"
+		duplicate="false" order="42" dataType="NegativeDecimal" notNull="false">
+		<errorMessages>
+			<entry>
+				<key>DATATYPE_INVALID</key>
+				<value>CurrQ_Recovery format is not valid</value>
+			</entry>
+		</errorMessages>
+	</inputColumn>
+
+	<inputColumn columnId="44" columnName="PrevQ_Recovery"
+		duplicate="false" order="43" dataType="NegativeDecimal" notNull="false">
+		<errorMessages>
+			<entry>
+				<key>DATATYPE_INVALID</key>
+				<value>PrevQ_Recovery format is not valid</value>
+			</entry>
+		</errorMessages>
+	</inputColumn>
+
+	<inputColumn columnId="45" columnName="CurrQ_GCL_FAS5_Only"
+		duplicate="false" order="44" dataType="NegativeDecimal" notNull="false">
+		<errorMessages>
+			<entry>
+				<key>DATATYPE_INVALID</key>
+				<value>CurrQ_GCL_FAS5_Only format is not valid</value>
+			</entry>
+		</errorMessages>
+	</inputColumn>
+
+	<inputColumn columnId="46" columnName="PrevQ_GCL_FAS5_Only"
+		duplicate="false" order="45" dataType="NegativeDecimal" notNull="false">
+		<errorMessages>
+			<entry>
+				<key>DATATYPE_INVALID</key>
+				<value>PrevQ_GCL_FAS5_Only format is not valid</value>
+			</entry>
+		</errorMessages>
+	</inputColumn>
+
+	<inputColumn columnId="47" columnName="CurrQ_Recoveries_FAS5_Only"
+		duplicate="false" order="46" dataType="NegativeDecimal" notNull="false">
+		<errorMessages>
+			<entry>
+				<key>DATATYPE_INVALID</key>
+				<value>CurrQ_Recoveries_FAS5_Only format is not valid</value>
+			</entry>
+		</errorMessages>
+	</inputColumn>
+
+	<inputColumn columnId="48" columnName="PrevQ_Recoveries_FAS5_Only"
+		duplicate="false" order="47" dataType="NegativeDecimal" notNull="false">
+		<errorMessages>
+			<entry>
+				<key>DATATYPE_INVALID</key>
+				<value>PrevQ_Recoveries_FAS5_Only format is not valid</value>
+			</entry>
+		</errorMessages>
+	</inputColumn>
+
+	<inputColumn columnId="49" columnName="CurrQ_NCL_FAS5_Only"
+		duplicate="false" order="48" dataType="NegativeDecimal" notNull="false">
+		<errorMessages>
+			<entry>
+				<key>DATATYPE_INVALID</key>
+				<value>CurrQ_NCL_FAS5_Only format is not valid</value>
+			</entry>
+		</errorMessages>
+	</inputColumn>
+
+	<inputColumn columnId="50" columnName="PrevQ_NCL_FAS5_Only"
+		duplicate="false" order="49" dataType="NegativeDecimal" notNull="false">
+		<errorMessages>
+			<entry>
+				<key>DATATYPE_INVALID</key>
+				<value>PrevQ_NCL_FAS5_Only format is not valid</value>
+			</entry>
+		</errorMessages>
+	</inputColumn>
+
+	<inputColumn columnId="51" columnName="CurrQ_GCL_FAS114_Only"
+		duplicate="false" order="50" dataType="NegativeDecimal" notNull="false">
+		<errorMessages>
+			<entry>
+				<key>DATATYPE_INVALID</key>
+				<value>CurrQ_GCL_FAS114_Only format is not valid</value>
+			</entry>
+		</errorMessages>
+	</inputColumn>
+
+	<inputColumn columnId="52" columnName="PrevQ_GCL_FAS114_Only"
+		duplicate="false" order="51" dataType="NegativeDecimal" notNull="false">
+		<errorMessages>
+			<entry>
+				<key>DATATYPE_INVALID</key>
+				<value>PrevQ_GCL_FAS114_Only format is not valid</value>
+			</entry>
+		</errorMessages>
+	</inputColumn>
+
+	<inputColumn columnId="53" columnName="CurrQ_Recoveries_FAS114_Only"
+		duplicate="false" order="52" dataType="NegativeDecimal" notNull="false">
+		<errorMessages>
+			<entry>
+				<key>DATATYPE_INVALID</key>
+				<value>CurrQ_Recoveries_FAS114_Only format is not valid</value>
+			</entry>
+		</errorMessages>
+	</inputColumn>
+
+	<inputColumn columnId="54" columnName="PrevQ_Recoveries_FAS114_Only"
+		duplicate="false" order="53" dataType="NegativeDecimal" notNull="false">
+		<errorMessages>
+			<entry>
+				<key>DATATYPE_INVALID</key>
+				<value>PrevQ_Recoveries_FAS114_Only format is not valid</value>
+			</entry>
+		</errorMessages>
+	</inputColumn>
+
+	<inputColumn columnId="55" columnName="CurrQ_NCL_FAS114_Only"
+		duplicate="false" order="54" dataType="NegativeDecimal" notNull="false">
+		<errorMessages>
+			<entry>
+				<key>DATATYPE_INVALID</key>
+				<value>CurrQ_NCL_FAS114_Only format is not valid</value>
+			</entry>
+		</errorMessages>
+	</inputColumn>
+
+	<inputColumn columnId="56" columnName="PrevQ_NCL_FAS114_Only"
+		duplicate="false" order="55" dataType="NegativeDecimal" notNull="false">
+		<errorMessages>
+			<entry>
+				<key>DATATYPE_INVALID</key>
+				<value>PrevQ_NCL_FAS114_Only format is not valid</value>
+			</entry>
+		</errorMessages>
+	</inputColumn>
+
+	<inputColumn columnId="57" columnName="CurrQ_Bankruptcies"
+		duplicate="false" order="56" dataType="NegativeDecimal" notNull="false">
+		<errorMessages>
+			<entry>
+				<key>DATATYPE_INVALID</key>
+				<value>CurrQ_Bankruptcies format is not valid</value>
+			</entry>
+		</errorMessages>
+	</inputColumn>
+
+	<inputColumn columnId="58" columnName="PrevQ_Bankruptcies"
+		duplicate="false" order="57" dataType="NegativeDecimal" notNull="false">
+		<errorMessages>
+			<entry>
+				<key>DATATYPE_INVALID</key>
+				<value>PrevQ_Bankruptcies format is not valid</value>
+			</entry>
+		</errorMessages>
+	</inputColumn>
+
+	<inputColumn columnId="59" columnName="CurrQ_LLR_Bal_Total_SR0"
+		duplicate="false" order="58" dataType="NegativeDecimal" notNull="false">
+		<errorMessages>
+			<entry>
+				<key>DATATYPE_INVALID</key>
+				<value>CurrQ_LLR_Bal_Total_SR0 format is not valid</value>
+			</entry>
+		</errorMessages>
+	</inputColumn>
+
+	<inputColumn columnId="60" columnName="PrevQ_LLR_Bal_Total_SR0"
+		duplicate="false" order="59" dataType="NegativeDecimal" notNull="false">
+		<errorMessages>
+			<entry>
+				<key>DATATYPE_INVALID</key>
+				<value>PrevQ_LLR_Bal_Total_SR0 format is not valid</value>
+			</entry>
+		</errorMessages>
+	</inputColumn>
+
+	<inputColumn columnId="61"
+		columnName="CurrQ_LLR_Bal_Total_Interest_fees_for_Base" duplicate="false"
+		order="60" dataType="NegativeDecimal" notNull="false">
+		<errorMessages>
+			<entry>
+				<key>DATATYPE_INVALID</key>
+				<value>CurrQ_LLR_Bal_Total_Interest_fees_for_Base format is not
+					valid</value>
+			</entry>
+		</errorMessages>
+	</inputColumn>
+
+	<inputColumn columnId="62"
+		columnName="PrevQ_LLR_Bal_Total_Interest_fees_for_Base" duplicate="false"
+		order="61" dataType="NegativeDecimal" notNull="false">
+		<errorMessages>
+			<entry>
+				<key>DATATYPE_INVALID</key>
+				<value>PrevQ_LLR_Bal_Total_Interest_fees_for_Base format is not
+					valid</value>
+			</entry>
+		</errorMessages>
+	</inputColumn>
+
+	<inputColumn columnId="63"
+		columnName="CurrQ_LLR_Bal_Total_TechnicalAdj_Seasonality_Base"
+		duplicate="false" order="62" dataType="NegativeDecimal" notNull="false">
+		<errorMessages>
+			<entry>
+				<key>DATATYPE_INVALID</key>
+				<value>CurrQ_LLR_Bal_Total_TechnicalAdj_Seasonality_Base format is
+					not valid</value>
+			</entry>
+		</errorMessages>
+	</inputColumn>
+
+	<inputColumn columnId="64"
+		columnName="PrevQ_LLR_Bal_Total_TechnicalAdj_Seasonality_Base"
+		duplicate="false" order="63" dataType="NegativeDecimal" notNull="false">
+		<errorMessages>
+			<entry>
+				<key>DATATYPE_INVALID</key>
+				<value>PrevQ_LLR_Bal_Total_TechnicalAdj_Seasonality_Base format is
+					not valid</value>
+			</entry>
+		</errorMessages>
+	</inputColumn>
+
+	<inputColumn columnId="65" columnName="CurrQ_LLR_Bal_Total_ELP"
+		duplicate="false" order="64" dataType="NegativeDecimal" notNull="false">
+		<errorMessages>
+			<entry>
+				<key>DATATYPE_INVALID</key>
+				<value>CurrQ_LLR_Bal_Total_ELP format is not valid</value>
+			</entry>
+		</errorMessages>
+	</inputColumn>
+
+	<inputColumn columnId="66" columnName="PrevQ_LLR_Bal_Total_ELP"
+		duplicate="false" order="65" dataType="NegativeDecimal" notNull="false">
+		<errorMessages>
+			<entry>
+				<key>DATATYPE_INVALID</key>
+				<value>PrevQ_LLR_Bal_Total_ELP format is not valid</value>
+			</entry>
+		</errorMessages>
+	</inputColumn>
+
+	<inputColumn columnId="67" columnName="CurrQ_LLR_Bal_Total_SOP03"
+		duplicate="false" order="66" dataType="NegativeDecimal" notNull="false">
+		<errorMessages>
+			<entry>
+				<key>DATATYPE_INVALID</key>
+				<value>CurrQ_LLR_Bal_Total_SOP03 format is not valid</value>
+			</entry>
+		</errorMessages>
+	</inputColumn>
+
+	<inputColumn columnId="68" columnName="PrevQ_LLR_Bal_Total_SOP03"
+		duplicate="false" order="67" dataType="NegativeDecimal" notNull="false">
+		<errorMessages>
+			<entry>
+				<key>DATATYPE_INVALID</key>
+				<value>PrevQ_LLR_Bal_Total_SOP03 format is not valid</value>
+			</entry>
+		</errorMessages>
+	</inputColumn>
+
+	<inputColumn columnId="69"
+		columnName="CurrQ_LLR_Bal_Total_ForwardLookingAdj" duplicate="false"
+		order="68" dataType="NegativeDecimal" notNull="false">
+		<errorMessages>
+			<entry>
+				<key>DATATYPE_INVALID</key>
+				<value>CurrQ_LLR_Bal_Total_ForwardLookingAdj format is not valid
+				</value>
+			</entry>
+		</errorMessages>
+	</inputColumn>
+
+	<inputColumn columnId="70"
+		columnName="PrevQ_LLR_Bal_Total_ForwardLookingAdj" duplicate="false"
+		order="69" dataType="NegativeDecimal" notNull="false">
+		<errorMessages>
+			<entry>
+				<key>DATATYPE_INVALID</key>
+				<value>PrevQ_LLR_Bal_Total_ForwardLookingAdj format is not valid
+				</value>
+			</entry>
+		</errorMessages>
+	</inputColumn>
+
+	<inputColumn columnId="71" columnName="CurrQ_LLR_Bal_Total_STMods"
+		duplicate="false" order="70" dataType="NegativeDecimal" notNull="false">
+		<errorMessages>
+			<entry>
+				<key>DATATYPE_INVALID</key>
+				<value>CurrQ_LLR_Bal_Total_STMods format is not valid</value>
+			</entry>
+		</errorMessages>
+	</inputColumn>
+
+	<inputColumn columnId="72" columnName="PrevQ_LLR_Bal_Total_STMods"
+		duplicate="false" order="71" dataType="NegativeDecimal" notNull="false">
+		<errorMessages>
+			<entry>
+				<key>DATATYPE_INVALID</key>
+				<value>PrevQ_LLR_Bal_Total_STMods format is not valid</value>
+			</entry>
+		</errorMessages>
+	</inputColumn>
+
+	<inputColumn columnId="73" columnName="CurrQ_LLR_Bal_Total_MA"
+		duplicate="false" order="72" dataType="NegativeDecimal" notNull="false">
+		<errorMessages>
+			<entry>
+				<key>DATATYPE_INVALID</key>
+				<value>CurrQ_LLR_Bal_Total_MA format is not valid</value>
+			</entry>
+		</errorMessages>
+	</inputColumn>
+
+	<inputColumn columnId="74" columnName="PrevQ_LLR_Bal_Total_MA"
+		duplicate="false" order="73" dataType="NegativeDecimal" notNull="false">
+		<errorMessages>
+			<entry>
+				<key>DATATYPE_INVALID</key>
+				<value>PrevQ_LLR_Bal_Total_MA format is not valid</value>
+			</entry>
+		</errorMessages>
+	</inputColumn>
+
+	<inputColumn columnId="75" columnName="CurrQ_LLR_Bal_Total_Total_FAS 5"
+		duplicate="false" order="74" dataType="NegativeDecimal" notNull="false">
+		<errorMessages>
+			<entry>
+				<key>DATATYPE_INVALID</key>
+				<value>CurrQ_LLR_Bal_Total_Total_FAS format is not valid</value>
+			</entry>
+		</errorMessages>
+	</inputColumn>
+
+	<inputColumn columnId="76" columnName="PrevQ_LLR_Bal_Total_Total_FAS 5"
+		duplicate="false" order="75" dataType="NegativeDecimal" notNull="false">
+		<errorMessages>
+			<entry>
+				<key>DATATYPE_INVALID</key>
+				<value>PrevQ_LLR_Bal_Total_Total_FAS format is not valid</value>
+			</entry>
+		</errorMessages>
+	</inputColumn>
+
+	<inputColumn columnId="77" columnName="CurrQ_LLR_Bal_Total_Total_FAS114"
+		duplicate="false" order="76" dataType="NegativeDecimal" notNull="false">
+		<errorMessages>
+			<entry>
+				<key>DATATYPE_INVALID</key>
+				<value>CurrQ_LLR_Bal_Total_Total_FAS114 format is not valid</value>
+			</entry>
+		</errorMessages>
+	</inputColumn>
+
+	<inputColumn columnId="78" columnName="PrevQ_LLR_Bal_Total_Total_FAS114"
+		duplicate="false" order="77" dataType="NegativeDecimal" notNull="false">
+		<errorMessages>
+			<entry>
+				<key>DATATYPE_INVALID</key>
+				<value>PrevQ_LLR_Bal_Total_Total_FAS114 format is not valid</value>
+			</entry>
+		</errorMessages>
+	</inputColumn>
+
+	<inputColumn columnId="79" columnName="CurrQ_LLR_Bal_Total_Total"
+		duplicate="false" order="78" dataType="NegativeDecimal" notNull="false">
+		<errorMessages>
+			<entry>
+				<key>DATATYPE_INVALID</key>
+				<value>CurrQ_LLR_Bal_Total_Total format is not valid</value>
+			</entry>
+		</errorMessages>
+	</inputColumn>
+
+	<inputColumn columnId="80" columnName="PrevQ_LLR_Bal_Total_Total"
+		duplicate="false" order="79" dataType="NegativeDecimal" notNull="false">
+		<errorMessages>
+			<entry>
+				<key>DATATYPE_INVALID</key>
+				<value> PrevQ_LLR_Bal_Total_Total format is not valid</value>
+			</entry>
+		</errorMessages>
+	</inputColumn>
+	<inputColumn columnId="81" columnName="CurrQ_LLR_Bal_Total_MA_Volatility"
+		duplicate="false" order="80" dataType="NegativeDecimal" notNull="false">
+		<errorMessages>
+			<entry>
+				<key>DATATYPE_INVALID</key>
+				<value> CurrQ_LLR_Bal_Total_MA_Volatility format is not valid
+				</value>
+			</entry>
+		</errorMessages>
+	</inputColumn>
+	<inputColumn columnId="82" columnName="PrevQ_LLR_Bal_Total_MA_Volatility"
+		duplicate="false" order="81" dataType="NegativeDecimal" notNull="false">
+		<errorMessages>
+			<entry>
+				<key>DATATYPE_INVALID</key>
+				<value> PrevQ_LLR_Bal_Total_MA_Volatility format is not valid
+				</value>
+			</entry>
+		</errorMessages>
+	</inputColumn>
+	<inputColumn columnId="83" columnName="CurrQ_LLR_Bal_Provision_SR0"
+		duplicate="false" order="82" dataType="NegativeDecimal" notNull="false">
+		<errorMessages>
+			<entry>
+				<key>DATATYPE_INVALID</key>
+				<value> CurrQ_LLR_Bal_Provision_SR0 format is not valid</value>
+			</entry>
+		</errorMessages>
+	</inputColumn>
+	<inputColumn columnId="84" columnName="PrevQ_LLR_Bal_Provision_SR0"
+		duplicate="false" order="83" dataType="NegativeDecimal" notNull="false">
+		<errorMessages>
+			<entry>
+				<key>DATATYPE_INVALID</key>
+				<value> PrevQ_LLR_Bal_Provision_SR0 format is not valid</value>
+			</entry>
+		</errorMessages>
+	</inputColumn>
+	<inputColumn columnId="85" columnName="CurrQ_LLR_Bal_Provision_ELP"
+		duplicate="false" order="84" dataType="NegativeDecimal" notNull="false">
+		<errorMessages>
+			<entry>
+				<key>DATATYPE_INVALID</key>
+				<value> CurrQ_LLR_Bal_Provision_ELP format is not valid</value>
+			</entry>
+		</errorMessages>
+	</inputColumn>
+	<inputColumn columnId="86" columnName="PrevQ_LLR_Bal_Provision_ELP"
+		duplicate="false" order="85" dataType="NegativeDecimal" notNull="false">
+		<errorMessages>
+			<entry>
+				<key>DATATYPE_INVALID</key>
+				<value> PrevQ_LLR_Bal_Provision_ELP format is not valid</value>
+			</entry>
+		</errorMessages>
+	</inputColumn>
+	<inputColumn columnId="87" columnName="CurrQ_LLR_Bal_Provision_SOP03"
+		duplicate="false" order="86" dataType="NegativeDecimal" notNull="false">
+		<errorMessages>
+			<entry>
+				<key>DATATYPE_INVALID</key>
+				<value> CurrQ_LLR_Bal_Provision_SOP03 format is not valid</value>
+			</entry>
+		</errorMessages>
+	</inputColumn>
+	<inputColumn columnId="88" columnName="PrevQ_LLR_Bal_Provision_SOP03"
+		duplicate="false" order="87" dataType="NegativeDecimal" notNull="false">
+		<errorMessages>
+			<entry>
+				<key>DATATYPE_INVALID</key>
+				<value> PrevQ_LLR_Bal_Provision_SOP03 format is not valid</value>
+			</entry>
+		</errorMessages>
+	</inputColumn>
+	<inputColumn columnId="89"
+		columnName="CurrQ_LLR_Bal_Provision_ForwardLookingAdj" duplicate="false"
+		order="88" dataType="NegativeDecimal" notNull="false">
+		<errorMessages>
+			<entry>
+				<key>DATATYPE_INVALID</key>
+				<value> CurrQ_LLR_Bal_Provision_ForwardLookingAdj format is not
+					valid</value>
+			</entry>
+		</errorMessages>
+	</inputColumn>
+	<inputColumn columnId="90"
+		columnName="PrevQ_LLR_Bal_Provision_ForwardLookingAdj" duplicate="false"
+		order="89" dataType="NegativeDecimal" notNull="false">
+		<errorMessages>
+			<entry>
+				<key>DATATYPE_INVALID</key>
+				<value> PrevQ_LLR_Bal_Provision_ForwardLookingAdj format is not
+					valid</value>
+			</entry>
+		</errorMessages>
+	</inputColumn>
+	<inputColumn columnId="91" columnName="CurrQ_LLR_Bal_Provision_STMods"
+		duplicate="false" order="90" dataType="NegativeDecimal" notNull="false">
+		<errorMessages>
+			<entry>
+				<key>DATATYPE_INVALID</key>
+				<value> CurrQ_LLR_Bal_Provision_STMods format is not valid</value>
+			</entry>
+		</errorMessages>
+	</inputColumn>
+	<inputColumn columnId="92" columnName="PrevQ_LLR_Bal_Provision_STMods"
+		duplicate="false" order="91" dataType="NegativeDecimal" notNull="false">
+		<errorMessages>
+			<entry>
+				<key>DATATYPE_INVALID</key>
+				<value> PrevQ_LLR_Bal_Provision_STMods format is not valid</value>
+			</entry>
+		</errorMessages>
+	</inputColumn>
+	<inputColumn columnId="93" columnName="CurrQ_LLR_Bal_Provision_MA"
+		duplicate="false" order="92" dataType="NegativeDecimal" notNull="false">
+		<errorMessages>
+			<entry>
+				<key>DATATYPE_INVALID</key>
+				<value> CurrQ_LLR_Bal_Provision_MA format is not valid</value>
+			</entry>
+		</errorMessages>
+	</inputColumn>
+	<inputColumn columnId="94" columnName="PrevQ_LLR_Bal_Provision_MA"
+		duplicate="false" order="93" dataType="NegativeDecimal" notNull="false">
+		<errorMessages>
+			<entry>
+				<key>DATATYPE_INVALID</key>
+				<value> PrevQ_LLR_Bal_Provision_MA format is not valid</value>
+			</entry>
+		</errorMessages>
+	</inputColumn>
+	<inputColumn columnId="95" columnName="CurrQ_LLR_Bal_Provision_FAS5"
+		duplicate="false" order="94" dataType="NegativeDecimal" notNull="false">
+		<errorMessages>
+			<entry>
+				<key>DATATYPE_INVALID</key>
+				<value> CurrQ_LLR_Bal_Provision_FAS5 format is not valid</value>
+			</entry>
+		</errorMessages>
+	</inputColumn>
+	<inputColumn columnId="96" columnName="PrevQ_LLR_Bal_Provision_FAS5"
+		duplicate="false" order="95" dataType="NegativeDecimal" notNull="false">
+		<errorMessages>
+			<entry>
+				<key>DATATYPE_INVALID</key>
+				<value> PrevQ_LLR_Bal_Provision_FAS5 format is not valid</value>
+			</entry>
+		</errorMessages>
+	</inputColumn>
+	<inputColumn columnId="97" columnName="CurrQ_LLR_Bal_Provision_FAS114"
+		duplicate="false" order="96" dataType="NegativeDecimal" notNull="false">
+		<errorMessages>
+			<entry>
+				<key>DATATYPE_INVALID</key>
+				<value> CurrQ_LLR_Bal_Provision_FAS114 format is not valid</value>
+			</entry>
+		</errorMessages>
+	</inputColumn>
+	<inputColumn columnId="98" columnName="PrevQ_LLR_Bal_Provision_FAS114"
+		duplicate="false" order="97" dataType="NegativeDecimal" notNull="false">
+		<errorMessages>
+			<entry>
+				<key>DATATYPE_INVALID</key>
+				<value> PrevQ_LLR_Bal_Provision_FAS114 format is not valid</value>
+			</entry>
+		</errorMessages>
+	</inputColumn>
+	<inputColumn columnId="99" columnName="CurrQ_LLR_Bal_Provision_Total"
+		duplicate="false" order="98" dataType="NegativeDecimal" notNull="false">
+		<errorMessages>
+			<entry>
+				<key>DATATYPE_INVALID</key>
+				<value> CurrQ_LLR_Bal_Provision_Total format is not valid</value>
+			</entry>
+		</errorMessages>
+	</inputColumn>
+	<inputColumn columnId="100" columnName="PrevQ_LLR_Bal_Provision_Total"
+		duplicate="false" order="99" dataType="NegativeDecimal" notNull="false">
+		<errorMessages>
+			<entry>
+				<key>DATATYPE_INVALID</key>
+				<value> PrevQ_LLR_Bal_Provision_Total format is not valid</value>
+			</entry>
+		</errorMessages>
+	</inputColumn>
+	<inputColumn columnId="101" columnName="CurrQ_LLR_Bal_Non_Provision_SR0"
+		duplicate="false" order="100" dataType="NegativeDecimal" notNull="false">
+		<errorMessages>
+			<entry>
+				<key>DATATYPE_INVALID</key>
+				<value> CurrQ_LLR_Bal_Non_Provision_SR0 format is not valid</value>
+			</entry>
+		</errorMessages>
+	</inputColumn>
+	<inputColumn columnId="102" columnName="PrevQ_LLR_Bal_Non_Provision_SR0"
+		duplicate="false" order="101" dataType="NegativeDecimal" notNull="false">
+		<errorMessages>
+			<entry>
+				<key>DATATYPE_INVALID</key>
+				<value> PrevQ_LLR_Bal_Non_Provision_SR0 format is not valid</value>
+			</entry>
+		</errorMessages>
+	</inputColumn>
+	<inputColumn columnId="103" columnName="CurrQ_LLR_Bal_Non_Provision_ELP"
+		duplicate="false" order="102" dataType="NegativeDecimal" notNull="false">
+		<errorMessages>
+			<entry>
+				<key>DATATYPE_INVALID</key>
+				<value> CurrQ_LLR_Bal_Non_Provision_ELP format is not valid</value>
+			</entry>
+		</errorMessages>
+	</inputColumn>
+	<inputColumn columnId="104" columnName="PrevQ_LLR_Bal_Non_Provision_ELP"
+		duplicate="false" order="103" dataType="NegativeDecimal" notNull="false">
+		<errorMessages>
+			<entry>
+				<key>DATATYPE_INVALID</key>
+				<value> PrevQ_LLR_Bal_Non_Provision_ELP format is not valid</value>
+			</entry>
+		</errorMessages>
+	</inputColumn>
+	<inputColumn columnId="105" columnName="CurrQ_LLR_Bal_Non_Provision_SOP03"
+		duplicate="false" order="104" dataType="NegativeDecimal" notNull="false">
+		<errorMessages>
+			<entry>
+				<key>DATATYPE_INVALID</key>
+				<value> CurrQ_LLR_Bal_Non_Provision_SOP03 format is not valid
+				</value>
+			</entry>
+		</errorMessages>
+	</inputColumn>
+	<inputColumn columnId="106" columnName="PrevQ_LLR_Bal_Non_Provision_SOP03"
+		duplicate="false" order="105" dataType="NegativeDecimal" notNull="false">
+		<errorMessages>
+			<entry>
+				<key>DATATYPE_INVALID</key>
+				<value> PrevQ_LLR_Bal_Non_Provision_SOP03 format is not valid
+				</value>
+			</entry>
+		</errorMessages>
+	</inputColumn>
+	<inputColumn columnId="107"
+		columnName="CurrQ_LLR_Bal_Non_Provision_ForwardLookingAdj" duplicate="false"
+		order="106" dataType="NegativeDecimal" notNull="false">
+		<errorMessages>
+			<entry>
+				<key>DATATYPE_INVALID</key>
+				<value> CurrQ_LLR_Bal_Non_Provision_ForwardLookingAdj format is not
+					valid</value>
+			</entry>
+		</errorMessages>
+	</inputColumn>
+	<inputColumn columnId="108"
+		columnName="PrevQ_LLR_Bal_Non_Provision_ForwardLookingAdj" duplicate="false"
+		order="107" dataType="NegativeDecimal" notNull="false">
+		<errorMessages>
+			<entry>
+				<key>DATATYPE_INVALID</key>
+				<value> PrevQ_LLR_Bal_Non_Provision_ForwardLookingAdj format is not
+					valid</value>
+			</entry>
+		</errorMessages>
+	</inputColumn>
+	<inputColumn columnId="109" columnName="CurrQ_LLR_Bal_Non_Provision_STMods"
+		duplicate="false" order="108" dataType="NegativeDecimal" notNull="false">
+		<errorMessages>
+			<entry>
+				<key>DATATYPE_INVALID</key>
+				<value> CurrQ_LLR_Bal_Non_Provision_STMods format is not valid
+				</value>
+			</entry>
+		</errorMessages>
+	</inputColumn>
+	<inputColumn columnId="110" columnName="PrevQ_LLR_Bal_Non_Provision_STMods"
+		duplicate="false" order="109" dataType="NegativeDecimal" notNull="false">
+		<errorMessages>
+			<entry>
+				<key>DATATYPE_INVALID</key>
+				<value> PrevQ_LLR_Bal_Non_Provision_STMods format is not valid
+				</value>
+			</entry>
+		</errorMessages>
+	</inputColumn>
+	<inputColumn columnId="111" columnName="CurrQ_LLR_Bal_Non_Provision_MA"
+		duplicate="false" order="110" dataType="NegativeDecimal" notNull="false">
+		<errorMessages>
+			<entry>
+				<key>DATATYPE_INVALID</key>
+				<value> CurrQ_LLR_Bal_Non_Provision_MA format is not valid</value>
+			</entry>
+		</errorMessages>
+	</inputColumn>
+	<inputColumn columnId="112" columnName="PrevQ_LLR_Bal_Non_Provision_MA"
+		duplicate="false" order="111" dataType="NegativeDecimal" notNull="false">
+		<errorMessages>
+			<entry>
+				<key>DATATYPE_INVALID</key>
+				<value> PrevQ_LLR_Bal_Non_Provision_MA format is not valid</value>
+			</entry>
+		</errorMessages>
+	</inputColumn>
+	<inputColumn columnId="113" columnName="CurrQ_LLR_Bal_Non_Provision_FAS5"
+		duplicate="false" order="112" dataType="NegativeDecimal" notNull="false">
+		<errorMessages>
+			<entry>
+				<key>DATATYPE_INVALID</key>
+				<value> CurrQ_LLR_Bal_Non_Provision_FAS5 format is not valid</value>
+			</entry>
+		</errorMessages>
+	</inputColumn>
+	<inputColumn columnId="114" columnName="PrevQ_LLR_Bal_Non_Provision_FAS5"
+		duplicate="false" order="113" dataType="NegativeDecimal" notNull="false">
+		<errorMessages>
+			<entry>
+				<key>DATATYPE_INVALID</key>
+				<value> PrevQ_LLR_Bal_Non_Provision_FAS5 format is not valid</value>
+			</entry>
+		</errorMessages>
+	</inputColumn>
+	<inputColumn columnId="115" columnName="CurrQ_LLR_Bal_Non_Provision_FAS114"
+		duplicate="false" order="114" dataType="NegativeDecimal" notNull="false">
+		<errorMessages>
+			<entry>
+				<key>DATATYPE_INVALID</key>
+				<value> CurrQ_LLR_Bal_Non_Provision_FAS114 format is not valid
+				</value>
+			</entry>
+		</errorMessages>
+	</inputColumn>
+	<inputColumn columnId="116" columnName="PrevQ_LLR_Bal_Non_Provision_FAS114"
+		duplicate="false" order="115" dataType="NegativeDecimal" notNull="false">
+		<errorMessages>
+			<entry>
+				<key>DATATYPE_INVALID</key>
+				<value> PrevQ_LLR_Bal_Non_Provision_FAS114 format is not valid
+				</value>
+			</entry>
+		</errorMessages>
+	</inputColumn>
+	<inputColumn columnId="117" columnName="CurrQ_LLR_Bal_Non_Provision_Total"
+		duplicate="false" order="116" dataType="NegativeDecimal" notNull="false">
+		<errorMessages>
+			<entry>
+				<key>DATATYPE_INVALID</key>
+				<value> CurrQ_LLR_Bal_Non_Provision_Total format is not valid
+				</value>
+			</entry>
+		</errorMessages>
+	</inputColumn>
+	<inputColumn columnId="118" columnName="PrevQ_LLR_Bal_Non_Provision_Total"
+		duplicate="false" order="117" dataType="NegativeDecimal" notNull="false">
+		<errorMessages>
+			<entry>
+				<key>DATATYPE_INVALID</key>
+				<value> PrevQ_LLR_Bal_Non_Provision_Total format is not valid
+				</value>
+			</entry>
+		</errorMessages>
+	</inputColumn>
+	<inputColumn columnId="119" columnName="CurrQ_change_in_ENR_due_to_HFS_FAS5"
+		duplicate="false" order="118" dataType="NegativeDecimal" notNull="false">
+		<errorMessages>
+			<entry>
+				<key>DATATYPE_INVALID</key>
+				<value> CurrQ_change_in_ENR_due_to_HFS_FAS5 format is not valid
+				</value>
+			</entry>
+		</errorMessages>
+	</inputColumn>
+	<inputColumn columnId="120" columnName="PrevQ_change_in_ENR_due_to_HFS_FAS5"
+		duplicate="false" order="119" dataType="NegativeDecimal" notNull="false">
+		<errorMessages>
+			<entry>
+				<key>DATATYPE_INVALID</key>
+				<value> PrevQ_change_in_ENR_due_to_HFS_FAS5 format is not valid
+				</value>
+			</entry>
+		</errorMessages>
+	</inputColumn>
+	<inputColumn columnId="121"
+		columnName="CurrQ_change_in_ENR_due_to_HFS_FAS114" duplicate="false"
+		order="120" dataType="NegativeDecimal" notNull="false">
+		<errorMessages>
+			<entry>
+				<key>DATATYPE_INVALID</key>
+				<value> CurrQ_change_in_ENR_due_to_HFS_FAS114 format is not valid
+				</value>
+			</entry>
+		</errorMessages>
+	</inputColumn>
+	<inputColumn columnId="122"
+		columnName="PrevQ_change_in_ENR_due_to_HFS_FAS114" duplicate="false"
+		order="121" dataType="NegativeDecimal" notNull="false">
+		<errorMessages>
+			<entry>
+				<key>DATATYPE_INVALID</key>
+				<value> PrevQ_change_in_ENR_due_to_HFS_FAS114 format is not valid
+				</value>
+			</entry>
+		</errorMessages>
+	</inputColumn>
+	<inputColumn columnId="123"
+		columnName="CurrQ_change_in_ENR_due_to_HFS_Total" duplicate="false"
+		order="122" dataType="NegativeDecimal" notNull="false">
+		<errorMessages>
+			<entry>
+				<key>DATATYPE_INVALID</key>
+				<value> CurrQ_change_in_ENR_due_to_HFS_Total format is not valid
+				</value>
+			</entry>
+		</errorMessages>
+	</inputColumn>
+	<inputColumn columnId="124"
+		columnName="PrevQ_change_in_ENR_due_to_HFS_Total" duplicate="false"
+		order="123" dataType="NegativeDecimal" notNull="false">
+		<errorMessages>
+			<entry>
+				<key>DATATYPE_INVALID</key>
+				<value> PrevQ_change_in_ENR_due_to_HFS_Total format is not valid
+				</value>
+			</entry>
+		</errorMessages>
+	</inputColumn>
+	<inputColumn columnId="125"
+		columnName="CurrQ_change_in_ENR_due_to_Asset_Sales_Buy_Backs_FAS114"
+		duplicate="false" order="124" dataType="NegativeDecimal" notNull="false">
+		<errorMessages>
+			<entry>
+				<key>DATATYPE_INVALID</key>
+				<value> CurrQ_change_in_ENR_due_to_Asset_Sales_Buy_Backs_FAS114	format is not valid</value>
+			</entry>
+		</errorMessages>
+	</inputColumn>
+	<inputColumn columnId="126"
+		columnName="PrevQ_change_in_ENR_due_to_Asset_Sales_Buy_Backs_FAS114"
+		duplicate="false" order="125" dataType="NegativeDecimal" notNull="false">
+		<errorMessages>
+			<entry>
+				<key>DATATYPE_INVALID</key>
+				<value> PrevQ_change_in_ENR_due_to_Asset_Sales_Buy_Backs_FAS114
+					format is not valid</value>
+			</entry>
+		</errorMessages>
+	</inputColumn>
+	<inputColumn columnId="127" columnName="CurrQ_LLR_Bal_Pearl_FAS5_Adj"
+		duplicate="false" order="126" dataType="NegativeDecimal" notNull="false">
+		<errorMessages>
+			<entry>
+				<key>DATATYPE_INVALID</key>
+				<value> CurrQ_LLR_Bal_Pearl_FAS5_Adj format is not valid</value>
+			</entry>
+		</errorMessages>
+	</inputColumn>
+	<inputColumn columnId="128" columnName="PrevQ_LLR_Bal_Pearl_FAS5_Adj"
+		duplicate="false" order="127" dataType="NegativeDecimal" notNull="false">
+		<errorMessages>
+			<entry>
+				<key>DATATYPE_INVALID</key>
+				<value> PrevQ_LLR_Bal_Pearl_FAS5_Adj format is not valid</value>
+			</entry>
+		</errorMessages>
+	</inputColumn>
+	<inputColumn columnId="129" columnName="CurrQ_LLR_Bal_Pearl_FAS114_Adj"
+		duplicate="false" order="128" dataType="NegativeDecimal" notNull="false">
+		<errorMessages>
+			<entry>
+				<key>DATATYPE_INVALID</key>
+				<value> CurrQ_LLR_Bal_Pearl_FAS114_Adj format is not valid</value>
+			</entry>
+		</errorMessages>
+	</inputColumn>
+	<inputColumn columnId="130" columnName="PrevQ_LLR_Bal_Pearl_FAS114_Adj"
+		duplicate="false" order="129" dataType="NegativeDecimal" notNull="false">
+		<errorMessages>
+			<entry>
+				<key>DATATYPE_INVALID</key>
+				<value> PrevQ_LLR_Bal_Pearl_FAS114_Adj format is not valid</value>
+			</entry>
+		</errorMessages>
+	</inputColumn>
+	<inputColumn columnId="131" columnName="CurrQ_LLR_Adjustment_Rationale"
+		duplicate="false" order="130" dataType="NegativeDecimal" notNull="false">
+		<errorMessages>
+			<entry>
+				<key>DATATYPE_INVALID</key>
+				<value> CurrQ_LLR_Adjustment_Rationale format is not valid</value>
+			</entry>
+		</errorMessages>
+	</inputColumn>
+	<inputColumn columnId="132" columnName="PrevQ_LLR_Adjustment_Rationale"
+		duplicate="false" order="131" dataType="NegativeDecimal" notNull="false">
+		<errorMessages>
+			<entry>
+				<key>DATATYPE_INVALID</key>
+				<value> PrevQ_LLR_Adjustment_Rationale format is not valid</value>
+			</entry>
+		</errorMessages>
+	</inputColumn>
+	<inputColumn columnId="133" columnName="CurrQ_Basel_Expected_Loss_(sEL)"
+		duplicate="false" order="132" dataType="NegativeDecimal" notNull="false">
+		<errorMessages>
+			<entry>
+				<key>DATATYPE_INVALID</key>
+				<value> CurrQ_Basel_Expected_Loss_(sEL) format is not valid</value>
+			</entry>
+		</errorMessages>
+	</inputColumn>
+	<inputColumn columnId="134" columnName="PrevQ_Basel_Expected_Loss_(sEL)"
+		duplicate="false" order="133" dataType="NegativeDecimal" notNull="false">
+		<errorMessages>
+			<entry>
+				<key>DATATYPE_INVALID</key>
+				<value> PrevQ_Basel_Expected_Loss_(sEL) format is not valid</value>
+			</entry>
+		</errorMessages>
+	</inputColumn>
+	<inputColumn columnId="135" columnName="CurrQ_Basel_Expected_Loss_(sEL)_F5"
+		duplicate="false" order="134" dataType="NegativeDecimal" notNull="false">
+		<errorMessages>
+			<entry>
+				<key>DATATYPE_INVALID</key>
+				<value> CurrQ_Basel_Expected_Loss_(sEL)_F5 format is not valid
+				</value>
+			</entry>
+		</errorMessages>
+	</inputColumn>
+	<inputColumn columnId="136" columnName="PrevQ_Basel_Expected_Loss_(sEL)_F5"
+		duplicate="false" order="135" dataType="NegativeDecimal" notNull="false">
+		<errorMessages>
+			<entry>
+				<key>DATATYPE_INVALID</key>
+				<value> PrevQ_Basel_Expected_Loss_(sEL)_F5 format is not valid
+				</value>
+			</entry>
+		</errorMessages>
+	</inputColumn>
+	<inputColumn columnId="137"
+		columnName="CurrQ_Basel_Expected_Loss_(sEL)_F114" duplicate="false"
+		order="136" dataType="NegativeDecimal" notNull="false">
+		<errorMessages>
+			<entry>
+				<key>DATATYPE_INVALID</key>
+				<value> CurrQ_Basel_Expected_Loss_(sEL)_F114 format is not valid
+				</value>
+			</entry>
+		</errorMessages>
+	</inputColumn>
+	<inputColumn columnId="138"
+		columnName="PrevQ_Basel_Expected_Loss_(sEL)_F114" duplicate="false"
+		order="137" dataType="NegativeDecimal" notNull="false">
+		<errorMessages>
+			<entry>
+				<key>DATATYPE_INVALID</key>
+				<value> PrevQ_Basel_Expected_Loss_(sEL)_F114 format is not valid
+				</value>
+			</entry>
+		</errorMessages>
+	</inputColumn>
+	<inputColumn columnId="139" columnName="CurrQ_FAS114_ENR_New_Additions"
+		duplicate="false" order="138" dataType="NegativeDecimal" notNull="false">
+		<errorMessages>
+			<entry>
+				<key>DATATYPE_INVALID</key>
+				<value> CurrQ_FAS114_ENR_New_Additions format is not valid</value>
+			</entry>
+		</errorMessages>
+	</inputColumn>
+	<inputColumn columnId="140" columnName="PrevQ_FAS114_ENR_New_Additions"
+		duplicate="false" order="139" dataType="NegativeDecimal" notNull="false">
+		<errorMessages>
+			<entry>
+				<key>DATATYPE_INVALID</key>
+				<value> PrevQ_FAS114_ENR_New_Additions format is not valid</value>
+			</entry>
+		</errorMessages>
+	</inputColumn>
+	<inputColumn columnId="141" columnName="CurrQ_FAS114_ENR_payments"
+		duplicate="false" order="140" dataType="NegativeDecimal" notNull="false">
+		<errorMessages>
+			<entry>
+				<key>DATATYPE_INVALID</key>
+				<value> CurrQ_FAS114_ENR_payments format is not valid</value>
+			</entry>
+		</errorMessages>
+	</inputColumn>
+	<inputColumn columnId="142" columnName="PrevQ_FAS114_ENR_payments"
+		duplicate="false" order="141" dataType="NegativeDecimal" notNull="false">
+		<errorMessages>
+			<entry>
+				<key>DATATYPE_INVALID</key>
+				<value> PrevQ_FAS114_ENR_payments format is not valid</value>
+			</entry>
+		</errorMessages>
+	</inputColumn>
+	<inputColumn columnId="143" columnName="CurrQ_FAS114_ENR_NCL"
+		duplicate="false" order="142" dataType="NegativeDecimal" notNull="false">
+		<errorMessages>
+			<entry>
+				<key>DATATYPE_INVALID</key>
+				<value> CurrQ_FAS114_ENR_NCL format is not valid</value>
+			</entry>
+		</errorMessages>
+	</inputColumn>
+	<inputColumn columnId="144" columnName="PrevQ_FAS114_ENR_NCL"
+		duplicate="false" order="143" dataType="NegativeDecimal" notNull="false">
+		<errorMessages>
+			<entry>
+				<key>DATATYPE_INVALID</key>
+				<value> PrevQ_FAS114_ENR_NCL format is not valid</value>
+			</entry>
+		</errorMessages>
+	</inputColumn>
+	<inputColumn columnId="145" columnName="CurrQ_FAS114_ENR_Other"
+		duplicate="false" order="144" dataType="NegativeDecimal" notNull="false">
+		<errorMessages>
+			<entry>
+				<key>DATATYPE_INVALID</key>
+				<value> CurrQ_FAS114_ENR_Other format is not valid</value>
+			</entry>
+		</errorMessages>
+	</inputColumn>
+	<inputColumn columnId="146" columnName="PrevQ_FAS114_ENR_Other"
+		duplicate="false" order="145" dataType="NegativeDecimal" notNull="false">
+		<errorMessages>
+			<entry>
+				<key>DATATYPE_INVALID</key>
+				<value> PrevQ_FAS114_ENR_Other format is not valid</value>
+			</entry>
+		</errorMessages>
+	</inputColumn>
+	<inputColumn columnId="147" columnName="CurrQ_FAS114_LLR_payments"
+		duplicate="false" order="146" dataType="NegativeDecimal" notNull="false">
+		<errorMessages>
+			<entry>
+				<key>DATATYPE_INVALID</key>
+				<value> CurrQ_FAS114_LLR_payments format is not valid</value>
+			</entry>
+		</errorMessages>
+	</inputColumn>
+	<inputColumn columnId="148" columnName="PrevQ_FAS114_LLR_payments"
+		duplicate="false" order="147" dataType="NegativeDecimal" notNull="false">
+		<errorMessages>
+			<entry>
+				<key>DATATYPE_INVALID</key>
+				<value> PrevQ_FAS114_LLR_payments format is not valid</value>
+			</entry>
+		</errorMessages>
+	</inputColumn>
+	<inputColumn columnId="149" columnName="CurrQ_FAS114_LLR_NCL"
+		duplicate="false" order="148" dataType="NegativeDecimal" notNull="false">
+		<errorMessages>
+			<entry>
+				<key>DATATYPE_INVALID</key>
+				<value> CurrQ_FAS114_LLR_NCL format is not valid</value>
+			</entry>
+		</errorMessages>
+	</inputColumn>
+	<inputColumn columnId="150" columnName="PrevQ_FAS114_LLR_NCL"
+		duplicate="false" order="149" dataType="NegativeDecimal" notNull="false">
+		<errorMessages>
+			<entry>
+				<key>DATATYPE_INVALID</key>
+				<value> PrevQ_FAS114_LLR_NCL format is not valid</value>
+			</entry>
+		</errorMessages>
+	</inputColumn>
+	<inputColumn columnId="151"
+		columnName="CurrQ_FAS114_LLR_Interest_Discounting" duplicate="false"
+		order="150" dataType="NegativeDecimal" notNull="false">
+		<errorMessages>
+			<entry>
+				<key>DATATYPE_INVALID</key>
+				<value> CurrQ_FAS114_LLR_Interest_Discounting format is not valid
+				</value>
+			</entry>
+		</errorMessages>
+	</inputColumn>
+	<inputColumn columnId="152"
+		columnName="PrevQ_FAS114_LLR_Interest_Discounting" duplicate="false"
+		order="151" dataType="NegativeDecimal" notNull="false">
+		<errorMessages>
+			<entry>
+				<key>DATATYPE_INVALID</key>
+				<value> PrevQ_FAS114_LLR_Interest_Discounting format is not valid
+				</value>
+			</entry>
+		</errorMessages>
+	</inputColumn>
+	<inputColumn columnId="153"
+		columnName="CurrQ_FAS114_LLR_AssetSales_BuyBacks" duplicate="false"
+		order="152" dataType="NegativeDecimal" notNull="false">
+		<errorMessages>
+			<entry>
+				<key>DATATYPE_INVALID</key>
+				<value> CurrQ_FAS114_LLR_AssetSales_BuyBacks format is not valid
+				</value>
+			</entry>
+		</errorMessages>
+	</inputColumn>
+	<inputColumn columnId="154"
+		columnName="PrevQ_FAS114_LLR_AssetSales_BuyBacks" duplicate="false"
+		order="153" dataType="NegativeDecimal" notNull="false">
+		<errorMessages>
+			<entry>
+				<key>DATATYPE_INVALID</key>
+				<value> PrevQ_FAS114_LLR_AssetSales_BuyBacks format is not valid
+				</value>
+			</entry>
+		</errorMessages>
+	</inputColumn>
+	<inputColumn columnId="155" columnName="CurrQ_FAS114_LLR_Losses_Chargeoffs"
+		duplicate="false" order="154" dataType="NegativeDecimal" notNull="false">
+		<errorMessages>
+			<entry>
+				<key>DATATYPE_INVALID</key>
+				<value> CurrQ_FAS114_LLR_Losses_Chargeoffs format is not valid
+				</value>
+			</entry>
+		</errorMessages>
+	</inputColumn>
+	<inputColumn columnId="156" columnName="PrevQ_FAS114_LLR_Losses_Chargeoffs"
+		duplicate="false" order="155" dataType="NegativeDecimal" notNull="false">
+		<errorMessages>
+			<entry>
+				<key>DATATYPE_INVALID</key>
+				<value> PrevQ_FAS114_LLR_Losses_Chargeoffs format is not valid
+				</value>
+			</entry>
+		</errorMessages>
+	</inputColumn>
+	<inputColumn columnId="157"
+		columnName="CurrQ_FAS114_LLR_Changes_in_assumptions" duplicate="false"
+		order="156" dataType="NegativeDecimal" notNull="false">
+		<errorMessages>
+			<entry>
+				<key>DATATYPE_INVALID</key>
+				<value> CurrQ_FAS114_LLR_Changes_in_assumptions format is not valid
+				</value>
+			</entry>
+		</errorMessages>
+	</inputColumn>
+	<inputColumn columnId="158"
+		columnName="PrevQ_FAS114_LLR_Changes_in_assumptions" duplicate="false"
+		order="157" dataType="NegativeDecimal" notNull="false">
+		<errorMessages>
+			<entry>
+				<key>DATATYPE_INVALID</key>
+				<value> PrevQ_FAS114_LLR_Changes_in_assumptions format is not valid
+				</value>
+			</entry>
+		</errorMessages>
+	</inputColumn>
+	<inputColumn columnId="159" columnName="CurrQ_FAS114_LLR_Other"
+		duplicate="false" order="158" dataType="NegativeDecimal" notNull="false">
+		<errorMessages>
+			<entry>
+				<key>DATATYPE_INVALID</key>
+				<value> CurrQ_FAS114_LLR_Other format is not valid</value>
+			</entry>
+		</errorMessages>
+	</inputColumn>
+	<inputColumn columnId="160" columnName="PrevQ_FAS114_LLR_Other"
+		duplicate="false" order="159" dataType="NegativeDecimal" notNull="false">
+		<errorMessages>
+			<entry>
+				<key>DATATYPE_INVALID</key>
+				<value> PrevQ_FAS114_LLR_Other format is not valid</value>
+			</entry>
+		</errorMessages>
+	</inputColumn>
+	<inputColumn columnId="161" columnName="FwdLook_NCL_F5_exMA_Fcst_Next1stQ"
+		duplicate="false" order="160" dataType="NegativeDecimal" notNull="false">
+		<errorMessages>
+			<entry>
+				<key>DATATYPE_INVALID</key>
+				<value> FwdLook_NCL_F5_exMA_Fcst_Next1stQ format is not valid
+				</value>
+			</entry>
+		</errorMessages>
+	</inputColumn>
+	<inputColumn columnId="162" columnName="FwdLook_NCL_F5_exMA_Fcst_Next2ndQ"
+		duplicate="false" order="161" dataType="NegativeDecimal" notNull="false">
+		<errorMessages>
+			<entry>
+				<key>DATATYPE_INVALID</key>
+				<value> FwdLook_NCL_F5_exMA_Fcst_Next2ndQ format is not valid
+				</value>
+			</entry>
+		</errorMessages>
+	</inputColumn>
+	<inputColumn columnId="163" columnName="FwdLook_NCL_F5_exMA_Fcst_Next3rdQ"
+		duplicate="false" order="162" dataType="NegativeDecimal" notNull="false">
+		<errorMessages>
+			<entry>
+				<key>DATATYPE_INVALID</key>
+				<value> FwdLook_NCL_F5_exMA_Fcst_Next3rdQ format is not valid
+				</value>
+			</entry>
+		</errorMessages>
+	</inputColumn>
+	<inputColumn columnId="164" columnName="FwdLook_NCL_F5_exMA_Fcst_Next4thQ"
+		duplicate="false" order="163" dataType="NegativeDecimal" notNull="false">
+		<errorMessages>
+			<entry>
+				<key>DATATYPE_INVALID</key>
+				<value> FwdLook_NCL_F5_exMA_Fcst_Next4thQ format is not valid
+				</value>
+			</entry>
+		</errorMessages>
+	</inputColumn>
+	<inputColumn columnId="165" columnName="FwdLook_NCL_F5_exMA_Fcst_NextYear"
+		duplicate="false" order="164" dataType="NegativeDecimal" notNull="false">
+		<errorMessages>
+			<entry>
+				<key>DATATYPE_INVALID</key>
+				<value> FwdLook_NCL_F5_exMA_Fcst_NextYear format is not valid
+				</value>
+			</entry>
+		</errorMessages>
+	</inputColumn>
+	<inputColumn columnId="166" columnName="FwdLook_NCL_F5_MA_Fcst_Next1stQ"
+		duplicate="false" order="165" dataType="NegativeDecimal" notNull="false">
+		<errorMessages>
+			<entry>
+				<key>DATATYPE_INVALID</key>
+				<value> FwdLook_NCL_F5_MA_Fcst_Next1stQ format is not valid</value>
+			</entry>
+		</errorMessages>
+	</inputColumn>
+	<inputColumn columnId="167" columnName="FwdLook_NCL_F5_MA_Fcst_Next2ndQ"
+		duplicate="false" order="166" dataType="NegativeDecimal" notNull="false">
+		<errorMessages>
+			<entry>
+				<key>DATATYPE_INVALID</key>
+				<value> FwdLook_NCL_F5_MA_Fcst_Next2ndQ format is not valid</value>
+			</entry>
+		</errorMessages>
+	</inputColumn>
+	<inputColumn columnId="168" columnName="FwdLook_NCL_F5_MA_Fcst_Next3rdQ"
+		duplicate="false" order="167" dataType="NegativeDecimal" notNull="false">
+		<errorMessages>
+			<entry>
+				<key>DATATYPE_INVALID</key>
+				<value> FwdLook_NCL_F5_MA_Fcst_Next3rdQ format is not valid</value>
+			</entry>
+		</errorMessages>
+	</inputColumn>
+	<inputColumn columnId="169" columnName="FwdLook_NCL_F5_MA_Fcst_Next4thQ"
+		duplicate="false" order="168" dataType="NegativeDecimal" notNull="false">
+		<errorMessages>
+			<entry>
+				<key>DATATYPE_INVALID</key>
+				<value> FwdLook_NCL_F5_MA_Fcst_Next4thQ format is not valid</value>
+			</entry>
+		</errorMessages>
+	</inputColumn>
+	<inputColumn columnId="170" columnName="FwdLook_NCL_F5_MA_Fcst_NextYear"
+		duplicate="false" order="169" dataType="NegativeDecimal" notNull="false">
+		<errorMessages>
+			<entry>
+				<key>DATATYPE_INVALID</key>
+				<value> FwdLook_NCL_F5_MA_Fcst_NextYear format is not valid</value>
+			</entry>
+		</errorMessages>
+	</inputColumn>
+	<inputColumn columnId="171" columnName="FwdLook_NCL_F114_Fcst_Next1stQ"
+		duplicate="false" order="170" dataType="NegativeDecimal" notNull="false">
+		<errorMessages>
+			<entry>
+				<key>DATATYPE_INVALID</key>
+				<value> FwdLook_NCL_F114_Fcst_Next1stQ format is not valid</value>
+			</entry>
+		</errorMessages>
+	</inputColumn>
+	<inputColumn columnId="172" columnName="FwdLook_NCL_F114_Fcst_Next2ndQ"
+		duplicate="false" order="171" dataType="NegativeDecimal" notNull="false">
+		<errorMessages>
+			<entry>
+				<key>DATATYPE_INVALID</key>
+				<value> FwdLook_NCL_F114_Fcst_Next2ndQ format is not valid</value>
+			</entry>
+		</errorMessages>
+	</inputColumn>
+	<inputColumn columnId="173" columnName="FwdLook_NCL_F114_Fcst_Next3rdQ"
+		duplicate="false" order="172" dataType="NegativeDecimal" notNull="false">
+		<errorMessages>
+			<entry>
+				<key>DATATYPE_INVALID</key>
+				<value> FwdLook_NCL_F114_Fcst_Next3rdQ format is not valid</value>
+			</entry>
+		</errorMessages>
+	</inputColumn>
+	<inputColumn columnId="174" columnName="FwdLook_NCL_F114_Fcst_Next4thQ"
+		duplicate="false" order="173" dataType="NegativeDecimal" notNull="false">
+		<errorMessages>
+			<entry>
+				<key>DATATYPE_INVALID</key>
+				<value> FwdLook_NCL_F114_Fcst_Next4thQ format is not valid</value>
+			</entry>
+		</errorMessages>
+	</inputColumn>
+	<inputColumn columnId="175" columnName="FwdLook_NCL_F114_Fcst_NextYear"
+		duplicate="false" order="174" dataType="NegativeDecimal" notNull="false">
+		<errorMessages>
+			<entry>
+				<key>DATATYPE_INVALID</key>
+				<value> FwdLook_NCL_F114_Fcst_NextYear format is not valid</value>
+			</entry>
+		</errorMessages>
+	</inputColumn>
+	<inputColumn columnId="176"
+		columnName="FwdLook_NCL_NewBalances_Fcst_Next1stQ" duplicate="false"
+		order="175" dataType="NegativeDecimal" notNull="false">
+		<errorMessages>
+			<entry>
+				<key>DATATYPE_INVALID</key>
+				<value> FwdLook_NCL_NewBalances_Fcst_Next1stQ format is not valid
+				</value>
+			</entry>
+		</errorMessages>
+	</inputColumn>
+	<inputColumn columnId="177"
+		columnName="FwdLook_NCL_NewBalances_Fcst_Next2ndQ" duplicate="false"
+		order="176" dataType="NegativeDecimal" notNull="false">
+		<errorMessages>
+			<entry>
+				<key>DATATYPE_INVALID</key>
+				<value> FwdLook_NCL_NewBalances_Fcst_Next2ndQ format is not valid
+				</value>
+			</entry>
+		</errorMessages>
+	</inputColumn>
+	<inputColumn columnId="178"
+		columnName="FwdLook_NCL_NewBalances_Fcst_Next3rdQ" duplicate="false"
+		order="177" dataType="NegativeDecimal" notNull="false">
+		<errorMessages>
+			<entry>
+				<key>DATATYPE_INVALID</key>
+				<value> FwdLook_NCL_NewBalances_Fcst_Next3rdQ format is not valid
+				</value>
+			</entry>
+		</errorMessages>
+	</inputColumn>
+	<inputColumn columnId="179"
+		columnName="FwdLook_NCL_NewBalances_Fcst_Next4thQ" duplicate="false"
+		order="178" dataType="NegativeDecimal" notNull="false">
+		<errorMessages>
+			<entry>
+				<key>DATATYPE_INVALID</key>
+				<value> FwdLook_NCL_NewBalances_Fcst_Next4thQ format is not valid
+				</value>
+			</entry>
+		</errorMessages>
+	</inputColumn>
+	<inputColumn columnId="180"
+		columnName="FwdLook_NCL_NewBalances_Fcst_NextYear" duplicate="false"
+		order="179" dataType="NegativeDecimal" notNull="false">
+		<errorMessages>
+			<entry>
+				<key>DATATYPE_INVALID</key>
+				<value> FwdLook_NCL_NewBalances_Fcst_NextYear format is not valid
+				</value>
+			</entry>
+		</errorMessages>
+	</inputColumn>
+	<inputColumn columnId="181" columnName="FwdLook_ENR_F5_exMA_Fcst_Next1stQ"
+		duplicate="false" order="180" dataType="NegativeDecimal" notNull="false">
+		<errorMessages>
+			<entry>
+				<key>DATATYPE_INVALID</key>
+				<value> FwdLook_ENR_F5_exMA_Fcst_Next1stQ format is not valid
+				</value>
+			</entry>
+		</errorMessages>
+	</inputColumn>
+	<inputColumn columnId="182" columnName="FwdLook_ENR_F5_exMA_Fcst_Next2ndQ"
+		duplicate="false" order="181" dataType="NegativeDecimal" notNull="false">
+		<errorMessages>
+			<entry>
+				<key>DATATYPE_INVALID</key>
+				<value> FwdLook_ENR_F5_exMA_Fcst_Next2ndQ format is not valid
+				</value>
+			</entry>
+		</errorMessages>
+	</inputColumn>
+	<inputColumn columnId="183" columnName="FwdLook_ENR_F5_exMA_Fcst_Next3rdQ"
+		duplicate="false" order="182" dataType="NegativeDecimal" notNull="false">
+		<errorMessages>
+			<entry>
+				<key>DATATYPE_INVALID</key>
+				<value> FwdLook_ENR_F5_exMA_Fcst_Next3rdQ format is not valid
+				</value>
+			</entry>
+		</errorMessages>
+	</inputColumn>
+	<inputColumn columnId="184" columnName="FwdLook_ENR_F5_exMA_Fcst_Next4thQ"
+		duplicate="false" order="183" dataType="NegativeDecimal" notNull="false">
+		<errorMessages>
+			<entry>
+				<key>DATATYPE_INVALID</key>
+				<value> FwdLook_ENR_F5_exMA_Fcst_Next4thQ format is not valid
+				</value>
+			</entry>
+		</errorMessages>
+	</inputColumn>
+	<inputColumn columnId="185" columnName="FwdLook_ENR_F5_exMA_Fcst_NextYear"
+		duplicate="false" order="184" dataType="NegativeDecimal" notNull="false">
+		<errorMessages>
+			<entry>
+				<key>DATATYPE_INVALID</key>
+				<value> FwdLook_ENR_F5_exMA_Fcst_NextYear format is not valid
+				</value>
+			</entry>
+		</errorMessages>
+	</inputColumn>
+	<inputColumn columnId="186" columnName="FwdLook_ENR_F5_MA_Fcst_Next1stQ"
+		duplicate="false" order="185" dataType="NegativeDecimal" notNull="false">
+		<errorMessages>
+			<entry>
+				<key>DATATYPE_INVALID</key>
+				<value> FwdLook_ENR_F5_MA_Fcst_Next1stQ format is not valid</value>
+			</entry>
+		</errorMessages>
+	</inputColumn>
+	<inputColumn columnId="187" columnName="FwdLook_ENR_F5_MA_Fcst_Next2ndQ"
+		duplicate="false" order="186" dataType="NegativeDecimal" notNull="false">
+		<errorMessages>
+			<entry>
+				<key>DATATYPE_INVALID</key>
+				<value> FwdLook_ENR_F5_MA_Fcst_Next2ndQ format is not valid</value>
+			</entry>
+		</errorMessages>
+	</inputColumn>
+	<inputColumn columnId="188" columnName="FwdLook_ENR_F5_MA_Fcst_Next3rdQ"
+		duplicate="false" order="187" dataType="NegativeDecimal" notNull="false">
+		<errorMessages>
+			<entry>
+				<key>DATATYPE_INVALID</key>
+				<value> FwdLook_ENR_F5_MA_Fcst_Next3rdQ format is not valid</value>
+			</entry>
+		</errorMessages>
+	</inputColumn>
+	<inputColumn columnId="189" columnName="FwdLook_ENR_F5_MA_Fcst_Next4thQ"
+		duplicate="false" order="188" dataType="NegativeDecimal" notNull="false">
+		<errorMessages>
+			<entry>
+				<key>DATATYPE_INVALID</key>
+				<value> FwdLook_ENR_F5_MA_Fcst_Next4thQ format is not valid</value>
+			</entry>
+		</errorMessages>
+	</inputColumn>
+	<inputColumn columnId="190" columnName="FwdLook_ENR_F5_MA_Fcst_NextYear"
+		duplicate="false" order="189" dataType="NegativeDecimal" notNull="false">
+		<errorMessages>
+			<entry>
+				<key>DATATYPE_INVALID</key>
+				<value> FwdLook_ENR_F5_MA_Fcst_NextYear format is not valid</value>
+			</entry>
+		</errorMessages>
+	</inputColumn>
+	<inputColumn columnId="191" columnName="FwdLook_ENR_F114_Fcst_Next1stQ"
+		duplicate="false" order="190" dataType="NegativeDecimal" notNull="false">
+		<errorMessages>
+			<entry>
+				<key>DATATYPE_INVALID</key>
+				<value> FwdLook_ENR_F114_Fcst_Next1stQ format is not valid</value>
+			</entry>
+		</errorMessages>
+	</inputColumn>
+	<inputColumn columnId="192" columnName="FwdLook_ENR_F114_Fcst_Next2ndQ"
+		duplicate="false" order="191" dataType="NegativeDecimal" notNull="false">
+		<errorMessages>
+			<entry>
+				<key>DATATYPE_INVALID</key>
+				<value> FwdLook_ENR_F114_Fcst_Next2ndQ format is not valid</value>
+			</entry>
+		</errorMessages>
+	</inputColumn>
+	<inputColumn columnId="193" columnName="FwdLook_ENR_F114_Fcst_Next3rdQ"
+		duplicate="false" order="192" dataType="NegativeDecimal" notNull="false">
+		<errorMessages>
+			<entry>
+				<key>DATATYPE_INVALID</key>
+				<value> FwdLook_ENR_F114_Fcst_Next3rdQ format is not valid</value>
+			</entry>
+		</errorMessages>
+	</inputColumn>
+	<inputColumn columnId="194" columnName="FwdLook_ENR_F114_Fcst_Next4thQ"
+		duplicate="false" order="193" dataType="NegativeDecimal" notNull="false">
+		<errorMessages>
+			<entry>
+				<key>DATATYPE_INVALID</key>
+				<value> FwdLook_ENR_F114_Fcst_Next4thQ format is not valid</value>
+			</entry>
+		</errorMessages>
+	</inputColumn>
+	<inputColumn columnId="195" columnName="FwdLook_ENR_F114_Fcst_NextYear"
+		duplicate="false" order="194" dataType="NegativeDecimal" notNull="false">
+		<errorMessages>
+			<entry>
+				<key>DATATYPE_INVALID</key>
+				<value> FwdLook_ENR_F114_Fcst_NextYear format is not valid</value>
+			</entry>
+		</errorMessages>
+	</inputColumn>
+	<inputColumn columnId="196"
+		columnName="FwdLook_ENR_NewBalances_Fcst_Next1stQ" duplicate="false"
+		order="195" dataType="NegativeDecimal" notNull="false">
+		<errorMessages>
+			<entry>
+				<key>DATATYPE_INVALID</key>
+				<value> FwdLook_ENR_NewBalances_Fcst_Next1stQ format is not valid
+				</value>
+			</entry>
+		</errorMessages>
+	</inputColumn>
+	<inputColumn columnId="197"
+		columnName="FwdLook_ENR_NewBalances_Fcst_Next2ndQ" duplicate="false"
+		order="196" dataType="NegativeDecimal" notNull="false">
+		<errorMessages>
+			<entry>
+				<key>DATATYPE_INVALID</key>
+				<value> FwdLook_ENR_NewBalances_Fcst_Next2ndQ format is not valid
+				</value>
+			</entry>
+		</errorMessages>
+	</inputColumn>
+	<inputColumn columnId="198"
+		columnName="FwdLook_ENR_NewBalances_Fcst_Next3rdQ" duplicate="false"
+		order="197" dataType="NegativeDecimal" notNull="false">
+		<errorMessages>
+			<entry>
+				<key>DATATYPE_INVALID</key>
+				<value> FwdLook_ENR_NewBalances_Fcst_Next3rdQ format is not valid
+				</value>
+			</entry>
+		</errorMessages>
+	</inputColumn>
+	<inputColumn columnId="199"
+		columnName="FwdLook_ENR_NewBalances_Fcst_Next4thQ" duplicate="false"
+		order="198" dataType="NegativeDecimal" notNull="false">
+		<errorMessages>
+			<entry>
+				<key>DATATYPE_INVALID</key>
+				<value> FwdLook_ENR_NewBalances_Fcst_Next4thQ format is not valid
+				</value>
+			</entry>
+		</errorMessages>
+	</inputColumn>
+	<inputColumn columnId="200"
+		columnName="FwdLook_ENR_NewBalances_Fcst_NextYear" duplicate="false"
+		order="199" dataType="NegativeDecimal" notNull="false">
+		<errorMessages>
+			<entry>
+				<key>DATATYPE_INVALID</key>
+				<value> FwdLook_ENR_NewBalances_Fcst_NextYear format is not valid
+				</value>
+			</entry>
+		</errorMessages>
+	</inputColumn>
+	<inputColumn columnId="201" columnName="CurrQ_LLR_Bal_Total_MA_MISC1"
+		duplicate="false" order="200" dataType="NegativeDecimal" notNull="false">
+		<errorMessages>
+			<entry>
+				<key>DATATYPE_INVALID</key>
+				<value> CurrQ_LLR_Bal_Total_MA_MISC1 format is not valid</value>
+			</entry>
+		</errorMessages>
+	</inputColumn>
+	<inputColumn columnId="202" columnName="PrevQ_LLR_Bal_Total_MA_MISC1"
+		duplicate="false" order="201" dataType="NegativeDecimal" notNull="false">
+		<errorMessages>
+			<entry>
+				<key>DATATYPE_INVALID</key>
+				<value> PrevQ_LLR_Bal_Total_MA_MISC1 format is not valid</value>
+			</entry>
+		</errorMessages>
+	</inputColumn>
+	<inputColumn columnId="203" columnName="CurrQ_LLR_Bal_Total_MA_MISC2"
+		duplicate="false" order="202" dataType="NegativeDecimal" notNull="false">
+		<errorMessages>
+			<entry>
+				<key>DATATYPE_INVALID</key>
+				<value> CurrQ_LLR_Bal_Total_MA_MISC2 format is not valid</value>
+			</entry>
+		</errorMessages>
+	</inputColumn>
+	<inputColumn columnId="204" columnName="PrevQ_LLR_Bal_Total_MA_MISC2"
+		duplicate="false" order="203" dataType="NegativeDecimal" notNull="false">
+		<errorMessages>
+			<entry>
+				<key>DATATYPE_INVALID</key>
+				<value> PrevQ_LLR_Bal_Total_MA_MISC2 format is not valid</value>
+			</entry>
+		</errorMessages>
+	</inputColumn>
+	<inputColumn columnId="205" columnName="Reason_for_Revision_Other_Comments"
+		duplicate="false" order="204" dataType="String" notNull="false">
+		<errorMessages>
+			<entry>
+				<key>DATATYPE_INVALID</key>
+				<value> Reason_for_Revision_Other_Comments format is not valid
+				</value>
+			</entry>
+		</errorMessages>
+	</inputColumn>
+
+	<errorMessages>
+		<entry>
+			<key>CLMN_COUNT_MISMATCH</key>
+			<value>Column Count is not 205 for row {}</value>
+		</entry>
+		<entry>
+			<key>HEADER_INVALID</key>
+			<value>Header Value is invalid</value>
+		</entry>
+		<entry>
+			<key>DUPLICATE_ROW</key>
+			<value>Duplicate row</value>
+		</entry>
+		<entry>
+			<key>DATATYPE_INVALID</key>
+			<value>Data type is not valid for row {}</value>
+		</entry>
+	</errorMessages>
+</fileValidationRules>

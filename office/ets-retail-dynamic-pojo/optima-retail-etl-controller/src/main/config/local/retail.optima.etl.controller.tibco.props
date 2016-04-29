@@ -1,0 +1,17 @@
+
+optima.tibco.server.url=tcp://localhost:7222
+optima.tibco.username=
+optima.tibco.password=
+
+optima.tibco.connectionFactory.class=com.tibco.tibjms.TibjmsConnectionFactory
+
+optima.tibco.queue.class=com.tibco.tibjms.TibjmsQueue
+
+optima.queue.genesisMessage=optima.retail.genesisMessage
+optima.queue.controllerInbound=optima.retial.controllerInbound
+optima.queue.batchProcessingRequest=optima.retail.batchProcessingRequest
+optima.queue.exception.out=optima.retail.etl.exception.out
+optima.queue.userSubmissionDestination=optima.retail.userSubmissionMessage
+
+
+	

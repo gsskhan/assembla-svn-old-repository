@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<genesisRREvent xmlns="http://citi.com/gfts/genesis/schemas/event/rrpoc">
+	<eventType>PP-Data-Available</eventType>
+	<eventTimestamp>2013-03-14 17:37:52</eventTimestamp>
+	<requestID>UAL-063650e67b8c400f90f1b07e242414f3</requestID>
+	<dailyMonthlyIndicator>Month-End</dailyMonthlyIndicator>
+	<asOfBusinessDate>2012-12-31</asOfBusinessDate>
+	<portfolioID>CA_OC1</portfolioID>
+	<countryCode>CA</countryCode>
+	<versionID>V1</versionID>
+	<approverID>ns21567</approverID>
+	<tableName>ALL_CC</tableName>
+	<products>
+		<product id="1" name="CA_OC" />
+		<product id="2" name="CA_BC" />
+		<product id="3" name="CA_CC" />
+	</products>
+	<partitions>
+		<partition name="P1" maxKey="10500" />
+		<partition name="P2" maxKey="11000" />
+		<partition name="P3" maxKey="11500" />
+		<partition name="P4" maxKey="12000" />
+	</partitions>
+	<rowCount>100</rowCount>
+</genesisRREvent>

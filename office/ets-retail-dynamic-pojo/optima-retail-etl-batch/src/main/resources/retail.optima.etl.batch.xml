@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xsi:schemaLocation="
+			http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.2.xsd">
+
+ <!-- 	 <import resource="classpath:retail.optima.etl.batch.jmx.xml"/>  -->
+	
+<!-- 	<import resource="classpath:retail.optima.etl.batch.datasource.xml" /> -->
+	<import resource="classpath:retail.optima.etl.batch.dao.xml" />
+	<import resource="classpath:retail.optima.etl.batch.tx.xml" />
+
+	<!-- <import resource="classpath:retail.optima.etl.batch.jms.xml" /> -->
+	<!-- <import resource="classpath:retail.optima.etl.batch.jms.tibco.xml"/> -->
+	<!-- <import resource="classpath:retail.optima.etl.batch.jms.activemq.xml" />  -->
+	<import resource="classpath:retail.optima.etl.batch.oxm.xml" />
+
+	<import resource="classpath:retail.optima.etl.batch.flow.xml" />
+
+	<import resource="classpath:job/retail.optima.data.preprocess.xml"/>
+	<import resource="classpath:retail.optima.etl.batch.job.xml" />
+
+	<import resource="classpath:retail.optima.etl.batch.fileintegrity.xml"/>
+	<import resource="classpath:retail.optima.etl.batch.validation.xml" />
+	<import resource="classpath:optima.retail.enrichment.config.xml" />
+	<import resource="classpath:optima.retail.aggregation.config.xml" />
+	
+	
+	<import resource="classpath:optima.retail.cache.rules.xml"/>
+	<import resource="classpath:optima.retail.cache.referencedata.xml"/>	
+   	<import resource="classpath:job/retail.optima.batch.data.acquisition.xml"/>
+   	
+	<import resource="classpath:job/retail.optima.batch.da.mortgage.trls.xml"/>
+   	<import resource="classpath:job/retail.optima.batch.da.mortgage.writerconfig.xml"/>
+   	
+	<!-- <import resource="classpath:retail.optima.etl.logging.exception.xml" /> -->
+	<!-- <import resource="classpath:retail.optima.etl.logging.jms.xml" /> -->
+	<import resource="classpath:job/retail.optima.batch.da.cards.trls.xml"/>
+	<import resource="classpath:job/retail.optima.batch.da.in.cards.trls.xml"/>
+	<import resource="classpath:job/retail.optima.batch.da.in.pl.trls.xml"/>
+	<import resource="classpath:job/retail.optima.batch.da.in.readycredit.trls.xml"/>
+	<import resource="classpath:job/retail.optima.batch.da.readycredit.writerconfig.xml"/>
+	<import resource="classpath:job/retail.optima.batch.da.loans.trls.xml"/>
+		<!-- For India Mortgages -->
+   	<import resource="classpath:job/retail.optima.batch.da.in.mortgage.trls.xml"/>
+   	<import resource="classpath:job/retail.optima.data.in.preprocess.xml"/>
+   	<!-- For HK CRD -->
+   	<import resource="classpath:job/retail.optima.batch.da.hk.cards.trls.xml"/>
+   	<import resource="classpath:job/retail.optima.hk.cards.data.preprocess.xml"/>
+   	
+   	<!-- For HK Mortgages -->
+   	<import resource="classpath:job/retail.optima.batch.da.hk.mortgage.trls.xml"/>
+   	<import resource="classpath:job/retail.optima.data.hk.preprocess.xml"/>
+	
+	 	<!-- For HK Loans -->
+	<import resource ="classpath:job/retail.optima.batch.da.hk.pl.trls.xml"/>
+
+	<import resource="classpath:job/retail.optima.batch.da.hk.rc.trls.xml"/>
+	
+	<!-- For TW Ready Credit -->
+	<import resource="classpath:job/retail.optima.batch.da.tw.rc.trls.xml"/>
+</beans>

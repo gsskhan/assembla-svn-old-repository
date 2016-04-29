@@ -1,0 +1,11 @@
+optima.tibco.server.url=tcp://gftsint.nam.nsroot.net:7222
+optima.tibco.username=
+optima.tibco.password=
+
+optima.queue.genesisMessage=cto.gfts.na.or_163430.Attestation.queue
+optima.queue.controllerInbound=cto.gfts.na.or_163430.Controller.topic
+
+
+
+
+	

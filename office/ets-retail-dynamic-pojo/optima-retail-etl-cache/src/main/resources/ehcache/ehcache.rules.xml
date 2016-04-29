@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ehcache xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="ehcache.xsd" updateCheck="false" monitoring="autodetect" dynamicConfig="true" name="ruleCache">
+    <cache name="enrichmentRuleCache" maxEntriesLocalHeap="1000" eternal="true">
+    <searchable keys="true" values="false">
+            <searchAttribute name="processingUnitId"/>
+             <searchAttribute name="ruleOrder" />
+             <searchAttribute name="rulesKey"/>
+        </searchable>
+    </cache>
+    <cache name="aggregationRuleCache" maxEntriesLocalHeap="1000" eternal="true">
+    <searchable keys="true" values="false">
+            <searchAttribute name="processingUnitId"/>
+            <searchAttribute name="rulesKey"/>  
+            <searchAttribute name="aggregationRuleOrder" />
+        </searchable>
+    </cache>
+    <cache name="aggregationSqlCache" maxEntriesLocalHeap="1000" eternal="true">
+    <searchable keys="true" values="false">
+            <searchAttribute name="processingUnitId"/>
+            <searchAttribute name="rulesKey"/>  
+        </searchable>
+    </cache>   
+   <cache name="validationRuleCache" maxEntriesLocalHeap="1000" eternal="true">
+		<searchable keys="true" values="true">
+			<searchAttribute name="processingUnitId"/>		
+			<searchAttribute name="rulesKey"/>	
+			<searchAttribute name="validationCategory"
+				expression="value.getValidationCategory()"/>
+		</searchable>
+	</cache>
+	<cache name="spelValidationRuleCache" maxEntriesLocalHeap="1000" eternal="true">
+		<searchable keys="true" values="true">
+			<searchAttribute name="processingUnitId"/>		
+			<searchAttribute name="rulesKey"/>				
+			<searchAttribute name="ruleOrder" />
+		</searchable>
+	</cache>
+	<cache name="fileScannerRuleCache" maxEntriesLocalHeap="1000" eternal="true">
+    <searchable keys="true" values="false">
+            <searchAttribute name="functionName"/>
+        </searchable>
+    </cache>
+</ehcache>

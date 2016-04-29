@@ -1,0 +1,15 @@
+#filewatcher.input.directory=.\\files\\
+#filewatcher.input.directory.job=.\\\\files\\\\
+#filewatcher.backup.directory=
+#filewatcher.regex.pattern=^(([A-Z a-z 0-9 _ .]*)(_Control_*)(.txt|.csv|.dat))
+#filewatcher.input.directory=C:\\Data\\ETL\\inputfiles\\
+#filewatcher.input.directory.job=C:\\Data\\ETL\\inputfiles\\
+#filewatcher.regex.pattern=^(([A-Z a-z 0-9 _ .]*)(.cnt))
+#filewatcher.regex.pattern=^(([A-Z a-z 0-9 _ .]*)(.ctl))
+#filewatcher.process.directory=C:\\Data\\ETL\\process\\
+#filewatcher.output.folder=C:\\Data\\ETL\\output\\
+#filewatcher.output.folder=.\\bin\\
+#filewatcher.input.directory.archv=C:\\Data\\ETL\\inputfiles\\
+#filewatcher.input.directory.archv=C:\\Data\\ETL\\archvfiles\\
+filewatcher.main.input.directory=C:\\ETL\\DATA\\
+filewatcher.regex.pattern=^(([A-Z a-z 0-9 _ .]*)(.ctl))

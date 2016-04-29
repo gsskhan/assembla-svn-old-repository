@@ -1,0 +1,130 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<fileValidationRules functionName="FVOHFS" columnCount="9" delimiter="," allowedExtentions="*.csv,*.txt,*.xls,*.xlsx">
+	<inputColumn columnId="1" columnName="Reporting_period" duplicate="true" order="0" dataType="Integer" notNull="true" regex="20[0-4]\d(0[1-9]|1[0-2])">
+		<errorMessages>
+		<entry>
+			<key>NOT_NULL_INVALID</key>
+			<value>Reporting_period cannot be blank or null</value>
+		</entry>
+		<entry>
+			<key>DATATYPE_INVALID</key>
+			<value>Reporting period date format is wrong it should be in 'YYYYMM' format</value>
+		</entry>
+		</errorMessages>
+	</inputColumn>
+	
+	<inputColumn columnId="2" columnName="Region" duplicate="true" order="1" dataType="Integer" notNull="true" regex="([0-9]{1})">
+		<errorMessages>
+			<entry>
+				<key>NOT_NULL_INVALID</key>
+				<value>Region should not be blank OR null</value>
+			</entry>
+			<entry>
+				<key>DATATYPE_INVALID</key>
+				<value>REGION Value not found in lookup table</value>
+			</entry>		
+			</errorMessages>
+	</inputColumn>
+	
+	<inputColumn columnId="3" columnName="Country" duplicate="true" order="2" dataType="String" notNull="true">
+		<errorMessages>
+			<entry>
+				<key>NOT_NULL_INVALID</key>
+				<value>COUNTRY should not be blank OR null</value>
+			</entry>		
+		</errorMessages>
+	</inputColumn>
+	
+	<inputColumn columnId="4" columnName="Business_Unit" duplicate="true" order="3" dataType="String" notNull="true" regex="([0-9a-zA-Z_\- ]+)">
+		<errorMessages>
+			<entry>
+				<key>NOT_NULL_INVALID</key>
+				<value>Business Unit should not be blank OR null</value>
+			</entry>		
+		</errorMessages>
+	</inputColumn>
+	
+	<inputColumn columnId="5" columnName="FVO_HFS_Retail_Loan_Type" duplicate="true" order="4" dataType="String" notNull="true">
+		<errorMessages>
+			<entry>
+				<key>NOT_NULL_INVALID</key>
+				<value>FVO HFS Retail_Loan_Type should not be blank OR null</value>
+			</entry>		
+		</errorMessages>
+	</inputColumn>
+	
+	<inputColumn columnId="6" columnName="Loan_Vintage" duplicate="false" order="5" dataType="Integer" notNull="true">
+		<errorMessages>
+			<entry>
+				<key>NOT_NULL_INVALID</key>
+				<value>Loan_Vintage should not be blank OR null </value>
+			</entry>
+			<entry>
+				<key>DATATYPE_INVALID</key>
+				<value>Loan_Vintage should be numeric value </value>
+			</entry>		
+		</errorMessages>
+	</inputColumn>
+	
+	<inputColumn columnId="7" columnName="Unpaid_Principal_Balance_MM" duplicate="false" order="6" dataType="NegativeDecimal" notNull="true" regex="([[-/+][\d]*[.][\d]*]{1,24})" maxlength="24">
+		<errorMessages>
+		<entry>
+			<key>NOT_NULL_INVALID</key>
+			<value>Unpaid_Principal_Balance_MM should not be blank OR null </value>
+		</entry>
+		<entry>
+			<key>DATATYPE_INVALID</key>
+			<value>Unpaid_Principal_Balance_MM should be numeric value </value>
+		</entry>	
+		<entry>
+			<key>LENGTH_INVALID</key>
+			<value>Unpaid_Principal_Balance_MM exceeds Defined Field Length </value>
+		</entry>			
+		</errorMessages>
+	</inputColumn>
+	
+	<inputColumn columnId="8" columnName="Carrying_Value_MM" duplicate="false" order="7" dataType="NegativeDecimal" notNull="true" regex="([[-/+][\d]*[.][\d]*]{1,24})" maxlength="24">
+	<errorMessages>
+		<entry>
+			<key>NOT_NULL_INVALID</key>
+			<value>Carrying_Value_MM should not be blank OR null </value>
+		</entry>
+		<entry>
+			<key>DATATYPE_INVALID</key>
+			<value>Carrying_Value_MM should be numeric value </value>
+		</entry>	
+		<entry>
+			<key>LENGTH_INVALID</key>
+			<value>Carrying_Value_MM exceeds Defined Field Length </value>
+		</entry>		
+		</errorMessages>
+	</inputColumn>
+	
+	<inputColumn columnId="9" columnName="submitter_id" duplicate="false" order="8" dataType="String" notNull="true">
+		<errorMessages>
+			<entry>
+				<key>NOT_NULL_INVALID</key>
+				<value>submitter_id should not be blank OR null </value>
+			</entry>
+		</errorMessages>
+	</inputColumn>
+	
+	<errorMessages>
+		<entry>
+			<key>CLMN_COUNT_MISMATCH</key>
+			<value>Column Count is not 8 for row {}</value>
+		</entry>
+		<entry>
+			<key>HEADER_INVALID</key>
+			<value>Header Value is invalid</value>
+		</entry>
+		<entry>
+			<key>DUPLICATE_ROW</key>
+			<value>Duplicate row for row {}</value>
+		</entry>
+		<entry>
+			<key>DATATYPE_INVALID</key>
+			<value>Data type is not valid for row {}</value>
+		</entry>
+	</errorMessages>
+</fileValidationRules>

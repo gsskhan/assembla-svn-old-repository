@@ -1,0 +1,4 @@
+optima.tibco.server.url=tcp://gftsuat.nam.nsroot.net:7222
+optima.tibco.username=oretail
+optima.tibco.password=optimar
+optima.queue.exception.out=cto.gfts.na.or_163430.Logger.queue

@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<beans	xmlns="http://www.springframework.org/schema/beans"
+		xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+		xmlns:c="http://www.springframework.org/schema/c"
+		xmlns:p="http://www.springframework.org/schema/p"
+		xsi:schemaLocation="
+				http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.2.xsd">
+	
+	<bean	id="jmsConnectionFactory"
+			class="org.springframework.jms.connection.CachingConnectionFactory"
+			p:targetConnectionFactory-ref="tibConnectionFactory"
+			p:sessionCacheSize="10"
+			p:cacheConsumers="true"
+			p:cacheProducers="true"
+	/>
+	
+	<bean	id="tibConnectionFactory"
+			class="com.tibco.tibjms.TibjmsConnectionFactory"
+			p:serverUrl="${optima.tibco.server.url}"
+			p:userName="${optima.tibco.username}"
+			p:userPassword="${optima.tibco.password}"
+	/>
+	
+	<bean	id="jmsInternalConnectionFactory"
+			class="org.springframework.jms.connection.CachingConnectionFactory"
+			p:targetConnectionFactory-ref="tibInternalConnectionFactory"
+			p:sessionCacheSize="10"
+			p:cacheConsumers="true"
+			p:cacheProducers="true"
+	/>
+	
+	<bean	id="tibInternalConnectionFactory"
+			class="${optima.tibco.connectionFactory.class}"
+			p:serverUrl="${optima.tibco.server.url}"
+			p:userName="${optima.tibco.username}"
+			p:userPassword="${optima.tibco.password}"
+	/>
+	
+
+	<bean	id="genesisDestination"
+			class="com.tibco.tibjms.TibjmsQueue"
+			c:_0="${optima.queue.genesisMessage}"
+	/>
+	
+	<bean	id="internalMessageDestination"
+			class="${optima.tibco.queue.class}"
+			c:_0="${optima.queue.controllerInbound}"
+	/>
+	
+	<bean	id="batchDestination"
+			class="com.tibco.tibjms.TibjmsQueue"
+			c:_0="${optima.queue.batchProcessingRequest}"
+	/>
+	
+	<bean	id="loggingQueueDestination"
+			class="com.tibco.tibjms.TibjmsQueue"
+			c:_0="${optima.queue.etl.exception.out}"
+	/>	
+</beans>

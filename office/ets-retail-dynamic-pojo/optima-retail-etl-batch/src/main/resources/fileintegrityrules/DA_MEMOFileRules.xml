@@ -1,0 +1,213 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<fileValidationRules functionName="MEMO" columnCount="15" delimiter="|" allowedExtentions="*.dat">
+	<inputColumn columnId="1" columnName="gcbc_portfolio_id" duplicate="false" order="0" dataType="String" notNull="true" regex="([a-zA-Z0-9]+)">
+	<errorMessages>
+		<entry>
+			<key>NOT_NULL_INVALID</key>
+			<value>update cannot be blank or null</value>
+		</entry>
+		<entry>
+			<key>DATATYPE_INVALID</key>
+			<value>update should be in a valid format</value>
+		</entry>
+		</errorMessages>
+	</inputColumn>
+	
+	<inputColumn columnId="2" columnName="product_type" duplicate="false" order="1" dataType="String" notNull="true" regex="([a-zA-Z]_[a-zA-Z])">
+	<errorMessages>
+		<entry>
+			<key>NOT_NULL_INVALID</key>
+			<value>product_type cannot be blank or null</value>
+		</entry>
+		<entry>
+			<key>DATATYPE_INVALID</key>
+			<value>product_type should be in a valid format</value>
+		</entry>
+		</errorMessages>
+	</inputColumn>
+	
+	<inputColumn columnId="3" columnName="curr_line_loan_size" duplicate="false" order="2" dataType="String" notNull="true" regex="([[-/+][\\d]]*)">
+	<errorMessages>
+		<entry>
+			<key>NOT_NULL_INVALID</key>
+			<value>curr_line_loan_size cannot be blank or null</value>
+		</entry>
+		<entry>
+			<key>DATATYPE_INVALID</key>
+			<value>curr_line_loan_size should be in a valid format</value>
+		</entry>
+		</errorMessages>
+	</inputColumn>
+	
+	
+	<inputColumn columnId="4" columnName="age" duplicate="false" order="3" dataType="Integer" notNull="true" regex="([\\d]+)">
+	<errorMessages>
+		<entry>
+			<key>NOT_NULL_INVALID</key>
+			<value>age cannot be blank or null</value>
+		</entry>
+		<entry>
+			<key>DATATYPE_INVALID</key>
+			<value>age should be in a valid format</value>
+		</entry>
+		</errorMessages>
+	</inputColumn>
+	
+	<inputColumn columnId="5" columnName="vintage" duplicate="false" order="4" dataType="Integer" notNull="true" regex="([\\d]+)">
+	<errorMessages>
+		<entry>
+			<key>NOT_NULL_INVALID</key>
+			<value>vintage cannot be blank or null</value>
+		</entry>
+		<entry>
+			<key>DATATYPE_INVALID</key>
+			<value>vintage should be in a valid format</value>
+		</entry>
+		</errorMessages>
+	</inputColumn>
+	
+	<inputColumn columnId="6" columnName="curr_delq_status" duplicate="false" order="5" dataType="Integer" notNull="true" regex="(^[0|1]S+)">
+	<errorMessages>
+		<entry>
+			<key>NOT_NULL_INVALID</key>
+			<value>curr_delq_status cannot be blank or null</value>
+		</entry>
+		<entry>
+			<key>DATATYPE_INVALID</key>
+			<value>curr_delq_status should be in a valid format</value>
+		</entry>
+		</errorMessages>
+	</inputColumn>
+	
+	<inputColumn columnId="7" columnName="orig_fico" duplicate="false" order="6" dataType="Integer" notNull="true" regex="([\\d]+)">
+	<errorMessages>
+		<entry>
+			<key>NOT_NULL_INVALID</key>
+			<value>orig_fico cannot be blank or null</value>
+		</entry>
+		<entry>
+			<key>DATATYPE_INVALID</key>
+			<value>orig_fico should be in a valid format</value>
+		</entry>
+		</errorMessages>
+	</inputColumn>
+	
+	<inputColumn columnId="8" columnName="glgwo" duplicate="false" order="7" dataType="Integer" notNull="true" regex="([\\d]+)">
+	<errorMessages>
+		<entry>
+			<key>NOT_NULL_INVALID</key>
+			<value>glgwo cannot be blank or null</value>
+		</entry>
+		<entry>
+			<key>DATATYPE_INVALID</key>
+			<value>glgwo should be in a valid format</value>
+		</entry>
+		</errorMessages>
+	</inputColumn>
+	<inputColumn columnId="9" columnName="bankruptcy" duplicate="false" order="8" dataType="Decimal" notNull="true" regex="([[\\d]*[.][\\d]*]+)">
+	<errorMessages>
+		<entry>
+			<key>NOT_NULL_INVALID</key>
+			<value>bankruptcy cannot be blank or null</value>
+		</entry>
+		<entry>
+			<key>DATATYPE_INVALID</key>
+			<value>bankruptcy should be in a valid format</value>
+		</entry>
+		</errorMessages>
+	</inputColumn>
+	<inputColumn columnId="10" columnName="glrec" duplicate="false" order="9" dataType="Decimal" notNull="true" regex="([\\d]+)">
+	<errorMessages>
+		<entry>
+			<key>NOT_NULL_INVALID</key>
+			<value>glrec cannot be blank or null</value>
+		</entry>
+		<entry>
+			<key>DATATYPE_INVALID</key>
+			<value>glrec should be in a valid format</value>
+		</entry>
+		</errorMessages>
+	</inputColumn>
+	<inputColumn columnId="11" columnName="n_acct_co" duplicate="false" order="10" dataType="String" notNull="true" regex="(TWD)">
+	<errorMessages>
+		<entry>
+			<key>NOT_NULL_INVALID</key>
+			<value>n_acct_co cannot be blank or null</value>
+		</entry>
+		<entry>
+			<key>DATATYPE_INVALID</key>
+			<value>n_acct_co should be in a valid format</value>
+		</entry>
+		</errorMessages>
+	</inputColumn>
+	<inputColumn columnId="12" columnName="rep_portfolio_ccy" duplicate="false" order="11" dataType="Decimal" notNull="true" regex="([[\\d]*[.][\\d]*]+)">
+	<errorMessages>
+		<entry>
+			<key>NOT_NULL_INVALID</key>
+			<value>rep_portfolio_ccy cannot be blank or null</value>
+		</entry>
+		<entry>
+			<key>DATATYPE_INVALID</key>
+			<value>rep_portfolio_ccy should be in a valid format</value>
+		</entry>
+		</errorMessages>
+	</inputColumn>
+	<inputColumn columnId="13" columnName="ref_fx_rate" duplicate="false" order="12" dataType="Integer" notNull="true" regex="([\\d]+)">
+	<errorMessages>
+		<entry>
+			<key>NOT_NULL_INVALID</key>
+			<value>ref_fx_rate cannot be blank or null</value>
+		</entry>
+		<entry>
+			<key>DATATYPE_INVALID</key>
+			<value>ref_fx_rate should be in a valid format</value>
+		</entry>
+		</errorMessages>
+	</inputColumn>
+	
+	<inputColumn columnId="14" columnName="ref_reporting_basis" duplicate="false" order="13" dataType="Integer" notNull="true" regex="([\\d]+)">
+	<errorMessages>
+		<entry>
+			<key>NOT_NULL_INVALID</key>
+			<value>ref_reporting_basis cannot be blank or null</value>
+		</entry>
+		<entry>
+			<key>DATATYPE_INVALID</key>
+			<value>ref_reporting_basis should be in a valid format</value>
+		</entry>
+		</errorMessages>
+	</inputColumn>
+	
+	
+	<inputColumn columnId="15" columnName="acctnumb" duplicate="true" order="14" dataType="String" notNull="true" regex="([0-9]{14})">
+		<errorMessages>
+		<entry>
+			<key>NOT_NULL_INVALID</key>
+			<value>acctnumb cannot be blank or null</value>
+		</entry>
+		<entry>
+			<key>DATATYPE_INVALID</key>
+			<value>acctnumb should be  valid Number</value>
+		</entry>
+		</errorMessages>
+	</inputColumn>
+	
+	<errorMessages>
+		<entry>
+			<key>CLMN_COUNT_MISMATCH</key>
+			<value>Column Count is not 4 for row {}</value>
+		</entry>
+		<entry>
+			<key>HEADER_INVALID</key>
+			<value>Header Value is invalid</value>
+		</entry>
+		<entry>
+			<key>DUPLICATE_ROW</key>
+			<value>Duplicate row for row {}</value>
+		</entry>
+		<entry>
+			<key>DATATYPE_INVALID</key>
+			<value>Data type is not valid for row {}</value>
+		</entry>
+	</errorMessages>
+</fileValidationRules>

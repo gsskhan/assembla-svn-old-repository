@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:c="http://www.springframework.org/schema/c"
+	xmlns:p="http://www.springframework.org/schema/p"
+	xsi:schemaLocation="
+				http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.2.xsd">
+
+	<bean id="jmsConnectionFactory"
+		class="org.springframework.jms.connection.CachingConnectionFactory"
+		p:targetConnectionFactory-ref="activemqConnectionFactory"
+		p:sessionCacheSize="10" p:cacheConsumers="true" p:cacheProducers="true" />
+		
+	<bean id="jmsBatchConnectionFactory"
+		class="org.springframework.jms.connection.CachingConnectionFactory"
+		p:targetConnectionFactory-ref="activemqConnectionFactory"
+		p:sessionCacheSize="10" p:cacheConsumers="true" p:cacheProducers="true" />
+
+	<bean id="activemqConnectionFactory" class="org.apache.activemq.ActiveMQConnectionFactory"
+		p:brokerURL="tcp://localhost:61616" />
+
+	<bean id="destination" class="org.apache.activemq.command.ActiveMQQueue"
+		c:_0="${optima.queue.batchProcessingRequest}" />
+
+	<bean id="outBoundQueue" class="org.apache.activemq.command.ActiveMQTopic"
+		c:_0="${optima.queue.controllerInbound}" />
+
+	<bean id="genesisQueue" class="org.apache.activemq.command.ActiveMQQueue"
+		c:_0="${optima.queue.genesisOutbound}" />
+</beans>

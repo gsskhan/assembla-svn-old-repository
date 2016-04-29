@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.2.xsd">
+
+<bean id="loginService" class="org.dms.web.bo.impl.LoginServiceImpl" />
+<bean id="constantsService" class="org.dms.web.bo.impl.ConstantsServiceImpl" />
+<bean id="userService" class="org.dms.web.bo.impl.UserServiceImpl" />
+<bean id="paperService" class="org.dms.web.bo.impl.PaperServiceImpl" />
+<bean id="workflowService" class="org.dms.web.bo.impl.WorkflowServiceImpl" />
+
+<bean id="sequenceDao" class="org.dms.web.dao.impl.SequenceDaoImpl"/>
+
+
+<bean id="random" class="java.util.Random"  scope="singleton"/>
+<bean id="randomNumberGenerator" class="org.dms.web.core.RandomNumberGenerator">
+	<property name="random" ref="random" />
+</bean>
+
+</beans>

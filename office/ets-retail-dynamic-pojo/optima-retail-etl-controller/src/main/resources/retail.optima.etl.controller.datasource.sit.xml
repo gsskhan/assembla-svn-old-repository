@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<beans	xmlns="http://www.springframework.org/schema/beans"
+		xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+		xmlns:p="http://www.springframework.org/schema/p"
+		xmlns:context="http://www.springframework.org/schema/context"
+		xsi:schemaLocation="
+				http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.2.xsd
+				http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-3.2.xsd">
+
+ 	<bean	id="optimaLabPool"
+				class="oracle.ucp.jdbc.PoolDataSourceFactory"
+			factory-method="getPoolDataSource"
+			lazy-init="true"
+			p:connectionFactoryClassName="${optima.db.sit.driverClassName}"
+			p:SQLForValidateConnection="select 1 from DUAL"			
+			p:URL="${optima.db.sit.url}"
+			p:user="${optima.db.sit.user}"
+			p:password="${optima.db.sit.pass}"
+			p:connectionPoolName="${optima.db.sit.pool.name}"
+			p:minPoolSize="${optima.db.sit.pool.min}"
+			p:maxPoolSize="${optima.db.sit.pool.max}"
+	/>
+    <bean	id="jdbcTemplate"
+    		class="org.springframework.jdbc.core.JdbcTemplate"
+    		p:dataSource-ref="optimaLabPool"
+    />	
+</beans>

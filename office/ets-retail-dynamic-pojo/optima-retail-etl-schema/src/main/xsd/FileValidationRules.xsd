@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xsd:schema targetNamespace="http://citi.com/retail/optima/FileValidationRules"
+	xmlns:schemas="http://citi.com/retail/optima/FileValidationRules"
+	xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+
+	<xsd:element name="fileValidationRules" >	
+		<xsd:complexType>
+			<xsd:sequence>				
+				<xsd:element name="inputColumn"  minOccurs="1">
+					<xsd:complexType>
+						<xsd:attribute name="columnId" type="xsd:integer" />	
+						<xsd:attribute name="columnName" type="xsd:string" use="required"/>	
+						<xsd:attribute name="duplicate" type="xsd:boolean" />
+						<xsd:attribute name="order" type="xsd:integer" />
+						<xsd:attribute name="dataType" type="schemas:dataTypes" use="required"/>
+						<xsd:attribute name="notNull" type="xsd:boolean"/>
+						<xsd:attribute name="regex" type="xsd:string" />											  
+					</xsd:complexType>
+				</xsd:element>
+			</xsd:sequence>
+			<xsd:attribute name="functionName" type="schemas:functionNames" use="required"/>
+			<xsd:attribute name="delimiter" type="xsd:string" />		
+			<xsd:attribute name="allowedExtentions" type="xsd:string" />
+			<xsd:attribute name="rowCount" type="xsd:integer" />
+			<xsd:attribute name="columnCount" type="xsd:integer" use="required"/>						
+		</xsd:complexType>
+	</xsd:element>
+		
+	<xsd:simpleType name="dataTypes">
+    	<xsd:restriction base="xsd:string">
+    		<xsd:enumeration value="String"/>
+      		<xsd:enumeration value="Integer"/>
+      		<xsd:enumeration value="NegativeInteger"/>
+      		<xsd:enumeration value="Decimal"/>
+      		<xsd:enumeration value="NegativeDecimal"/>
+      		<xsd:enumeration value="Date"/>
+    	</xsd:restriction>  
+  	</xsd:simpleType>  		
+	<xsd:simpleType name="functionNames">
+    	<xsd:restriction base="xsd:string">
+    		<xsd:enumeration value="CCAR"/>
+    		<xsd:enumeration value="FDIC"/>
+    	</xsd:restriction>  
+  	</xsd:simpleType>  	
+</xsd:schema>	

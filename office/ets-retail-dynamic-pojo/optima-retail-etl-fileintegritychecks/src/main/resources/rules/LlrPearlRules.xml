@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<fileValidationRules functionName="LLR-PEARL"
+	columnCount="32" delimiter="," allowedExtentions="*.xls,*.xlsx">
+<inputColumn columnId="1" columnName="template_date" duplicate="true" order="0" dataType="String" notNull="true" />
+<inputColumn columnId="2" columnName="con_comm" duplicate="true" order="1" dataType="String" notNull="true" />
+<inputColumn columnId="3" columnName="region" duplicate="true" order="2" dataType="String" notNull="true" />
+<inputColumn columnId="4" columnName="country" duplicate="true" order="3" dataType="String" notNull="true" />
+<inputColumn columnId="5" columnName="business" duplicate="true" order="4" dataType="String" notNull="true" />
+<inputColumn columnId="6" columnName="legal_vehicle" duplicate="true" order="5" dataType="String" notNull="true" />
+<inputColumn columnId="7" columnName="corp_holdings" duplicate="true" order="6" dataType="String" notNull="true" />
+<inputColumn columnId="8" columnName="product1" duplicate="true" order="7" dataType="String" notNull="true" />
+<inputColumn columnId="9" columnName="product2" duplicate="false" order="8" dataType="String" notNull="false" />
+<inputColumn columnId="10" columnName="product3" duplicate="false" order="9" dataType="String" notNull="false" />
+<inputColumn columnId="11" columnName="pearl_prevq_fnl_enr" duplicate="false" order="10" dataType="NegativeDecimal" notNull="false" />
+<inputColumn columnId="12" columnName="pearl_prevq_llr_bal_total" duplicate="false" order="11" dataType="NegativeDecimal" notNull="false" />
+<inputColumn columnId="13" columnName="pearl_prevq_llr_bal_fas5" duplicate="false" order="12" dataType="NegativeDecimal" notNull="false" />
+<inputColumn columnId="14" columnName="pearl_prevq_llr_bal_fas114" duplicate="false" order="13" dataType="NegativeDecimal" notNull="false" />
+<inputColumn columnId="15" columnName="pearl_prevq_provision_llr_bal_fas5" duplicate="false" order="14" dataType="NegativeDecimal" notNull="false" />
+<inputColumn columnId="16" columnName="pearl_prevq_provision_llr_bal_fas114" duplicate="false" order="15" dataType="NegativeDecimal" notNull="false" />
+<inputColumn columnId="17" columnName="pearl_prevq_provision_llr_bal_total" duplicate="false" order="16" dataType="NegativeDecimal" notNull="false" />
+<inputColumn columnId="18" columnName="pearl_prevq_fnl_ncl" duplicate="false" order="17" dataType="NegativeDecimal" notNull="false" />
+<inputColumn columnId="19" columnName="pearl_prevq_fnl_gcl" duplicate="false" order="18" dataType="NegativeDecimal" notNull="false" />
+<inputColumn columnId="20" columnName="pearl_prevq_fnl_recoveries" duplicate="false" order="19" dataType="NegativeDecimal" notNull="false" />
+<inputColumn columnId="21" columnName="pearl_currq_fnl_enr" duplicate="false" order="20" dataType="NegativeDecimal" notNull="false" />
+<inputColumn columnId="22" columnName="pearl_currq_llr_bal_total" duplicate="false" order="21" dataType="NegativeDecimal" notNull="false" />
+<inputColumn columnId="23" columnName="pearl_currq_llr_bal_fas5" duplicate="false" order="22" dataType="NegativeDecimal" notNull="false" />
+<inputColumn columnId="24" columnName="pearl_currq_llr_bal_fas114" duplicate="false" order="23" dataType="NegativeDecimal" notNull="false" />
+<inputColumn columnId="25" columnName="pearl_currq_provision_llr_bal_fas5" duplicate="false" order="24" dataType="NegativeDecimal" notNull="false" />
+<inputColumn columnId="26" columnName="pearl_currq_provision_llr_bal_fas114" duplicate="false" order="25" dataType="NegativeDecimal" notNull="false" />
+<inputColumn columnId="27" columnName="pearl_currq_provision_llr_bal_total" duplicate="false" order="26" dataType="NegativeDecimal" notNull="false" />
+<inputColumn columnId="28" columnName="pearl_currq_fnl_ncl" duplicate="false" order="27" dataType="NegativeDecimal" notNull="false" />
+<inputColumn columnId="29" columnName="pearl_currq_fnl_gcl" duplicate="false" order="28" dataType="NegativeDecimal" notNull="false" />
+<inputColumn columnId="30" columnName="pearl_currq_fnl_recoveries" duplicate="false" order="29" dataType="NegativeDecimal" notNull="false" />
+<inputColumn columnId="31" columnName="pearl_prevq_eoq_fx_rate" duplicate="false" order="30" dataType="NegativeDecimal" notNull="true" />
+<inputColumn columnId="32" columnName="pearl_currq_eoq_fx_rate" duplicate="false" order="31" dataType="NegativeDecimal" notNull="false" />
+	<errorMessages>
+		<entry>
+			<key>CLMN_COUNT_MISMATCH</key>
+			<value>Column Count is not 31 for row {}</value>
+		</entry>
+		<entry>
+			<key>HEADER_INVALID</key>
+			<value>Header Value is invalid</value>
+		</entry>
+		<entry>
+			<key>DUPLICATE_ROW</key>
+			<value>Duplicate row for row {}</value>
+		</entry>
+		<entry>
+			<key>DATATYPE_INVALID</key>
+			<value>Data type is not valid for row {}</value>
+		</entry>
+	</errorMessages>
+</fileValidationRules>

@@ -1,0 +1,36 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<!-- Generated Jan 1, 2014 5:49:07 AM by Hibernate Tools 3.4.0.CR1 -->
+<hibernate-mapping>
+    <class name="com.citi.ets.dashboard.entity.Contacts" table="ETS_DSHBD_CONTACT_LOOKUP">
+        <id name="contact_id" type="java.lang.String">
+            <column name="CONTACT_ID" />
+            <generator class="assigned" />
+        </id>
+        <property name="apps_id" type="java.lang.String">
+            <column name="APPS_ID" />
+        </property>
+        <property name="sector" type="java.lang.String">
+            <column name="SECTOR" />
+        </property>
+        <property name="app_mgr" type="java.lang.String">
+            <column name="APP_MGR" />
+        </property>
+        <property name="supp_mgr" type="java.lang.String">
+            <column name="SUPP_MGR" />
+        </property>
+         <property name="level3Org" type="java.lang.String">
+            <column name="L3_ORG" />
+        </property>
+         <property name="level5Org" type="java.lang.String">
+            <column name="L5_ORG" />
+        </property>
+        <property name="last_update" type="java.sql.Date">
+            <column name="LAST_UPDATE" />
+        </property>
+        <property name="last_updatedby" type="java.lang.String">
+            <column name="LAST_UPDATEDBY" />
+        </property>
+    </class>
+</hibernate-mapping>

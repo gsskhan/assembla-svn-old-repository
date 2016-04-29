@@ -1,0 +1,139 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p"
+	xmlns:util="http://www.springframework.org/schema/util"
+	xsi:schemaLocation="
+				http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.2.xsd
+				http://www.springframework.org/schema/util  http://www.springframework.org/schema/util/spring-util-2.5.xsd">
+
+	<bean id="jobRepository"
+		class="org.springframework.batch.core.repository.support.JobRepositoryFactoryBean"
+		p:dataSource-ref="optimaDbPool" p:transactionManager-ref="transactionManager" >
+		<property name="isolationLevelForCreate" value="ISOLATION_DEFAULT"/>
+		</bean>
+
+	<bean id="jobLauncher"
+		class="org.springframework.batch.core.launch.support.SimpleJobLauncher">
+		<property name="jobRepository" ref="jobRepository" />
+		<property name="taskExecutor">
+			<bean
+				class="org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor">
+				<property name="corePoolSize" value="8" />
+				<property name="maxPoolSize" value="10" />
+			</bean>
+		</property>
+	</bean>
+	<bean id="jobExplorer"
+		class="org.springframework.batch.core.explore.support.JobExplorerFactoryBean">
+		<property name="dataSource" ref="optimaDbPool" />
+	</bean>
+
+	<bean id="jobRegistry"
+		class="org.springframework.batch.core.configuration.support.MapJobRegistry" />
+
+<!--  	<bean
+		class="org.springframework.batch.core.configuration.support.JobRegistryBeanPostProcessor">
+		<property name="jobRegistry" ref="jobRegistry" />
+	</bean> -->
+	<bean id="jobOperator" class="org.springframework.batch.core.launch.support.SimpleJobOperator">
+        <property name="jobExplorer" ref="jobExplorer" />
+        <property name="jobLauncher" ref="jobLauncher" />
+        <property name="jobRegistry" ref="jobRegistry" />
+        <property name="jobRepository" ref="jobRepository" />
+    </bean>
+
+	<bean
+		class="org.springframework.batch.core.configuration.support.AutomaticJobRegistrar">
+		<property name="applicationContextFactories">
+			<bean
+				class="org.springframework.batch.core.configuration.support.ClasspathXmlApplicationContextsFactoryBean">
+				<property name="resources" value="classpath*:/config/job*.xml" />
+			</bean>
+		</property>
+		<property name="jobLoader">
+			<bean
+				class="org.springframework.batch.core.configuration.support.DefaultJobLoader">
+				<property name="jobRegistry" ref="jobRegistry" />
+			</bean>
+		</property>
+	</bean>
+
+	<!-- Timer Tasklet to log Begin and End times of the Job START -->
+
+	<bean id="timerTaskletBegin" class="com.citi.retail.optima.etl.batch.GeneralTasklet">
+		<property name="message" value="The begin time is " />
+	</bean>
+
+	<bean id="timerTaskletEnd" class="com.citi.retail.optima.etl.batch.GeneralTasklet">
+		<property name="message" value="The end time is " />
+	</bean>
+	<!-- Timer Tasklet to log Begin and End times of the Job END -->
+
+	<bean id="preProcessorDataServiceFactory"
+		class="com.citi.optima.retail.batch.preprocess.PreProcessorDataServiceFactoryImpl" />
+		
+		<bean id="errorDataDataServiceFactory"
+		class="com.citi.retail.optima.etl.batch.report.ErrorDataServiceFactory" />
+
+	<!-- THE COMPLETE ITEM PROCESSOR DEFINTION FROM CARDS COULD BE REUSED SINCE 
+		THE RULES FROM DB WILL DRIVE THIS HOWEVER, THE USAGE OF PREPROCESSED DATA 
+		IN ENRICHMENT SERVICE SHOULD BE MODIFIED TO HAVE THIS AS COMMON DEFINITION -->
+
+
+
+
+	<!-- Month End Aggregation Processor-->
+	<bean name="aggregationProcessor"
+		class="com.citi.retail.optima.etl.batch.job.processor.AggregationProcessor"
+		init-method="init" scope="step">
+		<property name="aggregationServiceFactory" ref="aggregationServiceFactory" />
+		<property name="batchInstanceId" value="#{jobParameters[batchInstanceId]}" />
+		<property name="monthEndDate" value="#{jobParameters[reportDate]}" />
+		<property name="keyList" value="#{#getConcatenatedKeys(jobParameters[processingUnitIdList], stepExecutionContext[stepName])}" />
+		<property name="stepName" value="#{stepExecutionContext[stepName]}" />
+		<property name="accountTraceabilityRequired" value="true"/>
+		<property name="timeTracker" ref="timeTracker" />
+	</bean>
+	
+	<!-- THE COMPLETE ITEM PROCESSOR DEFINTION FROM CARDS COULD BE REUSED SINCE 
+		THE RULES FROM DB WILL DRIVE THIS HOWEVER, THE USAGE OF PREPROCESSED DATA 
+		IN ENRICHMENT SERVICE SHOULD BE MODIFIED TO HAVE THIS AS COMMON DEFINITION -->
+
+
+	<bean id="stepExecutionTimeListener"
+		class="com.citi.optima.retail.batch.listeners.StepExecutionTimeListener"
+		p:timeTracker-ref="timeTracker" scope="step"/>
+	
+
+	<bean id="traceInfoItemWriter"
+		class="org.springframework.batch.item.database.JdbcBatchItemWriter">
+		<property name="dataSource" ref="optimaDbPool" />
+		<property name="sql"
+			value="Insert into ORC_OUTPUT_TRACEABILITY (ACCOUNT_ID,AGGREGATION_RULE_ID,BATCH_INSTANCE_ID,SCHEDULE_ID) values (?,?,?,?)" />
+		<property name="itemPreparedStatementSetter" ref="accTracePrepSetter" />
+	</bean>
+
+	<bean id="accTracePrepSetter"
+		class="com.citi.retail.optima.etl.batch.job.writer.helper.AccountTracePrepStmtSetter" />
+
+	<bean name="aggregationResultsTasklet"
+		class="com.citi.retail.optima.etl.batch.tasklet.AggregationResultTasklet">
+		<property name="aggregationServiceFactory" ref="aggregationServiceFactory" />
+		<property name="jobConfigDao" ref="jobConfigDao" />
+	</bean>
+
+	<bean id="keyResolverUtil"
+		class="com.citi.retail.optima.etl.context.expression.KeyResolverUtil" />
+
+	<bean id="beanPostProcessor"
+		class="com.citi.retail.optima.etl.context.expression.OptimaRetailBeanPostProcessor" />	
+		
+		<bean id="timeTracker"
+		class="com.citi.optima.retail.batch.job.timer.TimeTracker" />
+
+	<!-- Custom Evaluation Context -->
+	<bean id="customEvaluationContext"
+		class="com.citi.retail.optima.etl.context.OptimaRetailCustomEvaluationContext"
+		init-method="init" />
+
+</beans>

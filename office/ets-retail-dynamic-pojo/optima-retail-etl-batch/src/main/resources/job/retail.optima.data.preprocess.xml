@@ -1,0 +1,225 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<beans  xmlns="http://www.springframework.org/schema/beans"
+		xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xmlns:p="http://www.springframework.org/schema/p"        
+        xmlns:util="http://www.springframework.org/schema/util"
+        xmlns:context="http://www.springframework.org/schema/context"
+        xsi:schemaLocation="
+        		http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.2.xsd
+        		http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util-3.2.xsd
+        		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-3.2.xsd">
+       
+    <context:annotation-config/>
+        
+        <!-- *********************************************** TW JOB Data Service = START ***************************************************** -->
+
+	<bean id="twDataService" factory-bean="preProcessorDataServiceFactory"
+		factory-method="getPreProcessorDataService" scope="step">
+		<constructor-arg type="java.lang.Long"
+			value="#{jobParameters[batchInstanceId]}" />
+		<constructor-arg type="java.lang.String"
+			value="com.citi.optima.retail.batch.preprocess.TwCardsDataServiceImpl" />
+	</bean>
+	
+	
+	<!-- *********************************************** TW JOB Data Service = END ***************************************************** -->
+	
+        
+        <!-- **********************************************  PREPROCESSOR CONFG STARTS   ****************************************************-->
+        
+     <!--    <bean id="ficoThreadLoad"		class="org.springframework.aop.target.ThreadLocalTargetSource">
+        	<property name="targetBeanName" value="preprocessFicoDataProvider"/>
+        </bean>  -->
+
+	<bean id="preprocessFicoDataProvider"
+		class="com.citi.optima.retail.batch.preprocess.PreProcessDataProviderImpl"
+		depends-on="preprocessDataServiceFact" scope="step">
+		<property name="preprocessMap"
+			value="#{(preprocessDataServiceFact.getLocalPreProcessorDataServiceMap('ficoDataProcessStep'))}" />
+	</bean>
+
+	<bean id="preprocessFxRateDataProvider"
+		class="com.citi.optima.retail.batch.preprocess.PreProcessDataProviderImpl"
+		depends-on="preprocessDataServiceFact" scope="step">
+		<property name="preprocessMap"
+			value="#{(preprocessDataServiceFact.getLocalPreProcessorDataServiceMap('fxrateDataProcessStep'))}" />
+	</bean>
+	
+	<bean id="preprocessMtgFicoDataProvider"
+		class="com.citi.optima.retail.batch.preprocess.PreProcessDataProviderImpl"
+		depends-on="preprocessDataServiceFact" scope="step">
+		<property name="preprocessMap"
+			value="#{(preprocessDataServiceFact.getLocalPreProcessorDataServiceMap('mtgFicoDataProcessStep'))}" />
+	</bean>
+	
+	<bean id="preprocessTdrDataProvider"
+		class="com.citi.optima.retail.batch.preprocess.PreProcessDataProviderImpl"
+		depends-on="preprocessDataServiceFact" scope="step">
+		<property name="preprocessMap"
+			value="#{(preprocessDataServiceFact.getLocalPreProcessorDataServiceMap('tdrDataProcessStep'))}" />
+	</bean>
+	<!-- mtg , pl -->
+	<bean id="preprocessMtgTdrDataProvider"
+		class="com.citi.optima.retail.batch.preprocess.PreProcessDataProviderImpl"
+		depends-on="preprocessDataServiceFact" scope="step">
+		<property name="preprocessMap"
+			value="#{(preprocessDataServiceFact.getLocalPreProcessorDataServiceMap('twMtgTdrDataProcessStep'))}" />
+	</bean>
+	
+	<bean id="preprocessNtbDataProvider"
+		class="com.citi.optima.retail.batch.preprocess.PreProcessDataProviderImpl"
+		depends-on="preprocessDataServiceFact" scope="step">
+		<property name="preprocessMap"
+			value="#{(preprocessDataServiceFact.getLocalPreProcessorDataServiceMap('ntbDataProcessStep'))}" />
+	</bean>
+
+	<bean id="preprocessEppDataProvider"
+		class="com.citi.optima.retail.batch.preprocess.PreProcessDataProviderImpl"
+		depends-on="preprocessDataServiceFact" scope="step">
+		<property name="preprocessMap"
+			value="#{(preprocessDataServiceFact.getLocalPreProcessorDataServiceMap('eppDataProcessStep'))}" />
+	</bean>
+
+	<bean id="preprocessWoDataProvider"
+		class="com.citi.optima.retail.batch.preprocess.PreProcessDataProviderImpl"
+		depends-on="preprocessDataServiceFact" scope="step">
+		<property name="preprocessMap"
+			value="#{(preprocessDataServiceFact.getLocalPreProcessorDataServiceMap('woDataProcessStep'))}" />
+	</bean>
+
+	<bean id="preprocessRecvDataProvider"
+		class="com.citi.optima.retail.batch.preprocess.PreProcessDataProviderImpl"
+		depends-on="preprocessDataServiceFact" scope="step">
+		<property name="preprocessMap"
+			value="#{(preprocessDataServiceFact.getLocalPreProcessorDataServiceMap('recvDataProcessStep'))}" />
+	</bean>
+	
+	<bean id="preprocessBauimpDataProvider"
+		class="com.citi.optima.retail.batch.preprocess.PreProcessDataProviderImpl"
+		depends-on="preprocessDataServiceFact" scope="step">
+		<property name="preprocessMap"
+			value="#{(preprocessDataServiceFact.getLocalPreProcessorDataServiceMap('bauimpDataProcessStep'))}" />
+	</bean>
+	
+	<bean id="preprocessFipDataProvider"
+		class="com.citi.optima.retail.batch.preprocess.PreProcessDataProviderImpl"
+		depends-on="preprocessDataServiceFact" scope="step">
+		<property name="preprocessMap"
+			value="#{(preprocessDataServiceFact.getLocalPreProcessorDataServiceMap('fipDataProcessStep'))}" />
+	</bean>
+	
+	<bean id="preprocessMemoDataProvider"
+		class="com.citi.optima.retail.batch.preprocess.PreProcessDataProviderImpl"
+		depends-on="preprocessDataServiceFact" scope="step">
+		<property name="preprocessMap"
+			value="#{(preprocessDataServiceFact.getLocalPreProcessorDataServiceMap('twMtgMemoDataProcessStep'))}" />
+	</bean>
+	
+	<bean id="preprocessMutColDataProvider"
+		class="com.citi.optima.retail.batch.preprocess.PreProcessDataProviderImpl"
+		depends-on="preprocessDataServiceFact" scope="step">
+		<property name="preprocessMap"
+			value="#{(preprocessDataServiceFact.getLocalPreProcessorDataServiceMap('mutColDataProcessStep'))}" />
+	</bean>
+	
+	<bean id="preprocessOreoDataProvider"
+		class="com.citi.optima.retail.batch.preprocess.PreProcessDataProviderImpl"
+		depends-on="preprocessDataServiceFact" scope="step">
+		<property name="preprocessMap"
+			value="#{(preprocessDataServiceFact.getLocalPreProcessorDataServiceMap('oreoDataProcessStep'))}" />
+	</bean>
+	
+	<bean id="preprocessTeaserDataProvider"
+		class="com.citi.optima.retail.batch.preprocess.PreProcessDataProviderImpl"
+		depends-on="preprocessDataServiceFact" scope="step">
+		<property name="preprocessMap"
+			value="#{(preprocessDataServiceFact.getLocalPreProcessorDataServiceMap('teaserDataProcessStep'))}" />
+	</bean>
+	
+	<bean id="preprocessDataServiceFact" factory-bean="preProcessorDataServiceFactory"
+		factory-method="getPreProcessorDataService" scope="step">
+		<constructor-arg type="java.lang.Long"
+			value="#{jobParameters[batchInstanceId]}" />
+		<constructor-arg type="java.lang.String"
+			value="com.citi.optima.retail.batch.preprocess.PreProcessorDataServiceImpl" />
+	</bean>
+	
+	
+	<!-- **********************************************  PREPROCESSOR CONFG END      ****************************************************-->
+	
+	
+	<!-- ###############################################  TW RC Start    ############################################### -->
+	
+	<bean id="preprocessTwRcTdrDataProvider"
+		class="com.citi.optima.retail.batch.preprocess.PreProcessDataProviderImpl"
+		depends-on="preprocessDataServiceFact" scope="step">
+		<property name="preprocessMap"
+			value="#{(preprocessDataServiceFact.getLocalPreProcessorDataServiceMap('twRcTdrDataProcessStep'))}" />
+	</bean>
+	
+	<bean id="preprocessTwRcEppDataProvider"
+		class="com.citi.optima.retail.batch.preprocess.PreProcessDataProviderImpl"
+		depends-on="preprocessDataServiceFact" scope="step">
+		<property name="preprocessMap"
+			value="#{(preprocessDataServiceFact.getLocalPreProcessorDataServiceMap('twRcEppDataProcessStep'))}" />
+	</bean>
+	
+	<bean id="preprocessTwRcNtbDataProvider"
+		class="com.citi.optima.retail.batch.preprocess.PreProcessDataProviderImpl"
+		depends-on="preprocessDataServiceFact" scope="step">
+		<property name="preprocessMap"
+			value="#{(preprocessDataServiceFact.getLocalPreProcessorDataServiceMap('twRcNtbDataProcessStep'))}" />
+	</bean>
+	
+	<bean id="preprocessTwRcRecDataProvider"
+		class="com.citi.optima.retail.batch.preprocess.PreProcessDataProviderImpl"
+		depends-on="preprocessDataServiceFact" scope="step">
+		<property name="preprocessMap"
+			value="#{(preprocessDataServiceFact.getLocalPreProcessorDataServiceMap('twRcRecDataProcessStep'))}" />
+	</bean>
+	
+	<bean id="preprocessTwRcIntDataProvider"
+		class="com.citi.optima.retail.batch.preprocess.PreProcessDataProviderImpl"
+		depends-on="preprocessDataServiceFact" scope="step">
+		<property name="preprocessMap"
+			value="#{(preprocessDataServiceFact.getLocalPreProcessorDataServiceMap('twRcIntDataProcessStep'))}" />
+	</bean>
+	
+	<bean id="preprocessTwRcWoDataProvider"
+		class="com.citi.optima.retail.batch.preprocess.PreProcessDataProviderImpl"
+		depends-on="preprocessDataServiceFact" scope="step">
+		<property name="preprocessMap"
+			value="#{(preprocessDataServiceFact.getLocalPreProcessorDataServiceMap('twRcWoDataProcessStep'))}" />
+	</bean>
+	
+	<bean id="preprocessTwRcFicoDataProvider"
+		class="com.citi.optima.retail.batch.preprocess.PreProcessDataProviderImpl"
+		depends-on="preprocessDataServiceFact" scope="step">
+		<property name="preprocessMap"
+			value="#{(preprocessDataServiceFact.getLocalPreProcessorDataServiceMap('twRcFicoDataProcessStep'))}" />
+	</bean>
+	
+	<bean id="preprocessTwRcBoocDataProvider"
+		class="com.citi.optima.retail.batch.preprocess.PreProcessDataProviderImpl"
+		depends-on="preprocessDataServiceFact" scope="step">
+		<property name="preprocessMap"
+			value="#{(preprocessDataServiceFact.getLocalPreProcessorDataServiceMap('twRcBoocDataProcessStep'))}" />
+	</bean>
+	
+	<bean id="preprocessTwCrdBoocDataProvider"
+		class="com.citi.optima.retail.batch.preprocess.PreProcessDataProviderImpl"
+		depends-on="preprocessDataServiceFact" scope="step">
+		<property name="preprocessMap"
+			value="#{(preprocessDataServiceFact.getLocalPreProcessorDataServiceMap('twCrdBoocDataProcessStep'))}" />
+	</bean>
+	
+	
+	<bean id="preprocessCbFinanceDataProvider"
+		class="com.citi.optima.retail.batch.preprocess.PreProcessDataProviderImpl"
+		depends-on="preprocessDataServiceFact" scope="step">
+		<property name="preprocessMap"
+			value="#{(preprocessDataServiceFact.getLocalPreProcessorDataServiceMap('cbFinanceDataProcessStep'))}" />
+	</bean>
+	
+	<!-- ###############################################  TW RC End   	############################################### -->
+</beans>

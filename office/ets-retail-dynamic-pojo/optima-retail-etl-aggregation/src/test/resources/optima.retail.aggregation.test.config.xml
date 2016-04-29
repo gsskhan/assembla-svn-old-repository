@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<beans  xmlns="http://www.springframework.org/schema/beans"
+        xmlns:p="http://www.springframework.org/schema/p"       
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xmlns:util="http://www.springframework.org/schema/util"
+        xmlns:context="http://www.springframework.org/schema/context"
+        xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.2.xsd
+                            http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util-3.2.xsd
+                            http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-3.2.xsd">
+        <context:annotation-config/>
+        
+    <bean id="aggregationTestProperties"
+        class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
+        <property name="ignoreUnresolvablePlaceholders" value="true"/>        
+        <property name="locations">
+            <list>             
+                <value>classpath:optima.retail.etl.aggregation.test.datasource.properties</value>
+                <value>classpath:optima.retail.etl.aggregation.test.sql.properties</value>
+
+            </list>
+        </property>
+    </bean>
+    
+    
+
+    <bean	id="jdbcTemplate"
+    	class="org.springframework.jdbc.core.JdbcTemplate"
+    	p:dataSource-ref="optimaDatasource"
+    />	
+		
+<!-- 	<bean id="optimaDbPool"
+		class="oracle.ucp.jdbc.PoolDataSourceFactory"
+		factory-method="getPoolDataSource"
+		lazy-init="true"
+		p:connectionFactoryClassName="${optima.db.driverClassName}"
+		p:SQLForValidateConnection="select 1 from DUAL"			
+		p:URL="${optima.db.url}"
+		p:user="${optima.db.user}"
+		p:password="${optima.db.pass}"
+		p:connectionPoolName="${optima.db.pool.name}"
+		p:minPoolSize="${optima.db.pool.min}"
+		p:maxPoolSize="${optima.db.pool.max}"
+	/>
+ -->
+
+	<bean id="optimaDatasource" lazy-init="false"
+		class="org.springframework.jdbc.datasource.SingleConnectionDataSource" destroy-method="closeConnection">
+		<constructor-arg value="${optima.db.url}" />
+		<constructor-arg value="${optima.db.user}" />
+		<constructor-arg value="${optima.db.pass}" />
+		<constructor-arg value="true" />
+     </bean>   
+
+
+	 <bean	id="aggregationRulesDao"
+    		class="com.citi.retail.optima.etl.aggregation.dao.AggregationRulesDao"
+    		p:aggregationRuleSql="${query.rules.aggregation}"
+    		p:aggregationRuleWithKeySql="${query.rules.aggregation.with.key}"
+    		p:aggregationSqlRuleWithKeySql="${query.rules.aggregation.sql.with.key}"
+    		p:jdbcTemplate-ref="jdbcTemplate"
+     />
+	       
+	
+    		
+    <bean id="aggregationDao"
+		class="com.citi.retail.optima.etl.aggregation.dao.impl.AggregationDaoImpl">
+		<property name="jdbcTemplate" ref="jdbcTemplate" />
+	</bean>	
+
+    <bean id="aggregationRuleLookup"
+		class="com.citi.retail.optima.etl.aggregation.model.AggregationRuleLookup">
+
+		<property name="aggregationRulesDao">
+			<ref bean="aggregationRulesDao" />
+		</property>
+	</bean>
+
+	
+	
+	<bean id="aggrServiceImpl"
+		class="com.citi.retail.optima.etl.aggregation.impl.AggregationServiceImpl">
+		<property name="parser" ref="spelParser" />
+	</bean>
+	
+	<bean id="spelParser"
+		class="org.springframework.expression.spel.standard.SpelExpressionParser" />
+	
+	
+	<bean id="aggregationServiceFactory"
+		class="com.citi.retail.optima.etl.aggregation.impl.AggregationServiceFactoryImpl">
+		<property name="aggregationRuleLookup" ref="aggregationRuleLookup" />
+		<property name="parser" ref="spelParser" />
+		<property name="aggregationDao" ref="aggregationDao" />
+	</bean>
+
+</beans>    

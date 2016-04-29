@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="ISO-8859-1" ?>
+<!DOCTYPE tiles-definitions PUBLIC
+       "-//Apache Software Foundation//DTD Tiles Configuration 2.0//EN"
+       "http://tiles.apache.org/dtds/tiles-config_2_0.dtd">
+
+<tiles-definitions>
+	
+	<!-- 
+	The following steps must be taken in order to enable Tiles 3 support within your Struts2 application:
+    
+    1. Include the struts-tiles3-plugin as a dependency in your web application, do not include the old struts2-tiles-plugin! If you are using maven3, the dependency configuration will be similar to:
+    <dependency>
+      <groupId>org.apache.struts</groupId>
+      <artifactId>struts2-tiles3-plugin</artifactId>
+      <version>${version.tiles}</version>
+      <scope>compile</scope>
+    </dependency>
+    
+    2. Register the tiles listener in web.xml
+    <listener>
+        <listener-class>org.apache.tiles.extras.complete.CompleteAutoloadTilesListener</listener-class>
+    </listener>
+    
+    3. All package definitions which require tiles support must either extend the tiles-default package or must register the Tiles 3 Result type definition.
+    <result-types>
+      <result-type name="tiles" class="org.apache.struts2.views.tiles.TilesResult"/>
+    </result-types>
+    
+    4. Configure your actions to utilize a tiles definition:
+    <action name="sample" class="org.apache.struts2.tiles.example.SampleAction" >
+      <result name="success" type="tiles">tilesWorks</result>
+    </action>
+		
+	-->
+
+	<definition name="admin.home.def" template="/admin/admin_layout_one.jsp">
+		<put-attribute name="title" value="Home for Administrator - Document System Management" type="string"/>
+		<put-attribute name="header" value="/mainheader.jsp" />
+		<put-attribute name="menu" value="/admin/mainmenu.jsp" />
+		<put-attribute name="body" value="/admin/admin_home_body.jsp" />
+		<put-attribute name="footer" value="/footer.jsp" />
+	</definition>
+	
+</tiles-definitions>

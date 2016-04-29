@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.2.xsd">
+
+  	<bean id="adminLoginAction" class="org.dms.web.action.AdminLoginAction" />
+    
+    <bean id="registerAction" class="org.dms.web.action.RegisterAction" />
+    
+    <bean id="searchUsers" class="org.dms.web.action.SearchUsers" />
+    
+    <bean id="constantsDataGridAction" class="org.dms.web.jsonaction.ConstantsDataGridAction" />
+    
+    <bean id="constantsManageAction" class="org.dms.web.action.ConstantsManageAction" />
+    
+    <bean id="jsonSearchVarName" class="org.dms.web.jsonaction.JsonSearchVarName" />
+    
+    <bean id="managePapersAction" class="org.dms.web.action.ManagePapersAction" />
+    
+    <bean id="managePaperWorkflowAction" class="org.dms.web.action.ManagePaperWorkflowAction" />
+    
+</beans>

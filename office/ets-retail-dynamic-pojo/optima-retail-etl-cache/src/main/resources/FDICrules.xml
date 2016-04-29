@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<fileValidationRules functionName="FDIC" columnCount="14" delimiter="," allowedExtentions="*.csv,*.txt,*.xls,*.xlsx">
+	<inputColumn columnId="1" columnName="REPORTING MONTH" duplicate="true" order="0" dataType="Integer" notNull="true" regex="20[0-4]\d(0[1-9]|1[0-2])"/>
+	<inputColumn columnId="2" columnName="REGION" duplicate="true" order="1" dataType="String" notNull="true"/>
+	<inputColumn columnId="3" columnName="COUNTRY" duplicate="true" order="2" dataType="String" notNull="true"/>
+	<inputColumn columnId="4" columnName="BUSINESS UNIT" duplicate="true" order="3" dataType="String" notNull="true"/>
+	<inputColumn columnId="5" columnName="PRODUCT CATEGORY" duplicate="true" order="4" dataType="String" notNull="true"/>
+	<inputColumn columnId="6" columnName="CREDIT BUREAU" duplicate="true" order="5" dataType="String" notNull="true"/>
+	<inputColumn columnId="7" columnName="MODEL VERSION" duplicate="true" order="6" dataType="String" notNull="true"/>
+	<inputColumn columnId="8" columnName="FICO/MODEL SCORE" duplicate="true" order="7" dataType="Integer" notNull="true"/>
+	<inputColumn columnId="9" columnName="ENR" duplicate="true" order="8" dataType="NegativeDecimal" notNull="true"/>
+	<inputColumn columnId="10" columnName="EXCLUDED AMOUNT " duplicate="true" order="9" dataType="NegativeDecimal" notNull="true"/>
+	<inputColumn columnId="11" columnName="LOCAL CURRENCY CODE" duplicate="true" order="10" dataType="String" notNull="true"/>
+	<inputColumn columnId="12" columnName="FX RATE" duplicate="true" order="11" dataType="Decimal" notNull="true"/>
+	<inputColumn columnId="13" columnName="CONTACT" duplicate="true" order="12" dataType="String" notNull="true"/>
+	<inputColumn columnId="14" columnName="SUBMITTER" duplicate="true" order="13" dataType="String" notNull="true"/>
+	<errorMessages>
+		<entry>
+			<key>CLMN_COUNT_MISMATCH</key>
+			<value>Column Count is not 14 for row {}</value>
+		</entry>
+		<entry>
+			<key>HEADER_INVALID</key>
+			<value>Header Value is invalid</value>
+		</entry>
+		<entry>
+			<key>DUPLICATE_ROW</key>
+			<value>Duplicate row for row {}</value>
+		</entry>
+		<entry>
+			<key>DATATYPE_INVALID</key>
+			<value>Data type is not valid for row {}</value>
+		</entry>
+	</errorMessages>
+</fileValidationRules>

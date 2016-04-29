@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<fileValidationRules functionName="TDR" columnCount="4" delimiter="|" allowedExtentions="*.dat">
+	<inputColumn columnId="1" columnName="update" duplicate="false" order="0" dataType="String" notNull="true" regex="([0-9a-zA-Z_ \/]+)">
+	<errorMessages>
+		<entry>
+			<key>NOT_NULL_INVALID</key>
+			<value>update cannot be blank or null</value>
+		</entry>
+		<entry>
+			<key>DATATYPE_INVALID</key>
+			<value>update should be in a valid format</value>
+		</entry>
+		</errorMessages>
+	</inputColumn>
+	
+	<inputColumn columnId="2" columnName="ACCT_OPEN_DT" duplicate="false" order="1" dataType="String" notNull="true">
+	<errorMessages>
+		<entry>
+			<key>NOT_NULL_INVALID</key>
+			<value>ACCT_OPEN_DT cannot be blank or null</value>
+		</entry>
+		<entry>
+			<key>DATATYPE_INVALID</key>
+			<value>ACCT_OPEN_DT should be in a valid format</value>
+		</entry>
+		</errorMessages>
+	</inputColumn>
+	
+	<inputColumn columnId="3" columnName="tdrflag" duplicate="false" order="2" dataType="Integer" notNull="true" regex="([0-9]{1})">
+	<errorMessages>
+		<entry>
+			<key>NOT_NULL_INVALID</key>
+			<value>tdrflag cannot be blank or null</value>
+		</entry>
+		<entry>
+			<key>DATATYPE_INVALID</key>
+			<value>tdrflag should be in a valid format</value>
+		</entry>
+		</errorMessages>
+	</inputColumn>
+	
+	<inputColumn columnId="4" columnName="cardnmbr" duplicate="true" order="3" dataType="String" notNull="true" regex="([0-9]{14})">
+		<errorMessages>
+		<entry>
+			<key>NOT_NULL_INVALID</key>
+			<value>cardnmbr cannot be blank or null</value>
+		</entry>
+		<entry>
+			<key>DATATYPE_INVALID</key>
+			<value>cardnmbr should be in a valid Credit Card Number</value>
+		</entry>
+		</errorMessages>
+	</inputColumn>
+	
+	<errorMessages>
+		<entry>
+			<key>CLMN_COUNT_MISMATCH</key>
+			<value>Column Count is not 4 for row {}</value>
+		</entry>
+		<entry>
+			<key>HEADER_INVALID</key>
+			<value>Header Value is invalid</value>
+		</entry>
+		<entry>
+			<key>DUPLICATE_ROW</key>
+			<value>Duplicate row for row {}</value>
+		</entry>
+		<entry>
+			<key>DATATYPE_INVALID</key>
+			<value>Data type is not valid for row {}</value>
+		</entry>
+	</errorMessages>
+</fileValidationRules>

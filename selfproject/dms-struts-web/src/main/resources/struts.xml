@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE struts PUBLIC
+    "-//Apache Software Foundation//DTD Struts Configuration 2.3//EN"
+    "http://struts.apache.org/dtds/struts-2.3.dtd">
+ 
+<struts>
+
+	<!-- Lesson Learned :-
+		1. Declare action class with fdqn in struts.xml and Spring applicationContext.xml
+		   Struts will pick itself bean from either of them when required. - STRANGE !!! NEED TO LOOK MORE.
+		2. For JSON objects mapping 
+		   a) always include 'excludeProperties' as properties you dont need serialized, probably best to have spring beans in it. 
+		   b) declare interceptor stack as 'basicStack' so that validate() method wont get executed.
+	 	3. If struts is handling a request as an action, to make Struts ignore it, specify comma seperated list of regular expressions
+	 		<constant name="struts.action.excludePattern" value="/some/conent/.*?" />
+	 -->
+
+	<constant name="struts.devMode" value="true" />
+	<constant name="struts.action.excludePattern" value="/dmsWebservice*" />
+	<constant name="struts.objectFactory" value="spring" />
+	<constant name="struts.multipart.saveDir" value="/tmp" />
+	<constant name="struts.multipart.maxSize" value="99999999" />
+		
+	<include file="struts-default.xml" />
+	
+	<package name="default" namespace="/" extends="struts-default,json-default,tiles-default">
+    </package>
+    
+    <!-- Struts config files -->
+    <include file="struts/struts-admin.xml" />
+	
+</struts>

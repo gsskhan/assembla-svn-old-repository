@@ -1,0 +1,71 @@
+## sample.txt file contents in local /home/gsskhan/sample.txt
+
+1201,Gopal,45000,Technical manager
+1202,Manisha,45000,Proof reader
+1203,Masthanvali,40000,Technical writer
+1204,Kiran,40000,Hr Admin
+1205,Kranthi,30000,Op Admin Head
+
+## To create a new database
+
+hive> create database userdb; 
+OK
+Time taken: 0.062 seconds
+
+## To show all databases
+
+hive> show databases;
+OK
+default
+userdb
+Time taken: 0.026 seconds, Fetched: 2 row(s)
+
+## To use a database
+
+hive> use userdb;
+OK
+Time taken: 0.023 seconds
+
+## To show tables in database
+
+hive> show tables;
+OK
+Time taken: 0.044 seconds
+
+## To create a hive table 
+
+hive> CREATE TABLE IF NOT EXISTS employee ( eid int, name String, salary String, destination String)
+COMMENT 'Employee details'
+ROW FORMAT DELIMITED
+FIELDS TERMINATED BY ','
+LINES TERMINATED BY '\n'
+STORED AS TEXTFILE;
+
+## To load the sampe.txt into above created hive table;
+
+hive> LOAD DATA LOCAL INPATH '/home/gsskhan/sample.txt' OVERWRITE INTO TABLE employee; 
+
+## To view the data of employee table;
+
+hive> select * from employee;                                                                       
+OK
+1201	Gopal	45000	Technical manager
+1202	Manisha	45000	Proof reader
+1203	Masthanvali	40000	Technical writer
+1204	Kiran	40000	Hr Admin
+1205	Kranthi	30000	Op Admin Head
+Time taken: 0.056 seconds, Fetched: 5 row(s)
+
+## To Rename the table
+
+hive> ALTER TABLE employee RENAME TO emp; 
+OK
+Time taken: 1.56 seconds
+
+## To alter a column in table
+
+hive> ALTER TABLE employee CHANGE name ename String;     
+OK
+Time taken: 1.104 seconds
+
+

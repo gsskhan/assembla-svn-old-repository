@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p"
+	xmlns:c="http://www.springframework.org/schema/c"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans 
+	http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
+
+	<bean id="optimaLabPool" class="oracle.ucp.jdbc.PoolDataSourceFactory"
+		factory-method="getPoolDataSource" lazy-init="true" p:user="oretl"
+		p:password="oretl" p:minPoolSize="16" p:maxPoolSize="20"
+		p:connectionPoolName="oracleConnectionPool" p:URL="jdbc:oracle:thin:@lab7-dl580-1:1522:dl5801TEST"
+		p:connectionFactoryClassName="oracle.jdbc.pool.OracleDataSource"
+		p:SQLForValidateConnection="select 1 from DUAL" />
+
+	<bean id="jdbcTemplate" class="org.springframework.jdbc.core.JdbcTemplate"
+		p:dataSource-ref="optimaLabPool" />
+
+	<bean id="exceptionMessageDaoImpl"
+		class="com.citi.retail.optima.etl.logging.dao.impl.ExceptionMessageDaoImpl"
+		init-method="init" p:jdbcTemplate-ref="jdbcTemplate" />
+
+</beans>

@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<fileValidationRules functionName="FIP" columnCount="3" delimiter="|" allowedExtentions="*.dat">
+	<inputColumn columnId="1" columnName="keepflg" duplicate="false" order="0" dataType="String" notNull="true" regex="([0-9]{1})">
+	<errorMessages>
+		<entry>
+			<key>NOT_NULL_INVALID</key>
+			<value>KeepFlag cannot be blank or null</value>
+		</entry>
+		<entry>
+			<key>DATATYPE_INVALID</key>
+			<value>KeepFlag should be in a valid format</value>
+		</entry>
+		</errorMessages>
+	</inputColumn>
+	
+	<inputColumn columnId="2" columnName="statenow" duplicate="false" order="1" dataType="String" notNull="false" regex="([a-z][A-Z]+">
+	<errorMessages>
+		<entry>
+			<key>DATATYPE_INVALID</key>
+			<value>Statenow should be in a valid format</value>
+		</entry>
+		</errorMessages>
+	</inputColumn>
+	
+	<inputColumn columnId="3" columnName="acctnumb" duplicate="true" order="2" dataType="String" notNull="true" regex="([0-9]{14})">
+		<errorMessages>
+		<entry>
+			<key>NOT_NULL_INVALID</key>
+			<value>acctnumb cannot be blank or null</value>
+		</entry>
+		<entry>
+			<key>DATATYPE_INVALID</key>
+			<value>acctnumb should be in a validNumber</value>
+		</entry>
+		</errorMessages>
+	</inputColumn>
+	
+	<errorMessages>
+		<entry>
+			<key>CLMN_COUNT_MISMATCH</key>
+			<value>Column Count is not 4 for row {}</value>
+		</entry>
+		<entry>
+			<key>HEADER_INVALID</key>
+			<value>Header Value is invalid</value>
+		</entry>
+		<entry>
+			<key>DUPLICATE_ROW</key>
+			<value>Duplicate row for row {}</value>
+		</entry>
+		<entry>
+			<key>DATATYPE_INVALID</key>
+			<value>Data type is not valid for row {}</value>
+		</entry>
+	</errorMessages>
+</fileValidationRules>

@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html ng-app>
+<head>
+<meta charset="UTF-8">
+	<title>Funding example</title>
+	<script type="text/javascript" src="../resources/angular/angular.js"></script>
+</head>
+<script type="text/javascript">
+	function StartUpController($scope) {
+		$scope.computeNeeded = function() {
+			$scope.needed = $scope.startingEstimate * 10;
+		};
+		$scope.requestFunding = function() {
+			window.alert("Sorry, please get more customers first.");
+		};
+		$scope.reset = function() {
+			alert('Reset called.');
+			scope.startingEstimate = 0;
+		};
+	}
+</script>
+<body>
+	<form ng-submit="requestFunding()" ng-controller="StartUpController">
+		Starting:      	<input ng-change="computeNeeded()" ng-model="startingEstimate"><br/>
+		Recommendation:	<p ng-bind="needed"></p>
+				  <button>Fund my startup!</button>
+				  <button ng-click="reset()">Reset</button>
+	</form>
+</body>
+</html>

@@ -1,0 +1,159 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:aop="http://www.springframework.org/schema/aop"
+	xmlns:batch="http://www.springframework.org/schema/batch" xmlns:util="http://www.springframework.org/schema/util"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:p="http://www.springframework.org/schema/p" 
+	xsi:schemaLocation="http://www.springframework.org/schema/beans 
+		http://www.springframework.org/schema/beans/spring-beans-2.5.xsd
+		http://www.springframework.org/schema/util 
+		http://www.springframework.org/schema/util/spring-util-2.5.xsd
+		http://www.springframework.org/schema/context
+		http://www.springframework.org/schema/context/spring-context.xsd
+		http://www.springframework.org/schema/batch 
+		http://www.springframework.org/schema/batch/spring-batch-2.1.xsd
+		http://www.springframework.org/schema/aop
+ 		http://www.springframework.org/schema/aop/spring-aop-2.5.xsd">
+	
+	<import resource="optima.retail.validation.category.test.xml"/>
+	
+	<batch:job id="samplePartitionJob" job-repository="jobRepository">
+		<batch:step id="springStart" next="dataProcessStepHolder">
+			<batch:tasklet ref="dummyTaskletBegin" />
+		</batch:step>
+		<batch:step id="dataProcessStepHolder" parent="dataProcessStep:master"
+			next="validationOutputStep" />
+		<batch:step id="validationOutputStep"  parent="validationOutputStepParent"
+			next="endSpringStep" />				
+		<batch:step id="endSpringStep">
+			<batch:tasklet ref="dummyTaskletEnd" />
+		</batch:step>
+		<batch:listeners>
+			<batch:listener ref="saveJobStatusListener" />
+		</batch:listeners>
+	</batch:job>
+
+
+	<batch:step id="validationOutputStepParent"  >
+			<batch:tasklet allow-start-if-complete="false">
+				<batch:chunk writer="batchItemWriter" reader="batchItemReader"
+					processor="validationOutputProcessor" commit-interval="10000"
+					skip-limit="500"> <!-- check for passing the skip count -->
+					<batch:skippable-exception-classes>
+						<batch:include
+							class="com.citi.retail.optima.etl.common.exception.OptimaRetailDataException" />
+					</batch:skippable-exception-classes>
+				</batch:chunk>
+				<batch:no-rollback-exception-classes>
+					<batch:include
+						class="com.citi.retail.optima.etl.common.exception.OptimaRetailDataException" />
+				</batch:no-rollback-exception-classes>
+			</batch:tasklet>
+			<batch:listeners>			
+					<batch:listener ref="validationOutputProcessor" />
+			</batch:listeners>
+	</batch:step>
+
+	<bean id="saveJobStatusListener"
+		class="com.citi.optima.retail.batch.listeners.JobUpdateStatusListener" />
+
+	<bean name="dataProcessStep:master"
+		class="org.springframework.batch.core.partition.support.PartitionStep">
+		<property name="jobRepository" ref="jobRepository" />
+		<property name="stepExecutionSplitter">
+			<bean
+				class="org.springframework.batch.core.partition.support.SimpleStepExecutionSplitter">
+				<constructor-arg ref="jobRepository" />
+				<constructor-arg ref="dataProcessStep" />
+				<constructor-arg ref="dataPartitioner" />
+			</bean>
+		</property>
+		<property name="partitionHandler">
+			<bean
+				class="org.springframework.batch.core.partition.support.TaskExecutorPartitionHandler"
+				scope="step">
+				<property name="taskExecutor">
+					<bean
+						class="org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor">
+						<property name="corePoolSize" value="8" />
+						<property name="maxPoolSize" value="10" />
+					</bean>
+
+				</property>
+				<property name="step" ref="dataProcessStep" />
+				<property name="gridSize" value="20" />
+			</bean>
+		</property>
+	</bean>
+
+
+	<bean id="dataPartitioner"
+		class="com.citi.retail.optima.etl.batch.job.infra.ConsolidatedDataPartitioner"
+		scope="step">
+	</bean>
+
+	<batch:step id="dataProcessStep">
+		<batch:tasklet allow-start-if-complete="false">
+			<batch:chunk writer="batchItemWriter" reader="batchItemReader"
+				processor="completeItemProcessor" commit-interval="10000"
+				skip-limit="500"> <!-- check for passing the skip count -->
+				<batch:skippable-exception-classes>
+					<batch:include
+						class="com.citi.retail.optima.etl.common.exception.OptimaRetailDataException" />
+				</batch:skippable-exception-classes>
+			</batch:chunk>
+			<batch:no-rollback-exception-classes>
+				<batch:include
+					class="com.citi.retail.optima.etl.common.exception.OptimaRetailDataException" />
+			</batch:no-rollback-exception-classes>
+		</batch:tasklet>
+		<batch:listeners>
+			<batch:listener ref="dataProcessStepStatusListner" />
+				<batch:listener ref="validationProcessor" />
+		</batch:listeners>
+	</batch:step>
+
+	<bean id="dataProcessStepStatusListner"
+		class="com.citi.optima.retail.batch.listeners.BatchSaveStateStepListener">
+		<property name="exceptionPublisher" ref="jmsExceptionLogging"></property>
+	</bean>
+
+	<bean id="batchItemReader"
+		class="com.citi.retail.optima.etl.batch.job.reader.BatchItemReader"
+		scope="step" />
+
+	<bean id="batchItemWriter"
+		class="com.citi.retail.optima.etl.batch.job.writer.BatchItemWriter"
+		scope="step" />
+
+	<bean id="completeItemProcessor"
+		class="org.springframework.batch.item.support.CompositeItemProcessor"
+		scope="step">
+		<property name="delegates">
+			<util:list>
+				<ref bean="batchItemProcessor" />
+				<ref bean="validationProcessor" />				
+			</util:list>
+		</property>
+	</bean>
+
+	<bean id="batchItemProcessor"
+		class="com.citi.retail.optima.etl.batch.job.processor.SampleItemProcessor" />
+
+	<bean id="dummyTaskletBegin" class="com.citi.retail.optima.etl.batch.GeneralTasklet">
+		<property name="message" value="The begin time is " />
+	</bean>
+
+	<bean id="dummyTaskletEnd" class="com.citi.retail.optima.etl.batch.GeneralTasklet">
+		<property name="message" value="The end time is " />
+	</bean>
+
+	<bean id="validationProcessor"
+		class="com.citi.retail.optima.etl.batch.job.processor.ValidationProcessor" scope="step"
+		p:validationServiceBean-ref="validationService"  />
+		
+	<bean id="validationOutputProcessor"
+		class="com.citi.retail.optima.etl.batch.job.processor.ValidationOutputProcessor" scope="step"
+		p:validationServiceBean-ref="validationService"  />
+
+</beans>

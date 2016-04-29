@@ -1,0 +1,101 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+
+  <groupId>som.citi.ets.demo</groupId>
+  <artifactId>JmsListnerBatch</artifactId>
+  <version>1</version>
+  <packaging>jar</packaging>
+
+  <name>JmsListnerBatch</name>
+  <url>http://maven.apache.org</url>
+
+  <properties>
+    <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+  </properties>
+
+  <dependencies>
+    <dependency>
+	  <groupId>junit</groupId>
+	  <artifactId>junit</artifactId>
+	  <version>4.8</version>
+	</dependency>
+	<dependency>
+      <groupId>org.springframework.integration</groupId>
+      <artifactId>spring-integration-core</artifactId>
+      <version>3.0.0.RELEASE</version>
+    </dependency>
+    <dependency>
+	  <groupId>org.springframework.integration</groupId>
+	  <artifactId>spring-integration-jms</artifactId>
+	  <version>3.0.0.RELEASE</version>
+    </dependency>
+    <dependency>
+	  <groupId>org.springframework</groupId>
+	  <artifactId>spring-jdbc</artifactId>
+	  <version>3.2.6.RELEASE</version>
+    </dependency>
+    <dependency>
+	  <groupId>org.springframework</groupId>
+	  <artifactId>spring-orm</artifactId>
+	  <version>3.2.6.RELEASE</version>
+    </dependency>
+    <dependency>
+	  <groupId>org.springframework</groupId>
+	  <artifactId>spring-test</artifactId>
+	  <version>3.2.6.RELEASE</version>
+    </dependency>                                    
+    <dependency>
+	  <groupId>org.apache.activemq</groupId>
+	  <artifactId>activemq-all</artifactId>
+	  <version>5.8.0</version>
+    </dependency>
+	<!-- Log4j -->
+	<dependency>
+  	  <groupId>log4j</groupId>
+	  <artifactId>log4j</artifactId>
+	  <version>1.2.9</version>
+	</dependency>
+	<dependency>
+	  <groupId>commons-lang</groupId>
+	  <artifactId>commons-lang</artifactId>
+	  <version>2.6</version>
+	</dependency>
+	<!-- Tibco jar files, need to install yourself in m2 repository 
+    <dependency>
+      <groupId>com.tibco</groupId>
+      <artifactId>jms</artifactId>
+      <version>1.1</version>
+    </dependency>
+    <dependency>
+     <groupId>com.tibco</groupId>
+     <artifactId>tibcrypt</artifactId>
+     <version>6.1</version>
+    </dependency>
+    <dependency>
+     <groupId>com.tibco</groupId>
+     <artifactId>tibjms</artifactId>
+     <version>6.1</version>
+    </dependency>
+    <dependency>
+     <groupId>com.tibco</groupId>
+     <artifactId>tibrvjms</artifactId>
+     <version>6.1</version>
+    </dependency>
+    <dependency>
+     <groupId>com.tibco</groupId>
+     <artifactId>tibjmsufo</artifactId>
+     <version>6.1</version>
+    </dependency>
+    <dependency>
+     <groupId>com.tibco</groupId>
+     <artifactId>tibjmsadmin</artifactId>
+     <version>6.1</version>
+    </dependency>
+    <dependency>
+     <groupId>com.tibco</groupId>
+     <artifactId>tibemsd_sec</artifactId>
+     <version>6.1</version>
+    </dependency> -->
+  </dependencies>
+</project>

@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p"
+	xmlns:util="http://www.springframework.org/schema/util"
+	xsi:schemaLocation="
+				http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.2.xsd
+				http://www.springframework.org/schema/util  http://www.springframework.org/schema/util/spring-util-2.5.xsd">
+
+
+
+	<!-- 	Mail configurations -->
+	<bean id="mailSender" class="org.springframework.mail.javamail.JavaMailSenderImpl">
+		<property name="host" value="mail.citicorp.com" />
+		<property name="port" value="25" />
+		<property name="username" value="" />
+		<property name="password" value="" />
+		<property name="javaMailProperties">
+			<props>
+				<prop key="mail.smtp.auth">false</prop>
+			</props>
+		</property>
+	</bean>
+	
+	<!--  bean name="cacheTasklet" class="com.citi.unsecure.data.tasklet.CacheTasklet">
+		<property name="unsecureDataDao" ref="unsecureDataDao"></property>
+	</bean-->
+	
+	<bean name="mailNotifier" class="com.citi.retail.optima.etl.controller.notification.impl.EmailGenerator" scope="singleton">
+		<property name="mailSender" ref="mailSender" />
+	</bean>
+<!-- 	<bean class="org.springframework.ui.freemarker.FreeMarkerConfigurationFactoryBean" id="freemarkerConfiguration">
+		<property name="preferFileSystemAccess" value="false" />
+		<property name="templateLoaderPath" value="config/" />
+	</bean> -->
+	
+	<!-- <bean id="emailDto" class="com.citi.optima.da.dto.EmailDTO" scope="singleton">
+		<property name="mailSender" ref="mailSender" />
+		<property name="subject" value="" />
+				<property name="senderAddress" value="rb59055@imcnam.ssmb.com" />
+		<property name="recipient"
+			value="ab53470@imcnam.ssmb.com;gg48714@imcnam.ssmb.com" />
+		<property name="cc"
+			value="rb59055@imcnam.ssmb.com;sm59053@imcnam.ssmb.com" />
+		<property name="freemarkerConfiguration" ref="freemarkerConfiguration" />
+	</bean> -->
+
+</beans>
