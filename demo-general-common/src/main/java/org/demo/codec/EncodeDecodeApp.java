@@ -1,11 +1,13 @@
 package org.demo.codec;
 
 import org.apache.commons.codec.binary.Base64;
-import org.apache.log4j.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 
 public class EncodeDecodeApp {
 	
-	private static Logger log = Logger.getLogger(EncodeDecodeApp.class);
+	private static Logger log = LoggerFactory.getLogger(EncodeDecodeApp.class);
 	
 	public static void main(String[] args) {
 		String str = "GULAM SABIR SHAHBAZ KHAN";
