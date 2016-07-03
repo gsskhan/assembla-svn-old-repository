@@ -8,7 +8,7 @@ Created on 03-Jul-2016
 import sys, logging, mysql.connector
 from logging.handlers import RotatingFileHandler
 
-def _enable_logging():
+def _enable_logging(log_file_location):
     log = logging.getLogger()
     log.setLevel(logging.DEBUG)
     frmt = logging.Formatter("[%(asctime)s] %(levelname)s {%(module)s,%(lineno)s} - %(message)s")    
@@ -17,11 +17,11 @@ def _enable_logging():
     ch.setFormatter(frmt)
     log.addHandler(ch)    
     # file logger
-    fh = RotatingFileHandler("/home/gsskhan/logs/sihir-log.log", maxBytes=1000000 , backupCount=3)
+    fh = RotatingFileHandler(log_file_location+"/sihir-log.log", maxBytes=1000000 , backupCount=3)
     fh.setFormatter(frmt)
     log.addHandler(fh)
     
-def _get_mysqldb_connection(user, password, host='localhost', port=3306 , database='test'):
+def _get_mysqldb_connection(user, password, database='test', host='localhost', port=3306):
     try:
         conn = mysql.connector.connect(user=user, password=password, 
                                       host=host, port=port, database=database)        
